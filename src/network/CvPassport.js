@@ -1,15 +1,21 @@
-import cvEnv from './CvEnvironment'
-export default function(){
-  let cvEnvInstance = new cvEnv();
+import cvDinDep from '../CvDinDep'
+import CvEnv from '../CvEnvironment'
+
+export default function(customs){
+
+  this.cvEnv = cvDinDep(()=>{
+    return  new CvEnv();
+  });
+
   this.loadTokens = ()=>{
-    if(!cvEnvInstance.isPassportEnabled())
+    if(!this.cvEnv.isPassportEnabled())
       return ;
     this.accessToken  = JSON.parse(localStorage.getItem("accessToken") || 'null');
     this.refreshToken = JSON.parse(localStorage.getItem("refreshToken") || 'null');
   };
 
   this.setAccessToken = function(accessToken){
-    if(!cvEnvInstance.isPassportEnabled())
+    if(!this.cvEnv.isPassportEnabled())
       return ;
     this.accessToken = typeof accessToken!=="undefined"?"Bearer "+accessToken:null;
     if(this.accessToken)
@@ -19,7 +25,7 @@ export default function(){
   };
 
   this.setRefreshToken=function(refreshToken){
-    if(!cvEnvInstance.isPassportEnabled())
+    if(!this.cvEnv.isPassportEnabled())
       return ;
     this.refreshToken=typeof refreshToken!=="undefined"?"Bearer "+refreshToken:null;
     if(this.refreshToken)
@@ -29,21 +35,21 @@ export default function(){
   };
 
   this.autenticated=function(){
-    if(!cvEnvInstance.isPassportEnabled())
+    if(!this.cvEnv.isPassportEnabled())
       return true;
     this.loadTokens();
     return this.accessToken!==null;
   };
 
   this.injectHeaders=function(headers){
-    if(!cvEnvInstance.isPassportEnabled())
+    if(!this.cvEnv.isPassportEnabled())
       return headers;
     headers["Authorization"]=this.accessToken;
     return headers;
   };
 
   this.reactToResponse=function(response){
-    if(!cvEnvInstance.isPassportEnabled())
+    if(!this.cvEnv.isPassportEnabled())
       return ;
     if(typeof response!=="undefined" && typeof response.response!=="undefined" && typeof response.response.status!=="undefined" && response.response.status===401){
       this.setAccessToken()

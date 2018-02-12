@@ -46,7 +46,22 @@
   </cv-tag>
 </template>
 <script>
+
+import CvTag from '../CvTag.vue'
+import CvPaginate from './CvPaginate.vue'
+import CvSimpleFilters from './CvSimpleFilters.vue'
+import CvAdvancedFilters from './CvAdvancedFilters.vue'
+import CvExpertFilters from './CvExpertFilters.vue'
+import CvSpinner from './CvSpinner.vue'
 export default {
+  components: {
+    CvTag,
+    CvPaginate,
+    CvSimpleFilters,
+    CvAdvancedFilters,
+    CvExpertFilters,
+    CvSpinner,
+  },
   data () {
     return {
       config:null,
