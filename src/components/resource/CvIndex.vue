@@ -10,7 +10,7 @@ export default {
   computed:{
   },
   mounted:function(){
-    this.mainGridData = this.$refs.mainGrid;
+    this.mainGridData = this.$refs.mainGrid || null;
   }
 }
 </script>
