@@ -2,10 +2,15 @@
 import CvBaseCrud from './CvBaseCrud.vue';
 export default {
   extends: CvBaseCrud,
-  computed:{
-    cMainGrid:function(){
-      return this.$refs.mainGrid || null;
+	data (){
+    return {
+        mainGridData:null,
     }
+	},
+  computed:{
+  },
+  mounted:function(){
+    this.mainGridData = this.$refs.mainGrid;
   }
 }
 </script>
