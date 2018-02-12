@@ -1,4 +1,6 @@
+import cvDinDep from './cvDinDep'
 export default function(options){
+	this.cvDinDep=cvDinDep;
 	this.setProperty=function(property,opts,defaultValue){
 		if(typeof property==="undefined" || typeof this[property] ==="undefined")
 			return false;

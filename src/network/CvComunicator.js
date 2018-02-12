@@ -1,11 +1,12 @@
-import cvDinDep from '../CvDinDep'
+import cvDinDep from '../cvDinDep'
 import CvEnv from '../CvEnv'
 import CvPassport from './CvPassport'
 import CvCrudService from './CvCrudService'
 
 export default function(router,globals){
-  
-  this.cvEnv = cvDinDep("CvEnv",globals) || new CvEnv();
+  this.cvDinDep = cvDinDep;
+  this.resources={};
+  this.cvEnv = this.cvDinDep("CvEnv",globals) || new CvEnv();
   var axios = require('axios');
   this.defaultConfig = {
     baseURL            : this.cvEnv.apiUrl(),
@@ -20,7 +21,7 @@ export default function(router,globals){
   };
   this.router     = router;
   this.axios      = axios.create(this.defaultConfig);
-  this.cvPassport = cvDinDep("CvPassport",globals) || new CvPassport();
+  this.cvPassport = this.cvDinDep("CvPassport",globals) || new CvPassport();
 
   this.axios.interceptors.request.use((config)=>{
     if(this.cvPassport.autenticated())
@@ -50,14 +51,13 @@ export default function(router,globals){
   this.pushStaticCrudServices=(resource)=>{
     if(typeof resource==="undefined")
       return false;
-    this[resource] = cvDinDep(()=>{
-      return cvDinDep("CvCrudService",globals) || new CvCrudService(this,resource);
-    });
+    this.resources[resource.resourceName] =  this.cvDinDep("CvCrudService",globals) || new CvCrudService(this,resource);
   };
 
   this.pushDinamicCrudServices=(resource)=>{
     if(typeof resource==="undefined")
       return false;
-    this[resource.resource] = resource;
+    this.resources[resource.resourceName] = resource;
   };
+
 };
