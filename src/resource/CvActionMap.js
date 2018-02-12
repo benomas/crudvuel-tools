@@ -1,11 +1,14 @@
 import CvClass from '../CvClass'
-CvClass.prototype.name        = null;
-CvClass.prototype.label       = null;
-CvClass.prototype.icon        = null;
-CvClass.prototype.getService  = null;
-CvClass.prototype.setService  = null;
-CvClass.prototype.resource    = null;
-CvClass.prototype.path        = null;
+CvClass.prototype.name       = null;
+CvClass.prototype.label      = null;
+CvClass.prototype.icon       = null;
+CvClass.prototype.getService = null;
+CvClass.prototype.setService = null;
+CvClass.prototype.resource   = null;
+CvClass.prototype.path       = null;
+CvClass.prototype.component  = null;
+CvClass.prototype.props      = null;
+CvClass.prototype.type       = "row";
 CvClass.prototype.validAction = function(){
 	return typeof this.name!=="undefined";
 }

@@ -1,11 +1,9 @@
 import cvDinDep from '../CvDinDep'
-import CvEnv from '../CvEnvironment'
+import CvEnv from '../CvEnv'
 
-export default function(customs){
+export default function(globals){
 
-  this.cvEnv = cvDinDep(()=>{
-    return  new CvEnv();
-  });
+  this.cvEnv = cvDinDep("CvEnv",globals) || new CvEnv();
 
   this.loadTokens = ()=>{
     if(!this.cvEnv.isPassportEnabled())

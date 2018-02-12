@@ -6,7 +6,7 @@ import CvGrid from './components/grid-components/CvGrid.vue'
 import CvThs from './components/grid-components/CvThs.vue'
 import CvTds from './components/grid-components/CvTds.vue'
 import CvSpinner from './components/grid-components/CvSpinner.vue'
-import CvEnv from './CvEnvironment'
+import CvEnv from './CvEnv'
 import CvPassport from './network/CvPassport'
 import CvService from './network/CvService'
 
