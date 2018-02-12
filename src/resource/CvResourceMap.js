@@ -6,11 +6,16 @@ CvClass.prototype.label        = null;
 CvClass.prototype.icon         = null;
 CvClass.prototype.path         = null;
 CvClass.prototype.crudServices = null;
-CvClass.prototype.actions      = {};
-CvClass.prototype.actionsKeys  = [];
-CvClass.prototype.routes       = [];
+CvClass.prototype.actions      = null;
+CvClass.prototype.actionsKeys  = null;
+CvClass.prototype.routes       = null;
 CvClass.prototype.addAction    = function(actionOptions){
-	var newAction =  new CvActionMap(actionOptions);
+  if(!this.actions){
+    this.actions={};
+    this.actionsKeys=[];
+    this.routes=[];
+  }
+	let newAction =  new CvActionMap(actionOptions);
 	if(typeof newAction.validAction()){
 		this.actions[actionOptions.name] = newAction;
     this.actionsKeys.push(actionOptions.name);
