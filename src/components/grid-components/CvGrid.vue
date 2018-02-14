@@ -160,6 +160,13 @@ export default {
     emitSuccessMutation:function(response){
       this.rows          = response.data.data;
       this.elementsCount = response.data.count;
+      
+      if(this.rows.length===0 && this.elementsCount>0){
+        this.params.paginate.page =  Math.ceil(this.elementsCount/this.params.paginate.limit);
+        this.refresh();
+        return false;
+      }
+
       this.$emit('success-mutation', this.$data);
     },
     emitErrorMutation:function(response){

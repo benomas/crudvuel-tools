@@ -7,11 +7,12 @@
   export default{
     data (){
         return {
-            resource:null,
-            action:null,
-            row:null,
-            rows:null,
-            ready:false,
+          resource :null,
+          action   :null,
+          rowId    :null,
+          row      :null,
+          rows     :null,
+          ready    :false,
         }
     },
     methods:{
@@ -67,13 +68,33 @@
         setError=setError||this.setError;
         setParams=setParams||this.setParams();
         url=url||null;
-        this.resource.setService(
-          setSuccess,
-          setError,
-          setParams,
-          url,
-          queryString,
-        )
+        if(this.rowId)
+          this.resource.setService(this.rowId,setSuccess,setError,setParams,url,queryString)
+        else
+          this.resource.setService(setSuccess,setError,setParams,url,queryString)
+      },
+      validateAction:function(action){
+        return this.resorceAction(action) && this.hasPermission(action);
+      },
+      hasPermission:function(action){
+        return true;
+      },
+      resorceAction:function(action){
+        return (this.resource && this.resource.actions && this.resource.actions[action])?this.resource.actions[action]:null;
+      },
+      actionType:function(action){
+        let resourceAction =  this.resorceAction(action);
+        return resourceAction.type || null;
+      },
+      actionPath:function(action,row){
+        let resourceAction =  this.resorceAction(action);
+        if(resourceAction){
+          if(resourceAction.type ==="rows")
+            return this.resource.path+"/"+resourceAction.name;
+          if(resourceAction.type ==="row" && row && row.id)
+            return this.resource.path+"/"+row.id+"/"+resourceAction.name;
+        }
+        return null;
       }
     },
     computed:{
@@ -82,15 +103,27 @@
       },
       cAction:function(){
         return this.cvAction || null;
+      },
+      cRows:function(){
+        return this.cvRows || null;
+      },
+      cRow:function(){
+        return this.cvRow || null;
+      },
+      cRowId:function(){
+        return this.$route.params.id || null;
       }
     },
     props:[
       "cvResource",
-      "cvAction"
+      "cvAction",
+      "cvRows",
+      "cvRow",
     ],
     created:function(){
       this.resource = this.cResource;
       this.action   = this.cAction;
+      this.rowId   = this.cRowId;
     }
   }
 </script>
