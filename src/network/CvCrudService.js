@@ -1,6 +1,4 @@
-import cvDinDep from '../cvDinDep'
 export default function(cvComunicator,resourceName){
-  this.cvDinDep      = cvDinDep;
   this.cvComunicator = cvComunicator;
   this.resourceName  = resourceName;
   this.row           = {};

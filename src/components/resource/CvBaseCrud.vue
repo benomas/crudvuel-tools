@@ -4,22 +4,25 @@
   </div>
 </template>
 <script>
+  import CvSynchronizer from '../../CvSynchronizer';
   export default{
     data (){
         return {
-          resource :null,
-          action   :null,
-          rowId    :null,
-          row      :null,
-          rows     :null,
-          ready    :false,
+          resource       :null,
+          action         :null,
+          rowKey         :"id",
+          rowKeyValue    :null,
+          row            :null,
+          rows           :null,
+          ready          :false,
+          cvSynchronizer :new CvSynchronizer(),
         }
     },
     methods:{
       getSuccess:function(response){
-        if(action && action.type==="rows")
+        if(this.action && this.action.type==="rows")
           this.rows=response.data.data || response.data;
-        if(action && action.type==="row")
+        if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
       },
@@ -47,9 +50,9 @@
         )
       },
       setSuccess:function(response){
-        if(action && action.type==="rows")
+        if(this.action && this.action.type==="rows")
           this.rows=response.data.data || response.data;
-        if(action && action.type==="row")
+        if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
       },
@@ -68,8 +71,8 @@
         setError=setError||this.setError;
         setParams=setParams||this.setParams();
         url=url||null;
-        if(this.rowId)
-          this.resource.setService(this.rowId,setSuccess,setError,setParams,url,queryString)
+        if(this.rowKeyValue)
+          this.resource.setService(this.rowKeyValue,setSuccess,setError,setParams,url,queryString)
         else
           this.resource.setService(setSuccess,setError,setParams,url,queryString)
       },
@@ -95,6 +98,21 @@
             return this.resource.path+"/"+row.id+"/"+resourceAction.name;
         }
         return null;
+      },
+      toSync:function(row,identifier){
+        this.cvSynchronizer.toSync(row,this.rowKey,identifier);
+      },
+      synchronized:function(row,identifier){
+        this.cvSynchronizer.synchronized(row,this.rowKey,identifier);
+      },
+      isSynchronizing:function(row,identifier){
+        return this.cvSynchronizer.isSynchronizing(row,this.rowKey,identifier);
+      },
+      validIdentifier:function(identifier){
+        return this.cvSynchronizer.validIdentifier(identifier);
+      },
+      someSyncInProgress:function(){
+        return this.cvSynchronizer.someSyncInProgress();
       }
     },
     computed:{
@@ -110,7 +128,7 @@
       cRow:function(){
         return this.cvRow || null;
       },
-      cRowId:function(){
+      cRowKeyValue:function(){
         return this.$route.params.id || null;
       }
     },
@@ -121,9 +139,9 @@
       "cvRow",
     ],
     created:function(){
-      this.resource = this.cResource;
-      this.action   = this.cAction;
-      this.rowId   = this.cRowId;
+      this.resource    = this.cResource;
+      this.action      = this.cAction;
+      this.rowKeyValue = this.cRowKeyValue;
     }
   }
 </script>
