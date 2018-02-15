@@ -14,7 +14,7 @@ export default function(router,globals){
     'X-Requested-With'           : 'XMLHttpRequest',
     'Content-Type'               : 'application/json'
     },
-    timeout           : 15000,
+    timeout           : 300000,
     responseType      : 'json',
     maxContentLength  : 20000,
     callBackRedirector: null

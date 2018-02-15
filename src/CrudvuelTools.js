@@ -1,3 +1,4 @@
+import cvInProgress from './directives/cvInProgress'
 import CvActionMap from './resource/CvActionMap'
 import CvResourceMap from './resource/CvResourceMap'
 import CvTag from './components/CvTag.vue'
@@ -12,6 +13,7 @@ const crudvuelTools = {
   // It takes the global Vue object as well as user-defined options.
   install(Vue, options) {
     // We call Vue.mixin() here to inject functionality into all components.
+    Vue.directive('cv-in-progress', cvInProgress)
     Vue.component("cv-tag",CvTag)
     Vue.component("cv-grid",CvGrid)
     Vue.component("cv-ord-icon",CvOrderIcons)
