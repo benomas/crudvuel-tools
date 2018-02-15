@@ -20,8 +20,8 @@
       v-if ='cTotalPageElements && topPaginate'
       :cvTotalQueryElements='elementsCount'
       :cvTotalPageElements='cTotalPageElements'
-      :cvCurrentPage='parametrizer.getPage()'
-      :cvLimit='parametrizer.getLimit()'
+      :cvCurrentPage='cvParametrizer.getPage()'
+      :cvLimit='cvParametrizer.getLimit()'
       :cvPagesPerView='pagesPerView'
       :cvLimitValues='limitValues'
       @event-page="refreshPaginate"
@@ -35,8 +35,8 @@
       v-if='cTotalPageElements && bottomPaginate'
       :cvTotalQueryElements='elementsCount'
       :cvTotalPageElements='cTotalPageElements'
-      :cvCurrentPage='parametrizer.getPage()'
-      :cvLimit='parametrizer.getLimit()'
+      :cvCurrentPage='cvParametrizer.getPage()'
+      :cvLimit='cvParametrizer.getLimit()'
       :cvPagesPerView='pagesPerView'
       :cvLimitValues='limitValues'
       @event-page="refreshPaginate"
@@ -67,7 +67,7 @@ export default {
     return {
       config:null,
       correctConfig:true,
-      parametrizer:new CvParametrizer(),
+      cvParametrizer:new CvParametrizer(),
       cvThs:null,
       cvTds:null,
       cvTableChildren:null,
@@ -140,11 +140,11 @@ export default {
     this.refresh()
   },
   created:function(){
-    this.parametrizer.setPage(this.initialPage)
-    this.parametrizer.setByColumn(this.initialByColumn)
-    this.parametrizer.setLimit(this.initialLimit)
-    this.parametrizer.setOrderBy(this.initialOrderBy)
-    this.parametrizer.setAscending(this.initialAscending)
+    this.cvParametrizer.setPage(this.initialPage)
+    this.cvParametrizer.setByColumn(this.initialByColumn)
+    this.cvParametrizer.setLimit(this.initialLimit)
+    this.cvParametrizer.setOrderBy(this.initialOrderBy)
+    this.cvParametrizer.setAscending(this.initialAscending)
   },
   methods:{
     emitSuccessMutation:function(response){
@@ -152,7 +152,7 @@ export default {
       this.elementsCount = response.data.count
       
       if(this.rows.length===0 && this.elementsCount>0){
-        this.parametrizer.setPage(Math.ceil(this.elementsCount/this.parametrizer.getLimit()))
+        this.cvParametrizer.setPage(Math.ceil(this.elementsCount/this.cvParametrizer.getLimit()))
         this.refresh()
         return false
       }
@@ -166,17 +166,17 @@ export default {
       this.$emit('initial-mutation', this.$data)
     },
     refreshPaginate:function(event){
-      this.parametrizer.setPage(event.page)
-      this.parametrizer.setLimit(event.limit)
+      this.cvParametrizer.setPage(event.page)
+      this.cvParametrizer.setLimit(event.limit)
       this.refresh()
     },
     prepareToFind(search){
-      this.parametrizer.setGeneralSearch(search)
-      this.parametrizer.setPage(1)
+      this.cvParametrizer.setGeneralSearch(search)
+      this.cvParametrizer.setPage(1)
       this.refresh()
     },
     refresh:function(){
-      this.cvService(this.emitSuccessMutation,this.emitErrorMutation,null,null,this.parametrizer.getSerialized())
+      this.cvService(this.emitSuccessMutation,this.emitErrorMutation,null,null,this.cvParametrizer.getSerialized())
     },
     showConfigErrorMessage:function(){
       this.correctConfig=false
@@ -248,9 +248,9 @@ export default {
         let attrs =  cvTh.data.attrs
         if(attrs["cv-key"]){
           if(this.hasClass(cvTh,"cv-selectable")!==false)
-            this.parametrizer.pushSelect(attrs["cv-key"])
+            this.cvParametrizer.pushSelect(attrs["cv-key"])
           if(this.hasClass(cvTh,"cv-filterable")!==false)
-            this.parametrizer.pushFilter(attrs["cv-key"],"")
+            this.cvParametrizer.pushFilter(attrs["cv-key"],"")
           if(this.hasClass(cvTh,"cv-orderable")!==false)
             cvTh.elm.onclick=()=>{ this.lauchOrder(cvTh) }
         }
@@ -294,8 +294,8 @@ export default {
       return children
     },
     lauchOrder(cvTh){
-      this.parametrizer.setOrderBy(cvTh.data.attrs["cv-key"])
-      this.parametrizer.setAscending(this.parametrizer.getAscending()?0:1)
+      this.cvParametrizer.setOrderBy(cvTh.data.attrs["cv-key"])
+      this.cvParametrizer.setAscending(this.cvParametrizer.getAscending()?0:1)
       this.refresh()
     }
   }

@@ -94,8 +94,11 @@
         if(resourceAction){
           if(resourceAction.type ==="rows")
             return this.resource.path+"/"+resourceAction.name;
-          if(resourceAction.type ==="row" && row && row.id)
-            return this.resource.path+"/"+row.id+"/"+resourceAction.name;
+          if(resourceAction.type ==="row"){
+            if(row && row.id)
+              return this.resource.path+"/"+row.id+"/"+resourceAction.name;
+            return this.resource.path+"/"+resourceAction.name;
+          }
         }
         return null;
       },

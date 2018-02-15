@@ -1,14 +1,16 @@
 <template>
   <span>
-    <slot name="orderable-icon">
+    <slot name="orderable-icon" if="!cData || !ckey || cData.cvParametrizer.getOrderBy()!==ckey">
       <span>ord</span>
     </slot>
-    <slot name="ascending-icon" v-if="comCvData && comCvkey && comCvData.params && comCvData.params.paginate.orderBy===comCvkey && comCvData.params.paginate.ascending">
-      <span>asc</span>
-    </slot>
-    <slot name="descending-icon" v-if="comCvData && comCvkey && comCvData.params &&  comCvData.params.paginate.orderBy===comCvkey && !comCvData.params.paginate.ascending">
-      <span>des</span>
-    </slot>
+    <template if="cData && ckey && cData.cvParametrizer.getOrderBy()===ckey">
+      <slot name="ascending-icon" v-if="cData.cvParametrizer.getAscending()">
+        <span>asc</span>
+      </slot>
+      <slot name="descending-icon" v-if="!cData.cvParametrizer.getAscending()">
+        <span>des</span>
+      </slot>
+    </template>
   </span>
 </template>
 <script>
@@ -18,12 +20,15 @@ export default {
     "cvKey"
   ],
   computed:{
-    comCvData:function(){
-      return this.cvData || {};
+    cData:function(){
+      return this.cvData || null;
     },
-    comCvkey:function(){
-      return this.cvKey;
+    ckey:function(){
+      return this.cvKey || null;
     }
+  },
+  created:function(){
+    console.log(this.cData)
   }
 }
 </script>
