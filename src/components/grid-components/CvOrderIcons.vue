@@ -1,13 +1,22 @@
 <template>
-  <span>
-    <slot name="orderable-icon" if="!cData || !ckey || cData.cvParametrizer.getOrderBy()!==ckey">
+  <span v-if="cData && cKey">
+    <slot 
+      name="orderable-icon" 
+      v-if="cData.cvParametrizer.getOrderBy()!=cKey"
+    >
       <span>ord</span>
     </slot>
-    <template if="cData && ckey && cData.cvParametrizer.getOrderBy()===ckey">
-      <slot name="ascending-icon" v-if="cData.cvParametrizer.getAscending()">
+    <template v-if="1">
+      <slot 
+        name="ascending-icon" 
+        v-if="cData.cvParametrizer.getOrderBy()===cKey && cData.cvParametrizer.getAscending()"
+      >
         <span>asc</span>
       </slot>
-      <slot name="descending-icon" v-if="!cData.cvParametrizer.getAscending()">
+      <slot 
+        name="descending-icon" 
+        v-if="cData.cvParametrizer.getOrderBy()===cKey && !cData.cvParametrizer.getAscending()"
+      >
         <span>des</span>
       </slot>
     </template>
@@ -23,12 +32,9 @@ export default {
     cData:function(){
       return this.cvData || null;
     },
-    ckey:function(){
+    cKey:function(){
       return this.cvKey || null;
     }
-  },
-  created:function(){
-    console.log(this.cData)
   }
 }
 </script>
