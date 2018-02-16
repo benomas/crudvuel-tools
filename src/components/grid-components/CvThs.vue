@@ -1,5 +1,5 @@
 <template>
-  <cv-tag :tag="tag">
+  <cv-tag :tag="cTag">
     <slot 
       name="cv-ths-slot"
     >
@@ -9,9 +9,12 @@
 <script>
 export default {
   props:[
-    "tag"
+    "cvTag"
   ],
   computed:{
+    cTag:function(){
+      return this.cvTag || "div"
+    }
   }
 }
 </script>

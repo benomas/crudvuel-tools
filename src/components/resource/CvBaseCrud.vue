@@ -5,18 +5,26 @@
 </template>
 <script>
   import CvSynchronizer from '../../CvSynchronizer';
+  import CvErrorWraper from '../input-components/CvErrorWraper';
   export default{
+    components: {
+      CvErrorWraper
+    },
     data (){
-        return {
-          resource       :null,
-          action         :null,
-          rowKey         :"id",
-          rowKeyValue    :null,
-          row            :null,
-          rows           :null,
-          ready          :false,
-          cvSynchronizer :new CvSynchronizer(),
-        }
+      return {
+        resource       :null,
+        action         :null,
+        rowKey         :"id",
+        rowKeyValue    :null,
+        row            :null,
+        rows           :null,
+        ready          :false,
+        cvSynchronizer :new CvSynchronizer(),
+        errors:{},
+        successNotificationMessages:null,
+        errorNotificationMessages:null,
+        cancelNotificationMessages:null,
+      }
     },
     methods:{
       getSuccess:function(response){
@@ -25,15 +33,18 @@
         if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
+        this.collectSuccessMessages(this.action.getGetSuccessMessage())
       },
+
       getError:function(response){
         this.ready=true;
+        this.collectErrorMessages(this.action.getGetErrorMessage())
       },
       getParams:function(){
         return null;
       },
       getService:function(getSuccess,getError,getParams,url,queryString){
-        if(!this.resource || !this.resource.getService)
+        if(!this.resource || !this.action || !this.action.getService)
           return false;
 
         this.ready=false;
@@ -41,7 +52,7 @@
         getError=getError||this.getError;
         getParams=getParams||this.getParams();
         url=url||null;
-        this.resource.getService(
+        this.action.getService(
           getSuccess,
           getError,
           getParams,
@@ -55,16 +66,26 @@
         if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
+        this.collectSuccessMessages(this.action.getSetSuccessMessage())
+        if(this.action.name!=="index")
+          this.services.router.push(this.actionPath('index'))
       },
       setError:function(response){
         this.ready=true;
+        this.collectErrorMessages(this.action.getSetErrorMessage())
       },
       setParams:function(){
-        return null;
+        return this.action && this.action.type && this[this.action.type]?
+          this[this.action.type]:null
       },
       setService:function(setSuccess,setError,setParams,url,queryString){
-        if(!this.resource || !this.resource.setService)
+        if(!this.resource || !this.action || !this.action.setService)
           return false;
+
+        if(!this.validator()){
+          this.collectErrorMessages('No se han superado las validaciones del formulario')
+          return
+        }
 
         this.ready=false;
         setSuccess=setSuccess||this.setSuccess;
@@ -72,12 +93,12 @@
         setParams=setParams||this.setParams();
         url=url||null;
         if(this.rowKeyValue)
-          this.resource.setService(this.rowKeyValue,setSuccess,setError,setParams,url,queryString)
+          this.action.setService(this.rowKeyValue,setSuccess,setError,setParams,url,queryString)
         else
-          this.resource.setService(setSuccess,setError,setParams,url,queryString)
+          this.action.setService(setSuccess,setError,setParams,url,queryString)
       },
       validateAction:function(action){
-        return this.resorceAction(action) && this.hasPermission(action);
+        return this.cExcludeActions.indexOf(action)<0 && this.resorceAction(action) && this.hasPermission(action);
       },
       hasPermission:function(action){
         return true;
@@ -116,7 +137,64 @@
       },
       someSyncInProgress:function(){
         return this.cvSynchronizer.someSyncInProgress();
-      }
+      },
+      messageCollector:function(property,message){
+        if(typeof this[property] ==="undefined")
+          return false;
+        if(!this[property])
+          this[property]="-"+message
+        else
+          this[property]=this[property] + "<br>-" + message
+        if(!this.someSyncInProgress())
+          this.proccessMessages()
+      },
+      messageNotificator:function(property,message){
+        if(typeof this[property] ==="undefined")
+          return false;
+        if(typeof this[property] !=="undefined"){
+          console.log(this[property])
+          this[property]=null;
+        }
+      },
+      collectSuccessMessages:function(message){
+        this.messageCollector("successNotificationMessages",message)
+      },
+      collectErrorMessages:function(message){
+        this.messageCollector("errorNotificationMessages",message)
+      },
+      collectCancelMessages:function(message){
+        this.messageCollector("cancelNotificationMessages",message)
+      },
+      proccessMessages:function(){
+        this.successNotification()
+        this.errorNotification()
+        this.cancelNotification()
+      },
+      successNotification:function(){
+        this.messageNotificator("successNotificationMessages",message)
+      },
+      errorNotification:function(){
+        this.messageNotificator("errorNotificationMessages",message)
+      },
+      cancelNotification:function(){
+        this.messageNotificator("cancelNotificationMessages",message)
+      },
+      validator:function(){
+        return true;
+      },
+      rowChanged:function(){
+        this.$emit('row-changed', this.row);
+      },
+      rowsChanged:function(){
+        this.$emit('rows-changed', this.rows);
+      },
+      refreshRow:function(row){
+        console.log("asdasd");
+        this.row = row;
+      },
+      refreshRows:function(rows){
+        this.rows = rows;
+      },
     },
     computed:{
       cResource:function(){
@@ -133,13 +211,17 @@
       },
       cRowKeyValue:function(){
         return this.$route.params.id || null;
+      },
+      cExcludeActions:function(){
+        return this.cvExcludeActions || [];
       }
     },
     props:[
-      "cvResource",
       "cvAction",
-      "cvRows",
+      "cvExcludeActions",
+      "cvResource",
       "cvRow",
+      "cvRows",
     ],
     created:function(){
       this.resource    = this.cResource;

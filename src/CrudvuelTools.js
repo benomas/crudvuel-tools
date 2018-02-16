@@ -6,7 +6,10 @@ import CvOrderIcons from './components/grid-components/CvOrderIcons.vue'
 import CvGrid from './components/grid-components/CvGrid.vue'
 import CvThs from './components/grid-components/CvThs.vue'
 import CvSpinner from './components/grid-components/CvSpinner.vue'
+import CvErrorWraper from './components/input-components/CvErrorWraper.vue'
+import CvRelationator from './components/input-components/CvRelationator.vue'
 import cvDinDep from './cvDinDep'
+import CvParametrizer from './CvParametrizer'
 
 const crudvuelTools = {
   // The install method is all that needs to exist on the plugin object.
@@ -19,10 +22,13 @@ const crudvuelTools = {
     Vue.component("cv-ord-icon",CvOrderIcons)
     Vue.component("cv-ths",CvThs)
     Vue.component("cv-spinner",CvSpinner)
+    Vue.component("cv-error-wraper",CvErrorWraper)
+    Vue.component("cv-relationator",CvRelationator)
     Vue.mixin({
       data:function(){
         return {
-          cvDinDep
+          cvDinDep,
+          CvParametrizer,
         }
       },
       methods: {
