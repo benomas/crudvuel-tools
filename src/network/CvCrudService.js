@@ -31,10 +31,10 @@ export default function(cvComunicator,resourceName){
     this.cvComunicator.axios.get(
         (url || "api/"+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then(function (response) {
+    ).then((response)=>{
         if(typeof successCallBack ==="function")
             successCallBack(response);
-    }).catch(function (error) {
+    }).catch( (error)=>{
         if(typeof ErrorCallBack ==="function")
             ErrorCallBack(error);
     });
@@ -44,10 +44,10 @@ export default function(cvComunicator,resourceName){
     this.cvComunicator.axios.get(
         (url || "api/"+this.resourceName) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then(function (response) {
+    ).then( (response)=>{
         if(typeof successCallBack ==="function")
             successCallBack(response);
-    }).catch(function (error) {
+    }).catch( (error)=>{
         if(typeof ErrorCallBack ==="function")
             ErrorCallBack(error);
     });
@@ -57,10 +57,10 @@ export default function(cvComunicator,resourceName){
     this.cvComunicator.axios.post(
         (url || "api/"+this.resourceName) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then(function (response) {
+    ).then( (response)=>{
         if(typeof successCallBack ==="function")
             successCallBack(response);
-    }).catch(function (error) {
+    }).catch( (error)=>{
         if(typeof ErrorCallBack ==="function")
             ErrorCallBack(error);
     });
@@ -70,10 +70,10 @@ export default function(cvComunicator,resourceName){
     this.cvComunicator.axios.put(
         (url || "api/"+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then(function (response) {
+    ).then( (response)=>{
         if(typeof successCallBack ==="function")
             successCallBack(response);
-    }).catch(function (error) {
+    }).catch( (error)=>{
         if(typeof ErrorCallBack ==="function")
             ErrorCallBack(error);
     });
@@ -83,10 +83,10 @@ export default function(cvComunicator,resourceName){
     this.cvComunicator.axios.delete(
         (url || "api/"+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then(function (response) {
+    ).then( (response)=>{
         if(typeof successCallBack ==="function")
             successCallBack(response);
-    }).catch(function (error) {
+    }).catch( (error)=>{
         if(typeof ErrorCallBack ==="function")
             ErrorCallBack(error);
     });
@@ -96,10 +96,10 @@ export default function(cvComunicator,resourceName){
     this.cvComunicator.axios.put(
         (url || "api/"+this.resourceName+"/"+id+"/activate") + (queryString?"?"+queryString:""),
         params|| {}
-    ).then(function (response) {
+    ).then( (response)=>{
         if(typeof successCallBack ==="function")
             successCallBack(response);
-    }).catch(function (error) {
+    }).catch( (error)=>{
         if(typeof ErrorCallBack ==="function")
             ErrorCallBack(error);
     });
@@ -109,10 +109,10 @@ export default function(cvComunicator,resourceName){
     this.cvComunicator.axios.put(
         (url || "api/"+this.resourceName+"/"+id+"/deactivate") + (queryString?"?"+queryString:""),
         params|| {}
-    ).then(function (response) {
+    ).then( (response)=>{
         if(typeof successCallBack ==="function")
             successCallBack(response);
-    }).catch(function (error) {
+    }).catch( (error)=>{
         if(typeof ErrorCallBack ==="function")
             ErrorCallBack(error);
     });

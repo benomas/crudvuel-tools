@@ -4,7 +4,6 @@ export default {
   extends: CvBaseCrud
 }
 </script>
-
 <style>
 	.create-container{
 		min-height:400px;

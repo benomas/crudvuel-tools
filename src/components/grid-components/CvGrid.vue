@@ -1,5 +1,5 @@
 <template>
-  <cv-tag :tag="tag">
+  <cv-tag :tag="cTag">
     <cv-simple-filters 
       @go-to-find="prepareToFind"
       v-if="cSimpleFilters"
@@ -15,34 +15,34 @@
       v-if="cExpertFilters"
     >
     </cv-expert-filters>
-    <hr v-if="cTotalPageElements && topPaginate">
+    <hr v-if="cTotalPageElements && cTopPaginate">
     <cv-paginate
-      v-if ='cTotalPageElements && topPaginate'
+      v-if ='cTotalPageElements && cTopPaginate'
       :cvTotalQueryElements='elementsCount'
       :cvTotalPageElements='cTotalPageElements'
       :cvCurrentPage='cvParametrizer.getPage()'
       :cvLimit='cvParametrizer.getLimit()'
-      :cvPagesPerView='pagesPerView'
-      :cvLimitValues='limitValues'
+      :cvPagesPerView='cPagesPerView'
+      :cvLimitValues='cLimitValues'
       @event-page="refreshPaginate"
     >
     </cv-paginate>
-    <hr v-if="cTotalPageElements && topPaginate">
+    <hr v-if="cTotalPageElements && cTopPaginate">
     <slot name="cv-grid-data">
     </slot>
-    <hr v-if="cTotalPageElements && bottomPaginate">
+    <hr v-if="cTotalPageElements && cBottomPaginate">
     <cv-paginate
-      v-if='cTotalPageElements && bottomPaginate'
+      v-if='cTotalPageElements && cBottomPaginate'
       :cvTotalQueryElements='elementsCount'
       :cvTotalPageElements='cTotalPageElements'
       :cvCurrentPage='cvParametrizer.getPage()'
       :cvLimit='cvParametrizer.getLimit()'
-      :cvPagesPerView='pagesPerView'
-      :cvLimitValues='limitValues'
+      :cvPagesPerView='cPagesPerView'
+      :cvLimitValues='cLimitValues'
       @event-page="refreshPaginate"
     >
     </cv-paginate>
-    <hr v-if="cTotalPageElements && bottomPaginate">
+    <hr v-if="cTotalPageElements && cBottomPaginate">
   </cv-tag>
 </template>
 <script>
@@ -78,7 +78,7 @@ export default {
     }
   },
   props:[
-    "tag",
+    "cvTag",
     "cvService",
     "cvPage",
     "cvByColumn",
@@ -95,34 +95,34 @@ export default {
     "cvExpertFilters",
   ],
   computed:{
-    initialPage:function(){
+    cPage:function(){
       return this.cvPage || 1
     },
-    initialByColumn:function(){
+    cByColumn:function(){
       return this.cvByColumn || 0
     },
-    initialLimit:function(){
+    cLimit:function(){
       return this.cvLimit || 10
     },
-    initialOrderBy:function(){
+    cOrderBy:function(){
       return this.cvOrderBy || "id"
     },
-    initialAscending:function(){
+    cAscending:function(){
       return this.cvAscending || 1
     },
-    limitValues:function(){
+    cLimitValues:function(){
       return this.cvLimitValues || [10,20,50,100,200]
     },
-    pagesPerView:function(){
+    cPagesPerView:function(){
       return this.cvPagesPerView || 5
     },
     cTotalPageElements:function(){
       return this.rows.length || 0
     },
-    topPaginate:function(){
+    cTopPaginate:function(){
       return this.cvTopPaginate || false
     },
-    bottomPaginate:function(){
+    cBottomPaginate:function(){
       return this.cvBottomPaginate || false
     },
     cSimpleFilters:function(){
@@ -134,17 +134,20 @@ export default {
     cExpertFilters:function(){
       return typeof this.cvExpertFilters!=="undefined"?this.cvExpertFilters:false
     },
+    cTag:function(){
+      return this.cvTag || "div"
+    }
   },
   mounted:function(){
     this.processSlots()
     this.refresh()
   },
   created:function(){
-    this.cvParametrizer.setPage(this.initialPage)
-    this.cvParametrizer.setByColumn(this.initialByColumn)
-    this.cvParametrizer.setLimit(this.initialLimit)
-    this.cvParametrizer.setOrderBy(this.initialOrderBy)
-    this.cvParametrizer.setAscending(this.initialAscending)
+    this.cvParametrizer.setPage(this.cPage)
+    this.cvParametrizer.setByColumn(this.cByColumn)
+    this.cvParametrizer.setLimit(this.cLimit)
+    this.cvParametrizer.setOrderBy(this.cOrderBy)
+    this.cvParametrizer.setAscending(this.cAscending)
   },
   methods:{
     emitSuccessMutation:function(response){
