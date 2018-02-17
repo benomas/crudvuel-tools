@@ -10,6 +10,7 @@ import CvErrorWraper from './components/input-components/CvErrorWraper.vue'
 import CvRelationator from './components/input-components/CvRelationator.vue'
 import cvDinDep from './cvDinDep'
 import CvParametrizer from './CvParametrizer'
+import cvExtender from './cvExtender'
 
 const crudvuelTools = {
   // The install method is all that needs to exist on the plugin object.
@@ -29,6 +30,7 @@ const crudvuelTools = {
         return {
           cvDinDep,
           CvParametrizer,
+          cvExtender,
         }
       },
       methods: {

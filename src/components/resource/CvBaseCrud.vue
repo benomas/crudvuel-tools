@@ -67,12 +67,12 @@
           this.row=response.data.data || response.data;
         this.ready=true;
         this.collectSuccessMessages(this.action.getSetSuccessMessage())
-        if(this.action.name!=="index")
-          this.services.router.push(this.actionPath('index'))
+        this.successRedirect()
       },
       setError:function(response){
         this.ready=true;
         this.collectErrorMessages(this.action.getSetErrorMessage())
+        this.errorRedirect()
       },
       setParams:function(){
         return this.action && this.action.type && this[this.action.type]?
@@ -112,15 +112,8 @@
       },
       actionPath:function(action,row){
         let resourceAction =  this.resorceAction(action);
-        if(resourceAction){
-          if(resourceAction.type ==="rows")
-            return this.resource.path+"/"+resourceAction.name;
-          if(resourceAction.type ==="row"){
-            if(row && row.id)
-              return this.resource.path+"/"+row.id+"/"+resourceAction.name;
-            return this.resource.path+"/"+resourceAction.name;
-          }
-        }
+        if(resourceAction)
+          return resourceAction.getFixedPath(row)
         return null;
       },
       toSync:function(row,identifier){
@@ -189,11 +182,34 @@
         this.$emit('rows-changed', this.rows);
       },
       refreshRow:function(row){
-        console.log("asdasd");
         this.row = row;
       },
       refreshRows:function(rows){
         this.rows = rows;
+      },
+      backToIndex:function(){
+      },
+      successRedirect:function(){
+        this.cancelRedirect()
+      },
+      errorRedirect:function(){
+      },
+      cancelRedirect:function(){
+        if(this.action.name!=="index" && typeof this.resource.actions.index !=="undefined")
+            this.$router.push(this.actionPath("index"))
+      },
+      cancelAction:function(){
+        this.collectCancelMessages(this.action.getSetCancelMessage()+this.actionKeyMessage(this.row))
+        this.cancelRedirect()
+      },
+      actionKeyMessage:function(gridRow){
+        if( typeof gridRow==="undefined" || 
+            !gridRow || 
+            typeof this.rowKey!=="undefined" || 
+            typeof gridRow[this.rowKey]!=="undefined"
+        )
+          return " <b>";
+        return " <b>"+this.rowKey+":"+gridRow[this.rowKey]+"</b>"
       },
     },
     computed:{
