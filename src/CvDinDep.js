@@ -18,9 +18,3 @@ export default function(ClassName,globals){
 		return new globals[ClassName]();
 	return null;
 };
-
-/*
-export default function(callback){	
-	return callback();
-};
-*/
