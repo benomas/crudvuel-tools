@@ -17,24 +17,26 @@
 <script>
   import CvSynchronizer from '../../CvSynchronizer';
   import CvErrorWraper from '../input-components/CvErrorWraper';
+  import cvVueSetter from '../../cvVueSetter'
   export default{
     components: {
       CvErrorWraper
     },
     data (){
       return {
-        resource       :null,
-        action         :null,
-        rowKey         :"id",
-        rowKeyValue    :null,
-        row            :null,
-        rows           :null,
-        ready          :false,
-        cvSynchronizer :new CvSynchronizer(),
-        errors:{},
+        resource                   :null,
+        action                     :null,
+        rowKey                     :"id",
+        rowKeyValue                :null,
+        row                        :null,
+        rows                       :null,
+        ready                      :false,
+        errors                     :{},
+        hasErrors                  :false,
+        cvSynchronizer             :new CvSynchronizer(),
         successNotificationMessages:null,
-        errorNotificationMessages:null,
-        cancelNotificationMessages:null,
+        errorNotificationMessages  :null,
+        cancelNotificationMessages :null,
       }
     },
     methods:{
@@ -76,15 +78,23 @@
         if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
-
+        let currentRowIdent=""
+        if(this.rowKeyValue)
+          currentRowIdent = this.actionKeyMessage(this.row)
         if(this.cShowSetMessages)
-          this.collectSuccessMessages(this.action.getSetSuccessMessage())
+          this.collectSuccessMessages(this.action.getSetSuccessMessage()+currentRowIdent)
         this.successRedirect()
       },
-      setError:function(response){
+      setError:function(errorResponse){
         this.ready=true;
+        //cvVueSetter(this.$set,this.error,errorResponse.response.data.errors || {})
+        this.errors = errorResponse.response.data.errors || {};
+        //console.log(this.errors);
+        let currentRowIdent=""
+        if(this.rowKeyValue)
+          currentRowIdent = this.actionKeyMessage(this.row)
         if(this.cShowSetMessages)
-          this.collectErrorMessages(this.action.getSetErrorMessage())
+          this.collectErrorMessages(this.action.getSetErrorMessage()+currentRowIdent)
         this.errorRedirect()
       },
       setParams:function(){
@@ -219,10 +229,10 @@
       actionKeyMessage:function(gridRow){
         if( typeof gridRow==="undefined" || 
             !gridRow || 
-            typeof this.rowKey!=="undefined" || 
-            typeof gridRow[this.rowKey]!=="undefined"
+            typeof this.rowKey==="undefined" || 
+            typeof gridRow[this.rowKey]==="undefined"
         )
-          return " <b>";
+          return "";
         return " <b>"+this.rowKey+":"+gridRow[this.rowKey]+"</b>"
       },
     },
