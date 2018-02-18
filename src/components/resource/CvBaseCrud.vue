@@ -274,8 +274,6 @@
       this.resource    = this.cResource;
       this.action      = this.cAction;
       this.rowKeyValue = this.cRowKeyValue;
-      if(this.rowKeyValue)
-        this.getService()
     }
   }
 </script>
