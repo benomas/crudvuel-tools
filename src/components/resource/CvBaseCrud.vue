@@ -1,6 +1,17 @@
 <template>
-  <div >
-    {{action.label}}
+  <div 
+    class="row action-container" 
+  >
+    <div class="col-lg-12 action-label">
+      <label>
+        {{action.label}}
+      </label>
+      <hr>
+    </div>
+
+    <slot
+    >
+    </slot>
   </div>
 </template>
 <script>
@@ -33,12 +44,14 @@
         if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
-        this.collectSuccessMessages(this.action.getGetSuccessMessage())
+        if(this.cShowGetMessages)
+          this.collectSuccessMessages(this.action.getGetSuccessMessage())
       },
 
       getError:function(response){
         this.ready=true;
-        this.collectErrorMessages(this.action.getGetErrorMessage())
+        if(this.cShowGetMessages)
+          this.collectErrorMessages(this.action.getGetErrorMessage())
       },
       getParams:function(){
         return null;
@@ -52,13 +65,10 @@
         getError=getError||this.getError;
         getParams=getParams||this.getParams();
         url=url||null;
-        this.action.getService(
-          getSuccess,
-          getError,
-          getParams,
-          url,
-          queryString,
-        )
+        if(this.rowKeyValue)
+          this.action.getService(this.rowKeyValue,getSuccess,getError,getParams,url,queryString)
+        else
+          this.action.getService(getSuccess,getError,getParams,url,queryString)
       },
       setSuccess:function(response){
         if(this.action && this.action.type==="rows")
@@ -66,12 +76,15 @@
         if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
-        this.collectSuccessMessages(this.action.getSetSuccessMessage())
+
+        if(this.cShowSetMessages)
+          this.collectSuccessMessages(this.action.getSetSuccessMessage())
         this.successRedirect()
       },
       setError:function(response){
         this.ready=true;
-        this.collectErrorMessages(this.action.getSetErrorMessage())
+        if(this.cShowSetMessages)
+          this.collectErrorMessages(this.action.getSetErrorMessage())
         this.errorRedirect()
       },
       setParams:function(){
@@ -83,7 +96,8 @@
           return false;
 
         if(!this.validator()){
-          this.collectErrorMessages('No se han superado las validaciones del formulario')
+          if(this.cShowSetMessages)
+            this.collectErrorMessages('No se han superado las validaciones del formulario')
           return
         }
 
@@ -213,11 +227,11 @@
       },
     },
     computed:{
-      cResource:function(){
-        return this.cvResource || null;
-      },
       cAction:function(){
         return this.cvAction || null;
+      },
+      cResource:function(){
+        return (this.cAction && this.cAction.resource)? this.cAction.resource:null;
       },
       cRows:function(){
         return this.cvRows || null;
@@ -230,12 +244,19 @@
       },
       cExcludeActions:function(){
         return this.cvExcludeActions || [];
+      },
+      cShowGetMessages:function(){
+        return (this.cAction && typeof this.cAction.cvShowGetMessages !== "undefined")? 
+          this.cAction.cvShowGetMessages:false;
+      },
+      cShowSetMessages:function(){
+        return (this.cAction && typeof this.cAction.cvShowSetMessages !== "undefined")? 
+          this.cAction.cvShowSetMessages:true;
       }
     },
     props:[
       "cvAction",
       "cvExcludeActions",
-      "cvResource",
       "cvRow",
       "cvRows",
     ],
@@ -243,6 +264,24 @@
       this.resource    = this.cResource;
       this.action      = this.cAction;
       this.rowKeyValue = this.cRowKeyValue;
+      if(this.rowKeyValue)
+        this.getService()
     }
   }
 </script>
+<style lang="scss">
+  .action-container{
+    padding:20px 30px;
+  }
+  .action-label{
+    width: 100%;
+    text-align:center;
+    & label{
+      font-weight: bold;
+    }
+    & hr{
+        border: 0;
+        border-top: 1px solid #CCCCCC;
+    }
+  }
+</style>

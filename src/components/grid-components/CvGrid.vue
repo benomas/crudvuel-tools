@@ -1,5 +1,5 @@
 <template>
-  <cv-tag :tag="cTag">
+  <cv-tag :tag="cTag" class="cv-grid-container">
     <cv-simple-filters 
       @go-to-find="prepareToFind"
       v-if="cSimpleFilters"
@@ -305,15 +305,20 @@ export default {
 }
 </script>
 <style lang="scss">
-
-.cv-{
-  &orderable{
-    cursor:pointer
+.cv-grid-container{
+  & .cv-{
+    &orderable{
+      cursor:pointer
+    }
+    &filterable{
+    }
+    &selectable{
+      
+    }
   }
-  &filterable{
-  }
-  &selectable{
-    
+  & hr{
+    border: 0;
+    border-top: 1px solid #CCCCCC;
   }
 }
 </style>

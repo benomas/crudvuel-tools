@@ -126,17 +126,17 @@
           cursor:pointer;
       }
     }
-  }
-  .related-items{
-    padding: 15px;
-    & i:hover{
-        color:#d9534f;
-    };
-  }
-  .source-items{
+    & .related-items{
       padding: 15px;
       & i:hover{
-          color:#20895e;
+          color:#d9534f;
       };
+    }
+    & .source-items{
+        padding: 15px;
+        & i:hover{
+            color:#20895e;
+        };
+    }
   }
 </style>

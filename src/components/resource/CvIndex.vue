@@ -23,9 +23,3 @@ export default {
   }
 }
 </script>
-
-<style>
-	.index-container{
-		min-height:400px;
-	}
-</style>

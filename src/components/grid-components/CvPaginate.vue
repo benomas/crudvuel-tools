@@ -135,30 +135,26 @@ export default {
 }
 </script>
 <style lang="scss">
-
-
-button{
-  cursor:pointer;
-  border: 1px outset ThreeDLightShadow;
-  border-radius:5px;
-  &.active{
-    background-color: #7da8c3 !important;
-    color:white;
+.cv-paginate{
+  padding-top:5px;
+  & button{
+    cursor:pointer;
+    border: 1px outset ThreeDLightShadow;
+    border-radius:5px;
+    &.active{
+      background-color: #CCCCCC;
+      color:white;
+      &:hover{
+        color:white;
+      };
+    }
     &:hover{
       color:white;
     };
   }
-  &:hover{
-    color:white;
-  };
-}
-
-.cv-paginate{
-  padding-top:5px;
-}
-
-p{
-  margin:0;
+  p{
+    margin:0;
+  }
 }
 </style>
 

@@ -43,7 +43,7 @@ export default cvExtender(
         this.actionRoute={
           path      : this.path,
           component : this.component,
-          props     : this.props?this.props:{ cvResource:this.resource, cvAction:this}
+          props     : this.props?this.props:{ cvAction:this}
         }
       }
     },
@@ -76,7 +76,7 @@ export default cvExtender(
 
       let fixedPath = this.path
       for(let i=0 ; i< urlParams.length ; i++)
-        fixedPath =  fixedPath.replace(":"+urlParams[i],params[urlParams[i]])
+        fixedPath =  fixedPath.replace(":"+urlParams[i],fixedParams[urlParams[i]])
       return fixedPath
     }
   }
