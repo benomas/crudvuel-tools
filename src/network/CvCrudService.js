@@ -1,11 +1,16 @@
 export default function(cvComunicator,resourceName){
-  this.cvComunicator = cvComunicator;
-  this.resourceName  = resourceName;
-  this.row           = {};
-  this.rows          = [];
-  this.errors        = {};
-  this.status        = 0;
-  this.statusText    = "";
+  this.cvComunicator  = cvComunicator;
+  this.resourceName   = resourceName;
+  this.resourcePrefix = "/";
+  this.row            = {};
+  this.rows           = [];
+  this.errors         = {};
+  this.status         = 0;
+  this.statusText     = "";
+
+  this.setResourcePrefix= function(resourcePrefix){
+    this.resourcePrefix = resourcePrefix || "/";
+  }
   
   this.mapRowsResponse = function(response){
     this.rows = response.data.data || response.data || [];
@@ -29,7 +34,7 @@ export default function(cvComunicator,resourceName){
 
   this.show=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.get(
-        (url || "api/"+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
+        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
     ).then((response)=>{
         if(typeof successCallBack ==="function")
@@ -42,7 +47,7 @@ export default function(cvComunicator,resourceName){
 
   this.index=(successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.get(
-        (url || "api/"+this.resourceName) + (queryString?"?"+queryString:""),
+        (url || "api"+this.resourcePrefix+this.resourceName) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -55,7 +60,7 @@ export default function(cvComunicator,resourceName){
 
   this.store=(successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.post(
-        (url || "api/"+this.resourceName) + (queryString?"?"+queryString:""),
+        (url || "api"+this.resourcePrefix+this.resourceName) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -68,7 +73,7 @@ export default function(cvComunicator,resourceName){
 
   this.update=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.put(
-        (url || "api/"+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
+        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -81,7 +86,7 @@ export default function(cvComunicator,resourceName){
 
   this.destroy=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.delete(
-        (url || "api/"+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
+        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -94,7 +99,7 @@ export default function(cvComunicator,resourceName){
 
   this.activate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.put(
-        (url || "api/"+this.resourceName+"/"+id+"/activate") + (queryString?"?"+queryString:""),
+        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id+"/activate") + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -107,7 +112,7 @@ export default function(cvComunicator,resourceName){
 
   this.deactivate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.put(
-        (url || "api/"+this.resourceName+"/"+id+"/deactivate") + (queryString?"?"+queryString:""),
+        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id+"/deactivate") + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
