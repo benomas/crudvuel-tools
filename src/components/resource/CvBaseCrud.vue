@@ -220,10 +220,12 @@
       },
       cancelRedirect:function(){
         if(this.action.name!=="index" && typeof this.resource.actions.index !=="undefined")
-            this.$router.push(this.actionPath("index"))
+            this.$router.push("../../"+this.actionPath("index"))
       },
       cancelAction:function(){
-        this.collectCancelMessages(this.action.getSetCancelMessage()+this.actionKeyMessage(this.row))
+        let cancelMessage = this.action.getSetCancelMessage()
+        if(cancelMessage)
+          this.collectCancelMessages(cancelMessage+this.actionKeyMessage(this.row))
         this.cancelRedirect()
       },
       actionKeyMessage:function(gridRow){
@@ -262,13 +264,17 @@
       cShowSetMessages:function(){
         return (this.cAction && typeof this.cAction.cvShowSetMessages !== "undefined")? 
           this.cAction.cvShowSetMessages:true;
-      }
+      },
+      cDisableFields:function(){
+        return this.cvDisableFields || this.cAction.disableFields || false;
+      },
     },
     props:[
       "cvAction",
       "cvExcludeActions",
       "cvRow",
       "cvRows",
+      "cvDisableFields",
     ],
     created:function(){
       this.resource    = this.cResource;

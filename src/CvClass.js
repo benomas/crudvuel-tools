@@ -1,6 +1,14 @@
 import cvDinDep from './cvDinDep'
 export default function(options){
 	this.cvDinDep=cvDinDep;
+
+	this.defError=function(message){
+		if(typeof message!=="undefined" && message){
+			console.log("Config error,"+message);
+			return true;
+		}
+	};
+
 	this.setProperty=function(property,opts,defaultValue){
 		if(typeof property==="undefined" || typeof this[property] ==="undefined")
 			return false;

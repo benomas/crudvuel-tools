@@ -4,21 +4,33 @@ import cvExtender from '../cvExtender'
 export default cvExtender(
   ToExtend,
   {
-    name              : null,
-    rowsLabel         : null,
-    rowLabel          : null,
-    icon              : null,
-    path              : null,
-    crudServices      : null,
-    actions           : null,
-    actionsKeys       : null,
-    routes            : null,
-    actionRoutes      : null,
-    getSuccessMessage : null,
-    getErrorMessage   : null,
-    setSuccessMessage : null,
-    setErrorMessage   : null,
-    setCancelMessage  : null,
+    name             : null,
+    rowsLabel        : null,
+    rowLabel         : null,
+    icon             : null,
+    path             : null,
+    crudServices     : null,
+    actions          : null,
+    actionsKeys      : null,
+    routes           : null,
+    actionRoutes     : null,
+    getSuccessMessage: null,
+    getErrorMessage  : null,
+    setSuccessMessage: null,
+    setErrorMessage  : null,
+    setCancelMessage : null,
+    children         : null,
+    nextLabel        : null,
+    backLabel        : null,
+    parentRouteAction: null,
+    addChild : function(childResource){
+      if(!this.children)
+        this.children=[];
+      this.children.push(childResource);
+      if(this.defError(!this.parentRouteAction?"resource needs to have a parentRouteAction where the children route will be append":null))
+        return false;
+      this.routes[this.parentRouteAction.position].children = childResource.getRoutes()
+    },
     addAction    :function(actionOptions){
       if(!this.actions){
         this.actions={};
@@ -26,19 +38,35 @@ export default cvExtender(
         this.routes=[];
       }
 
-      if( actionOptions && !actionOptions.type)
+      if( actionOptions && typeof actionOptions.nextLabel==="undefined")
+        actionOptions.nextLabel=this.nextLabel
+
+      if( actionOptions && typeof actionOptions.backLabel==="undefined")
+        actionOptions.backLabel=this.backLabel
+
+      if( actionOptions && typeof actionOptions.disableFields==="undefined")
+        actionOptions.disableFields=false
+
+      if( actionOptions && typeof actionOptions.type==="undefined")
         actionOptions.type="row"
 
-      if( actionOptions && !actionOptions.urlParams)
+      if( actionOptions && typeof actionOptions.urlParams==="undefined")
         actionOptions.urlParams=[]
+
+      if( actionOptions && typeof actionOptions.parentRoute==="undefined")
+        actionOptions.parentRoute=false
 
       let newAction =  new CvActionMap(actionOptions);
       if(typeof newAction.validAction()){
         newAction.setRoute()
-        if(newAction.getRoute())
+        if(newAction.getRoute()){
+          newAction.setPosition(this.routes.length);
           this.routes.push(newAction.getRoute());
+        }
         this.actions[newAction.name] = newAction;
         this.actionsKeys.push(newAction.name);
+        if(newAction.isParentRoute)
+          this.parentRouteAction = newAction;
       }
     },
     setActions :function(actionsOptions){

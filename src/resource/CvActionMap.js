@@ -3,23 +3,28 @@ import cvExtender from '../cvExtender'
 export default cvExtender(
   ToExtend,
   {
-    name              : null,
-    label             : null,
-    icon              : null,
-    getService        : null,
-    setService        : null,
-    resource          : null,
-    path              : null,
-    urlParams         : null,
-    component         : null,
-    props             : null,
-    type              : null,
-    getSuccessMessage : null,
-    getErrorMessage   : null,
-    setSuccessMessage : null,
-    setErrorMessage   : null,
-    setCancelMessage  : null,
-    actionRoute       : null,
+    name             : null,
+    label            : null,
+    icon             : null,
+    getService       : null,
+    setService       : null,
+    resource         : null,
+    path             : null,
+    urlParams        : null,
+    component        : null,
+    props            : null,
+    type             : null,
+    getSuccessMessage: null,
+    getErrorMessage  : null,
+    setSuccessMessage: null,
+    setErrorMessage  : null,
+    setCancelMessage : null,
+    actionRoute      : null,
+    disableFields    : null,
+    nextLabel        : null,
+    backLabel        : null,
+    isParentRoute    : null,
+    position         : null,
     validAction:function(){
       return typeof this.name!=="undefined";
     },
@@ -78,6 +83,10 @@ export default cvExtender(
       for(let i=0 ; i< urlParams.length ; i++)
         fixedPath =  fixedPath.replace(":"+urlParams[i],fixedParams[urlParams[i]])
       return fixedPath
+    },
+    setPosition:function(position){
+      if(typeof position)
+        this.position = position
     }
   }
 )

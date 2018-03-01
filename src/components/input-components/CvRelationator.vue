@@ -10,7 +10,7 @@
             v-for="(row, rowKey) in related"
             v-on:click="removeRelated(rowKey,row)"
         >
-          <i class="glyphicon glyphicon-minus pull-right"></i>
+          <i class="glyphicon glyphicon-minus pull-right" v-if="!cDisableFields"></i>
           {{row[labelProperty]}}
         </li>
       </ul>
@@ -25,7 +25,7 @@
             v-for="(row, rowKey) in source"
             v-on:click="addRelated(rowKey,row)"
         >
-          <i class="glyphicon glyphicon-plus pull-left"></i>
+          <i class="glyphicon glyphicon-plus pull-left" v-if="!cDisableFields"></i>
           {{row[labelProperty]}}
         </li>
       </ul>
@@ -48,7 +48,8 @@
       "cvSource",
       "cvRelated",
       "cvLabelProperty",
-      "cvRelatedIdentifier"
+      "cvRelatedIdentifier",
+      "cvDisableFields",
     ],
     computed:{
       cSource:function(){
@@ -62,6 +63,9 @@
       },
       cRelatedIdentifier:function(){
           return this.cvRelatedIdentifier;
+      },
+      cDisableFields:function(){
+        return this.cvExcludeActions || false;
       },
     },
     mounted:function(){
@@ -88,11 +92,15 @@
     },
     methods:{
       addRelated:function(index,row){
+        if(this.cDisableFields)
+          return false;
         this.related.push(row);
         this.source.splice(index,1);
         this.relatedChanged();
       },
       removeRelated:function(index,row){
+        if(this.cDisableFields)
+          return false;
         this.source.push(row);
         this.related.splice(index,1);
         this.relatedChanged();
