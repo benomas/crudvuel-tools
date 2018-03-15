@@ -1,6 +1,6 @@
 <template>
-  <div 
-    class="row action-container" 
+  <div
+    class="row action-container"
   >
     <div class="col-lg-12 action-label">
       <label>
@@ -16,8 +16,8 @@
 </template>
 <script>
   import CvSynchronizer from '../../CvSynchronizer';
-  import CvErrorWraper from '../input-components/CvErrorWraper';
-  import cvVueSetter from '../../cvVueSetter'
+  import CvErrorWraper  from '../input-components/CvErrorWraper';
+  import cvVueSetter    from '../../cvVueSetter'
   export default{
     components: {
       CvErrorWraper
@@ -229,9 +229,9 @@
         this.cancelRedirect()
       },
       actionKeyMessage:function(gridRow){
-        if( typeof gridRow==="undefined" || 
-            !gridRow || 
-            typeof this.rowKey==="undefined" || 
+        if( typeof gridRow==="undefined" ||
+            !gridRow ||
+            typeof this.rowKey==="undefined" ||
             typeof gridRow[this.rowKey]==="undefined"
         )
           return "";
@@ -258,11 +258,11 @@
         return this.cvExcludeActions || [];
       },
       cShowGetMessages:function(){
-        return (this.cAction && typeof this.cAction.cvShowGetMessages !== "undefined")? 
+        return (this.cAction && typeof this.cAction.cvShowGetMessages !== "undefined")?
           this.cAction.cvShowGetMessages:false;
       },
       cShowSetMessages:function(){
-        return (this.cAction && typeof this.cAction.cvShowSetMessages !== "undefined")? 
+        return (this.cAction && typeof this.cAction.cvShowSetMessages !== "undefined")?
           this.cAction.cvShowSetMessages:true;
       },
       cDisableFields:function(){

@@ -1,5 +1,5 @@
 import cvDinDep from '../cvDinDep'
-import CvEnv from '../CvEnv'
+import CvEnv    from '../CvEnv'
 
 export default function(globals){
 

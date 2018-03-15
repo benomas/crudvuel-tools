@@ -1,4 +1,4 @@
-import ToExtend from '../CvClass'
+import ToExtend   from '../CvClass'
 import cvExtender from '../cvExtender'
 export default cvExtender(
   ToExtend,
@@ -71,9 +71,9 @@ export default cvExtender(
     getFixedPath:function(data){
       if(typeof data ==="undefined" || !data)
         return this.path
-      
+
       let fixedParams =  this.getFixedParams(data)
-      
+
       if(!fixedParams)
         return this.path
 

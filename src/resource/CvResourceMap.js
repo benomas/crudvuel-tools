@@ -1,6 +1,6 @@
-import ToExtend from '../CvClass'
+import ToExtend    from '../CvClass'
 import CvActionMap from './CvActionMap'
-import cvExtender from '../cvExtender'
+import cvExtender  from '../cvExtender'
 export default cvExtender(
   ToExtend,
   {

@@ -1,6 +1,6 @@
-import cvDinDep from '../cvDinDep'
-import CvEnv from '../CvEnv'
-import CvPassport from './CvPassport'
+import cvDinDep      from '../cvDinDep'
+import CvEnv         from '../CvEnv'
+import CvPassport    from './CvPassport'
 import CvCrudService from './CvCrudService'
 
 export default function(router,globals){
@@ -38,10 +38,10 @@ export default function(router,globals){
     this.cvPassport.reactToResponse(error);
     switch(error.response.status){
       case 401:
-        this.router.VueRouter.push('login');
+        this.router.push('login');
         break;
       case 409:
-        location.reload(); 
+        location.reload();
         break;
       default:return Promise.reject(error);
     }

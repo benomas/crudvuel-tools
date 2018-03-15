@@ -1,16 +1,16 @@
 <template>
   <cv-tag :tag="cTag" class="cv-grid-container">
-    <cv-simple-filters 
+    <cv-simple-filters
       @go-to-find="prepareToFind"
       v-if="cSimpleFilters"
     >
     </cv-simple-filters>
-    <cv-advanced-filters 
+    <cv-advanced-filters
       @go-to-find="prepareToFind"
       v-if="cAdvancedFilters"
     >
     </cv-advanced-filters>
-    <cv-expert-filters 
+    <cv-expert-filters
       @go-to-find="prepareToFind"
       v-if="cExpertFilters"
     >
@@ -47,13 +47,13 @@
 </template>
 <script>
 
-import CvTag from '../CvTag'
-import CvPaginate from './CvPaginate'
-import CvSimpleFilters from './CvSimpleFilters'
+import CvTag             from '../CvTag'
+import CvPaginate        from './CvPaginate'
+import CvSimpleFilters   from './CvSimpleFilters'
 import CvAdvancedFilters from './CvAdvancedFilters'
-import CvExpertFilters from './CvExpertFilters'
-import CvSpinner from './CvSpinner'
-import CvParametrizer from '../../CvParametrizer'
+import CvExpertFilters   from './CvExpertFilters'
+import CvSpinner         from './CvSpinner'
+import CvParametrizer    from '../../CvParametrizer'
 export default {
   components: {
     CvTag,
@@ -153,7 +153,7 @@ export default {
     emitSuccessMutation:function(response){
       this.rows          = response.data.data
       this.elementsCount = response.data.count
-      
+
       if(this.rows.length===0 && this.elementsCount>0){
         this.cvParametrizer.setPage(Math.ceil(this.elementsCount/this.cvParametrizer.getLimit()))
         this.refresh()
@@ -190,8 +190,8 @@ export default {
       if(!currentNode)
         return false
 
-      if( 
-          typeof currentNode.children ==="undefined" && 
+      if(
+          typeof currentNode.children ==="undefined" &&
           typeof currentNode.componentInstance ==="undefined"
         )
         return false
@@ -212,8 +212,8 @@ export default {
       if(!currentNode)
         return false;
 
-      if( typeof currentNode.children ==="undefined" && 
-          ( typeof currentNode.componentInstance ==="undefined" || 
+      if( typeof currentNode.children ==="undefined" &&
+          ( typeof currentNode.componentInstance ==="undefined" ||
             typeof currentNode.componentInstance.$slots ==="undefined" ||
             typeof currentNode.componentInstance.$slots[slot] ==="undefined"
           )
@@ -233,7 +233,7 @@ export default {
     },
     processSlots:function(){
       if(
-        !this.$slots["cv-grid-data"] || 
+        !this.$slots["cv-grid-data"] ||
         !(this.cvThs = this.findComponentChild(this.$slots["cv-grid-data"][0],"cv-ths"))
       )
         return this.showConfigErrorMessage()
@@ -313,7 +313,7 @@ export default {
     &filterable{
     }
     &selectable{
-      
+
     }
   }
   & hr{
