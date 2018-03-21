@@ -38,7 +38,7 @@ export default function(router,globals){
     this.cvPassport.reactToResponse(error);
     switch(error.response.status){
       case 401:
-        this.router.push('login');
+        this.router.VueRouter.push('login');
         break;
       case 409:
         location.reload();
@@ -59,5 +59,10 @@ export default function(router,globals){
       return false;
     this.resources[resource.resourceName] = resource;
   };
+
+  this.redirect = function(newRoute){
+    newRoute = newRoute || ''
+    this.router.VueRouter.push(newRoute)
+  }
 
 };
