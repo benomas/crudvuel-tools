@@ -7,17 +7,17 @@
 
         <button  type="button" class="btn btn-default"  v-on:click="setPage(totalPaginated)" v-if="hasRight()">»</button>
 
-        <button  
-          type="button" class="btn btn-default"  
-          v-on:click="jump()" 
+        <button
+          type="button" class="btn btn-default"
+          v-on:click="jump()"
           v-if="carrousel.length < totalPaginated"
         >
           {{!goTo?"Ir a":"Ir"}}
         </button>
-        <input 
+        <input
           class="form-control"
-          v-if="goTo" 
-          type="number" 
+          v-if="goTo"
+          type="number"
           v-model.number="jumpedPage"
           :max="totalPaginated"
           min="0"
@@ -31,7 +31,7 @@
       Numero de Registros por Página :
       <select   class="form-control" v-model="limitSelected" @change='changeLimitPerPage(limitSelected)'>
         <option
-            v-for="limitValue in limitValues" 
+            v-for="limitValue in limitValues"
         >
             {{limitValue}}
         </option>
@@ -134,7 +134,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .cv-paginate{
   padding-top:5px;
   & button{

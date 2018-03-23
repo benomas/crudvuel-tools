@@ -161,7 +161,7 @@
         if(!this[property])
           this[property]="-"+message
         else
-          this[property]=this[property] + "<br>-" + message
+          this[property]=this[property] + ", -" + message
         if(!this.someSyncInProgress())
           this.proccessMessages()
       },
@@ -235,7 +235,7 @@
             typeof gridRow[this.rowKey]==="undefined"
         )
           return "";
-        return " <b>"+this.rowKey+":"+gridRow[this.rowKey]+"</b>"
+        return " \""+this.rowKey+":"+gridRow[this.rowKey]+"\""
       },
     },
     computed:{

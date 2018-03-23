@@ -12,7 +12,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .cv-spinner{
     position: absolute;
     margin: 15% 40%;

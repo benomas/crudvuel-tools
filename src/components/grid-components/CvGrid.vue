@@ -27,10 +27,10 @@
       @event-page="refreshPaginate"
     >
     </cv-paginate>
-    <hr v-if="cTotalPageElements && cTopPaginate">
-    <slot name="cv-grid-data">
-    </slot>
-    <hr v-if="cTotalPageElements && cBottomPaginate">
+    <div :class="{'b-top':cTotalPageElements && cTopPaginate,'b-bottom':cTotalPageElements && cBottomPaginate}" class="cv-grid-data-container">
+      <slot name="cv-grid-data">
+      </slot>
+    </div>
     <cv-paginate
       v-if='cTotalPageElements && cBottomPaginate'
       :cvTotalQueryElements='elementsCount'
@@ -304,7 +304,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .cv-grid-container{
   & .cv-{
     &orderable{
@@ -319,6 +319,18 @@ export default {
   & hr{
     border: 0;
     border-top: 1px solid #CCCCCC;
+  }
+
+  .b-top{
+    border-top:1px solid #CCCCCC;
+  }
+
+  .b-bottom{
+    border-bottom:1px solid #CCCCCC;
+  }
+
+  .cv-grid-data-container{
+    overflow-x: auto;
   }
 }
 </style>
