@@ -17,7 +17,16 @@ export default function(){
 	this.apiClient=()=>{
 		return this.environmentProperty("API_CLIENT",2);
 	};
+
 	this.apiSecret=()=>{
 		return this.environmentProperty("API_SECRET","devdevdevdevdevdevdevdevdevdevdevdevdevd");
 	};
+
+  this.ajaxTimeout=()=>{
+    return this.environmentProperty("AJAX_TIMEUOT","60000");
+  };
+
+  this.ajaxMaxContentLenght=()=>{
+    return this.environmentProperty("AJAX_MAX_CONTENT_LENGHT","20000");
+  };
 };

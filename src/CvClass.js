@@ -1,15 +1,18 @@
 import cvDinDep from './cvDinDep'
-export default function(options){
-	this.cvDinDep=cvDinDep;
+export default class CvClass {
 
-	this.defError=function(message){
+  constructor(){
+    this.cvDinDep=cvDinDep;
+  }
+
+	defError(message){
 		if(typeof message!=="undefined" && message){
 			console.log("Config error,"+message);
 			return true;
 		}
 	};
 
-	this.setProperty=function(property,opts,defaultValue){
+	setProperty(property,opts,defaultValue){
 		if(typeof property==="undefined" || typeof this[property] ==="undefined")
 			return false;
 
@@ -21,13 +24,13 @@ export default function(options){
 		}
 	};
 
-	this.getProperty=function(property){
+	getProperty(property){
 		if(typeof property==="undefined" || typeof this[property] ==="undefined")
 			return null;
 		return this[property];
 	};
 
-	this.loadOptions=function(){
+	loadOptions(options){
 		let opts =  options
 		if(typeof options ==="function")
 			opts = options();
@@ -37,6 +40,4 @@ export default function(options){
     			this.setProperty(optionsKeys[i],options)
 		}
 	}
-
-	this.loadOptions();
 };

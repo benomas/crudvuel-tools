@@ -1,37 +1,42 @@
-import ToExtend    from '../CvClass'
+import CvClass    from '../CvClass'
 import CvActionMap from './CvActionMap'
-import cvExtender  from '../cvExtender'
-export default cvExtender(
-  ToExtend,
-  {
-    name             : null,
-    rowsLabel        : null,
-    rowLabel         : null,
-    icon             : null,
-    path             : null,
-    crudServices     : null,
-    actions          : null,
-    actionsKeys      : null,
-    routes           : null,
-    actionRoutes     : null,
-    getSuccessMessage: null,
-    getErrorMessage  : null,
-    setSuccessMessage: null,
-    setErrorMessage  : null,
-    setCancelMessage : null,
-    children         : null,
-    nextLabel        : null,
-    backLabel        : null,
-    parentRouteAction: null,
-    addChild : function(childResource){
+
+export default class CvResourceMap extends CvClass {
+
+  constructor(options){
+    super(options)
+    this.name             = null
+    this.rowsLabel        = null
+    this.rowLabel         = null
+    this.icon             = null
+    this.path             = null
+    this.crudServices     = null
+    this.actions          = null
+    this.actionsKeys      = null
+    this.routes           = null
+    this.actionRoutes     = null
+    this.getSuccessMessage= null
+    this.getErrorMessage  = null
+    this.setSuccessMessage= null
+    this.setErrorMessage  = null
+    this.setCancelMessage = null
+    this.children         = null
+    this.nextLabel        = null
+    this.backLabel        = null
+    this.parentRouteAction= null
+    this.loadOptions(options);
+  }
+
+  addChild(childResource){
       if(!this.children)
         this.children=[];
       this.children.push(childResource);
       if(this.defError(!this.parentRouteAction?"resource needs to have a parentRouteAction where the children route will be append":null))
         return false;
       this.routes[this.parentRouteAction.position].children = childResource.getRoutes()
-    },
-    addAction    :function(actionOptions){
+  }
+
+  addAction(actionOptions){
       if(!this.actions){
         this.actions={};
         this.actionsKeys=[];
@@ -68,28 +73,34 @@ export default cvExtender(
         if(newAction.isParentRoute)
           this.parentRouteAction = newAction;
       }
-    },
-    setActions :function(actionsOptions){
-      for(let i=0 ; i < actionsOptions.length; i++)
-        this.addAction(actionsOptions[i]);
-    },
-    getRoutes :function(){
-      return this.routes;
-    },
-    getGetSuccessMessage :function(){
-      return this.getSuccessMessage;
-    },
-    getGetErrorMessage :function(){
-      return this.getErrorMessage;
-    },
-    getSetSuccessMessage :function(){
-      return this.setSuccessMessage;
-    },
-    getSetErrorMessage :function(){
-      return this.setErrorMessage;
-    },
-    getSetCancelMessage :function(){
-      return this.setCancelMessage;
-    },
   }
-)
+
+  setActions(actionsOptions){
+    for(let i=0 ; i < actionsOptions.length; i++)
+      this.addAction(actionsOptions[i]);
+  }
+
+  getRoutes(){
+    return this.routes;
+  }
+
+  getGetSuccessMessage(){
+    return this.getSuccessMessage;
+  }
+
+  getGetErrorMessage(){
+    return this.getErrorMessage;
+  }
+
+  getSetSuccessMessage(){
+    return this.setSuccessMessage;
+  }
+
+  getSetErrorMessage(){
+    return this.setErrorMessage;
+  }
+
+  getSetCancelMessage(){
+    return this.setCancelMessage;
+  }
+}

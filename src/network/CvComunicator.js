@@ -14,9 +14,9 @@ export default function(router,globals){
     'X-Requested-With'           : 'XMLHttpRequest',
     'Content-Type'               : 'application/json'
     },
-    timeout           : 300000,
+    timeout           : this.cvEnv.ajaxTimeout() || 60000,
     responseType      : 'json',
-    maxContentLength  : 20000,
+    maxContentLength  : this.cvEnv.ajaxMaxContentLenght() || 20000,
     callBackRedirector: null
   };
   this.router     = router;
