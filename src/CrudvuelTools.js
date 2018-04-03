@@ -8,6 +8,7 @@ import CvThs          from './components/grid-components/CvThs.vue'
 import CvSpinner      from './components/grid-components/CvSpinner.vue'
 import CvErrorWraper  from './components/input-components/CvErrorWraper.vue'
 import CvRelationator from './components/input-components/CvRelationator.vue'
+import CvMatcherizer  from './components/matcherizer-components/CvMatcherizer.vue'
 import cvDinDep       from './cvDinDep'
 import CvParametrizer from './CvParametrizer'
 import cvExtender     from './cvExtender'
@@ -27,6 +28,7 @@ const crudvuelTools = {
     Vue.component("cv-spinner",CvSpinner)
     Vue.component("cv-error-wraper",CvErrorWraper)
     Vue.component("cv-relationator",CvRelationator)
+    Vue.component("cv-matcherizer",CvMatcherizer)
     Vue.mixin({
       data:function(){
         return {

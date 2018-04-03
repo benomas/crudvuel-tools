@@ -5,7 +5,7 @@
     >
       <div class="t-center">{{relatedLabel}}</div>
       <ul class="list-group">
-        <li 
+        <li
             class="list-group-item"
             v-for="(row, rowKey) in related"
             v-on:click="removeRelated(rowKey,row)"
@@ -20,7 +20,7 @@
     >
       <div class="t-center">{{sourceLabel}}</div>
       <ul class="list-group">
-        <li 
+        <li
             class="list-group-item"
             v-for="(row, rowKey) in source"
             v-on:click="addRelated(rowKey,row)"
@@ -107,7 +107,7 @@
       },
       relatedChanged:function(){
         this.$emit(
-          'related-changed', 
+          'related-changed',
           {
             cRelatedIdentifier:this.cRelatedIdentifier,
             related:this.related,
@@ -118,9 +118,9 @@
     }
   }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
   .cv-relator-container{
-    border-top:1px solid #CCCCCC; 
+    border-top:1px solid #CCCCCC;
     border-bottom:1px solid #CCCCCC;
     & ul{
       border-top:1px solid #CCCCCC;
