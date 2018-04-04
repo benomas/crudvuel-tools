@@ -40,6 +40,20 @@
       }
     },
     methods:{
+      vueSetter(source){
+        if(
+            typeof source==="undefined" ||
+            typeof source.row==="undefined" ||
+            typeof source.cvColumnMap==="undefined" ||
+            typeof source.cvColumnMap.to==="undefined" ||
+            typeof source.cvColumnMap.from==="undefined"
+        )
+          return false;
+        if(source.row && typeof source.row[source.cvColumnMap.from]!=="undefined")
+          this.$set(this.row, source.cvColumnMap.to, source.row[source.cvColumnMap.from])
+        else
+          this.$set(this.row, source.cvColumnMap.to, null)
+      },
       getSuccess:function(response){
         if(this.action && this.action.type==="rows")
           this.rows=response.data.data || response.data;
@@ -280,6 +294,12 @@
       this.resource    = this.cResource;
       this.action      = this.cAction;
       this.rowKeyValue = this.cRowKeyValue;
+    },
+    mounted : function () {
+      if (this.rowKeyValue)
+        this.getService()
+      else
+        this.ready = true
     }
   }
 </script>

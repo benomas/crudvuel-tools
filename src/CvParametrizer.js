@@ -67,11 +67,6 @@ export default function(paginate){
 			this.params.paginate[parameter]=value;
 	};
 
-	this.setGeneralSearch=function(value){
-		if(typeof value !=="undefined")
-			this.setParameter("selectQuery",value);
-	};
-
 	this.setPage=function(value){
 		if(typeof value !=="undefined")
 			this.setParameter("page",value);
@@ -102,9 +97,14 @@ export default function(paginate){
 			this.setParameter("filterQuery",value);
 	};
 
+  this.setSelectQuery=function(value){
+    if(typeof value !=="undefined")
+      this.setParameter("selectQuery",value);
+  };
+
 	this.pushFilter=function(property,value){
 		if(typeof property !=="undefined" && typeof value !=="undefined")
-            this.params.paginate.filterQuery[property]=value
+      this.params.paginate.filterQuery[property]=value
 	};
 
 	this.pushSelect=function(value){
@@ -121,7 +121,6 @@ export default function(paginate){
 		if(typeof paginate !=="undefined")
 		this.params.paginate = paginate;
 	};
-
 
 	this.serialize=function (obj, prefix){
 	  var str = [], p;

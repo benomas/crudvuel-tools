@@ -1,8 +1,8 @@
 <template>
-  <span class="form-inline">
+  <div class="simple-filters-container">
     <label for="search">{{cSearchLabel}}</label>
     <input
-      class="form-control"
+      class="simple-filters-input"
       type="text"
       name="search"
       v-on:keyup.13="goToFind()"
@@ -10,7 +10,7 @@
       v-model="search"
       :title="cSearchMessage"
     >
-  </span>
+  </div>
 </template>
 <script>
 export default {

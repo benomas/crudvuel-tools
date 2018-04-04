@@ -10,7 +10,7 @@
             v-for="(row, rowKey) in related"
             v-on:click="removeRelated(rowKey,row)"
         >
-          <i class="glyphicon glyphicon-minus pull-right" v-if="!cDisableFields"></i>
+          <i class="fa fa-caret-right f-right" v-if="!cDisableFields"></i>
           {{row[labelProperty]}}
         </li>
       </ul>
@@ -25,7 +25,7 @@
             v-for="(row, rowKey) in source"
             v-on:click="addRelated(rowKey,row)"
         >
-          <i class="glyphicon glyphicon-plus pull-left" v-if="!cDisableFields"></i>
+          <i class="fa fa-caret-left f-left" v-if="!cDisableFields"></i>
           {{row[labelProperty]}}
         </li>
       </ul>
