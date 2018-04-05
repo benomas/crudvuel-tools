@@ -11,9 +11,9 @@
       </cv-simple-filters>
       <span
         class="single-selected-label"
-        v-if="cMode==='single' && currentLabel"
+        v-if="cMode==='single' && cCurrentLabel"
       >
-        {{currentLabel}}
+        {{cCurrentLabel}}
         <i
           v-if="!cDisableFields"
           class="fa fa-window-close"
@@ -25,6 +25,7 @@
             class="list-group-item"
             v-for="(row, rowKey) in source"
             v-on:click="addRelated(rowKey,row)"
+            :class="{'single-selected':cMode==='single' && mValueCallBack(source,row)===cCurrentValue}"
         >
           <i class="fa fa-caret-right f-right" v-if="!cDisableFields"></i>
           {{mLabelCallBack(source,row)}}
@@ -77,6 +78,7 @@ export default {
   props:[
     "cvMode", //single,multiple
     "cvCurrentValue",
+    "cvCurrentLabel",
     "cvSourceLabel",
     "cvSourceMessage",
     "cvRelatedLabel",
@@ -97,7 +99,6 @@ export default {
     "cvAddCallBack",
     "cvRemoveCallBack",
     "cvDisableFields",
-    "cvColumnMap"
   ],
   methods:{
     //source
@@ -208,11 +209,15 @@ export default {
       }
     },
     setCurrent:function(rows,row){
+      if(this.cDisableFields)
+        return false;
       this.currentLabel = this.mLabelCallBack(rows,row)
       this.currentValue = this.mValueCallBack(rows,row)
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row})
     },
     resetCurrent:function(){
+      if(this.cDisableFields)
+        return false;
       this.currentLabel = null
       this.currentValue = null
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row:null})
@@ -225,8 +230,13 @@ export default {
     cCurrentValue:function(){
       return this.currentValue || this.cvCurrentValue || null
     },
+    cCurrentLabel:function(){
+      return this.currentLabel || this.cvCurrentLabel || null
+    },
     cSelectQuery:function(){
-      return this.cvSelectQuery || []
+      if(typeof this.cvSelectQuery ==="undefined")
+        return [];
+      return Object.keys(this.cvSelectQuery)
     },
     cPage:function(){
       return this.cvPage || 1
@@ -277,13 +287,17 @@ export default {
       return this.cvDisableFields || false
     },
     cColumnMap:function(){
-      return this.cvColumnMap || false
+      return this.cvSelectQuery || false
     }
   },
   mounted:function(){
     this.refreshSource()
     if(this.cMode==='multiple')
       this.refreshRelated()
+    if(this.cMode==='single'){
+      this.currenValue  =this.cvCurrentValue
+      this.currentLabel =this.cvCurrentLabel
+    }
   },
   created:function(){
     if(this.cMode==='multiple'){
@@ -302,13 +316,39 @@ export default {
     this.sourceParametrizer.setAscending(this.cAscending)
     this.sourceParametrizer.setFilterQuery(this.cFilterQuery)
     this.sourceParametrizer.setSelectQuery(this.cSelectQuery)
+
   }
 }
 </script>
 <style lang="scss" scoped>
   .cv-relator-container{
-    border-top:1px solid #CCCCCC;
     border-bottom:1px solid #CCCCCC;
+    & .related-items{
+      padding: 15px;
+      & i:hover{
+          color:#d9534f;
+      };
+    }
+    & .source-items{
+      padding: 15px;
+      & i:hover{
+          color:#20895e;
+      }
+      & .single-selected{
+        background-color:#dff0d8;
+        &-label{
+          padding:8px;
+          border:1px solid #CCCCCC;
+          border-radius:5px;
+          color: #fff;
+          background-color: #5cb85c;
+          font-weight: bold;
+          & i{
+            cursor:pointer;
+          }
+        }
+      }
+    }
     & ul{
       border:1px solid #CCCCCC;
       background-color:#EEEEEE;
@@ -317,46 +357,32 @@ export default {
       overflow-y: auto;
       border-radius: 5px;
       padding-inline-start: 0;
-      & .list-group-item{
-        position: relative;
-        display: block;
-        padding: 10px 15px;
-        margin-bottom: -1px;
-        background-color: #fff;
-        border: 1px solid #d3e0e9;
-        &:first-child{
-          border-top-right-radius: 4px;
-          border-top-left-radius: 4px;
-        }
-        &:last-child{
-          border-bottom-right-radius: 4px;
-          border-bottom-left-radius: 4px;
-        }
-        & i{
-            margin-left:5px;
-            margin-right:5px;
-            font-weight: bold;
-            cursor:pointer;
+      & .list-group{
+        margin-bottom: 20px;
+        padding-left: 0;
+        &-item{
+          position: relative;
+          display: block;
+          padding: 10px 15px;
+          margin-bottom: -1px;
+          background-color: #fff;
+          border: 1px solid #d3e0e9;
+          &:first-child{
+            border-top-right-radius: 4px;
+            border-top-left-radius: 4px;
+          }
+          &:last-child{
+            border-bottom-right-radius: 4px;
+            border-bottom-left-radius: 4px;
+          }
+          & i{
+              margin-left:5px;
+              margin-right:5px;
+              font-weight: bold;
+              cursor:pointer;
+          }
         }
       }
-    }
-    & .single-selected-label{
-      padding:8px;
-      border:1px solid #CCCCCC;
-      border-radius:5px;
-    }
-
-    & .related-items{
-      padding: 15px;
-      & i:hover{
-          color:#d9534f;
-      };
-    }
-    & .source-items{
-        padding: 15px;
-        & i:hover{
-            color:#20895e;
-        };
     }
   }
 </style>

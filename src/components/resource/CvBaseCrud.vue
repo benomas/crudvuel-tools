@@ -26,7 +26,7 @@
       return {
         resource                   :null,
         action                     :null,
-        rowKey                     :"id",
+        rowKey                     :null,
         rowKeyValue                :null,
         row                        :null,
         rows                       :null,
@@ -44,15 +44,17 @@
         if(
             typeof source==="undefined" ||
             typeof source.row==="undefined" ||
-            typeof source.cvColumnMap==="undefined" ||
-            typeof source.cvColumnMap.to==="undefined" ||
-            typeof source.cvColumnMap.from==="undefined"
+            typeof source.cvColumnMap==="undefined"
         )
           return false;
-        if(source.row && typeof source.row[source.cvColumnMap.from]!=="undefined")
-          this.$set(this.row, source.cvColumnMap.to, source.row[source.cvColumnMap.from])
-        else
-          this.$set(this.row, source.cvColumnMap.to, null)
+
+        let mapKeys = Object.keys(source.cvColumnMap)
+        for (let i=0; i<mapKeys.length; i++) {
+          if(source.row && typeof source.row[mapKeys[i]]!=="undefined")
+            this.$set(this.row, source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
+          else
+            this.$set(this.row, source.cvColumnMap[mapKeys[i]], null)
+        }
       },
       getSuccess:function(response){
         if(this.action && this.action.type==="rows")
@@ -155,13 +157,13 @@
         return null;
       },
       toSync:function(row,identifier){
-        this.cvSynchronizer.toSync(row,this.rowKey,identifier);
+        this.cvSynchronizer.toSync(row,this.cRowKey,identifier);
       },
       synchronized:function(row,identifier){
-        this.cvSynchronizer.synchronized(row,this.rowKey,identifier);
+        this.cvSynchronizer.synchronized(row,this.cRowKey,identifier);
       },
       isSynchronizing:function(row,identifier){
-        return this.cvSynchronizer.isSynchronizing(row,this.rowKey,identifier);
+        return this.cvSynchronizer.isSynchronizing(row,this.cRowKey,identifier);
       },
       validIdentifier:function(identifier){
         return this.cvSynchronizer.validIdentifier(identifier);
@@ -245,11 +247,11 @@
       actionKeyMessage:function(gridRow){
         if( typeof gridRow==="undefined" ||
             !gridRow ||
-            typeof this.rowKey==="undefined" ||
-            typeof gridRow[this.rowKey]==="undefined"
+            typeof this.cRowKey==="undefined" ||
+            typeof gridRow[this.cRowKey]==="undefined"
         )
           return "";
-        return " \""+this.rowKey+":"+gridRow[this.rowKey]+"\""
+        return " \""+this.cRowKey+":"+gridRow[this.cRowKey]+"\""
       },
     },
     computed:{
@@ -260,13 +262,16 @@
         return (this.cAction && this.cAction.resource)? this.cAction.resource:null;
       },
       cRows:function(){
-        return this.cvRows || null;
+        return this.cvRows || this.rows || null;
       },
       cRow:function(){
-        return this.cvRow || null;
+        return this.cvRow  || this.row || null;
       },
-      cRowKeyValue:function(){
-        return this.$route.params.id || null;
+      cRowKey:function(){
+        return this.cvRowKey || 'id';
+      },
+      cRowKeyRouteValue:function(){
+        return this.$route.params.id  || null;
       },
       cExcludeActions:function(){
         return this.cvExcludeActions || [];
@@ -282,6 +287,12 @@
       cDisableFields:function(){
         return this.cvDisableFields || this.cAction.disableFields || false;
       },
+      cHasRowKeyValue:function(){
+        return this.cRow && this.cRow[this.cRowKey]
+      },
+      cGetted:function(){
+        return this.cRows || this.cAction.name==='store'  || this.cHasRowKeyValue || false;
+      },
     },
     props:[
       "cvAction",
@@ -289,17 +300,13 @@
       "cvRow",
       "cvRows",
       "cvDisableFields",
+      "cvRowKey"
     ],
     created:function(){
       this.resource    = this.cResource;
       this.action      = this.cAction;
-      this.rowKeyValue = this.cRowKeyValue;
-    },
-    mounted : function () {
-      if (this.rowKeyValue)
-        this.getService()
-      else
-        this.ready = true
+      this.rowKey      = this.cRowKey;
+      this.rowKeyValue = this.cRowKeyRouteValue;
     }
   }
 </script>
