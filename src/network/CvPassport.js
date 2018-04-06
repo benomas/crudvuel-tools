@@ -5,16 +5,17 @@ export default function(globals){
 
   this.cvDinDep = cvDinDep;
   this.cvEnv = this.cvDinDep("CvEnv",globals) || new CvEnv();
+  this.enabled = this.cvEnv.isPassportEnabled();
 
   this.loadTokens = ()=>{
-    if(!this.cvEnv.isPassportEnabled())
+    if(!this.enabled)
       return ;
     this.accessToken  = JSON.parse(localStorage.getItem("accessToken") || 'null');
     this.refreshToken = JSON.parse(localStorage.getItem("refreshToken") || 'null');
   };
 
   this.setAccessToken = function(accessToken){
-    if(!this.cvEnv.isPassportEnabled())
+    if(!this.enabled)
       return ;
     this.accessToken = typeof accessToken!=="undefined"?"Bearer "+accessToken:null;
     if(this.accessToken)
@@ -24,7 +25,7 @@ export default function(globals){
   };
 
   this.setRefreshToken=function(refreshToken){
-    if(!this.cvEnv.isPassportEnabled())
+    if(!this.enabled)
       return ;
     this.refreshToken=typeof refreshToken!=="undefined"?"Bearer "+refreshToken:null;
     if(this.refreshToken)
@@ -34,21 +35,21 @@ export default function(globals){
   };
 
   this.autenticated=function(){
-    if(!this.cvEnv.isPassportEnabled())
+    if(!this.enabled)
       return true;
     this.loadTokens();
     return this.accessToken!==null;
   };
 
   this.injectHeaders=function(headers){
-    if(!this.cvEnv.isPassportEnabled())
+    if(!this.enabled)
       return headers;
     headers["Authorization"]=this.accessToken;
     return headers;
   };
 
   this.reactToResponse=function(response){
-    if(!this.cvEnv.isPassportEnabled())
+    if(!this.enabled)
       return ;
     if(typeof response!=="undefined" && typeof response.response!=="undefined" && typeof response.response.status!=="undefined" && response.response.status===401){
       this.setAccessToken()

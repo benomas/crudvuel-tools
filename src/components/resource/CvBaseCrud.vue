@@ -204,13 +204,13 @@
         this.cancelNotification()
       },
       successNotification:function(){
-        this.messageNotificator("successNotificationMessages",message)
+        this.messageNotificator("successNotificationMessages")
       },
       errorNotification:function(){
-        this.messageNotificator("errorNotificationMessages",message)
+        this.messageNotificator("errorNotificationMessages")
       },
       cancelNotification:function(){
-        this.messageNotificator("cancelNotificationMessages",message)
+        this.messageNotificator("cancelNotificationMessages")
       },
       validator:function(){
         return true;
@@ -291,7 +291,7 @@
         return this.cRow && this.cRow[this.cRowKey]
       },
       cGetted:function(){
-        return this.cRows || this.cAction.name==='store'  || this.cHasRowKeyValue || false;
+        return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false;
       },
     },
     props:[
