@@ -134,9 +134,12 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .cv-paginate{
   padding-top:5px;
+  & p{
+    padding-top:5px;
+  }
   & button{
     cursor:pointer;
     border: 1px outset ThreeDLightShadow;

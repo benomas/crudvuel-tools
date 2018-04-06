@@ -2,7 +2,7 @@
   <div class="simple-filters-container">
     <label for="search">{{cSearchLabel}}</label>
     <input
-      class="simple-filters-input"
+      class="simple-filters-input form-control"
       type="text"
       name="search"
       v-on:keyup.13="goToFind()"
