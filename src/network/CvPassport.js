@@ -24,6 +24,11 @@ export default function(globals){
       localStorage.removeItem("accessToken");
   };
 
+  this.destroyAutentication = function () {
+    this.setAccessToken()
+    this.setRefreshToken()
+  }
+
   this.setRefreshToken=function(refreshToken){
     if(!this.enabled)
       return ;

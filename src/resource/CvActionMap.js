@@ -56,9 +56,11 @@ export default class CvResourceMap extends CvClass {
   setRoute(){
     if(typeof this.path!=="undefined" && typeof this.component!=="undefined" && this.component){
       this.actionRoute={
+        name      : this.resource.name + '.' + this.name,
         path      : this.path,
         component : this.component,
-        props     : this.props?this.props:{ cvAction:this}
+        props     : this.props?this.props:{ cvAction:this},
+        meta      : {cvAction:this}
       }
     }
   }

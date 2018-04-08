@@ -138,7 +138,7 @@
           this.action.setService(setSuccess,setError,setParams,url,queryString)
       },
       validateAction:function(action){
-        return this.cExcludeActions.indexOf(action)<0 && this.resorceAction(action) && this.hasPermission(action);
+        return this.hasActionPermission(this.resource.actions[action])
       },
       hasPermission:function(action){
         return true;
