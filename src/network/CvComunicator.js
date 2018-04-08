@@ -39,13 +39,13 @@ export default function(router,globals){
     this.cvPassport.reactToResponse(error);
     switch(error.response.status){
       case 401:
-        this.router.VueRouter.push('login');
+        this['error' + error.response.status]();
         break;
       case 403:
-        this.unauthorized();
+        this['error' + error.response.status]();
         break;
       case 409:
-        location.reload();
+        this['error' + error.response.status]();
         break;
       default:return Promise.reject(error);
     }
@@ -69,9 +69,17 @@ export default function(router,globals){
     this.router.VueRouter.push(newRoute)
   }
 
-  this.unauthorized = () => {
+  this.error401 = () => {
+    this.router.VueRouter.push('/login');
+  }
+
+  this.error403 = () => {
     console.log('unauthorized')
     this.router.VueRouter.push('/')
+  }
+
+  this.error409 = () => {
+    location.reload();
   }
 
 };
