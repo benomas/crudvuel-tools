@@ -128,6 +128,7 @@
         }
 
         this.ready=false;
+        this.errors = {};
         setSuccess=setSuccess||this.setSuccess;
         setError=setError||this.setError;
         setParams=setParams||this.setParams();
@@ -138,7 +139,9 @@
           this.action.setService(setSuccess,setError,setParams,url,queryString)
       },
       validateAction:function(action){
-        return this.hasActionPermission(this.resource.actions[action])
+        return this.cExcludeActions.indexOf(action)<0 &&
+          this.resorceAction(action) &&
+          this.hasActionPermission(this.resource.actions[action])
       },
       hasPermission:function(action){
         return true;

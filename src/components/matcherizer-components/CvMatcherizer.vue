@@ -1,36 +1,50 @@
 <template>
-  <div class="row cv-relator-container">
+  <div class="cv-matcherizer-container">
     <div
       class="col-sm-6 col-xs-12 source-items"
     >
-      <cv-simple-filters
-        @go-to-find="prepareToFindSource"
-        :cv-search-label="cSourceLabel"
-        :cv-search-message="cSourceMessage"
+      <div
+        ref="filterReference"
       >
-      </cv-simple-filters>
-      <span
-        class="single-selected-label"
-        v-if="cMode==='single' && cCurrentLabel"
-      >
-        {{cCurrentLabel}}
-        <i
-          v-if="!cDisableFields"
-          class="fa fa-window-close"
-          v-on:click="resetCurrent()">
-        </i>
-      </span>
-      <ul class="list-group">
-        <li
-            class="list-group-item"
-            v-for="(row, rowKey) in source"
-            v-on:click="addRelated(rowKey,row)"
-            :class="{'single-selected':cMode==='single' && mValueCallBack(source,row)===cCurrentValue}"
+        <cv-simple-filters
+          @go-to-find="prepareToFindSource"
+          @cv-focused="focused"
+          @cv-blured="blured"
+          :cv-search-label="cSourceLabel"
+          :cv-search-message="cSourceMessage"
+          ref="cvSimpleFilterRef"
         >
-          <i class="fa fa-caret-right f-right" v-if="!cDisableFields"></i>
-          {{mLabelCallBack(source,row)}}
-        </li>
-      </ul>
+        </cv-simple-filters>
+        <span
+          class="single-selected-label"
+          v-if="cMode==='single' && cCurrentLabel"
+        >
+          <i
+            v-if="!cDisableFields"
+            class="fa fa-window-close"
+            v-on:click="resetCurrent()">
+          </i>
+        </span>
+      </div>
+      <transition name="component-fade" mode="out-in">
+        <ul
+          v-if="cShowList"
+          @mouseover="listIn"
+          @mouseleave="listOut"
+          class="list-group"
+          :style="{'width':cContainerWidth}"
+        >
+          <li
+              class="list-group-item"
+              v-for="(row, rowKey) in source"
+              v-on:click="addRelated(rowKey,row)"
+              :class="{'single-selected':cMode==='single' && mValueCallBack(source,row)===cCurrentValue}"
+          >
+            <i class="fa fa-caret-right f-right" v-if="!cDisableFields"></i>
+            {{mLabelCallBack(source,row)}}
+          </li>
+        </ul>
+      </transition>
     </div>
     <div
       v-if="cMode==='multiple'"
@@ -72,7 +86,10 @@ export default {
       toAdd               : [],
       toRemove            : [],
       currentValue        : null,
-      currentLabel        : null
+      currentLabel        : null,
+      focus               : false,
+      listOver            : false,
+      listWidth           :'200px',
     }
   },
   props:[
@@ -207,12 +224,16 @@ export default {
       else{
 
       }
+      this.focus=false
+      this.listOver=false
     },
     setCurrent:function(rows,row){
       if(this.cDisableFields)
         return false;
       this.currentLabel = this.mLabelCallBack(rows,row)
       this.currentValue = this.mValueCallBack(rows,row)
+      this.$refs.cvSimpleFilterRef.search=this.currentLabel
+      this.prepareToFindSource(this.currentLabel)
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row})
     },
     resetCurrent:function(){
@@ -220,7 +241,35 @@ export default {
         return false;
       this.currentLabel = null
       this.currentValue = null
+      this.$refs.cvSimpleFilterRef.search=this.currentLabel
+      this.prepareToFindSource('')
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row:null})
+    },
+    focused:function(){
+      this.focus=true;
+      this.fixListWidth()
+      this.$emit('cv-focused', this.search);
+    },
+    blured:function(){
+      this.focus=false;
+      this.$emit('cv-blured', this.search);
+    },
+    listIn:function(){
+      this.listOver=true;
+      this.fixListWidth()
+      this.$emit('cv-list-in', this.search);
+    },
+    listOut:function(){
+      this.listOver=false;
+      this.$emit('cv-list-out', this.search);
+    },
+    fixListWidth:function(){
+      if( typeof this.$refs.filterReference!=='undefined' &&
+          typeof this.$refs.filterReference.offsetWidth!=='undefined'
+          )
+        this.listWidth = this.$refs.filterReference.offsetWidth +'px'
+      else
+        this.listWidth = '200px'
     }
   },
   computed:{
@@ -288,6 +337,12 @@ export default {
     },
     cColumnMap:function(){
       return this.cvSelectQuery || false
+    },
+    cShowList:function(){
+      return this.focus || this.listOver
+    },
+    cContainerWidth:function(){
+      return this.listWidth;
     }
   },
   mounted:function(){
@@ -321,8 +376,8 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-  .cv-relator-container{
-    border-bottom:1px solid #CCCCCC;
+  .cv-matcherizer-container{
+    /* border-bottom:1px solid #CCCCCC; */
     & .related-items{
       padding: 15px;
       & i:hover{
@@ -337,6 +392,7 @@ export default {
       & .single-selected{
         background-color:#dff0d8;
         &-label{
+          display:inline-block;
           padding:8px;
           border:1px solid #CCCCCC;
           border-radius:5px;
@@ -350,12 +406,18 @@ export default {
       }
     }
     & ul{
+      /*
       border:1px solid #CCCCCC;
       background-color:#EEEEEE;
       min-height: 100px;
       max-height: 250px;
       overflow-y: auto;
       border-radius: 5px;
+      */
+      z-index: 1000;
+      position: absolute;
+      margin-block-start: 0;
+      margin-block-end: 0;
       padding-inline-start: 0;
       & .list-group{
         margin-bottom: 20px;

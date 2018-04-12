@@ -9,6 +9,9 @@
       v-on:keyup="interfaceInput"
       v-model="search"
       :title="cSearchMessage"
+      v-on:focus="focused"
+      v-on:blur="blured"
+      autocomplete="off"
     >
   </div>
 </template>
@@ -30,6 +33,12 @@ export default {
   methods:{
     goToFind:function(){
       this.$emit('go-to-find', this.search);
+    },
+    focused:function(){
+      this.$emit('cv-focused', this.search);
+    },
+    blured:function(){
+      this.$emit('cv-blured', this.search);
     },
     /**
      * auto launch get service after a limit time without press a new key
