@@ -29,6 +29,8 @@ export default {
     "cvKeyInterruptionLimit",
     "cvSearchMessage",
     "cvSearchLabel",
+    "cvActiveFilter",
+    "cvLoading"
   ],
   methods:{
     goToFind:function(){
@@ -55,6 +57,10 @@ export default {
         this.goToFind();
         clearTimeout(this.keyInterruption);
       }, this.keyInterruptionLimit);
+    },
+    cleared:function(params){
+      this.interfaceInput(params)
+      this.$emit('cv-cleared')
     }
   },
   computed:{
@@ -69,6 +75,12 @@ export default {
     },
     cSearchMessage:function(){
       return this.cvSearchMessage || "Realizar busqueda simple";
+    },
+    cActiveFilter:function(){
+      return this.cvActiveFilter || false
+    },
+    cLoading:function(){
+      return this.cvLoading || false
     }
   }
 }

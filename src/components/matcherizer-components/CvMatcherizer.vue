@@ -1,7 +1,7 @@
 <template>
   <div class="cv-matcherizer-container">
     <div
-      class="col-sm-6 col-xs-12 source-items"
+      class="list-items"
     >
       <div
         ref="filterReference"
@@ -10,57 +10,30 @@
           @go-to-find="prepareToFindSource"
           @cv-focused="focused"
           @cv-blured="blured"
+          @cv-cleared="resetCurrent"
           :cv-search-label="cSourceLabel"
           :cv-search-message="cSourceMessage"
           ref="cvSimpleFilterRef"
+          :cv-active-filter="cShowingSelected"
         >
         </cv-simple-filters>
-        <span
-          class="single-selected-label"
-          v-if="cMode==='single' && cCurrentLabel"
-        >
-          <i
-            v-if="!cDisableFields"
-            class="fa fa-window-close"
-            v-on:click="resetCurrent()">
-          </i>
-        </span>
       </div>
-      <transition name="component-fade" mode="out-in">
-        <ul
-          v-if="cShowList"
-          @mouseover="listIn"
-          @mouseleave="listOut"
-          class="list-group"
-          :style="{'width':cContainerWidth}"
-        >
-          <li
-              class="list-group-item"
-              v-for="(row, rowKey) in source"
-              v-on:click="addRelated(rowKey,row)"
-              :class="{'single-selected':cMode==='single' && mValueCallBack(source,row)===cCurrentValue}"
-          >
-            <i class="fa fa-caret-right f-right" v-if="!cDisableFields"></i>
-            {{mLabelCallBack(source,row)}}
-          </li>
-        </ul>
-      </transition>
-    </div>
-    <div
-      v-if="cMode==='multiple'"
-      class="col-sm-6 col-xs-12 related-items"
-    >
-      <slot name="cv-related-label">
-        <div class="t-center">Asignados</div>
-      </slot>
-      <ul class="list-group">
+      <ul
+        v-if="cShowList"
+        @mouseover="listIn"
+        @mouseleave="listOut"
+        class="list-group"
+        :style="{'width':cContainerWidth}"
+      >
         <li
             class="list-group-item"
-            v-for="(row, rowKey) in related"
-            v-on:click="removeRelated(rowKey,row)"
+            v-for="(row, rowKey) in source"
+            v-on:click="addRelated(rowKey,row)"
+            :class="{'single-selected':cMode==='single' && mValueCallBack(source,row)===cCurrentValue}"
+            :key="mValueCallBack(source,row)"
         >
-          <i class="fa fa-caret-left f-left" v-if="!cDisableFields"></i>
-          {{row[labelProperty]}}
+          <i class="fa fa-plus f-right" v-if="!cDisableFields"></i>
+          {{mLabelCallBack(source,row)}}
         </li>
       </ul>
     </div>
@@ -76,20 +49,18 @@ export default {
   },
   data () {
     return {
-      sourceParametrizer  : new CvParametrizer(),
-      relatedParametrizer : new CvParametrizer(),
-      sourceCount         : 0,
-      relatedCount        : 0,
-      generalSearch       : "",
-      source              : [],
-      related             : [],
-      toAdd               : [],
-      toRemove            : [],
-      currentValue        : null,
-      currentLabel        : null,
-      focus               : false,
-      listOver            : false,
-      listWidth           :'200px',
+      sourceParametrizer : new CvParametrizer(),
+      sourceCount        : 0,
+      generalSearch      : "",
+      source             : [],
+      currentValue       : null,
+      currentLabel       : null,
+      focus              : false,
+      listOver           : false,
+      listWidth          :'200px',
+      lastSearch         : null,
+      loading            : false,
+      disableList        : false
     }
   },
   props:[
@@ -98,8 +69,6 @@ export default {
     "cvCurrentLabel",
     "cvSourceLabel",
     "cvSourceMessage",
-    "cvRelatedLabel",
-    "cvRelatedMessage",
     "cvLabelCallBack",// anonimousFuntion
     "cvValueCallBack",
     "cvSelectQuery",
@@ -110,16 +79,17 @@ export default {
     "cvAscending",
     "cvFilterQuery",
     "cvSourceService",
-    "cvRelatedService",
     "cvEnableAdd",
     "cvEnableRemove",
     "cvAddCallBack",
     "cvRemoveCallBack",
     "cvDisableFields",
+    "cvLoading",
   ],
   methods:{
     //source
     emitSuccessMutationSource:function(response){
+      this.loaded()
       this.source      = response.data.data
       this.sourceCount = response.data.count
 
@@ -134,9 +104,11 @@ export default {
       this.$emit('success-source-mutation', this.$data)
     },
     emitErrorMutationSource:function(response){
+      this.loaded()
       this.$emit('error-source-mutation', this.$data)
     },
     emitInitialMutationSource:function(){
+      this.loaded()
       this.$emit('initial-source-mutation', this.$data)
     },
     refreshPaginateSource:function(event){
@@ -145,54 +117,27 @@ export default {
       this.refreshSource()
     },
     prepareToFindSource:function(search){
-      this.sourceParametrizer.setGeneralSearch(search)
+      this.generalSearch = search
+      this.disableList   = false
+      this.sourceParametrizer.setGeneralSearch(this.cGeneralSearch)
       this.sourceParametrizer.setPage(1)
       this.refreshSource()
     },
     refreshSource:function(){
-      //console.log(this.sourceParametrizer)
+      let newSearch = this.sourceParametrizer.getSerialized()
+
+      if(this.lastSearch && this.lastSearch === newSearch)
+          return false
+
+      this.toLoad()
+      this.lastSearch=newSearch
       this.cvSourceService(
         this.emitSuccessMutationSource,
         this.emitErrorMutationSource,
         null,
         null,
-        this.sourceParametrizer.getSerialized()
+        this.lastSearch
       )
-    },
-    //related
-    emitSuccessMutationRelated:function(response){
-      this.related      = response.data.data
-      this.relatedCount = response.data.count
-
-      if(this.related.length===0 && this.relatedCount>0){
-        this.cvParametrizer.setPage(
-          Math.ceil(this.relatedCount/this.cvParametrizer.getLimit())
-        )
-        this.refreshRelated()
-        return false
-      }
-
-      this.$emit('success-related-mutation', this.$data)
-    },
-    emitErrorMutationRelated:function(response){
-      this.$emit('error-related-mutation', this.$data)
-    },
-    emitInitialMutationRelated:function(){
-      this.$emit('initial-related-mutation', this.$data)
-    },
-    refreshPaginateRelated:function(event){
-      this.cvParametrizer.setPage(event.page)
-      this.cvParametrizer.setLimit(event.limit)
-      this.refreshRelated()
-    },
-    prepareToFindRelated:function(search){
-      this.source=[]
-      this.cvParametrizer.setGeneralSearch(search)
-      this.cvParametrizer.setPage(1)
-      this.refreshRelated()
-    },
-    refreshRelated:function(){
-      this.cvSourceService(this.emitSuccessMutation,this.emitErrorMutation,null,null,this.cvParametrizer.getSerialized())
     },
     //others
     mLabelCallBack:function(rows,row){
@@ -219,6 +164,7 @@ export default {
     },
     addRelated:function(rowKey,row){
       if(this.cMode==='single'){
+        this.disableList  = true
         this.setCurrent(this.source,row)
       }
       else{
@@ -232,26 +178,32 @@ export default {
         return false;
       this.currentLabel = this.mLabelCallBack(rows,row)
       this.currentValue = this.mValueCallBack(rows,row)
-      this.$refs.cvSimpleFilterRef.search=this.currentLabel
-      this.prepareToFindSource(this.currentLabel)
+      this.refresh()
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row})
     },
     resetCurrent:function(){
       if(this.cDisableFields)
         return false;
-      this.currentLabel = null
+      this.currentLabel = ''
       this.currentValue = null
-      this.$refs.cvSimpleFilterRef.search=this.currentLabel
-      this.prepareToFindSource('')
+      this.refresh()
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row:null})
+    },
+    refresh:function(){
+      this.$refs.cvSimpleFilterRef.search=this.currentLabel
+      this.prepareToFindSource(this.currentLabel)
     },
     focused:function(){
       this.focus=true;
+      this.$refs.cvSimpleFilterRef.search=this.cGeneralSearch
       this.fixListWidth()
       this.$emit('cv-focused', this.search);
     },
     blured:function(){
       this.focus=false;
+      if(this.currentLabel && this.currentLabel !== ''){
+        this.$refs.cvSimpleFilterRef.search=this.currentLabel
+      }
       this.$emit('cv-blured', this.search);
     },
     listIn:function(){
@@ -270,6 +222,14 @@ export default {
         this.listWidth = this.$refs.filterReference.offsetWidth +'px'
       else
         this.listWidth = '200px'
+    },
+    toLoad:function(){
+      this.loading = true
+      this.$emit('cv-toLoad');
+    },
+    loaded:function(){
+      this.loading = false
+      this.$emit('cv-loaded');
     }
   },
   computed:{
@@ -311,9 +271,6 @@ export default {
     cSourceService:function(){
       return this.cvSourceService || null
     },
-    cRelatedService:function(){
-      return this.cvRelatedService || null
-    },
     cEnableAdd:function(){
       return this.cvEnableAdd || true
     },
@@ -323,14 +280,8 @@ export default {
     cSourceLabel:function(){
       return this.cvSourceLabel || "Disponibles"
     },
-    cRelatedLabel:function(){
-      return this.cvRelatedLabel || "Asignados"
-    },
     cSourceMessage:function(){
       return this.cvSourceMessage || "Buscar en disponibles"
-    },
-    cRelatedMessage:function(){
-      return this.cvRelatedMessage || "Buscar en asignados"
     },
     cDisableFields:function(){
       return this.cvDisableFields || false
@@ -339,31 +290,31 @@ export default {
       return this.cvSelectQuery || false
     },
     cShowList:function(){
-      return this.focus || this.listOver
+      return !this.cDisableList && (this.focus || this.listOver)
     },
     cContainerWidth:function(){
       return this.listWidth;
+    },
+    cShowingSelected:function(){
+      return this.cCurrentLabel && this.cCurrentLabel!=='' && this.cGeneralSearch === this.cCurrentLabel
+    },
+    cLoading:function(){
+      return this.cvLoading || this.loading || false
+    },
+    cDisableList:function(){
+      return this.disableList || false
     }
   },
   mounted:function(){
     this.refreshSource()
-    if(this.cMode==='multiple')
-      this.refreshRelated()
     if(this.cMode==='single'){
       this.currenValue  =this.cvCurrentValue
       this.currentLabel =this.cvCurrentLabel
+      if(this.currentLabel && this.currentLabel !== '')
+        this.$refs.cvSimpleFilterRef.search=this.currentLabel
     }
   },
   created:function(){
-    if(this.cMode==='multiple'){
-      this.relatedParametrizer.setPage(this.cPage)
-      this.relatedParametrizer.setByColumn(this.cByColumn)
-      this.relatedParametrizer.setLimit(this.cLimit)
-      this.relatedParametrizer.setOrderBy(this.cOrderBy)
-      this.relatedParametrizer.setAscending(this.cAscending)
-      this.relatedParametrizer.setFilterQuery(this.cFilterQuery)
-      this.relatedParametrizer.setSelectQuery(this.cSelectQuery)
-    }
     this.sourceParametrizer.setPage(this.cPage)
     this.sourceParametrizer.setByColumn(this.cByColumn)
     this.sourceParametrizer.setLimit(this.cLimit)
@@ -371,21 +322,18 @@ export default {
     this.sourceParametrizer.setAscending(this.cAscending)
     this.sourceParametrizer.setFilterQuery(this.cFilterQuery)
     this.sourceParametrizer.setSelectQuery(this.cSelectQuery)
-
   }
 }
 </script>
 <style lang="scss" scoped>
   .cv-matcherizer-container{
-    /* border-bottom:1px solid #CCCCCC; */
     & .related-items{
       padding: 15px;
       & i:hover{
           color:#d9534f;
       };
     }
-    & .source-items{
-      padding: 15px;
+    & .list-items{
       & i:hover{
           color:#20895e;
       }
@@ -406,14 +354,6 @@ export default {
       }
     }
     & ul{
-      /*
-      border:1px solid #CCCCCC;
-      background-color:#EEEEEE;
-      min-height: 100px;
-      max-height: 250px;
-      overflow-y: auto;
-      border-radius: 5px;
-      */
       z-index: 1000;
       position: absolute;
       margin-block-start: 0;

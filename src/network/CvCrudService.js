@@ -11,7 +11,7 @@ export default function(cvComunicator,resourceName){
   this.setResourcePrefix= function(resourcePrefix){
     this.resourcePrefix = resourcePrefix || "/";
   }
-  
+
   this.mapRowsResponse = function(response){
     this.rows = response.data.data || response.data || [];
     this.mapStatusRequest(response);
