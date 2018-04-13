@@ -12,6 +12,7 @@
       v-on:focus="focused"
       v-on:blur="blured"
       autocomplete="off"
+      :clearable="!cDisableFields"
     >
   </div>
 </template>
@@ -30,7 +31,8 @@ export default {
     "cvSearchMessage",
     "cvSearchLabel",
     "cvActiveFilter",
-    "cvLoading"
+    "cvLoading",
+    "cvDisableFields"
   ],
   methods:{
     goToFind:function(){
@@ -64,6 +66,9 @@ export default {
     }
   },
   computed:{
+    cDisableFields:function(){
+      return this.cvDisableFields || false
+    },
     cSearch:function(){
       return this.cvSearch || "";
     },

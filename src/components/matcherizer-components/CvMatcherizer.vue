@@ -15,6 +15,7 @@
           :cv-search-message="cSourceMessage"
           ref="cvSimpleFilterRef"
           :cv-active-filter="cShowingSelected"
+          :cv-disable-fields="cDisableFields"
         >
         </cv-simple-filters>
       </div>
@@ -194,6 +195,8 @@ export default {
       this.prepareToFindSource(this.currentLabel)
     },
     focused:function(){
+      if(this.cDisableFields)
+        return false
       this.focus=true;
       this.$refs.cvSimpleFilterRef.search=this.cGeneralSearch
       this.fixListWidth()
@@ -292,8 +295,10 @@ export default {
     cShowList:function(){
       if (this.cDisableList)
         return false
+      /*
       if (this.source.length===1 && this.cShowingSelected)
         return false
+      */
       return this.focus || this.listOver
     },
     cContainerWidth:function(){
