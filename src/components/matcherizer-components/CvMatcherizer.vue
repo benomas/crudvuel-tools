@@ -290,7 +290,11 @@ export default {
       return this.cvSelectQuery || false
     },
     cShowList:function(){
-      return !this.cDisableList && (this.focus || this.listOver)
+      if (this.cDisableList)
+        return false
+      if (this.source.length===1 && this.cShowingSelected)
+        return false
+      return this.focus || this.listOver
     },
     cContainerWidth:function(){
       return this.listWidth;
