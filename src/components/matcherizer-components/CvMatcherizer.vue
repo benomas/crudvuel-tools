@@ -246,7 +246,10 @@ export default {
     myReplace: function(subject,patter,replace){
       let regexString = "(" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + ")"
       let patt = new RegExp(regexString,"ig")
-      return subject.replace(patt,replace)
+      let fixDataType = subject
+      if(typeof fixDataType === 'boolean' || typeof fixDataType === 'number')
+        fixDataType=fixDataType.toString()
+      return fixDataType.replace(patt,replace)
     },
     processList: function () {
       this.listOfItems = []
@@ -254,7 +257,7 @@ export default {
       if(typeof data ==="undefined" || !data)
         return this.listOfItems
       for (let i = 0; i < data.length; i++){
-        if(this.cListOfItemsLimit === i)
+        if(this.listOfItems.length === this.cListOfItemsLimit)
           return this.listOfItems
 
         let currentItemLabel = this.mLabelCallBack(data,data[i])
@@ -405,6 +408,13 @@ export default {
     cAbsolueRemoteData: function (){
       return this.absolueRemoteData || false
     }
+  },
+  mounted:function(){
+    //this.refreshSource()
+    this.currenValue  =this.cvCurrentValue
+    this.currentLabel =this.cvCurrentLabel
+    if(this.currentLabel && this.currentLabel !== '')
+      this.$refs.cvSimpleFilterRef.search=this.currentLabel
   },
   created:function(){
     this.saveSearchState()
