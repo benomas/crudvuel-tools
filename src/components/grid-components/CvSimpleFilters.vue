@@ -51,7 +51,8 @@ export default {
      * @date   2017-07-02
      * @return void
      */
-    interfaceInput:function(){
+    interfaceInput:function(key){
+      this.$emit('cv-keyup', key);
       if(this.cKeyInterruptionLimit<=0)
         return false;
       clearTimeout(this.keyInterruption);
@@ -63,6 +64,9 @@ export default {
     cleared:function(params){
       this.interfaceInput(params)
       this.$emit('cv-cleared')
+    },
+    clear: function () {
+      this.search=''
     }
   },
   computed:{

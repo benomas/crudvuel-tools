@@ -7,6 +7,7 @@
         ref="filterReference"
       >
         <cv-simple-filters
+          @cv-keyup="keyed"
           @go-to-find="prepareToFindSource"
           @cv-focused="focused"
           @cv-blured="blured"
@@ -31,7 +32,7 @@
             class="list-group-item"
             v-for="(row, rowKey) in cListOfItems"
             v-on:click="add(rowKey,row)"
-            :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue}"
+            :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue,'current-cursor-item':currentItem===rowKey}"
             :key="mValueCallBack(cListOfItems,row)"
             v-html="showPatter(mLabelCallBack(cListOfItems,row))"
         >
@@ -70,7 +71,8 @@ export default {
       loading            : false,
       disableList        : false,
       listOfItems        : null,
-      absolueRemoteData  : false
+      absolueRemoteData  : false,
+      currentItem        : null,
     }
   },
   props:[
@@ -172,7 +174,7 @@ export default {
     add:function(rowKey,row){
       this.disableList  = true
       this.setCurrent(this.cListOfItems,row)
-      this.focus=false
+      //this.focus=false
       this.listOver=false
     },
     setCurrent:function(rows,row){
@@ -184,6 +186,7 @@ export default {
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row})
     },
     resetCurrent:function(){
+      //this.focus=true
       if(this.cDisableFields)
         return false;
       this.currentLabel = ''
@@ -198,7 +201,8 @@ export default {
     focused:function(){
       if(this.cDisableFields)
         return false
-      this.focus=true;
+      this.currentItem=0
+      this.focus=true
       this.$refs.cvSimpleFilterRef.search=this.cGeneralSearch
       this.fixListWidth()
       this.$emit('cv-focused', this.search);
@@ -209,6 +213,31 @@ export default {
         this.$refs.cvSimpleFilterRef.search=this.currentLabel
       }
       this.$emit('cv-blured', this.search);
+    },
+    keyed:function(key){
+      if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined' || this.currentItem===null)
+        return false
+
+      switch(key.keyCode){
+        case 38:
+          if(this.currentItem>0)
+            this.currentItem--
+          break
+        case 40:
+          if (this.currentItem<this.cListOfItems.length-1)
+            this.currentItem++
+          break
+        case 13:
+          if(this.currentItem>=0 && this.currentItem<this.cListOfItems.length)
+            this.add(this.currentItem,this.cListOfItems[this.currentItem])
+          break
+        case 27:
+          if( typeof this.$refs.cvSimpleFilterRef!=='undefined')
+            this.$refs.cvSimpleFilterRef.clear()
+          break
+        default: break
+      }
+      //console.log(key.keyCode)
     },
     listIn:function(){
       this.listOver=true;
@@ -420,7 +449,6 @@ export default {
     }
   },
   mounted:function(){
-    //this.refreshSource()
     this.currenValue  =this.cvCurrentValue
     this.currentLabel =this.cvCurrentLabel
     if(this.currentLabel && this.currentLabel !== '')
@@ -500,8 +528,15 @@ export default {
           &:hover{
             background-color: #CCCCCC;
           }
+          &.current-cursor-item{
+            background-color: #CCCCCC;
+          }
           &.more-data-message{
             cursor:default;
+            font-size: 11px;
+            vertical-align: middle;
+            padding: 2px 15px;
+            color:#A2A2A2;
             &:hover{
               background-color: #FFFFFF;
             }
