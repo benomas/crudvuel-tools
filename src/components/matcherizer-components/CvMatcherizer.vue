@@ -16,6 +16,7 @@
           ref="cvSimpleFilterRef"
           :cv-active-filter="cShowingSelected"
           :cv-disable-fields="cDisableFields"
+          :cv-key-interruption-limit="cKeyInterruptionLimit"
         >
         </cv-simple-filters>
       </div>
@@ -28,13 +29,12 @@
       >
         <li
             class="list-group-item"
-            v-for="(row, rowKey) in source"
-            v-on:click="addRelated(rowKey,row)"
-            :class="{'single-selected':cMode==='single' && mValueCallBack(source,row)===cCurrentValue}"
-            :key="mValueCallBack(source,row)"
+            v-for="(row, rowKey) in cListOfItems"
+            v-on:click="add(rowKey,row)"
+            :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue}"
+            :key="mValueCallBack(cListOfItems,row)"
+            v-html="showPatter(mLabelCallBack(cListOfItems,row))"
         >
-          <i class="fa fa-plus f-right" v-if="!cDisableFields"></i>
-          {{mLabelCallBack(source,row)}}
         </li>
       </ul>
     </div>
@@ -52,26 +52,36 @@ export default {
     return {
       sourceParametrizer : new CvParametrizer(),
       sourceCount        : 0,
+      sourcePageCount    : null,
       generalSearch      : "",
-      source             : [],
+      sourceData         : [],
+      localData          : [],
       currentValue       : null,
       currentLabel       : null,
       focus              : false,
       listOver           : false,
       listWidth          :'200px',
-      lastSearch         : null,
       loading            : false,
-      disableList        : false
+      disableList        : false,
+      listOfItems        : null,
+      absolueRemoteData  : false
     }
   },
   props:[
-    "cvMode", //single,multiple
     "cvCurrentValue",
     "cvCurrentLabel",
     "cvSourceLabel",
     "cvSourceMessage",
     "cvLabelCallBack",// anonimousFuntion
     "cvValueCallBack",
+    "cvListOfItemsLimit",
+    "cvEnableAdd",
+    "cvEnableRemove",
+    "cvAddCallBack",
+    "cvRemoveCallBack",
+    "cvDisableFields",
+    "cvLocalLimit",
+    "cvLoading",
     "cvSelectQuery",
     "cvPage",
     "cvByColumn",
@@ -80,32 +90,22 @@ export default {
     "cvAscending",
     "cvFilterQuery",
     "cvSourceService",
-    "cvEnableAdd",
-    "cvEnableRemove",
-    "cvAddCallBack",
-    "cvRemoveCallBack",
-    "cvDisableFields",
-    "cvLoading",
+    "cvLocalData",
+    "cvKeyInterruptionLimit",
   ],
   methods:{
-    //source
+    //sourceData
     emitSuccessMutationSource:function(response){
       this.loaded()
-      this.source      = response.data.data
-      this.sourceCount = response.data.count
-
-      if(this.source.length===0 && this.sourceCount>0){
-        this.sourceParametrizer.setPage(
-          Math.ceil(this.sourceCount/this.sourceParametrizer.getLimit())
-        )
-        this.refreshSource()
-        return false
-      }
-
+      this.sourceData      = response.data.data
+      this.sourceCount     = response.data.count
+      this.sourcePageCount = response.data.data.length
+      this.processList()
       this.$emit('success-source-mutation', this.$data)
     },
     emitErrorMutationSource:function(response){
       this.loaded()
+      this.processList()
       this.$emit('error-source-mutation', this.$data)
     },
     emitInitialMutationSource:function(){
@@ -119,25 +119,24 @@ export default {
     },
     prepareToFindSource:function(search){
       this.generalSearch = search
+      if( !this.requireNewRemoteSearch() ){
+        this.processList()
+        this.disableList   = false
+        return false
+      }
+
+      this.saveSearchState()
       this.disableList   = false
-      this.sourceParametrizer.setGeneralSearch(this.cGeneralSearch)
-      this.sourceParametrizer.setPage(1)
+      this.toLoad()
       this.refreshSource()
     },
     refreshSource:function(){
-      let newSearch = this.sourceParametrizer.getSerialized()
-
-      if(this.lastSearch && this.lastSearch === newSearch)
-          return false
-
-      this.toLoad()
-      this.lastSearch=newSearch
       this.cvSourceService(
         this.emitSuccessMutationSource,
         this.emitErrorMutationSource,
         null,
         null,
-        this.lastSearch
+        this.sourceParametrizer.getSerialized()
       )
     },
     //others
@@ -163,14 +162,9 @@ export default {
       if (typeof this.cvRemoveCallBack ==="function")
         this.cvRemoveCallBack(rows,row)
     },
-    addRelated:function(rowKey,row){
-      if(this.cMode==='single'){
-        this.disableList  = true
-        this.setCurrent(this.source,row)
-      }
-      else{
-
-      }
+    add:function(rowKey,row){
+      this.disableList  = true
+      this.setCurrent(this.cListOfItems,row)
       this.focus=false
       this.listOver=false
     },
@@ -233,12 +227,93 @@ export default {
     loaded:function(){
       this.loading = false
       this.$emit('cv-loaded');
+    },
+    saveSearchState:function(){
+      this.sourceParametrizer.setPage(this.cPage)
+      this.sourceParametrizer.setByColumn(this.cByColumn)
+      this.sourceParametrizer.setLimit(this.cLimit)
+      this.sourceParametrizer.setOrderBy(this.cOrderBy)
+      this.sourceParametrizer.setAscending(this.cAscending)
+      this.sourceParametrizer.setFilterQuery(this.cFilterQuery)
+      this.sourceParametrizer.setSelectQuery(this.cSelectQuery)
+      this.sourceParametrizer.setGeneralSearch(this.cGeneralSearch)
+    },
+    mySubString: function(subject,patter){
+      let regexString = "(.|\s)*" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + "(.|\s)*"
+      let patt = new RegExp(regexString,"i")
+      return patt.test(subject)
+    },
+    myReplace: function(subject,patter,replace){
+      let regexString = "(" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + ")"
+      let patt = new RegExp(regexString,"ig")
+      return subject.replace(patt,replace)
+    },
+    processList: function () {
+      this.listOfItems = []
+      let data = this.cSourceListOfItems
+      if(typeof data ==="undefined" || !data)
+        return this.listOfItems
+      for (let i = 0; i < data.length; i++){
+        if(this.cListOfItemsLimit === i)
+          return this.listOfItems
+
+        let currentItemLabel = this.mLabelCallBack(data,data[i])
+
+        if(this.mySubString(currentItemLabel,this.generalSearch))
+          this.listOfItems.push(data[i])
+      }
+      return this.listOfItems
+    },
+    showPatter:function(label){
+      return this.myReplace(label,this.generalSearch,'<span class="matcherizer-item">$1</span>')
+    },
+    requireNewRemoteSearch:function(){
+      //when matcherizer has receiving static cvLocalData, then is not necesary to make a remote data call
+      if (this.cLocalData)
+        return false
+
+      let lastSearch = this.sourceParametrizer.getGeneralSearch()
+      let staticPropertys = [
+        'Page',
+        'ByColumn',
+        'Limit',
+        'OrderBy',
+        'Ascending',
+        'FilterQuery',
+        'SelectQuery'
+      ]
+
+      if (lastSearch==='' && this.sourcePageCount!==null && this.sourcePageCount < this.cLimit)
+          this.absolueRemoteData = true
+
+      if(this.sourcePageCount===null)
+        return true
+
+      for (let i = 0; i < staticPropertys.length; i++){
+        let property=staticPropertys[i]
+        if( typeof this.sourceParametrizer['get'+property] !=='function' || JSON.stringify(this.sourceParametrizer['get'+property]())  !== JSON.stringify(this['c'+property])){
+          this.absolueRemoteData = false
+          return true
+        }
+      }
+
+      if(lastSearch===this.generalSearch)
+        return false
+
+      //When the page is full, that means that there is more remote data compatible with the current searsh, other wise, no is necesary to make another remote data call
+      if(this.sourcePageCount === this.cLimit)
+        return true
+
+      if(this.mySubString(this.generalSearch,lastSearch))
+        return false
+
+      if(this.absolueRemoteData)
+        return false
+
+      return true
     }
   },
   computed:{
-    cMode:function(){
-      return this.cvMode || "single"
-    },
     cCurrentValue:function(){
       return this.currentValue || this.cvCurrentValue || null
     },
@@ -295,10 +370,6 @@ export default {
     cShowList:function(){
       if (this.cDisableList)
         return false
-      /*
-      if (this.source.length===1 && this.cShowingSelected)
-        return false
-      */
       return this.focus || this.listOver
     },
     cContainerWidth:function(){
@@ -312,25 +383,31 @@ export default {
     },
     cDisableList:function(){
       return this.disableList || false
-    }
-  },
-  mounted:function(){
-    this.refreshSource()
-    if(this.cMode==='single'){
-      this.currenValue  =this.cvCurrentValue
-      this.currentLabel =this.cvCurrentLabel
-      if(this.currentLabel && this.currentLabel !== '')
-        this.$refs.cvSimpleFilterRef.search=this.currentLabel
+    },
+    cListOfItemsLimit:function(){
+      return this.cvListOfItemsLimit || 10
+    },
+    cLastSearchFail(){
+      return this.sourcePageCount===0
+    },
+    cLocalData(){
+      return this.cvLocalData || null
+    },
+    cSourceListOfItems:function(){
+      return this.cLocalData || this.sourceData
+    },
+    cListOfItems:function(){
+      return this.listOfItems
+    },
+    cKeyInterruptionLimit:function(){
+      return this.cvKeyInterruptionLimit
+    },
+    cAbsolueRemoteData: function (){
+      return this.absolueRemoteData || false
     }
   },
   created:function(){
-    this.sourceParametrizer.setPage(this.cPage)
-    this.sourceParametrizer.setByColumn(this.cByColumn)
-    this.sourceParametrizer.setLimit(this.cLimit)
-    this.sourceParametrizer.setOrderBy(this.cOrderBy)
-    this.sourceParametrizer.setAscending(this.cAscending)
-    this.sourceParametrizer.setFilterQuery(this.cFilterQuery)
-    this.sourceParametrizer.setSelectQuery(this.cSelectQuery)
+    this.saveSearchState()
   }
 }
 </script>
@@ -372,25 +449,36 @@ export default {
         margin-bottom: 20px;
         padding-left: 0;
         &-item{
+          cursor:pointer;
           position: relative;
           display: block;
           padding: 10px 15px;
           margin-bottom: -1px;
           background-color: #fff;
-          border: 1px solid #d3e0e9;
+          border-left: 1px solid #d3e0e9;
+          border-right: 1px solid #d3e0e9;
           &:first-child{
+            border-top: 1px solid #d3e0e9;
+            /*
             border-top-right-radius: 4px;
             border-top-left-radius: 4px;
+            */
           }
           &:last-child{
+            border-bottom: 1px solid #d3e0e9;
+            /*
             border-bottom-right-radius: 4px;
             border-bottom-left-radius: 4px;
+            */
           }
           & i{
               margin-left:5px;
               margin-right:5px;
               font-weight: bold;
               cursor:pointer;
+          }
+          &:hover{
+            background-color: #CCCCCC;
           }
         }
       }

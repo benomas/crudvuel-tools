@@ -21,8 +21,7 @@ export default {
   data () {
     return {
       search               :this.cSearch || "",
-      keyInterruption      :null,
-      keyInterruptionLimit :this.cKeyInterruption || 500,
+      keyInterruption      :null
     }
   },
   props:[
@@ -39,6 +38,7 @@ export default {
       this.$emit('go-to-find', this.search);
     },
     focused:function(){
+      this.interfaceInput()
       this.$emit('cv-focused', this.search);
     },
     blured:function(){
@@ -52,13 +52,13 @@ export default {
      * @return void
      */
     interfaceInput:function(){
-      if(this.keyInterruptionLimit<=0)
+      if(this.cKeyInterruptionLimit<=0)
         return false;
       clearTimeout(this.keyInterruption);
       this.keyInterruption = setTimeout(()=>{
         this.goToFind();
         clearTimeout(this.keyInterruption);
-      }, this.keyInterruptionLimit);
+      }, this.cKeyInterruptionLimit);
     },
     cleared:function(params){
       this.interfaceInput(params)
