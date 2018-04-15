@@ -36,6 +36,12 @@
             v-html="showPatter(mLabelCallBack(cListOfItems,row))"
         >
         </li>
+        <li
+          v-if="sourceCount && sourceCount > cListOfItemsLimit"
+          class="list-group-item more-data-message"
+        >
+          {{cMoreDataMessage}}
+        </li>
       </ul>
     </div>
   </div>
@@ -92,6 +98,7 @@ export default {
     "cvSourceService",
     "cvLocalData",
     "cvKeyInterruptionLimit",
+    "cvMoreDataMessage"
   ],
   methods:{
     //sourceData
@@ -407,6 +414,9 @@ export default {
     },
     cAbsolueRemoteData: function (){
       return this.absolueRemoteData || false
+    },
+    cMoreDataMessage:function(){
+      return this.cvMoreDataMessage || '*Mas resultados disponibles mediante busqueda'
     }
   },
   mounted:function(){
@@ -489,6 +499,12 @@ export default {
           }
           &:hover{
             background-color: #CCCCCC;
+          }
+          &.more-data-message{
+            cursor:default;
+            &:hover{
+              background-color: #FFFFFF;
+            }
           }
         }
       }
