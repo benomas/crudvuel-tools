@@ -201,7 +201,7 @@ export default {
     focused:function(){
       if(this.cDisableFields)
         return false
-      this.currentItem=0
+      this.currentItem=null
       this.focus=true
       this.$refs.cvSimpleFilterRef.search=this.cGeneralSearch
       this.fixListWidth()
@@ -215,20 +215,24 @@ export default {
       this.$emit('cv-blured', this.search);
     },
     keyed:function(key){
-      if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined' || this.currentItem===null)
+      if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined')
         return false
 
       switch(key.keyCode){
         case 38:
-          if(this.currentItem>0)
+          if(this.currentItem !== null && this.currentItem > 0)
             this.currentItem--
           break
         case 40:
-          if (this.currentItem<this.cListOfItems.length-1)
+          if(this.currentItem === null && this.cListOfItems.length){
+            this.currentItem = 0
+            break
+          }
+          if (this.currentItem !== null && this.currentItem<this.cListOfItems.length-1)
             this.currentItem++
           break
         case 13:
-          if(this.currentItem>=0 && this.currentItem<this.cListOfItems.length)
+          if(this.currentItem !== null && this.currentItem >= 0 && this.currentItem<this.cListOfItems.length)
             this.add(this.currentItem,this.cListOfItems[this.currentItem])
           break
         case 27:
