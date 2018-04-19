@@ -2,7 +2,7 @@
   <div
     class="row action-container"
   >
-    <div class="col-lg-12 action-label">
+    <div class="col-lg-12 action-label" v-if="cShowHeader">
       <label>
         {{action.label}}
       </label>
@@ -104,7 +104,14 @@
       setError:function(errorResponse){
         this.ready=true;
         //cvVueSetter(this.$set,this.error,errorResponse.response.data.errors || {})
-        this.errors = errorResponse.response.data.errors || {};
+        if (
+          typeof errorResponse!=='undefined' &&
+          typeof errorResponse.response!=='undefined'  &&
+          typeof errorResponse.response.data!=='undefined'  &&
+          typeof errorResponse.response.data.errors!=='undefined'
+        )
+          this.errors = errorResponse.response.data.errors
+        this.errors = {};
         //console.log(this.errors);
         let currentRowIdent=""
         if(this.rowKeyValue)
@@ -296,6 +303,11 @@
       cGetted:function(){
         return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false;
       },
+      cShowHeader:function(){
+        if(typeof this.cvShowHeader!=='undefined')
+          return this.cvShowHeader
+        return true
+      },
     },
     props:[
       "cvAction",
@@ -303,7 +315,8 @@
       "cvRow",
       "cvRows",
       "cvDisableFields",
-      "cvRowKey"
+      "cvRowKey",
+      "cvShowHeader"
     ],
     created:function(){
       this.resource    = this.cResource;
