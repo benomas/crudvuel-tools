@@ -111,7 +111,8 @@
           typeof errorResponse.response.data.errors!=='undefined'
         )
           this.errors = errorResponse.response.data.errors
-        this.errors = {};
+        else
+          this.errors = {};
         //console.log(this.errors);
         let currentRowIdent=""
         if(this.rowKeyValue)
