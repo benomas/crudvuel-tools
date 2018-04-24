@@ -29,6 +29,7 @@
         :style="{'width':cContainerWidth}"
       >
         <li
+            v-if="!cLoading"
             class="list-group-item"
             v-for="(row, rowKey) in cListOfItems"
             v-on:click="add(rowKey,row)"
@@ -36,6 +37,12 @@
             :key="mValueCallBack(cListOfItems,row)"
             v-html="showPatter(mLabelCallBack(cListOfItems,row))"
         >
+        </li>
+        <li
+          v-if="cLoading"
+          class="list-group-item more-data-message"
+        >
+          Cargando...
         </li>
         <li
           v-if="sourceCount && sourceCount > cListOfItemsLimit"
@@ -239,7 +246,8 @@ export default {
           if( typeof this.$refs.cvSimpleFilterRef!=='undefined')
             this.$refs.cvSimpleFilterRef.clear()
           break
-        default: break
+        default: this.currentItem = null
+          break
       }
       //console.log(key.keyCode)
     },
@@ -307,8 +315,14 @@ export default {
       }
       return this.listOfItems
     },
-    showPatter:function(label){
-      return this.myReplace(label,this.generalSearch,'<span class="matcherizer-item">$1</span>')
+    showPatter:function(label,isCurrent){
+      let located = this.myReplace(label,this.generalSearch,'<span class="matcherizer-item">$1</span>')
+      if(isCurrent)
+        located += this.currentSelectedItemMark()
+      return located
+    },
+    currentSelectedItemMark: function () {
+      return '<span class="f-right">*</span>'
     },
     requireNewRemoteSearch:function(){
       //when matcherizer has receiving static cvLocalData, then is not necesary to make a remote data call
@@ -326,11 +340,13 @@ export default {
         'SelectQuery'
       ]
 
-      if (lastSearch==='' && this.sourcePageCount!==null && this.sourcePageCount < this.cLimit)
-          this.absolueRemoteData = true
-
       if(this.sourcePageCount===null)
         return true
+
+      this.absolueRemoteData = false
+
+      if (lastSearch==='' && this.sourcePageCount!==null && this.sourcePageCount < this.cLimit)
+          this.absolueRemoteData = true
 
       for (let i = 0; i < staticPropertys.length; i++){
         let property=staticPropertys[i]
