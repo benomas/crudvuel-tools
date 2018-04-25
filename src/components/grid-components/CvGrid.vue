@@ -1,48 +1,77 @@
 <template>
-  <cv-tag :tag="cTag" class="cv-grid-container">
-    <cv-simple-filters
-      @go-to-find="prepareToFind"
-      v-if="cSimpleFilters"
-    >
-    </cv-simple-filters>
-    <cv-advanced-filters
-      @go-to-find="prepareToFind"
-      v-if="cAdvancedFilters"
-    >
-    </cv-advanced-filters>
-    <cv-expert-filters
-      @go-to-find="prepareToFind"
-      v-if="cExpertFilters"
-    >
-    </cv-expert-filters>
-    <hr v-if="cTotalPageElements && cTopPaginate">
-    <cv-paginate
-      v-if ='cTotalPageElements && cTopPaginate'
-      :cvTotalQueryElements='elementsCount'
-      :cvTotalPageElements='cTotalPageElements'
-      :cvCurrentPage='cvParametrizer.getPage()'
-      :cvLimit='cvParametrizer.getLimit()'
-      :cvPagesPerView='cPagesPerView'
-      :cvLimitValues='cLimitValues'
-      @event-page="refreshPaginate"
-    >
-    </cv-paginate>
+  <cv-tag
+    :tag="cTag"
+    class="cv-grid-container"
+    :style="{'min-height':cMinHeight, 'opacity':!cReady? '0.5':'1'}"
+  >
+    <transition name="component-fade" mode="out-in">
+      <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
+      </cv-spinner>
+    </transition>
+    <transition name="component-fade" mode="out-in">
+      <cv-simple-filters
+        @go-to-find="prepareToFind"
+        v-if="cSimpleFilters"
+      >
+      </cv-simple-filters>
+    </transition>
+    <transition name="component-fade" mode="out-in">
+      <cv-advanced-filters
+        @go-to-find="prepareToFind"
+        v-if="cAdvancedFilters"
+      >
+      </cv-advanced-filters>
+    </transition>
+    <transition name="component-fade" mode="out-in">
+      <cv-expert-filters
+        @go-to-find="prepareToFind"
+        v-if="cExpertFilters"
+      >
+      </cv-expert-filters>
+    </transition>
+    <transition name="component-fade" mode="out-in">
+      <hr v-if="cTotalPageElements && cTopPaginate">
+    </transition>
+    <transition name="component-fade" mode="out-in">
+      <cv-paginate
+        v-if ='cTotalPageElements && cTopPaginate'
+        :cvTotalQueryElements='elementsCount'
+        :cvTotalPageElements='cTotalPageElements'
+        :cvCurrentPage='cvParametrizer.getPage()'
+        :cvLimit='cvParametrizer.getLimit()'
+        :cvPagesPerView='cPagesPerView'
+        :cvLimitValues='cLimitValues'
+        @event-page="refreshPaginate"
+      >
+      </cv-paginate>
+    </transition>
+    <transition name="component-fade" mode="out-in">
+      <span
+        v-if ='cReady && !cTotalPageElements'
+      >
+        {{fLang('no-rows','Sin resultados para mostrar')}}
+      </span>
+    </transition>
     <div :class="{'b-top':cTotalPageElements && cTopPaginate,'b-bottom':cTotalPageElements && cBottomPaginate}" class="cv-grid-data-container">
       <slot name="cv-grid-data">
       </slot>
     </div>
-    <cv-paginate
-      v-if='cTotalPageElements && cBottomPaginate'
-      :cvTotalQueryElements='elementsCount'
-      :cvTotalPageElements='cTotalPageElements'
-      :cvCurrentPage='cvParametrizer.getPage()'
-      :cvLimit='cvParametrizer.getLimit()'
-      :cvPagesPerView='cPagesPerView'
-      :cvLimitValues='cLimitValues'
-      @event-page="refreshPaginate"
-    >
-    </cv-paginate>
-    <hr v-if="cTotalPageElements && cBottomPaginate">
+    <transition name="component-fade" mode="out-in">
+      <cv-paginate
+        v-if='cTotalPageElements && cBottomPaginate'
+        :cvTotalQueryElements='elementsCount'
+        :cvTotalPageElements='cTotalPageElements'
+        :cvCurrentPage='cvParametrizer.getPage()'
+        :cvLimit='cvParametrizer.getLimit()'
+        :cvPagesPerView='cPagesPerView'
+        :cvLimitValues='cLimitValues'
+        @event-page="refreshPaginate"
+      >
+      </cv-paginate>
+    </transition>
+    <transition name="component-fade" mode="out-in">
+      <hr v-if="cTotalPageElements && cBottomPaginate">
+    </transition>
   </cv-tag>
 </template>
 <script>
@@ -65,16 +94,18 @@ export default {
   },
   data () {
     return {
-      config:null,
-      correctConfig:true,
-      cvParametrizer:new CvParametrizer(),
-      cvThs:null,
-      cvTds:null,
-      cvTableChildren:null,
-      cvHeadTrChildren:null,
-      cvBodyTrs:null,
-      rows:[],
-      elementsCount:0,
+      config           : null,
+      correctConfig    : true,
+      cvParametrizer   : new CvParametrizer(),
+      cvThs            : null,
+      cvTds            : null,
+      cvTableChildren  : null,
+      cvHeadTrChildren : null,
+      cvBodyTrs        : null,
+      rows             : [],
+      elementsCount    : 0,
+      ready            : false,
+      isMounted        : false
     }
   },
   props:[
@@ -93,6 +124,8 @@ export default {
     "cvSimpleFilters",
     "cvAdvancedFilters",
     "cvExpertFilters",
+    "cvMinHeight",
+    "cvGridLang"
   ],
   computed:{
     cPage:function(){
@@ -136,9 +169,25 @@ export default {
     },
     cTag:function(){
       return this.cvTag || "div"
+    },
+    cReady : function () {
+      return this.ready || false
+    },
+    cMinHeight :  function () {
+      return this.cvMinHeight || '300px'
+    },
+    cSelfRef :  function () {
+      return this
+    },
+    cIsMounted: function () {
+      return this.isMounted || false
+    },
+    cGridLang: function () {
+      return this.cvGridLang || null
     }
   },
   mounted:function(){
+    this.isMounted = true
     this.processSlots()
     this.refresh()
   },
@@ -160,9 +209,11 @@ export default {
         return false
       }
 
+      this.ready=true
       this.$emit('success-mutation', this.$data)
     },
     emitErrorMutation:function(response){
+      this.ready=true
       this.$emit('error-mutation', this.$data)
     },
     emitInitialMutation:function(){
@@ -174,11 +225,14 @@ export default {
       this.refresh()
     },
     prepareToFind(search){
+      if(this.cvParametrizer.getGeneralSearch() === search)
+        return false
       this.cvParametrizer.setGeneralSearch(search)
       this.cvParametrizer.setPage(1)
       this.refresh()
     },
     refresh:function(){
+      this.ready=false
       this.cvService(this.emitSuccessMutation,this.emitErrorMutation,null,null,this.cvParametrizer.getSerialized())
     },
     showConfigErrorMessage:function(){
@@ -300,6 +354,11 @@ export default {
       this.cvParametrizer.setOrderBy(cvTh.data.attrs["cv-key"])
       this.cvParametrizer.setAscending(this.cvParametrizer.getAscending()?0:1)
       this.refresh()
+    },
+    fLang: function(word,defWord) {
+      if(this.cGridLang && this.cGridLang[word])
+        return this.cGridLang[word]
+      return defWord || ''
     }
   }
 }

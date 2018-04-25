@@ -2,6 +2,14 @@
   <div
     class="row action-container"
   >
+    <transition name="component-fade" mode="out-in">
+      <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
+      </cv-spinner>
+    </transition>
+    <pre>
+      {{cReady}}
+      {{cIsMounted}}
+    </pre>
     <div class="col-lg-12 action-label" v-if="cShowHeader">
       <label>
         {{action.label}}
@@ -18,25 +26,28 @@
   import CvSynchronizer from '../../CvSynchronizer';
   import CvErrorWraper  from '../input-components/CvErrorWraper';
   import cvVueSetter    from '../../cvVueSetter'
+  import CvSpinner         from '../grid-components/CvSpinner'
   export default{
     components: {
-      CvErrorWraper
+      CvErrorWraper,
+      CvSpinner
     },
     data (){
       return {
-        resource                   :null,
-        action                     :null,
-        rowKey                     :null,
-        rowKeyValue                :null,
-        row                        :null,
-        rows                       :null,
-        ready                      :false,
-        errors                     :{},
-        hasErrors                  :false,
-        cvSynchronizer             :new CvSynchronizer(),
-        successNotificationMessages:null,
-        errorNotificationMessages  :null,
-        cancelNotificationMessages :null,
+        resource                    : null,
+        action                      : null,
+        rowKey                      : null,
+        rowKeyValue                 : null,
+        row                         : null,
+        rows                        : null,
+        ready                       : false,
+        errors                      : {},
+        hasErrors                   : false,
+        cvSynchronizer              : new CvSynchronizer(),
+        successNotificationMessages : null,
+        errorNotificationMessages   : null,
+        cancelNotificationMessages  : null,
+        isMounted                   : false
       }
     },
     methods:{
@@ -309,6 +320,15 @@
           return this.cvShowHeader
         return true
       },
+      cReady : function () {
+        return this.ready || false
+      },
+      cIsMounted: function () {
+        return this.isMounted || false
+      },
+      cSelfRef :  function () {
+        return this
+      }
     },
     props:[
       "cvAction",
@@ -324,6 +344,9 @@
       this.action      = this.cAction;
       this.rowKey      = this.cRowKey;
       this.rowKeyValue = this.cRowKeyRouteValue;
+    },
+    mounted: function () {
+      this.isMounted = true
     }
   }
 </script>
