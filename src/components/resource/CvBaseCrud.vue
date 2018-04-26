@@ -6,10 +6,6 @@
       <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
-    <pre>
-      {{cReady}}
-      {{cIsMounted}}
-    </pre>
     <div class="col-lg-12 action-label" v-if="cShowHeader">
       <label>
         {{action.label}}

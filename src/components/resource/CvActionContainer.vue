@@ -97,7 +97,7 @@
     props:[
       "cvAction",
       "cvExcludeActions",
-      "cvDisableFields",,
+      "cvDisableFields",
       "cvReady",
       "cvShowHeader"
     ],
