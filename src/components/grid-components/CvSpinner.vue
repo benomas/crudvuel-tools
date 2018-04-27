@@ -124,6 +124,8 @@ export default {
     opacity:0.5;
     */
     & .animation-img{
+      max-height:100px;
+      min-height:20px;
       height:100%;
     }
   }

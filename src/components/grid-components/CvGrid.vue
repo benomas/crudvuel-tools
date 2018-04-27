@@ -10,22 +10,22 @@
     </transition>
     <transition name="component-fade" mode="out-in">
       <cv-simple-filters
-        @go-to-find="prepareToFind"
-        v-if="cSimpleFilters"
+        @go-to-find ="prepareToFind"
+        v-if        ="cSimpleFilters"
       >
       </cv-simple-filters>
     </transition>
     <transition name="component-fade" mode="out-in">
       <cv-advanced-filters
-        @go-to-find="prepareToFind"
-        v-if="cAdvancedFilters"
+        @go-to-find ="prepareToFind"
+        v-if        ="cAdvancedFilters"
       >
       </cv-advanced-filters>
     </transition>
     <transition name="component-fade" mode="out-in">
       <cv-expert-filters
-        @go-to-find="prepareToFind"
-        v-if="cExpertFilters"
+        @go-to-find ="prepareToFind"
+        v-if        ="cExpertFilters"
       >
       </cv-expert-filters>
     </transition>
@@ -42,6 +42,9 @@
         :cvPagesPerView='cPagesPerView'
         :cvLimitValues='cLimitValues'
         @event-page="refreshPaginate"
+        @page-nave-up="pageNavUp"
+        @page-nave-down="pageNavDown"
+        @page-nave-neutral="pageNavNeutral"
       >
       </cv-paginate>
     </transition>
@@ -66,6 +69,9 @@
         :cvPagesPerView='cPagesPerView'
         :cvLimitValues='cLimitValues'
         @event-page="refreshPaginate"
+        @page-nave-up="pageNavUp"
+        @page-nave-down="pageNavDown"
+        @page-nave-neutral="pageNavNeutral"
       >
       </cv-paginate>
     </transition>
@@ -199,6 +205,15 @@ export default {
     this.cvParametrizer.setAscending(this.cAscending)
   },
   methods:{
+    pageNavUp: function () {
+      this.$emit('page-nave-up');
+    },
+    pageNavDown: function () {
+      this.$emit('page-nave-down');
+    },
+    pageNavNeutral: function () {
+      this.$emit('page-nave-neutral');
+    },
     emitSuccessMutation:function(response){
       this.rows          = response.data.data
       this.elementsCount = response.data.count
@@ -353,6 +368,7 @@ export default {
     lauchOrder(cvTh){
       this.cvParametrizer.setOrderBy(cvTh.data.attrs["cv-key"])
       this.cvParametrizer.setAscending(this.cvParametrizer.getAscending()?0:1)
+      this.pageNavNeutral();
       this.refresh()
     },
     fLang: function(word,defWord) {

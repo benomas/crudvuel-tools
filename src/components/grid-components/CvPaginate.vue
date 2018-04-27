@@ -98,6 +98,15 @@ export default {
     }
   },
   methods:{
+    pageNavUp: function () {
+      this.$emit('page-nave-up');
+    },
+    pageNavDown: function () {
+      this.$emit('page-nave-down');
+    },
+    pageNavNeutral: function () {
+      this.$emit('page-nave-neutral');
+    },
     eventPage:function(response){
       this.$emit('event-page', this.info);
     },
@@ -107,15 +116,30 @@ export default {
       this.jumpedPage = this.currentPage;
     },
     setPage:function(page){
-      this.goTo=false;
-      this.info["page"]  = page;
+      if(typeof this.info.page === 'undefined' ){
+        if(page===1)
+          this.pageNavNeutral()
+        else
+          this.pageNavUp()
+      }
+      else{
+        if( page > this.info.page)
+          this.pageNavUp()
+        if( page < this.info.page)
+          this.pageNavDown()
+        if( page === this.info.page)
+          this.pageNavNeutral()
+      }
+      this.goTo          = false;
+      this.info.page     = page;
       this.info["limit"] = this.cvLimit;
       this.eventPage();
     },
     changeLimitPerPage:function(limit){
       let validcvCurrentPage = Math.ceil(this.cvTotalQueryElements/limit);
-      this.info["limit"]   = limit;
-      this.info["page"]    = this.currentPage>validcvCurrentPage?validcvCurrentPage:this.currentPage;
+      this.info["limit"] = limit;
+      this.info.page     = this.currentPage>validcvCurrentPage?validcvCurrentPage:this.currentPage;
+      this.pageNavNeutral()
       this.eventPage();
     },
     hasLeft:function(){
