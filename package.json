@@ -22,7 +22,8 @@
   },
   "homepage": "https://github.com/benomas/crudvuel-tools#readme",
   "devDependencies": {
-    "babel-core": "^6.26.3"
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4"
   },
   "dependencies": {
     "node-sass": "^4.9.0"
