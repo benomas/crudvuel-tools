@@ -1,6 +1,6 @@
 <template>
   <cv-tag :tag="cTag">
-    <slot 
+    <slot
       name="cv-ths-slot"
     >
     </slot>

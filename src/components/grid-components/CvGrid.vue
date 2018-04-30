@@ -41,6 +41,7 @@
         :cvLimit='cvParametrizer.getLimit()'
         :cvPagesPerView='cPagesPerView'
         :cvLimitValues='cLimitValues'
+        :cvReady='cReady'
         @event-page="refreshPaginate"
         @page-nave-up="pageNavUp"
         @page-nave-down="pageNavDown"
@@ -68,6 +69,7 @@
         :cvLimit='cvParametrizer.getLimit()'
         :cvPagesPerView='cPagesPerView'
         :cvLimitValues='cLimitValues'
+        :cvReady='cReady'
         @event-page="refreshPaginate"
         @page-nave-up="pageNavUp"
         @page-nave-down="pageNavDown"

@@ -47,12 +47,15 @@ export default {
     return {
       info               : {},
       limitSelected      : null,
-      totalQueryElements :0,
-      totalPageElements  :0,
-      limit              :0,
-      pagesPerView       :0,
-      goTo               :false,
-      jumpedPage         :0,
+      totalQueryElements : 0,
+      totalPageElements  : 0,
+      limit              : 0,
+      pagesPerView       : 0,
+      goTo               : false,
+      jumpedPage         : 0,
+      pageAnimationIn    : 'animated fadeIn',
+      pageAnimationOut   : 'animated fadeIn',
+      oldCarrusel        : []
     }
   },
   props:[
@@ -62,6 +65,7 @@ export default {
     "cvLimit",
     "cvPagesPerView",
     "cvLimitValues",
+    "cvReady"
   ],
   computed:{
     cTotalQueryElements:function(){
@@ -71,7 +75,8 @@ export default {
       return Math.ceil(this.cvTotalQueryElements/this.cvLimit);
     },
     carrousel:function(){
-
+      if (!this.cReady)
+        return this.oldCarrusel
       let carrusel =[];
       this.limitSelected = this.cvLimit;
       this.totalPaginado = Math.ceil(this.cvTotalQueryElements/this.cvLimit);
@@ -88,6 +93,7 @@ export default {
       for(let x=0; x<this.cvPagesPerView; x++)
         if(start + x <=this.totalPaginado)
           carrusel.push(start+x);
+      this.oldCarrusel = carrusel
       return carrusel;
     },
     limitValues:function(){
@@ -95,16 +101,25 @@ export default {
     },
     currentPage:function(){
       return (this.cvCurrentPage ===  "" || this.cvCurrentPage ===  null)?1:this.cvCurrentPage;
+    },
+    cReady: function () {
+      return this.cvReady || false
     }
   },
   methods:{
     pageNavUp: function () {
+      this.pageAnimationIn  = 'animated fadeInRight'
+      this.pageAnimationOut = 'animated fadeInRight'
       this.$emit('page-nave-up');
     },
     pageNavDown: function () {
+      this.pageAnimationIn  = 'animated fadeInLeft'
+      this.pageAnimationOut = 'animated fadeInLeft'
       this.$emit('page-nave-down');
     },
     pageNavNeutral: function () {
+      this.pageAnimationIn  = 'animated fadeIn'
+      this.pageAnimationOut = 'animated fadeIn'
       this.$emit('page-nave-neutral');
     },
     eventPage:function(response){
@@ -169,6 +184,8 @@ export default {
     border: 1px outset ThreeDLightShadow;
     border-radius:5px;
     &.active{
+      -webkit-transition: background-color 1.5s; /* For Safari 3.1 to 6.0 */
+      transition: background-color 1.5s;
       background-color: #CCCCCC;
       color:white;
       &:hover{
