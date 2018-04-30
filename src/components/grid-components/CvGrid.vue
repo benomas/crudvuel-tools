@@ -244,6 +244,7 @@ export default {
         return false
       this.cvParametrizer.setGeneralSearch(search)
       this.cvParametrizer.setPage(1)
+      this.pageNavNeutral()
       this.refresh()
     },
     refresh:function(){
