@@ -4,9 +4,6 @@
   "description": "Grid for interact with laravel crudvel api, es6 versión",
   "main": "./dist/crudvuel-tools.min.js",
   "scripts": {
-    "test": "karma start",
-    "test:watch": "karma start --single-run=false",
-    "lint": "eslint src --ext=js,vue || exit 0",
     "dev": "webpack-dev-server --content-base ./dev --env=webpack.dev --open --hot",
     "dist": "webpack --env=webpack.dist"
   },
@@ -30,12 +27,6 @@
     "babel-preset-es2015": "^6.24.1",
     "css-loader": "^0.28.11",
     "file-loader": "^1.1.11",
-    "jasmine-core": "^2.99.1",
-    "karma": "^1.7.0",
-    "karma-jasmine": "^1.1.0",
-    "karma-phantomjs-launcher": "^1.0.4",
-    "karma-spec-reporter": "0.0.31",
-    "karma-webpack": "^2.0.13",
     "resolve-url-loader": "^2.3.0",
     "sass-loader": "^6.0.7",
     "url-loader": "^0.6.2",
@@ -46,7 +37,6 @@
     "webpack-dev-server": "^2.11.2"
   },
   "dependencies": {
-    "hoek": "^5.0.3",
     "node-sass": "^4.9.0"
   }
 }
