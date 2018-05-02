@@ -246,12 +246,18 @@
       },
       cReady : function () {
         return this.ready || false
+      },
+      cAutoload : function () {
+        if(typeof this.cvAutoload !== 'undefined')
+          return this.cvAutoload
+        return true
       }
     },
     props:[
       "cvRow",
       "cvRows",
-      "cvRowKey"
+      "cvRowKey",
+      "cvAutoload"
     ],
     created:function(){
       this.rowKey      = this.cRowKey;
