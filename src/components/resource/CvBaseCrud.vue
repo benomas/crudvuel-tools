@@ -1,37 +1,15 @@
-<template>
-  <div
-    class="row action-container"
-  >
-    <transition name="component-fade" mode="out-in">
-      <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
-      </cv-spinner>
-    </transition>
-    <div class="col-lg-12 action-label" v-if="cShowHeader">
-      <label>
-        {{action.label}}
-      </label>
-      <hr>
-    </div>
-
-    <slot
-    >
-    </slot>
-  </div>
-</template>
 <script>
-  import CvSynchronizer from '../../CvSynchronizer';
-  import CvErrorWraper  from '../input-components/CvErrorWraper';
-  import cvVueSetter    from '../../cvVueSetter'
-  import CvSpinner         from '../grid-components/CvSpinner'
+  import CvActionContainer from './CvActionContainer';
+  import CvSynchronizer    from '../../CvSynchronizer';
+  import CvErrorWraper     from '../input-components/CvErrorWraper';
+  import cvVueSetter       from '../../cvVueSetter'
   export default{
-    components: {
-      CvErrorWraper,
-      CvSpinner
+    extends    : CvActionContainer,
+    components : {
+      CvErrorWraper
     },
     data (){
       return {
-        resource                    : null,
-        action                      : null,
         rowKey                      : null,
         rowKeyValue                 : null,
         row                         : null,
@@ -42,27 +20,10 @@
         cvSynchronizer              : new CvSynchronizer(),
         successNotificationMessages : null,
         errorNotificationMessages   : null,
-        cancelNotificationMessages  : null,
-        isMounted                   : false
+        cancelNotificationMessages  : null
       }
     },
     methods:{
-      vueSetter(source){
-        if(
-            typeof source==="undefined" ||
-            typeof source.row==="undefined" ||
-            typeof source.cvColumnMap==="undefined"
-        )
-          return false;
-
-        let mapKeys = Object.keys(source.cvColumnMap)
-        for (let i=0; i<mapKeys.length; i++) {
-          if(source.row && typeof source.row[mapKeys[i]]!=="undefined")
-            this.$set(this.row, source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
-          else
-            this.$set(this.row, source.cvColumnMap[mapKeys[i]], null)
-        }
-      },
       getSuccess:function(response){
         if(this.action && this.action.type==="rows")
           this.rows=response.data.data || response.data;
@@ -161,19 +122,6 @@
       hasPermission:function(action){
         return true;
       },
-      resorceAction:function(action){
-        return (this.resource && this.resource.actions && this.resource.actions[action])?this.resource.actions[action]:null;
-      },
-      actionType:function(action){
-        let resourceAction =  this.resorceAction(action);
-        return resourceAction.type || null;
-      },
-      actionPath:function(action,row){
-        let resourceAction =  this.resorceAction(action);
-        if(resourceAction)
-          return resourceAction.getFixedPath(row)
-        return null;
-      },
       toSync:function(row,identifier){
         this.cvSynchronizer.toSync(row,this.cRowKey,identifier);
       },
@@ -270,15 +218,9 @@
         )
           return "";
         return " \""+this.cRowKey+":"+gridRow[this.cRowKey]+"\""
-      },
+      }
     },
     computed:{
-      cAction:function(){
-        return this.cvAction || null;
-      },
-      cResource:function(){
-        return (this.cAction && this.cAction.resource)? this.cAction.resource:null;
-      },
       cRows:function(){
         return this.cvRows || this.rows || null;
       },
@@ -291,9 +233,6 @@
       cRowKeyRouteValue:function(){
         return this.$route.params.id  || null;
       },
-      cExcludeActions:function(){
-        return this.cvExcludeActions || [];
-      },
       cShowGetMessages:function(){
         return (this.cAction && typeof this.cAction.cvShowGetMessages !== "undefined")?
           this.cAction.cvShowGetMessages:false;
@@ -302,63 +241,21 @@
         return (this.cAction && typeof this.cAction.cvShowSetMessages !== "undefined")?
           this.cAction.cvShowSetMessages:true;
       },
-      cDisableFields:function(){
-        return this.cvDisableFields || this.cAction.disableFields || false;
-      },
       cHasRowKeyValue:function(){
         return this.cRow && this.cRow[this.cRowKey]
       },
-      cGetted:function(){
-        return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false;
-      },
-      cShowHeader:function(){
-        if(typeof this.cvShowHeader!=='undefined')
-          return this.cvShowHeader
-        return true
-      },
       cReady : function () {
         return this.ready || false
-      },
-      cIsMounted: function () {
-        return this.isMounted || false
-      },
-      cSelfRef :  function () {
-        return this
       }
     },
     props:[
-      "cvAction",
-      "cvExcludeActions",
       "cvRow",
       "cvRows",
-      "cvDisableFields",
-      "cvRowKey",
-      "cvShowHeader"
+      "cvRowKey"
     ],
     created:function(){
-      this.resource    = this.cResource;
-      this.action      = this.cAction;
       this.rowKey      = this.cRowKey;
       this.rowKeyValue = this.cRowKeyRouteValue;
-    },
-    mounted: function () {
-      this.isMounted = true
     }
   }
 </script>
-<style lang="scss">
-  .action-container{
-    padding:20px 30px;
-  }
-  .action-label{
-    width: 100%;
-    text-align:center;
-    & label{
-      font-weight: bold;
-    }
-    & hr{
-        border: 0;
-        border-top: 1px solid #CCCCCC;
-    }
-  }
-</style>

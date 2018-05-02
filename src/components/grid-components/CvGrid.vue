@@ -35,6 +35,7 @@
     <transition name="component-fade" mode="out-in">
       <cv-paginate
         v-if ='cTotalPageElements && cTopPaginate'
+        cvPosition="top"
         :cvTotalQueryElements='elementsCount'
         :cvTotalPageElements='cTotalPageElements'
         :cvCurrentPage='cvParametrizer.getPage()'
@@ -63,6 +64,7 @@
     <transition name="component-fade" mode="out-in">
       <cv-paginate
         v-if='cTotalPageElements && cBottomPaginate'
+        cvPosition="bottom"
         :cvTotalQueryElements='elementsCount'
         :cvTotalPageElements='cTotalPageElements'
         :cvCurrentPage='cvParametrizer.getPage()'
