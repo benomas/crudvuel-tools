@@ -2,25 +2,27 @@
   <div
     class="row action-container"
   >
-    <transition name="component-fade" mode="out-in">
+    <transition name="component-fade" mode="out-in" v-if="cShowOwnSpinner">
       <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
     <div class="col-lg-12 action-label" v-if="cShowHeader">
       <label>
-        {{action.label}}
+        <h5>
+          {{action.label}}
+        </h5>
       </label>
-      <hr>
     </div>
-
-    <slot
-    >
-    </slot>
+    <div class="action-content">
+      <slot
+      >
+      </slot>
+    </div>
   </div>
 </template>
 <script>
-  import cvVueSetter    from '../../cvVueSetter'
-  import CvSpinner         from '../grid-components/CvSpinner'
+  import cvVueSetter from '../../cvVueSetter'
+  import CvSpinner   from '../grid-components/CvSpinner'
   export default{
     components: {
       CvSpinner
@@ -92,6 +94,11 @@
       },
       cSelfRef :  function () {
         return this
+      },
+      cShowOwnSpinner : function() {
+        if (typeof this.cvShowOwnSpinner !== 'undefined')
+          return this.cvShowOwnSpinner
+        return true
       }
     },
     props:[
@@ -99,7 +106,8 @@
       "cvExcludeActions",
       "cvDisableFields",
       "cvReady",
-      "cvShowHeader"
+      "cvShowHeader",
+      "cvShowOwnSpinner"
     ],
     created:function(){
       this.resource    = this.cResource;
@@ -124,5 +132,10 @@
         border: 0;
         border-top: 1px solid #CCCCCC;
     }
+  }
+  .action-content{
+    width      : 100%;
+    box-shadow : #514d5c1a 0px 1px 15px 1px;
+    padding    : 1.5%;
   }
 </style>

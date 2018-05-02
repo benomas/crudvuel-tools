@@ -3,7 +3,7 @@
     <div class="col-xs-12 col-sm-6 pull-left">
       <div class="cv-paginate-buttons form-inline" style="min-height: 25px;">
         <button  type="button" class="btn btn-default" v-on:click="setPage(1)" v-if="hasLeft()">«</button>
-        <button  v-for="posicion in carrousel" type="button" class="btn btn-default"  v-on:click="setPage(posicion)" :class="{'active': posicion===currentPage}">{{posicion}}</button>
+        <button  v-for="position in carrousel" type="button" class="btn btn-default"  v-on:click="setPage(position)" :class="{'active': position===currentPage}">{{position}}</button>
 
         <button  type="button" class="btn btn-default"  v-on:click="setPage(totalPaginated)" v-if="hasRight()">»</button>
 
