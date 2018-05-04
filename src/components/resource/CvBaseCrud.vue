@@ -33,7 +33,6 @@
         if(this.cShowGetMessages)
           this.collectSuccessMessages(this.action.getGetSuccessMessage())
       },
-
       getError:function(response){
         this.ready=true;
         if(this.cShowGetMessages)
@@ -42,19 +41,21 @@
       getParams:function(){
         return null;
       },
-      getService:function(getSuccess,getError,getParams,url,queryString){
-        if(!this.resource || !this.action || !this.action.getService)
+      fixGetServiceParams: function (getSuccess=null,getError=null,getParams=null,url=null,queryString=null) {
+        return [
+          ...(this.cHasRowIdentifier ? [this.rowKeyValue] : []),
+          getSuccess||this.getSuccess,
+          getError||this.getError,
+          getParams||this.getParams(),
+          url||null,
+          queryString
+        ]
+      },
+      getService:function(...serviceParams){
+        if(!this.resource || !this.cActionGetService)
           return false;
-
-        this.ready=false;
-        getSuccess=getSuccess||this.getSuccess;
-        getError=getError||this.getError;
-        getParams=getParams||this.getParams();
-        url=url||null;
-        if(this.rowKeyValue)
-          this.action.getService(this.rowKeyValue,getSuccess,getError,getParams,url,queryString)
-        else
-          this.action.getService(getSuccess,getError,getParams,url,queryString)
+        this.ready = false;
+        this.cActionGetService(...this.fixGetServiceParams(...serviceParams))
       },
       setSuccess:function(response){
         if(this.action && this.action.type==="rows")
@@ -62,16 +63,13 @@
         if(this.action && this.action.type==="row")
           this.row=response.data.data || response.data;
         this.ready=true;
-        let currentRowIdent=""
-        if(this.rowKeyValue)
-          currentRowIdent = this.actionKeyMessage(this.row)
         if(this.cShowSetMessages)
-          this.collectSuccessMessages(this.action.getSetSuccessMessage()+currentRowIdent)
+          this.collectSuccessMessages(this.action.getSetSuccessMessage()+this.cIdentText)
         this.successRedirect()
       },
       setError:function(errorResponse){
         this.ready=true;
-        //cvVueSetter(this.$set,this.error,errorResponse.response.data.errors || {})
+        this.errors = {};
         if (
           typeof errorResponse!=='undefined' &&
           typeof errorResponse.response!=='undefined'  &&
@@ -79,40 +77,38 @@
           typeof errorResponse.response.data.errors!=='undefined'
         )
           this.errors = errorResponse.response.data.errors
-        else
-          this.errors = {};
-        //console.log(this.errors);
-        let currentRowIdent=""
-        if(this.rowKeyValue)
-          currentRowIdent = this.actionKeyMessage(this.row)
+
         if(this.cShowSetMessages)
-          this.collectErrorMessages(this.action.getSetErrorMessage()+currentRowIdent)
+          this.collectErrorMessages(this.action.getSetErrorMessage()+this.cIdentText)
         this.errorRedirect()
       },
       setParams:function(){
         return this.action && this.action.type && this[this.action.type]?
           this[this.action.type]:null
       },
-      setService:function(setSuccess,setError,setParams,url,queryString){
-        if(!this.resource || !this.action || !this.action.setService)
-          return false;
+      fixSetServiceParams: function (setSuccess=null,setError=null,setParams=null,url=null,queryString=null) {
+        return [
+          ...(this.cHasRowIdentifier ? [this.rowKeyValue] : []),
+          setSuccess||this.setSuccess,
+          setError||this.setError,
+          setParams||this.setParams(),
+          url||null,
+          queryString
+        ]
+      },
+      setService:function(...serviceParams){
+        if(!this.resource || !this.cActionSetService)
+          return false
 
         if(!this.validator()){
           if(this.cShowSetMessages)
             this.collectErrorMessages('No se han superado las validaciones del formulario')
-          return
+          return false
         }
 
-        this.ready=false;
+        this.ready  = false;
         this.errors = {};
-        setSuccess=setSuccess||this.setSuccess;
-        setError=setError||this.setError;
-        setParams=setParams||this.setParams();
-        url=url||null;
-        if(this.rowKeyValue)
-          this.action.setService(this.rowKeyValue,setSuccess,setError,setParams,url,queryString)
-        else
-          this.action.setService(setSuccess,setError,setParams,url,queryString)
+        this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
       },
       validateAction:function(action){
         return this.cExcludeActions.indexOf(action)<0 &&
@@ -251,6 +247,18 @@
         if(typeof this.cvAutoload !== 'undefined')
           return this.cvAutoload
         return true
+      },
+      cActionGetService: function () {
+        return this.action.getService || null
+      },
+      cActionSetService: function () {
+        return this.action.setService || null
+      },
+      cHasRowIdentifier: function () {
+        return this.rowKeyValue || false
+      },
+      cIdentText: function () {
+        return this.cHasRowIdentifier ? this.actionKeyMessage(this.row) : ''
       }
     },
     props:[

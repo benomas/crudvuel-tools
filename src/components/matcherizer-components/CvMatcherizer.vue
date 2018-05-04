@@ -107,7 +107,8 @@ export default {
     "cvSourceService",
     "cvLocalData",
     "cvKeyInterruptionLimit",
-    "cvMoreDataMessage"
+    "cvMoreDataMessage",
+    "cvDestination"
   ],
   methods:{
     //sourceData
@@ -190,7 +191,7 @@ export default {
       this.currentLabel = this.mLabelCallBack(rows,row)
       this.currentValue = this.mValueCallBack(rows,row)
       this.refresh()
-      this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row})
+      this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
     },
     resetCurrent:function(){
       //this.focus=true
@@ -199,7 +200,7 @@ export default {
       this.currentLabel = ''
       this.currentValue = null
       this.refresh()
-      this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row:null})
+      this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
     },
     refresh:function(){
       this.$refs.cvSimpleFilterRef.search=this.currentLabel
@@ -466,6 +467,9 @@ export default {
     },
     cMoreDataMessage:function(){
       return this.cvMoreDataMessage || '*Mas resultados disponibles mediante busqueda'
+    },
+    cDestination: function () {
+      return this.cvDestination || 'row'
     }
   },
   mounted:function(){

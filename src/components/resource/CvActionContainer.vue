@@ -42,13 +42,13 @@
             typeof source.cvColumnMap==="undefined"
         )
           return false;
-
+        let destination = source.destination || 'row'
         let mapKeys = Object.keys(source.cvColumnMap)
         for (let i=0; i<mapKeys.length; i++) {
           if(source.row && typeof source.row[mapKeys[i]]!=="undefined")
-            this.$set(this.row, source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
+            this.$set(this[destination], source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
           else
-            this.$set(this.row, source.cvColumnMap[mapKeys[i]], null)
+            this.$set(this[destination], source.cvColumnMap[mapKeys[i]], null)
         }
       },
       resorceAction:function(action){
