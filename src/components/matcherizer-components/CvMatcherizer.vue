@@ -147,7 +147,7 @@ export default {
       this.refreshSource()
     },
     refreshSource:function(){
-      this.cvSourceService(
+      this.cSourceService(
         this.emitSuccessMutationSource,
         this.emitErrorMutationSource,
         null,

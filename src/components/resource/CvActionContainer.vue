@@ -6,15 +6,15 @@
       <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
-    <div class="col-lg-12 action-label" v-if="cShowHeader">
+    <slot name="cv-title-slot" class="col-lg-12 action-label" v-if="cShowHeader">
       <label>
         <h5>
           {{action.label}}
         </h5>
       </label>
-    </div>
-    <div class="action-content">
-      <slot
+    </slot>
+    <div class="row action-content">
+      <slot name="cv-content-slot"
       >
       </slot>
     </div>
@@ -99,6 +99,16 @@
         if (typeof this.cvShowOwnSpinner !== 'undefined')
           return this.cvShowOwnSpinner
         return true
+      },
+      cBackLabel: function () {
+        if (this.cAction)
+          return this.cAction.backLabel || null
+        return 'Cancelar'
+      },
+      cNextLabel: function () {
+        if (this.cAction)
+          return this.cAction.nextLabel || null
+        return 'Guardar'
       }
     },
     props:[
