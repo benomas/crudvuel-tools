@@ -83,8 +83,8 @@ export default class CvResourceMap extends CvClass {
     return fixed?fixedParams:null
   }
 
-  getFixedPath(data){
-    if(typeof data ==="undefined" || !data)
+  getFixedPath(data = null){
+    if(!data)
       return this.path
 
     let fixedParams =  this.getFixedParams(data)

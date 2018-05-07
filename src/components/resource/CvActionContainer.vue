@@ -51,8 +51,9 @@
             this.$set(this[destination], source.cvColumnMap[mapKeys[i]], null)
         }
       },
-      resorceAction:function(action){
-        return (this.resource && this.resource.actions && this.resource.actions[action])?this.resource.actions[action]:null;
+      resorceAction:function(action,resource=null){
+        resource = resource || this.resource
+        return (resource && resource.actions && resource.actions[action])?resource.actions[action]:null;
       },
       actionType:function(action){
         let resourceAction =  this.resorceAction(action);

@@ -110,14 +110,6 @@
         this.errors = {};
         this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
       },
-      validateAction:function(action){
-        return this.cExcludeActions.indexOf(action)<0 &&
-          this.resorceAction(action) &&
-          this.hasActionPermission(this.resource.actions[action])
-      },
-      hasPermission:function(action){
-        return true;
-      },
       toSync:function(row,identifier){
         this.cvSynchronizer.toSync(row,this.cRowKey,identifier);
       },
