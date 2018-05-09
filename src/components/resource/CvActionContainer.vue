@@ -8,7 +8,7 @@
     </transition>
     <slot name="cv-title-slot" class="col-lg-12 action-label" v-if="cShowHeader">
       <label>
-        <h5>
+        <h5 class="custom-h">
           {{action.label}}
         </h5>
       </label>
@@ -35,12 +35,16 @@
       }
     },
     methods:{
-      vueSetter(source){
-        if(
-            typeof source==="undefined" ||
-            typeof source.row==="undefined" ||
-            typeof source.cvColumnMap==="undefined"
-        )
+      resourceAccessing: function (resource = null) {
+        return !resource ? this.resource : typeof resource === 'string' ?
+            this.resources[resource] || null : resource
+      },
+      actionAccessing: function (action = null,resource=null) {
+        return !action ? this.action : typeof action === 'string' ?
+          this.resourceAccessing(resource).actions[action] || null : action
+      },
+      vueSetter(source=null){
+        if(!source || typeof source.row==="undefined" || typeof source.cvColumnMap==="undefined")
           return false;
         let destination = source.destination || 'row'
         let mapKeys = Object.keys(source.cvColumnMap)
@@ -51,19 +55,14 @@
             this.$set(this[destination], source.cvColumnMap[mapKeys[i]], null)
         }
       },
-      resorceAction:function(action,resource=null){
-        resource = resource || this.resource
-        return (resource && resource.actions && resource.actions[action])?resource.actions[action]:null;
+      resorceAction:function(action=null,resource=null){
+        return this.actionAccessing(action,resource)
       },
-      actionType:function(action){
-        let resourceAction =  this.resorceAction(action);
-        return resourceAction.type || null;
+      actionType:function(action=null,resource=null){
+        return this.resorceAction(action,resource).type || null;
       },
-      actionPath:function(action,row){
-        let resourceAction =  this.resorceAction(action);
-        if(resourceAction)
-          return resourceAction.getFixedPath(row)
-        return null;
+      actionPath:function(action,row,resource=null){
+        return this.resorceAction(action,resource).getFixedPath(row) || null
       },
     },
     computed:{
