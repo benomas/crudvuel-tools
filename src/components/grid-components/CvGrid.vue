@@ -274,9 +274,9 @@ export default {
         return currentNode
 
       let componentFound = false
-      for(let i=0; i<currentNode["children"].length; i++){
-        if(currentNode["children"][i]["tag"])
-          componentFound = this.findComponentChild(currentNode["children"][i],component)
+      for(let i=0; i<currentNode.children.length; i++){
+        if(currentNode.children[i]["tag"])
+          componentFound = this.findComponentChild(currentNode.children[i],component)
         if(componentFound)
           return componentFound
       }

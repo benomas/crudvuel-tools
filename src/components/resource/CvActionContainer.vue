@@ -18,14 +18,19 @@
       >
       </slot>
     </div>
+    <slot name="cv-test"
+    >
+    </slot>
   </div>
 </template>
 <script>
+  import CvTag       from '../CvTag'
   import cvVueSetter from '../../cvVueSetter'
   import CvSpinner   from '../grid-components/CvSpinner'
   export default{
     components: {
-      CvSpinner
+      CvSpinner,
+      CvTag
     },
     data (){
       return {
