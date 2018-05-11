@@ -24,6 +24,15 @@ export default function(router,globals){
   this.axios      = axios.create(this.defaultConfig);
   this.cvPassport = this.cvDinDep("CvPassport",globals) || new CvPassport();
 
+  this.shareHeaders = function () {
+    let headers = {
+      'X-Requested-With'           : 'XMLHttpRequest',
+      'Content-Type'               : 'application/json'
+    }
+    //let headers = JSON.parse(JSON.stringify(this.defaultConfig.headers))
+    return this.cvPassport.injectHeaders(headers);
+  }
+
   this.axios.interceptors.request.use((config)=>{
     if(this.cvPassport.autenticated())
      config.headers = this.cvPassport.injectHeaders(config.headers);

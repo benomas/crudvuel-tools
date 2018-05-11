@@ -96,18 +96,18 @@
           queryString
         ]
       },
-      setService:function(...serviceParams){
-        if(!this.resource || !this.cActionSetService)
+      setService: function (...serviceParams) {
+        if (!this.resource || !this.cActionSetService)
           return false
 
-        if(!this.validator()){
-          if(this.cShowSetMessages)
+        if (!this.validator()) {
+          if (this.cShowSetMessages)
             this.collectErrorMessages('No se han superado las validaciones del formulario')
           return false
         }
 
-        this.ready  = false;
-        this.errors = {};
+        this.ready  = false
+        this.errors = {}
         this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
       },
       toSync:function(row,identifier){
@@ -251,6 +251,15 @@
       },
       cIdentText: function () {
         return this.cHasRowIdentifier ? this.actionKeyMessage(this.row) : ''
+      },
+      cExportHeaders: function () {
+        return this.services.general.cvComunicator.shareHeaders() || {}
+      },
+      cRelBaseUrl: function () {
+        return this.resource.crudServices.getRelBaseUrl() || ''
+      },
+      cAbsBaseUrl: function () {
+        return this.resource.crudServices.getAbsBaseUrl() || ''
       }
     },
     props:[

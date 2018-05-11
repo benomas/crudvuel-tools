@@ -8,6 +8,14 @@ export default function(cvComunicator,resourceName){
   this.status         = 0;
   this.statusText     = "";
 
+  this.getRelBaseUrl =  function (){
+    return "api" + this.resourcePrefix + this.resourceName
+  }
+
+  this.getAbsBaseUrl = function () {
+    return this.cvComunicator.defaultConfig.baseURL + this.getRelBaseUrl()
+  }
+
   this.setResourcePrefix= function(resourcePrefix){
     this.resourcePrefix = resourcePrefix || "/";
   }
@@ -34,7 +42,7 @@ export default function(cvComunicator,resourceName){
 
   this.show=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.get(
-        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
+        (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
     ).then((response)=>{
         if(typeof successCallBack ==="function")
@@ -47,7 +55,7 @@ export default function(cvComunicator,resourceName){
 
   this.index=(successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.get(
-        (url || "api"+this.resourcePrefix+this.resourceName) + (queryString?"?"+queryString:""),
+        (url || this.getRelBaseUrl()) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -60,7 +68,7 @@ export default function(cvComunicator,resourceName){
 
   this.store=(successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.post(
-        (url || "api"+this.resourcePrefix+this.resourceName) + (queryString?"?"+queryString:""),
+        (url || this.getRelBaseUrl()) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -73,7 +81,7 @@ export default function(cvComunicator,resourceName){
 
   this.update=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.put(
-        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
+        (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -86,7 +94,7 @@ export default function(cvComunicator,resourceName){
 
   this.destroy=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.delete(
-        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id) + (queryString?"?"+queryString:""),
+        (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -99,7 +107,7 @@ export default function(cvComunicator,resourceName){
 
   this.activate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.put(
-        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id+"/activate") + (queryString?"?"+queryString:""),
+        (url || this.getRelBaseUrl()+"/"+id+"/activate") + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
@@ -112,7 +120,7 @@ export default function(cvComunicator,resourceName){
 
   this.deactivate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
     this.cvComunicator.axios.put(
-        (url || "api"+this.resourcePrefix+this.resourceName+"/"+id+"/deactivate") + (queryString?"?"+queryString:""),
+        (url || this.getRelBaseUrl()+"/"+id+"/deactivate") + (queryString?"?"+queryString:""),
         params|| {}
     ).then( (response)=>{
         if(typeof successCallBack ==="function")
