@@ -24,11 +24,12 @@
   </div>
 </template>
 <script>
-  import CvTag       from '../CvTag'
-  import cvVueSetter from '../../cvVueSetter'
-  import CvSpinner   from '../grid-components/CvSpinner'
+  import CvCore    from './CvCore'
+  import CvTag     from '../CvTag'
+  import CvSpinner from '../grid-components/CvSpinner'
   export default{
-    components: {
+    extends    : CvCore,
+    components : {
       CvSpinner,
       CvTag
     },
@@ -40,35 +41,6 @@
       }
     },
     methods:{
-      resourceAccessing: function (resource = null) {
-        return !resource ? this.resource : typeof resource === 'string' ?
-            this.resources[resource] || null : resource
-      },
-      actionAccessing: function (action = null,resource=null) {
-        return !action ? this.action : typeof action === 'string' ?
-          this.resourceAccessing(resource).actions[action] || null : action
-      },
-      vueSetter(source=null){
-        if(!source || typeof source.row==="undefined" || typeof source.cvColumnMap==="undefined")
-          return false;
-        let destination = source.destination || 'row'
-        let mapKeys = Object.keys(source.cvColumnMap)
-        for (let i=0; i<mapKeys.length; i++) {
-          if(source.row && typeof source.row[mapKeys[i]]!=="undefined")
-            this.$set(this[destination], source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
-          else
-            this.$set(this[destination], source.cvColumnMap[mapKeys[i]], null)
-        }
-      },
-      resorceAction:function(action=null,resource=null){
-        return this.actionAccessing(action,resource)
-      },
-      actionType:function(action=null,resource=null){
-        return this.resorceAction(action,resource).type || null;
-      },
-      actionPath:function(action,row,resource=null){
-        return this.resorceAction(action,resource).getFixedPath(row) || null
-      },
     },
     computed:{
       cAction:function(){
@@ -80,9 +52,6 @@
       cExcludeActions:function(){
         return this.cvExcludeActions || [];
       },
-      cDisableFields:function(){
-        return this.cvDisableFields || this.cAction.disableFields || false;
-      },
       cGetted:function(){
         return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false;
       },
@@ -91,19 +60,8 @@
           return this.cvShowHeader
         return true
       },
-      cReady : function () {
-        return this.cvReady || false
-      },
       cIsMounted: function () {
         return this.isMounted || false
-      },
-      cSelfRef :  function () {
-        return this
-      },
-      cShowOwnSpinner : function() {
-        if (typeof this.cvShowOwnSpinner !== 'undefined')
-          return this.cvShowOwnSpinner
-        return true
       },
       cBackLabel: function () {
         if (this.cAction)
@@ -119,10 +77,7 @@
     props:[
       "cvAction",
       "cvExcludeActions",
-      "cvDisableFields",
-      "cvReady",
-      "cvShowHeader",
-      "cvShowOwnSpinner"
+      "cvShowHeader"
     ],
     created:function(){
       this.resource    = this.cResource;
