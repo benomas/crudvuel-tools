@@ -46,18 +46,7 @@ export default function(router,globals){
       return response;
   },(error)=>{
     this.cvPassport.reactToResponse(error);
-    switch(error.response.status){
-      case 401:
-        this['error' + error.response.status]();
-        break;
-      case 403:
-        this['error' + error.response.status]();
-        break;
-      case 409:
-        this['error' + error.response.status]();
-        break;
-      default:return Promise.reject(error);
-    }
+    this.proccessErrorStatus(error.response)
     return Promise.reject(error);
   });
 
@@ -72,6 +61,21 @@ export default function(router,globals){
       return false;
     this.resources[resource.resourceName] = resource;
   };
+
+  this.proccessErrorStatus = (response) => {
+    switch(response.status){
+      case 401:
+        this['error' + response.status]();
+        return true;
+      case 403:
+        this['error' + response.status]();
+        return true;
+      case 409:
+        this['error' + response.status]();
+        return true;
+    }
+    return false
+  }
 
   this.redirect = function(newRoute){
     newRoute = newRoute || ''

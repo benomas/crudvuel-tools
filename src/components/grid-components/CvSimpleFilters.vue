@@ -12,6 +12,7 @@
       v-on:focus="focused"
       v-on:blur="blured"
       autocomplete="off"
+      :disabled="cDisableFields"
       :clearable="!cDisableFields"
     >
   </div>
@@ -35,13 +36,19 @@ export default {
   ],
   methods:{
     goToFind:function(){
+      if(this.cDisableFields)
+        return false;
       this.$emit('go-to-find', this.search);
     },
     focused:function(){
+      if(this.cDisableFields)
+        return false;
       this.interfaceInput()
       this.$emit('cv-focused', this.search);
     },
     blured:function(){
+      if(this.cDisableFields)
+        return false;
       this.$emit('cv-blured', this.search);
     },
     /**

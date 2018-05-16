@@ -13,7 +13,7 @@ export default function(cvComunicator,resourceName){
   }
 
   this.getAbsBaseUrl = function () {
-    return this.cvComunicator.defaultConfig.baseURL + this.getRelBaseUrl()
+    return this.cvComunicator.defaultConfig.baseURL + '/' + this.getRelBaseUrl()
   }
 
   this.setResourcePrefix= function(resourcePrefix){
