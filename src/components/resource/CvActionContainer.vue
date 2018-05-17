@@ -90,7 +90,7 @@
 </script>
 <style lang="scss">
   .action-container{
-    padding:20px 30px;
+    /*padding:20px 30px;*/
   }
   .action-label{
     width: 100%;
@@ -104,8 +104,10 @@
     }
   }
   .action-content{
+    /*
     width      : 100%;
     box-shadow : #514d5c1a 0px 1px 15px 1px;
     padding    : 1.5%;
+    */
   }
 </style>
