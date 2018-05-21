@@ -28,7 +28,7 @@
         }
         return action
       },
-      vueSetter(source=null){
+      vueSetter: function (source = null) {
         if(!source || typeof source.row==="undefined" || typeof source.cvColumnMap==="undefined")
           return false;
         let destination = source.destination || 'row'

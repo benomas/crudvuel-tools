@@ -1,6 +1,6 @@
 //use this function to extend other javascript clases, it is not necesary into the vue context
-export default function(vueSet,target,source){
-  if(typeof vueSet==="undefined" || typeof target==="undefined" || typeof propertys==="undefined")
+export default function(vueSet = null,target = null,source = null){
+  if(!( vueSet && target && source))
     return false;
   let sourceKeys = Object.keys(source)
   if(sourceKeys && sourceKeys.length)

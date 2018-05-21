@@ -67,7 +67,7 @@ export default {
       sourceParametrizer : new CvParametrizer(),
       sourceCount        : 0,
       sourcePageCount    : null,
-      generalSearch      : "",
+      generalSearch      : '',
       sourceData         : [],
       localData          : [],
       currentValue       : null,
@@ -83,32 +83,33 @@ export default {
     }
   },
   props:[
-    "cvCurrentValue",
-    "cvCurrentLabel",
-    "cvSourceLabel",
-    "cvSourceMessage",
-    "cvLabelCallBack",// anonimousFuntion
-    "cvValueCallBack",
-    "cvListOfItemsLimit",
-    "cvEnableAdd",
-    "cvEnableRemove",
-    "cvAddCallBack",
-    "cvRemoveCallBack",
-    "cvDisableFields",
-    "cvLocalLimit",
-    "cvLoading",
-    "cvSelectQuery",
-    "cvPage",
-    "cvByColumn",
-    "cvLimit",
-    "cvOrderBy",
-    "cvAscending",
-    "cvFilterQuery",
-    "cvSourceService",
-    "cvLocalData",
-    "cvKeyInterruptionLimit",
-    "cvMoreDataMessage",
-    "cvDestination"
+    'cvParentRef',
+    'cvCurrentValue',
+    'cvCurrentLabel',
+    'cvSourceLabel',
+    'cvSourceMessage',
+    'cvLabelCallBack',// anonimousFuntion
+    'cvValueCallBack',
+    'cvListOfItemsLimit',
+    'cvEnableAdd',
+    'cvEnableRemove',
+    'cvAddCallBack',
+    'cvRemoveCallBack',
+    'cvDisableFields',
+    'cvLocalLimit',
+    'cvLoading',
+    'cvSelectQuery',
+    'cvPage',
+    'cvByColumn',
+    'cvLimit',
+    'cvOrderBy',
+    'cvAscending',
+    'cvFilterQuery',
+    'cvSourceService',
+    'cvLocalData',
+    'cvKeyInterruptionLimit',
+    'cvMoreDataMessage',
+    'cvDestination'
   ],
   methods:{
     //sourceData
@@ -158,25 +159,25 @@ export default {
     },
     //others
     mLabelCallBack:function(rows,row){
-      if(typeof this.cvLabelCallBack ==="undefined")
-        return row.name || ""
+      if(typeof this.cvLabelCallBack ==='undefined')
+        return row.name || ''
 
-      return typeof this.cvLabelCallBack ==="function"?
+      return typeof this.cvLabelCallBack ==='function'?
         this.cvLabelCallBack(rows,row):this.cvLabelCallBack
     },
     mValueCallBack:function(rows,row){
-      if(typeof this.cvValueCallBack ==="undefined")
-        return row.id || ""
+      if(typeof this.cvValueCallBack ==='undefined')
+        return row.id || ''
 
-      return typeof this.cvValueCallBack ==="function"?
+      return typeof this.cvValueCallBack ==='function'?
         this.cvValueCallBack(rows,row):this.cvValueCallBack
     },
     mAddCallBack:function(rows,row){
-      if (typeof this.cvAddCallBack ==="function")
+      if (typeof this.cvAddCallBack ==='function')
         this.cvAddCallBack(rows,row)
     },
     mRemoveCallBack:function(rows,row){
-      if (typeof this.cvRemoveCallBack ==="function")
+      if (typeof this.cvRemoveCallBack ==='function')
         this.cvRemoveCallBack(rows,row)
     },
     add:function(rowKey,row){
@@ -185,12 +186,22 @@ export default {
       //this.focus=false
       this.listOver=false
     },
+    setSearch: function (label = null) {
+      if(this.cSimpleFilterRef){
+        if (label===null)
+          label = this.currentLabel
+        this.cSimpleFilterRef.search = label
+      }
+    },
     setCurrent:function(rows,row){
       if(this.cDisableFields)
         return false;
       this.currentLabel = this.mLabelCallBack(rows,row)
       this.currentValue = this.mValueCallBack(rows,row)
       this.refresh()
+      if(this.cParentRef){
+        this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
+      }
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
     },
     resetCurrent:function(){
@@ -200,10 +211,12 @@ export default {
       this.currentLabel = ''
       this.currentValue = null
       this.refresh()
-      this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
+      if(this.cParentRef)
+        this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
+      this.$emit('cv-reset', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
     },
     refresh:function(){
-      this.$refs.cvSimpleFilterRef.search=this.currentLabel
+      this.setSearch()
       this.prepareToFindSource(this.currentLabel)
     },
     focused:function(){
@@ -211,15 +224,16 @@ export default {
         return false
       this.currentItem=null
       this.focus=true
-      this.$refs.cvSimpleFilterRef.search=this.cGeneralSearch
+      if(this.cSimpleFilterRef)
+        this.setSearch(this.cGeneralSearch)
+        //this.cSimpleFilterRef.search = this.cGeneralSearch
       this.fixListWidth()
       this.$emit('cv-focused', this.search);
     },
     blured:function(){
       this.focus=false;
-      if(this.currentLabel && this.currentLabel !== ''){
-        this.$refs.cvSimpleFilterRef.search=this.currentLabel
-      }
+      if(this.currentLabel && this.currentLabel !== '')
+        this.setSearch()
       this.$emit('cv-blured', this.search);
     },
     keyed:function(key){
@@ -244,8 +258,8 @@ export default {
             this.add(this.currentItem,this.cListOfItems[this.currentItem])
           break
         case 27:
-          if( typeof this.$refs.cvSimpleFilterRef!=='undefined')
-            this.$refs.cvSimpleFilterRef.clear()
+          if(this.cSimpleFilterRef)
+            this.cSimpleFilterRef.clear()
           break
         default: this.currentItem = null
           break
@@ -303,7 +317,7 @@ export default {
     processList: function () {
       this.listOfItems = []
       let data = this.cSourceListOfItems
-      if(typeof data ==="undefined" || !data)
+      if(typeof data ==='undefined' || !data)
         return this.listOfItems
       for (let i = 0; i < data.length; i++){
         if(this.listOfItems.length === this.cListOfItemsLimit)
@@ -381,7 +395,7 @@ export default {
       return this.currentLabel || this.cvCurrentLabel || null
     },
     cSelectQuery:function(){
-      if(typeof this.cvSelectQuery ==="undefined")
+      if(typeof this.cvSelectQuery ==='undefined')
         return [];
       return Object.keys(this.cvSelectQuery)
     },
@@ -404,7 +418,7 @@ export default {
       return this.cvFilterQuery || {'name':''}
     },
     cGeneralSearch:function(){
-      return this.generalSearch || ""
+      return this.generalSearch || ''
     },
     cSourceService:function(){
       return this.cvSourceService || null
@@ -416,10 +430,10 @@ export default {
       return this.cvEnableRemove || true
     },
     cSourceLabel:function(){
-      return this.cvSourceLabel || "Disponibles"
+      return this.cvSourceLabel || 'Disponibles'
     },
     cSourceMessage:function(){
-      return this.cvSourceMessage || "Buscar en disponibles"
+      return this.cvSourceMessage || 'Buscar en disponibles'
     },
     cDisableFields:function(){
       return this.cvDisableFields || false
@@ -470,13 +484,22 @@ export default {
     },
     cDestination: function () {
       return this.cvDestination || 'row'
+    },
+    cSimpleFilterRef: function () {
+      return this.$refs.cvSimpleFilterRef || null
+    },
+    cInputRef: function() {
+      return this.cSimpleFilterRef.cInputRef || null
+    },
+    cParentRef: function() {
+      return this.cvParentRef || null
     }
   },
   mounted:function(){
     this.currenValue  =this.cvCurrentValue
     this.currentLabel =this.cvCurrentLabel
-    if(this.currentLabel && this.currentLabel !== '')
-      this.$refs.cvSimpleFilterRef.search=this.currentLabel
+    if (this.currentLabel && this.currentLabel !== '')
+      this.setSearch()
   },
   created:function(){
     this.saveSearchState()

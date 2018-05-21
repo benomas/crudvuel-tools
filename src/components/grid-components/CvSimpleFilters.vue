@@ -14,6 +14,7 @@
       autocomplete="off"
       :disabled="cDisableFields"
       :clearable="!cDisableFields"
+      ref="inputRef"
     >
   </div>
 </template>
@@ -21,8 +22,8 @@
 export default {
   data () {
     return {
-      search               :this.cSearch || "",
-      keyInterruption      :null
+      search          :this.cSearch || "",
+      keyInterruption :null
     }
   },
   props:[
@@ -97,6 +98,9 @@ export default {
     },
     cLoading:function(){
       return this.cvLoading || false
+    },
+    cInputRef: function() {
+      return this.$refs.inputRef || null
     }
   }
 }
