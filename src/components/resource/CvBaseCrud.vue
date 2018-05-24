@@ -271,6 +271,13 @@
     created:function(){
       this.rowKey      = this.cRowKey;
       this.rowKeyValue = this.cRowKeyRouteValue;
+      //this.row = {}
+      // Check for an active field, to set it 'true - 1' as default
+
+      this.row = this.cResource.lang.fields.active?{active: 1}:{}
+      //if (typeof this.cResource.lang.fields.active == 'string') this.row = {active: 1}
+      // Call to init, this function helps to init props for components, example: toggle and checkboxes or whatever you want to pre-init
+      if(typeof this.init === 'function') this.init()
     }
   }
 </script>
