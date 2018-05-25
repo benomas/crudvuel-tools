@@ -24,11 +24,14 @@
       }
     },
     methods:{
+      transformResponse: function (response){
+        return response.data.data || response.data
+      },
       getSuccess:function(response){
         if(this.action && this.action.type==="rows")
-          this.rows=response.data.data || response.data;
+          this.rows=this.transformResponse(response);
         if(this.action && this.action.type==="row")
-          this.row=response.data.data || response.data;
+          this.row=this.transformResponse(response);
         this.ready=true;
         if(this.cShowGetMessages)
           this.collectSuccessMessages(this.action.getGetSuccessMessage())
@@ -59,9 +62,9 @@
       },
       setSuccess:function(response){
         if(this.action && this.action.type==="rows")
-          this.rows=response.data.data || response.data;
+          this.rows=this.transformResponse(response);
         if(this.action && this.action.type==="row")
-          this.row=response.data.data || response.data;
+          this.row=this.transformResponse(response);
         this.ready=true;
         if(this.cShowSetMessages)
           this.collectSuccessMessages(this.action.getSetSuccessMessage()+this.cIdentText)
@@ -271,11 +274,13 @@
     created:function(){
       this.rowKey      = this.cRowKey;
       this.rowKeyValue = this.cRowKeyRouteValue;
-      //this.row = {}
-      // Check for an active field, to set it 'true - 1' as default
 
-      this.row = this.cResource.lang.fields.active?{active: 1}:{}
-      //if (typeof this.cResource.lang.fields.active == 'string') this.row = {active: 1}
+      // Check for an active field, to set it 'true - 1' as default
+      this.row = this.cResource !=null &&
+        this.cResource.lang !=null &&
+        this.cResource.lang.fields !=null &&
+        this.cResource.lang.fields.active !=null?
+        {active: 1}:{}
       // Call to init, this function helps to init props for components, example: toggle and checkboxes or whatever you want to pre-init
       if(typeof this.init === 'function') this.init()
     }
