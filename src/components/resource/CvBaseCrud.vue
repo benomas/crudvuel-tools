@@ -20,10 +20,16 @@
         cvSynchronizer              : new CvSynchronizer(),
         successNotificationMessages : null,
         errorNotificationMessages   : null,
-        cancelNotificationMessages  : null
+        cancelNotificationMessages  : null,
+        infoNotificationMessages    : null
       }
     },
     methods:{
+      serverMessageTransform: function (message = ''){
+        if (message!=='')
+          return ' Server:' + message
+        return ''
+      },
       transformResponse: function (response){
         return response.data.data || response.data
       },
@@ -82,7 +88,7 @@
           this.errors = errorResponse.response.data.errors
 
         if(this.cShowSetMessages)
-          this.collectErrorMessages(this.action.getSetErrorMessage()+this.cIdentText)
+          this.collectErrorMessages(this.action.getSetErrorMessage()+this.cIdentText + this.serverMessageTransform(errorResponse.response.data.message || ''))
         this.errorRedirect()
       },
       setParams:function(){
@@ -155,10 +161,14 @@
       collectCancelMessages:function(message){
         this.messageCollector("cancelNotificationMessages",message)
       },
+      collectInfoMessages:function(message){
+        this.messageCollector("infoNotificationMessages",message)
+      },
       proccessMessages:function(){
         this.successNotification()
         this.errorNotification()
         this.cancelNotification()
+        this.infoNotification()
       },
       successNotification:function(){
         this.messageNotificator("successNotificationMessages")
@@ -168,6 +178,9 @@
       },
       cancelNotification:function(){
         this.messageNotificator("cancelNotificationMessages")
+      },
+      infoNotification:function(){
+        this.messageNotificator("infoNotificationMessages")
       },
       validator:function(){
         return true;

@@ -2,6 +2,7 @@ import cvDinDep      from '../cvDinDep'
 import CvEnv         from '../CvEnv'
 import CvPassport    from './CvPassport'
 import CvCrudService from './CvCrudService'
+import cvSerialize   from '../cvSerialize'
 
 export default function(router,globals){
   this.globals = globals;
@@ -94,5 +95,5 @@ export default function(router,globals){
   this.error409 = () => {
     location.reload();
   }
-
+  this.cvSerialize=cvSerialize
 };
