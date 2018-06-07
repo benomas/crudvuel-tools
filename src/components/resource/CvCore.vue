@@ -2,6 +2,9 @@
   import cvVueSetter from '../../cvVueSetter'
   export default{
     methods:{
+      openFile: function (path) {
+        window.open(path)
+      },
       resourceAccessing: function (resource = null) {
         if (!resource){
           if (typeof this.resource !== 'undefined')
