@@ -105,3 +105,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+  .simple-filters-input{
+    margin-left: 10px;
+  }
+</style>
