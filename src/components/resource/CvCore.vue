@@ -52,6 +52,20 @@
       actionPath:function(action,row,resource=null){
         return this.resorceAction(action,resource).getFixedPath(row) || null
       },
+      setReady: function () {
+        this.ready = true
+      },
+      setUnReady: function () {
+        this.ready = false
+      },
+      setParentReady: function () {
+        if (this.cParentRef)
+          this.cParentRef.setReady()
+      },
+      setParentUnReady: function () {
+        if (this.cParentRef)
+          this.cParentRef.setUnReady()
+      }
     },
     computed:{
       cDisableFields:function(){
@@ -63,6 +77,9 @@
       cSelfRef :  function () {
         return this
       },
+      cParentRef :  function () {
+        return this.cvParentRef || null
+      },
       cShowOwnSpinner : function() {
         if (typeof this.cvShowOwnSpinner !== 'undefined')
           return this.cvShowOwnSpinner
@@ -72,7 +89,8 @@
     props:[
       "cvDisableFields",
       "cvReady",
-      "cvShowOwnSpinner"
+      "cvShowOwnSpinner",
+      "cvParentRef"
     ]
   }
 </script>
