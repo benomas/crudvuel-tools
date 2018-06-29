@@ -206,8 +206,10 @@ export default {
     },
     resetCurrent:function(){
       //this.focus=true
+      /*
       if(this.cDisableFields)
         return false;
+      */
       this.currentLabel = ''
       this.currentValue = null
       this.refresh()
