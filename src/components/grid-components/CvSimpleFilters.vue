@@ -22,7 +22,7 @@
 export default {
   data () {
     return {
-      search          :this.cSearch || "",
+      search          :"",
       keyInterruption :null
     }
   },
@@ -102,6 +102,9 @@ export default {
     cInputRef: function() {
       return this.$refs.inputRef || null
     }
+  },
+  mounted: function () {
+    this.search = this.cSearch || ''
   }
 }
 </script>
