@@ -40,95 +40,54 @@ export default function(cvComunicator,resourceName){
     this.statusText = response.statusText || "";
   }
 
-  this.show=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.get(
-        (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
-        params|| {}
-    ).then((response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
-  };
-
-  this.index=(successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.get(
-        (url || this.getRelBaseUrl()) + (queryString?"?"+queryString:""),
-        params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
-  };
-
-  this.store=(successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.post(
-        (url || this.getRelBaseUrl()) + (queryString?"?"+queryString:""),
-        params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
-  };
-
-  this.update=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.put(
-        (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
-        params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
-  };
-
-  this.destroy=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.delete(
-        (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
-        params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+  // Default row params when id is defined, so action has these params id,params,url,queryString
+  this.solveKeyedParams = (id = null, params = null, url = null, queryString = null) => {
+    return [
+      (url || this.getRelBaseUrl() + "/" + id) + (queryString?"?"+queryString:""),
+      params|| {}
+    ]
   }
 
-  this.activate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.put(
-        (url || this.getRelBaseUrl()+"/"+id+"/activate") + (queryString?"?"+queryString:""),
-        params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+  // Default rows params when non id is defined, so action has these params params,url,queryString
+  this.solveParams = ( params = null, url = null, queryString = null) => {
+    return [
+      (url || this.getRelBaseUrl()) + (queryString?"?"+queryString:""),
+      params|| {}
+    ]
   }
 
-  this.deactivate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.put(
-        (url || this.getRelBaseUrl()+"/"+id+"/deactivate") + (queryString?"?"+queryString:""),
+  this.show = (...serviceParams) => {
+    return this.cvComunicator.axios.get(...this.solveKeyedParams(...serviceParams))
+  };
+
+  this.index = (...serviceParams) => {
+    return this.cvComunicator.axios.get(...this.solveParams(...serviceParams))
+  };
+
+  this.store = (...serviceParams) => {
+    return this.cvComunicator.axios.post(...this.solveParams(...serviceParams))
+  };
+
+  this.update = (...serviceParams) => {
+    return this.cvComunicator.axios.put(...this.solveKeyedParams(...serviceParams))
+  };
+
+  this.destroy = (...serviceParams) => {
+    return this.cvComunicator.axios.delete(...this.solveKeyedParams(...serviceParams))
+  }
+
+  this.activate = (id,successCallBack,ErrorCallBack,params,url,queryString) => {
+    return this.cvComunicator.axios.put(
+        (url || this.getRelBaseUrl() + "/" + id + "/activate") + (queryString?"?" + queryString:""),
         params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    )
+  }
+
+  this.deactivate = (id,successCallBack,ErrorCallBack,params,url,queryString) => {
+    return this.cvComunicator.axios.put(
+        (url || this.getRelBaseUrl() + "/" + id + "/deactivate") + (queryString?"?"+queryString:""),
+        params|| {}
+    )
   }
 
   this.cvComunicator.pushDinamicCrudServices(this);

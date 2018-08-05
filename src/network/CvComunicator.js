@@ -5,16 +5,16 @@ import CvCrudService from './CvCrudService'
 import cvSerialize   from '../cvSerialize'
 
 export default function(router,globals){
-  this.globals = globals;
-  this.cvDinDep = cvDinDep;
-  this.resources={};
-  this.cvEnv = this.cvDinDep("CvEnv",globals) || new CvEnv();
-  var axios = require('axios');
+  this.globals   = globals;
+  this.cvDinDep  = cvDinDep;
+  this.resources = {};
+  this.cvEnv     = this.cvDinDep("CvEnv",globals) || new CvEnv();
+  var axios      = require('axios');
   this.defaultConfig = {
     baseURL            : this.cvEnv.apiUrl(),
     headers            : {
-    'X-Requested-With'           : 'XMLHttpRequest',
-    'Content-Type'               : 'application/json'
+      'X-Requested-With' : 'XMLHttpRequest',
+      'Content-Type'     : 'application/json'
     },
     timeout           : this.cvEnv.ajaxTimeout() || 60000,
     responseType      : 'json',
