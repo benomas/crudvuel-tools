@@ -1,0 +1,237 @@
+// app global css
+$fontSize1                 : 0.62rem;
+$fontSize2                 : 0.87rem;
+$fontSize3                 : 1rem;
+$fontSize4                 : 1.25rem;
+$fontSize5                 : 2rem;
+
+$sidePadingSize1           : 13px;
+$maxWidthContainer         : '1200px';
+$sizeIteratorStart         : 1;
+$sizeIteratorEnd           : 200;
+$colorVariationCount       : 5;
+
+$neutral                   : #FFFFFF;
+$positive                  : #4DB3A2;
+$negative                  : #E35B5A;
+$info                      : #36A3F7;
+$warning                   : #C49F47;
+
+$primary                   : #2B3643;
+$secondary                 : #364150;
+$tertiary                  : #3598DC;
+$white                     : #ffffff;
+$lightblue                 : #1ccedf;
+$darkblue                  : #3B69A0;
+$black                     : #000000;
+$firebrick                 : #b22222;
+
+$neutral2                  : #FFFFFF;
+$positive2                 : #2F9A88;
+$negative2                 : #FF4C4C;
+$info2                     : #36A3F7;
+$warning2                  : #7C693D;
+
+$primary2                  : #2B3643;
+$secondary2                : #3F526C;
+$tertiary2                 : #3598DC;
+$white2                    : #ecf6ff;
+$lightblue2                : #1ccedf;
+$darkblue2                 : #3B69A0;
+$black2                    : #000000;
+$firebrick2                : #b22222;
+
+$neutral3                  : #FFFFFF;
+$positive3                 : #138D79;
+$negative3                 : #E35B5A;
+$info3                     : #36A3F7;
+$warning3                  : #E0B347;
+
+$primary3                  : #2B3643;
+$secondary3                : #4F698D;
+$tertiary3                 : #3598DC;
+$white3                    : #ecf6ff;
+$lightblue3                : #1ccedf;
+$darkblue3                 : #3B69A0;
+$black3                    : #000000;
+$firebrick3                : #b22222;
+
+$xsValue                   : 4px;
+$smValue                   : 8px;
+$mdValue                   : 12px;
+$lgValue                   : 15px;
+$xlValue                   : 20px;
+
+$sumatoryBorderColor       : #CCCCCC;
+$sumatoryResumeBorderColor : #BCBCBC;
+$sumatoryBorderStyle       : solid;
+$sumatorySize              : 1px;
+
+$sides-list                : 'a','x','y','t','r','b','l';
+$sides-modes               : (
+                (''),
+                ('right','left'),
+                ('top','bottom'),
+                ('top'),
+                ('right'),
+                ('bottom'),
+                ('left')
+              );
+
+@function coloring($baseColor, $position){
+  /*
+  @if $baseColor == "positive" {
+    @return "positive1";
+  }
+  @else if  $baseColor == 'positive'{
+    @return "positive2";
+  }
+  @else{
+    @return "fail";
+  }
+  */
+  @if $baseColor == 'neutral' {
+    @if $position == 1 {
+      @return $neutral;
+    }
+    @if $position == 2 {
+      @return $neutral2;
+    }
+    @if $position == 3 {
+      @return $neutral3;
+    }
+  }
+  @if $baseColor == 'positive' {
+    @if $position == 1 {
+      @return $positive;
+    }
+    @if $position == 2 {
+      @return $positive2;
+    }
+    @if $position == 3 {
+      @return $positive3;
+    }
+  }
+  @if $baseColor == 'negative' {
+    @if $position == 1 {
+      @return $negative;
+    }
+    @if $position == 2 {
+      @return $negative2;
+    }
+    @if $position == 3 {
+      @return $negative3;
+    }
+  }
+  @if $baseColor == 'info' {
+    @if $position == 1 {
+      @return $info;
+    }
+    @if $position == 2 {
+      @return $info2;
+    }
+    @if $position == 3 {
+      @return $info3;
+    }
+  }
+  @if $baseColor == 'warning' {
+    @if $position == 1 {
+      @return $warning;
+    }
+    @if $position == 2 {
+      @return $warning2;
+    }
+    @if $position == 3 {
+      @return $warning3;
+    }
+  }
+  @if $baseColor == 'primary' {
+    @if $position == 1 {
+      @return $primary;
+    }
+    @if $position == 2 {
+      @return $primary2;
+    }
+    @if $position == 3 {
+      @return $primary3;
+    }
+  }
+  @if $baseColor == 'secondary' {
+    @if $position == 1 {
+      @return $secondary;
+    }
+    @if $position == 2 {
+      @return $secondary2;
+    }
+    @if $position == 3 {
+      @return $secondary3;
+    }
+  }
+  @if $baseColor == 'tertiary' {
+    @if $position == 1 {
+      @return $tertiary;
+    }
+    @if $position == 2 {
+      @return $tertiary2;
+    }
+    @if $position == 3 {
+      @return $tertiary3;
+    }
+  }
+  @if $baseColor == 'white' {
+    @if $position == 1 {
+      @return $white;
+    }
+    @if $position == 2 {
+      @return $white2;
+    }
+    @if $position == 3 {
+      @return $white3;
+    }
+  }
+  @if $baseColor == 'lightblue' {
+    @if $position == 1 {
+      @return $lightblue;
+    }
+    @if $position == 2 {
+      @return $lightblue2;
+    }
+    @if $position == 3 {
+      @return $lightblue3;
+    }
+  }
+  @if $baseColor == 'darkblue' {
+    @if $position == 1 {
+      @return $darkblue;
+    }
+    @if $position == 2 {
+      @return $darkblue2;
+    }
+    @if $position == 3 {
+      @return $darkblue3;
+    }
+  }
+  @if $baseColor == 'black' {
+    @if $position == 1 {
+      @return $black;
+    }
+    @if $position == 2 {
+      @return $black2;
+    }
+    @if $position == 3 {
+      @return $black3;
+    }
+  }
+  @if $baseColor == 'firebrick' {
+    @if $position == 1 {
+      @return $firebrick;
+    }
+    @if $position == 2 {
+      @return $firebrick2;
+    }
+    @if $position == 3 {
+      @return $firebrick3;
+    }
+  }
+  @return $neutral;
+}
