@@ -1,80 +1,130 @@
 // app global css
-$fontSize1                 = 0.62rem
-$fontSize2                 = 0.87rem
-$fontSize3                 = 1rem
-$fontSize4                 = 1.25rem
-$fontSize5                 = 2rem
 
-$sidePadingSize1           = 13px
-$maxWidthContainer         = '1200px'
-$sizeIteratorStart         = 1
-$sizeIteratorEnd           = 200
-$colors                    =
-  neutral positive negative info warning $primary secondary tertiary quaternary white lightblue darkblue black grey firebrick
-$colorVariationCount       = 4
+//Dinamic disable/enable modules variables
+$cell-sizes-module         := 'enabled'
+$box-sizes-module          := 'enabled'
+$border-sizes-module       := 'enabled'
+$padding-sizes-module      := 'enabled'
+$margin-sizes-module       := 'enabled'
+$font-sizes-module         := 'enabled'
+$colors-module             := 'enabled'
+$col-sizes-module          := 'enabled'
+$alings-module             := 'enabled'
+$sumatory-module           := 'enabled'
+$color-module              := 'enabled'
+$color-txt-module          := 'enabled'
+$color-bg-module           := 'enabled'
+$color-box-module          := 'enabled'
+$color-dark-box-module     := 'enabled'
+$color-border-module       := 'enabled'
+$responsive-margin-module  := 'enabled'
+$responsive-padding-module := 'enabled'
+//Other variables
+$font-size1                := 6px
+$font-size2                := 8px
+$font-size3                := 9px
+$font-size4                := 10px
+$font-size5                := 11px
+$font-size6                := 12px
+$font-size7                := 14px
+$font-size8                := 16px
+$font-size9                := 20px
+$font-size10               := 24px
+$em-font-size1             := 0.62em
+$em-font-size2             := 0.87em
+$em-font-size3             := 1em
+$em-font-size4             := 1.25em
+$em-font-size5             := 2em
+$em-font-size6             := 2.25em
+$em-font-size7             := 3em
+$em-font-size8             := 4em
+$em-font-size9             := 5em
+$em-font-size10            := 7.5em
+$rem-font-size1            := 0.62rem
+$rem-font-size2            := 0.87rem
+$rem-font-size3            := 1rem
+$rem-font-size4            := 1.25rem
+$rem-font-size5            := 2rem
+$rem-font-size6            := 2.25rem
+$rem-font-size7            := 3rem
+$rem-font-size8            := 4rem
+$rem-font-size9            := 5rem
+$rem-font-size10           := 7.5rem
 
-$neutral                   = #FFFFFF
-$positive                  = #4DB3A2
-$negative                  = #E35B5A
-$info                      = #36A3F7
-$warning                   = #C49F47
-$primary                   = #2B3643
-$secondary                 = #364150
-$tertiary                  = #3598DC
-$quaternary                = #3598DC
-$white                     = #ffffff
-$lightblue                 = #1ccedf
-$darkblue                  = #3B69A0
-$black                     = #000000
-$grey                      = #CCCCCC
-$firebrick                 = #b22222
+$sidePadingSize1           := 13px
+$maxWidthContainer         := '1200px'
+$sizeIteratorStart         := 0
+$sizeIteratorEnd           := 200
+$colors                    := 'neutral' 'positive' 'negative' 'info' 'warning' 'primary' 'secondary' 'tertiary' 'quaternary' 'white' 'lightblue' 'darkblue' 'black' 'grey' 'firebrick'
+$color-variation-count     := 4
 
-$neutral2                  = #FFFFFF
-$positive2                 = #2F9A88
-$negative2                 = #FF4C4C
-$info2                     = #36A3F7
-$warning2                  = #7C693D
-$primary2                  = #2B3643
-$secondary2                = #3F526C
-$tertiary2                 = #3598DC
-$white2                    = #ecf6ff
-$lightblue2                = #1ccedf
-$darkblue2                 = #3B69A0
-$black2                    = #000000
-$grey2                     = #CCCCCC
-$firebrick2                = #b22222
+$neutral                   := #FFFFFF
+$positive                  := #4DB3A2
+$negative                  := #E35B5A
+$info                      := #36A3F7
+$warning                   := #C49F47
+$primary                   := #2B3643
+$secondary                 := #364150
+$tertiary                  := #3598DC
+$quaternary                := #3598DC
+$white                     := #ffffff
+$lightblue                 := #1ccedf
+$darkblue                  := #3B69A0
+$black                     := #000000
+$grey                      := #CCCCCC
+$firebrick                 := #b22222
 
-$neutral3                  = #FFFFFF
-$positive3                 = #138D79
-$negative3                 = #E35B5A
-$info3                     = #36A3F7
-$warning3                  = #E0B347
-$primary3                  = #2B3643
-$secondary3                = #4F698D
-$tertiary3                 = #3598DC
-$white3                    = #ecf6ff
-$lightblue3                = #1ccedf
-$darkblue3                 = #3B69A0
-$black3                    = #000000
-$grey3                     = #CCCCCC
-$firebrick3                = #b22222
+$neutral2                  := #FFFFFF
+$positive2                 := #2F9A88
+$negative2                 := #FF4C4C
+$info2                     := #36A3F7
+$warning2                  := #7C693D
+$primary2                  := #2B3643
+$secondary2                := #3F526C
+$tertiary2                 := #3598DC
+$white2                    := #ecf6ff
+$lightblue2                := #1ccedf
+$darkblue2                 := #3B69A0
+$black2                    := #000000
+$grey2                     := #CCCCCC
+$firebrick2                := #b22222
 
-$xsValue                   = 4px
-$smValue                   = 8px
-$mdValue                   = 12px
-$lgValue                   = 15px
-$xlValue                   = 20px
+$neutral3                  := #FFFFFF
+$positive3                 := #138D79
+$negative3                 := #E35B5A
+$info3                     := #36A3F7
+$warning3                  := #E0B347
+$primary3                  := #2B3643
+$secondary3                := #4F698D
+$tertiary3                 := #3598DC
+$white3                    := #ecf6ff
+$lightblue3                := #1ccedf
+$darkblue3                 := #3B69A0
+$black3                    := #000000
+$grey3                     := #CCCCCC
+$firebrick3                := #b22222
 
-$sumatoryBorderColor       = #CCCCCC
-$sumatoryResumeBorderColor = #BCBCBC
-$sumatoryBorderStyle       = solid
-$sumatorySize              = 1px
+$xsValue                   := 4px
+$smValue                   := 8px
+$mdValue                   := 12px
+$lgValue                   := 15px
+$xlValue                   := 20px
 
-$sides-list                = 'a' 'x' 'y' 't' 'r' 'b' 'l'
-$sides-modes               = (''),('right' 'left'),('top' 'bottom'),('top'),('right'),('bottom'),('left')
+$sumatoryBorderColor       := #CCCCCC
+$sumatoryResumeBorderColor := #BCBCBC
+$sumatoryBorderStyle       := solid
+$sumatorySize              := 1px
 
-coloring($dinamic-color='neutral')
-  if lookup(''+$dinamic-color) == null
-    $neutral
-  lookup(''+$dinamic-color)
+$sides-list                := 'a' 'x' 'y' 't' 'r' 'b' 'l'
+$sides-modes               := (''),('right' 'left'),('top' 'bottom'),('top'),('right'),('bottom'),('left')xs
+$col-sizes                 := 'xs' 'sm' 'md' 'lg' 'xl'
+
+coloring($dinamic-color='$neutral')
+  if lookup($dinamic-color) == null
+    return $neutral
+  return lookup(''+$dinamic-color)
+sizing($dinamic-size='1rem')
+  if lookup($dinamic-size) == null
+    return '1rem'
+  return lookup(''+$dinamic-size)
 

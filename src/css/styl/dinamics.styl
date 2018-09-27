@@ -6,166 +6,188 @@ side-padding($padding)
 .row
   &.panel-container
     side-padding($sidePadingSize1)
-td
-  for $i in (0..100)
-    &.p-{$i}
-      width:$i*1%
-    &.p-auto
-      width:auto
-
+// cell sizes
+if $cell-sizes-module == 'enabled'
+  td
+    for $i in (0..100)
+      &.p-{$i}
+        width:$i*1%
+      &.p-auto
+        width:auto
+// box sizes
 for $i in ($sizeIteratorStart..$sizeIteratorEnd)
-  $absoluteClassPostFix     = $i*5
-  $percentClassPostFix      = ($i / 2)
-  $percentClassPostFixValue = $i/2
-  if $i % 2 > 0
-    $percentClassPostFix=($i / 2 - 0.5)p5
-  // width:n px
-  .w-{$absoluteClassPostFix}px
-    width:$i*5px !important
-  // max-width:n px
-  .mxw-{$absoluteClassPostFix}px
-    max-width:$i*5px !important
-  // min-width:n px
-  .mnw-{$absoluteClassPostFix}px
-    min-width:$i*5px !important
-  // width:n %
-  .w-{$percentClassPostFix}
-    width:$percentClassPostFixValue*1% !important
-  // max-width:n %
-  .mxw-{$percentClassPostFix}
-    width:$percentClassPostFixValue*1% !important
-  // min-width:n %
-  .mnw-{$percentClassPostFix}
-    width:$percentClassPostFixValue*1% !important
-  // height:n px
-  .h-{$absoluteClassPostFix}px
-    height:$i*5px !important
-  // max-height:n px
-  .mxh-{$absoluteClassPostFix}px
-    max-height:$i*5px !important
-  // min-height:n px
-  .mnh-{$absoluteClassPostFix}px
-    min-height:$i*5px !important
-  // width:n %
-  .h-{$percentClassPostFix}
-        height:$percentClassPostFixValue*1%!important
-  // max-width:n %
-  .mxh-{$percentClassPostFix}
-        height:$percentClassPostFixValue*1%!important
-  // min-width:n %
-  .mnh-{$percentClassPostFix}
-        height:$percentClassPostFixValue*1%!important
-  if $i < 5
-    .b
-      for $current-side, $current-index in $sides-list
-        for $current-side-mode in $sides-modes[$current-index]
+  if $box-sizes-module  == 'enabled'
+    $absoluteClassPostFix     = $i*5
+    $percentClassPostFix      = ($i / 2)
+    $percentClassPostFixValue = $i/2
+    if $i % 2 > 0
+      $percentClassPostFix=($i / 2 - 0.5)p5
+    // width:n px
+    .w-{$absoluteClassPostFix}px
+      width:$i*5px !important
+    // max-width:n px
+    .mxw-{$absoluteClassPostFix}px
+      max-width:$i*5px !important
+    // min-width:n px
+    .mnw-{$absoluteClassPostFix}px
+      min-width:$i*5px !important
+    // width:n %
+    .w-{$percentClassPostFix}
+      width:$percentClassPostFixValue*1% !important
+    // max-width:n %
+    .mxw-{$percentClassPostFix}
+      width:$percentClassPostFixValue*1% !important
+    // min-width:n %
+    .mnw-{$percentClassPostFix}
+      width:$percentClassPostFixValue*1% !important
+    // height:n px
+    .h-{$absoluteClassPostFix}px
+      height:$i*5px !important
+    // max-height:n px
+    .mxh-{$absoluteClassPostFix}px
+      max-height:$i*5px !important
+    // min-height:n px
+    .mnh-{$absoluteClassPostFix}px
+      min-height:$i*5px !important
+    // width:n %
+    .h-{$percentClassPostFix}
+          height:$percentClassPostFixValue*1%!important
+    // max-width:n %
+    .mxh-{$percentClassPostFix}
+          height:$percentClassPostFixValue*1%!important
+    // min-width:n %
+    .mnh-{$percentClassPostFix}
+          height:$percentClassPostFixValue*1%!important
+  // box sizes
+  if $border-sizes-module  == 'enabled'
+    if $i < 5
+      .b
+        for $current-side, $current-index in $sides-list
           &{$current-side}-{$i}px
-            if $current-side-mode == ''
-              border:$i*1px solid
-            else
-              border-{$current-side-mode}:$i*1px solid
+            for $current-side-mode in $sides-modes[$current-index]
+              if $current-side-mode == ''
+                border:$i*1px solid
+              else
+                border-{$current-side-mode}:$i*1px solid
           &{$current-side}-{$i}
-            if $current-side-mode == ''
-              border:$i*1% solid
-            else
-              border-{$current-side-mode}:$i*1% solid
+            for $current-side-mode in $sides-modes[$current-index]
+              if $current-side-mode == ''
+                border:$i*1% solid
+              else
+                border-{$current-side-mode}:$i*1% solid
   if $i < 100
-    .p
-      for $current-side, $current-index in $sides-list
-        for $current-side-mode in $sides-modes[$current-index]
+    if $padding-sizes-module  == 'enabled'
+      .p
+        for $current-side, $current-index in $sides-list
           &{$current-side}-{$i}px
-            if $current-side-mode == ''
-              padding:$i*1px
-            else
-              padding-{$current-side-mode}:$i*1px
+            for $current-side-mode in $sides-modes[$current-index]
+              if $current-side-mode == ''
+                padding:$i*1px
+              else
+                padding-{$current-side-mode}:$i*1px
           &{$current-side}-{$i}
-            if $current-side-mode == ''
-              padding:$i*1%
-            else
-              padding-{$current-side-mode}:$i*1%
-    .m
-      for $current-side, $current-index in $sides-list
-        for $current-side-mode in $sides-modes[$current-index]
+            for $current-side-mode in $sides-modes[$current-index]
+              if $current-side-mode == ''
+                padding:$i*1%
+              else
+                padding-{$current-side-mode}:$i*1%
+    if $margin-sizes-module  == 'enabled'
+      .m
+        for $current-side, $current-index in $sides-list
           &{$current-side}-{$i}px
-            if $current-side-mode == ''
-              margin:$i*1px
-            else
-              margin-{$current-side-mode}:$i*1px
+            for $current-side-mode in $sides-modes[$current-index]
+              if $current-side-mode == ''
+                margin:$i*1px
+              else
+                margin-{$current-side-mode}:$i*1px
           &{$current-side}-{$i}
-            if $current-side-mode == ''
-              margin:$i*1%
-            else
-              margin-{$current-side-mode}:$i*1%
-.t
-  &-center
-    text-align: center !important
-  &-middle
-    vertical-align: middle !important
-  &-right
-    text-align: right !important
-  &-left
-    text-align: left !important
-
-.f
-  &-left
-    float: left !important
-  &-right
-    float: right !important
-  &-bold
-    font-weight: bold !important
-  for $i in (6..40)
-    &-s{$i}px
-      font-size: $i*1px !important
-.sumatory-table
-  & thead
-    & td
-      border-top:$sumatorySize $sumatoryBorderStyle $sumatoryBorderColor !important
-  & thead,tbody
-    & td:first-child
-      border-left:$sumatorySize $sumatoryBorderStyle $sumatoryBorderColor !important
-    & td:last-child
-      border-right:$sumatorySize $sumatoryBorderStyle $sumatoryBorderColor !important
-  & tfoot
-    & td
-      border-left:none !important
-      border-right:none !important
-    & .sumatory
-      font-size:14px
-      border-bottom:$sumatorySize $sumatoryBorderStyle $sumatoryResumeBorderColor !important
-      border-right:$sumatorySize $sumatoryBorderStyle $sumatoryResumeBorderColor !important
-      &:first-of-type
-        background-color:red !important
-      &-label
+            for $current-side-mode in $sides-modes[$current-index]
+              if $current-side-mode == ''
+                margin:$i*1%
+              else
+                margin-{$current-side-mode}:$i*1%
+if $alings-module  == 'enabled'
+  .t
+    &-center
+      text-align: center !important
+    &-middle
+      vertical-align: middle !important
+    &-right
+      text-align: right !important
+    &-left
+      text-align: left !important
+  .f
+    &-left
+      float: left !important
+    &-right
+      float: right !important
+    &-bold
+      font-weight: bold !important
+    for $i in (6..40)
+      &-s{$i}px
+        font-size: $i*1px !important
+if $sumatory-module  == 'enabled'
+  .sumatory-table
+    & thead
+      & td
+        border-top:$sumatorySize $sumatoryBorderStyle $sumatoryBorderColor !important
+    & thead,tbody
+      & td:first-child
+        border-left:$sumatorySize $sumatoryBorderStyle $sumatoryBorderColor !important
+      & td:last-child
+        border-right:$sumatorySize $sumatoryBorderStyle $sumatoryBorderColor !important
+    & tfoot
+      & td
+        border-left:none !important
+        border-right:none !important
+      & .sumatory
+        font-size:14px
+        border-bottom:$sumatorySize $sumatoryBorderStyle $sumatoryResumeBorderColor !important
         border-right:$sumatorySize $sumatoryBorderStyle $sumatoryResumeBorderColor !important
-        font-weight: bold !important
-  & .table-scrollable
-    border:none !important
-  & table
-    border-bottom:none !important
+        &:first-of-type
+          background-color:red !important
+        &-label
+          border-right:$sumatorySize $sumatoryBorderStyle $sumatoryResumeBorderColor !important
+          font-weight: bold !important
+    & .table-scrollable
+      border:none !important
+    & table
+      border-bottom:none !important
 
 //Color strategy
-for $i in (1..$colorVariationCount)
-  $prefix = ''
-  if $i > 1
-    $prefix = '-' + $i
-  for $current-color in $colors
-    .txt-
-      &{$current-color}
-        color:coloring($current-color + $i)
-    .bg-
-      &{$current-color}
-        background-color:coloring($current-color+$i)
-    .colored-box-
-      &{$current-color}
-        color            :coloring($current-color+$i)
-        background-color :coloring($current-color+$i)
-    .dark-colored-box-
-      &{$current-color}
-        color            :coloring($current-color+$i)
-        background-color :coloring($current-color+$i)
-    .border-
-      &{$current-color}
-        border-color:coloring($current-color+$i)
+if $color-module  == 'enabled'
+  for $i in (1..$color-variation-count)
+    $prefix = ''
+    if $i > 1
+      $prefix = '-' + $i
+    for $current-color in $colors
+      if $i > 1
+        $color-variation = '$' + $current-color + $i
+      else
+        $color-variation = '$' + $current-color
+      $color-prefix    = $current-color + $prefix
+      if $color-txt-module  == 'enabled'
+        .txt-
+          &{$color-prefix}
+            color:coloring($color-variation)
+      if $color-bg-module  == 'enabled'
+        .bg-
+          &{$color-prefix}
+            background-color:coloring($color-variation)
+      if $color-box-module  == 'enabled'
+        .colored-box-
+          &{$color-prefix}
+            color            :coloring($color-variation)
+            background-color :coloring($color-variation)
+      if $color-dark-box-module  == 'enabled'
+        .dark-colored-box-
+          &{$color-prefix}
+            color            :coloring($color-variation)
+            background-color :coloring($color-variation)
+      if $color-border-module  == 'enabled'
+        .border-
+          &{$color-prefix}
+            border-color:coloring($color-variation)
 .m
   &-auto
     margin:auto !important
@@ -175,93 +197,94 @@ for $i in (1..$colorVariationCount)
   &x-auto
     margin-left  :auto !important
     margin-right :auto !important
-  &a
-    &-xs
-      margin: $xsValue
-    &-sm
-      margin: $smValue
-    &-md
-      margin: $mdValue
-    &-lg
-      margin: $lgValue
-    &-xl
-      margin: $xlValue
-  &y
-    &-xs
-      margin-top    : $xsValue
-      margin-bottom : $xsValue
-    &-sm
-      margin-top    : $smValue
-      margin-bottom : $smValue
-    &-md
-      margin-top    : $mdValue
-      margin-bottom : $mdValue
-    &-lg
-      margin-top    : $lgValue
-      margin-bottom : $lgValue
-    &-xl
-      margin-top    : $xlValue
-      margin-bottom : $xlValue
-  &x
-    &-xs
-      margin-left  : $xsValue
-      margin-right : $xsValue
-    &-sm
-      margin-left  : $smValue
-      margin-right : $smValue
-    &-md
-      margin-left  : $mdValue
-      margin-right : $mdValue
-    &-lg
-      margin-left  : $lgValue
-      margin-right : $lgValue
-    &-xl
-      margin-left  : $xlValue
-      margin-right : $xlValue
-  &t
-    &-xs
-      margin-top: $xsValue
-    &-sm
-      margin-top: $smValue
-    &-md
-      margin-top: $mdValue
-    &-lg
-      margin-top: $lgValue
-    &-xl
-      margin-top: $xlValue
-  &b
-    &-xs
-      margin-bottom: $xsValue
-    &-sm
-      margin-bottom: $smValue
-    &-md
-      margin-bottom: $mdValue
-    &-lg
-      margin-bottom: $lgValue
-    &-xl
-      margin-bottom: $xlValue
-  &l
-    &-xs
-      margin-left: $xsValue
-    &-sm
-      margin-left: $smValue
-    &-md
-      margin-left: $mdValue
-    &-lg
-      margin-left: $lgValue
-    &-xl
-      margin-left: $xlValue
-  &r
-    &-xs
-      margin-right: $xsValue
-    &-sm
-      margin-right: $smValue
-    &-md
-      margin-right: $mdValue
-    &-lg
-      margin-right: $lgValue
-    &-xl
-      margin-right: $xlValue
+  if $responsive-margin-module  == 'enabled'
+    &a
+      &-xs
+        margin: $xsValue
+      &-sm
+        margin: $smValue
+      &-md
+        margin: $mdValue
+      &-lg
+        margin: $lgValue
+      &-xl
+        margin: $xlValue
+    &y
+      &-xs
+        margin-top    : $xsValue
+        margin-bottom : $xsValue
+      &-sm
+        margin-top    : $smValue
+        margin-bottom : $smValue
+      &-md
+        margin-top    : $mdValue
+        margin-bottom : $mdValue
+      &-lg
+        margin-top    : $lgValue
+        margin-bottom : $lgValue
+      &-xl
+        margin-top    : $xlValue
+        margin-bottom : $xlValue
+    &x
+      &-xs
+        margin-left  : $xsValue
+        margin-right : $xsValue
+      &-sm
+        margin-left  : $smValue
+        margin-right : $smValue
+      &-md
+        margin-left  : $mdValue
+        margin-right : $mdValue
+      &-lg
+        margin-left  : $lgValue
+        margin-right : $lgValue
+      &-xl
+        margin-left  : $xlValue
+        margin-right : $xlValue
+    &t
+      &-xs
+        margin-top: $xsValue
+      &-sm
+        margin-top: $smValue
+      &-md
+        margin-top: $mdValue
+      &-lg
+        margin-top: $lgValue
+      &-xl
+        margin-top: $xlValue
+    &b
+      &-xs
+        margin-bottom: $xsValue
+      &-sm
+        margin-bottom: $smValue
+      &-md
+        margin-bottom: $mdValue
+      &-lg
+        margin-bottom: $lgValue
+      &-xl
+        margin-bottom: $xlValue
+    &l
+      &-xs
+        margin-left: $xsValue
+      &-sm
+        margin-left: $smValue
+      &-md
+        margin-left: $mdValue
+      &-lg
+        margin-left: $lgValue
+      &-xl
+        margin-left: $xlValue
+    &r
+      &-xs
+        margin-right: $xsValue
+      &-sm
+        margin-right: $smValue
+      &-md
+        margin-right: $mdValue
+      &-lg
+        margin-right: $lgValue
+      &-xl
+        margin-right: $xlValue
 .p
   &-auto
     padding:auto !important
@@ -275,90 +298,101 @@ for $i in (1..$colorVariationCount)
     padding: 5px 0 5px 5px
   &-absolute
     position: absolute !important
-  &a
-    &-xs
-      padding: $xsValue
-    &-sm
-      padding: $smValue
-    &-md
-      padding: $mdValue
-    &-lg
-      padding: $lgValue
-    &-xl
-      padding: $xlValue
-  &y
-    &-xs
-      padding-top    : $xsValue
-      padding-bottom : $xsValue
-    &-sm
-      padding-top    : $smValue
-      padding-bottom : $smValue
-    &-md
-      padding-top    : $mdValue
-      padding-bottom : $mdValue
-    &-lg
-      padding-top    : $lgValue
-      padding-bottom : $lgValue
-    &-xl
-      padding-top    : $xlValue
-      padding-bottom : $xlValue
-  &x
-    &-xs
-      padding-left  : $xsValue
-      padding-right : $xsValue
-    &-sm
-      padding-left  : $smValue
-      padding-right : $smValue
-    &-md
-      padding-left  : $mdValue
-      padding-right : $mdValue
-    &-lg
-      padding-left  : $lgValue
-      padding-right : $lgValue
-    &-xl
-      padding-left  : $xlValue
-      padding-right : $xlValue
-  &t
-    &-xs
-      padding-top: $xsValue
-    &-sm
-      padding-top: $smValue
-    &-md
-      padding-top: $mdValue
-    &-lg
-      padding-top: $lgValue
-    &-xl
-      padding-top: $xlValue
-  &b
-    &-xs
-      padding-bottom: $xsValue
-    &-sm
-      padding-bottom: $smValue
-    &-md
-      padding-bottom: $mdValue
-    &-lg
-      padding-bottom: $lgValue
-    &-xl
-      padding-bottom: $xlValue
-  &l
-    &-xs
-      padding-left: $xsValue
-    &-sm
-      padding-left: $smValue
-    &-md
-      padding-left: $mdValue
-    &-lg
-      padding-left: $lgValue
-    &-xl
-      padding-left: $xlValue
-  &r
-    &-xs
-      padding-right: $xsValue
-    &-sm
-      padding-right: $smValue
-    &-md
-      padding-right: $mdValue
-    &-lg
-      padding-right: $lgValue
-    &-xl
-      padding-right: $xlValue
+  if $responsive-padding-module  == 'enabled'
+    &a
+      &-xs
+        padding: $xsValue
+      &-sm
+        padding: $smValue
+      &-md
+        padding: $mdValue
+      &-lg
+        padding: $lgValue
+      &-xl
+        padding: $xlValue
+    &y
+      &-xs
+        padding-top    : $xsValue
+        padding-bottom : $xsValue
+      &-sm
+        padding-top    : $smValue
+        padding-bottom : $smValue
+      &-md
+        padding-top    : $mdValue
+        padding-bottom : $mdValue
+      &-lg
+        padding-top    : $lgValue
+        padding-bottom : $lgValue
+      &-xl
+        padding-top    : $xlValue
+        padding-bottom : $xlValue
+    &x
+      &-xs
+        padding-left  : $xsValue
+        padding-right : $xsValue
+      &-sm
+        padding-left  : $smValue
+        padding-right : $smValue
+      &-md
+        padding-left  : $mdValue
+        padding-right : $mdValue
+      &-lg
+        padding-left  : $lgValue
+        padding-right : $lgValue
+      &-xl
+        padding-left  : $xlValue
+        padding-right : $xlValue
+    &t
+      &-xs
+        padding-top: $xsValue
+      &-sm
+        padding-top: $smValue
+      &-md
+        padding-top: $mdValue
+      &-lg
+        padding-top: $lgValue
+      &-xl
+        padding-top: $xlValue
+    &b
+      &-xs
+        padding-bottom: $xsValue
+      &-sm
+        padding-bottom: $smValue
+      &-md
+        padding-bottom: $mdValue
+      &-lg
+        padding-bottom: $lgValue
+      &-xl
+        padding-bottom: $xlValue
+    &l
+      &-xs
+        padding-left: $xsValue
+      &-sm
+        padding-left: $smValue
+      &-md
+        padding-left: $mdValue
+      &-lg
+        padding-left: $lgValue
+      &-xl
+        padding-left: $xlValue
+    &r
+      &-xs
+        padding-right: $xsValue
+      &-sm
+        padding-right: $smValue
+      &-md
+        padding-right: $mdValue
+      &-lg
+        padding-right: $lgValue
+      &-xl
+        padding-right: $xlValue
+
+for $i in (1..10)
+  .fs-{$i}
+    font-size:sizing('$font-size' + $i)
+for $i in (1..10)
+  .f-em-{$i}
+    font-size:sizing('$em-font-size' + $i)
+for $i in (1..10)
+  .f-rem-{$i}
+    font-size:sizing('$rem-font-size' + $i)
