@@ -253,7 +253,9 @@ export default {
     },
     refresh:function(){
       this.ready=false
-      this.cvService(this.emitSuccessMutation,this.emitErrorMutation,null,null,this.cvParametrizer.getSerialized())
+      this.cvService(null,null,this.cvParametrizer.getSerialized())
+        .then(this.emitSuccessMutation)
+        .catch(this.emitErrorMutation)
     },
     showConfigErrorMessage:function(){
       this.correctConfig=false
@@ -384,33 +386,18 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-.cv-grid-container{
-  & .cv-{
-    &orderable{
+<style lang="stylus" scoped>
+.cv-grid-container
+  & .cv-
+    &orderable
       cursor:pointer
-    }
-    &filterable{
-    }
-    &selectable{
-
-    }
-  }
-  & hr{
-    border: 0;
-    border-top: 1px solid #CCCCCC;
-  }
-
-  .b-top{
-    border-top:1px solid #CCCCCC;
-  }
-
-  .b-bottom{
-    border-bottom:1px solid #CCCCCC;
-  }
-
-  .cv-grid-data-container{
-    overflow-x: auto;
-  }
-}
+  & hr
+    border: 0
+    border-top: 1px solid #CCCCCC
+  .b-top
+    border-top:1px solid #CCCCCC
+  .b-bottom
+    border-bottom:1px solid #CCCCCC
+  .cv-grid-data-container
+    overflow-x: auto
 </style>

@@ -118,57 +118,45 @@
     }
   }
 </script>
-<style lang="scss" scoped>
-  .cv-relator-container{
-    border-bottom : 1px solid #CCCCCC;
-    margin-top:20px;
-    & ul{
-      border:1px solid #CCCCCC;
-      background-color:#EEEEEE;
-      min-height: 100px;
-      max-height: 250px;
-      overflow-y: auto;
-      border-radius: 5px;
-      padding-inline-start: 0;
-      list-style-type  : none;
-      & .list-group{
-        margin-bottom: 20px;
-        padding-left: 0;
-        &-item{
-          position: relative;
-          display: block;
-          padding: 10px 15px;
-          margin-bottom: -1px;
-          background-color: #fff;
-          border: 1px solid #d3e0e9;
-          &:first-child{
-            border-top-right-radius: 4px;
-            border-top-left-radius: 4px;
-          }
-          &:last-child{
-            border-bottom-right-radius: 4px;
-            border-bottom-left-radius: 4px;
-          }
-        }
-      }
-      & i{
-          margin-left  : 5px;
-          margin-right : 5px;
-          font-weight  : bold;
-          cursor       : pointer;
-      }
-    }
-    & .related-items{
-      padding: 15px;
-      & i:hover{
-          color:#d9534f;
-      };
-    }
-    & .source-items{
-        padding: 15px;
-        & i:hover{
-            color:#20895e;
-        };
-    }
-  }
+<style lang="stylus" scoped>
+  .cv-relator-container
+    border-bottom : 1px solid #CCCCCC
+    margin-top:20px
+    & ul
+      border:1px solid #CCCCCC
+      background-color:#EEEEEE
+      min-height: 100px
+      max-height: 250px
+      overflow-y: auto
+      border-radius: 5px
+      padding-inline-start: 0
+      list-style-type  : none
+      & .list-group
+        margin-bottom: 20px
+        padding-left: 0
+        &-item
+          position: relative
+          display: block
+          padding: 10px 15px
+          margin-bottom: -1px
+          background-color: #fff
+          border: 1px solid #d3e0e9
+          &:first-child
+            border-top-right-radius: 4px
+            border-top-left-radius: 4px
+          &:last-child
+            border-bottom-right-radius: 4px
+            border-bottom-left-radius: 4px
+      & i
+          margin-left  : 5px
+          margin-right : 5px
+          font-weight  : bold
+          cursor       : pointer
+    & .related-items
+      & i:hover
+          color:#d9534f
+    & .source-items
+        padding: 15px
+        & i:hover
+            color:#20895e
 </style>

@@ -26,9 +26,7 @@
     },
     methods:{
       serverMessageTransform: function (message = ''){
-        if (message!=='')
-          return ' Server:' + message
-        return ''
+        return message!==''?' Server:' + message:message
       },
       transformResponse: function (response){
         return response.data.data || response.data
@@ -50,21 +48,22 @@
       getParams:function(){
         return null;
       },
-      fixGetServiceParams: function (getSuccess=null,getError=null,getParams=null,url=null,queryString=null) {
+      fixGetServiceParams: function (getParams=null,url=null,queryString=null) {
         return [
           ...(this.cHasRowIdentifier ? [this.rowKeyValue] : []),
-          getSuccess||this.getSuccess,
-          getError||this.getError,
           getParams||this.getParams(),
           url||null,
           queryString
         ]
       },
-      getService:function(...serviceParams){
+      dinamicGetService:function(...serviceParams){
         if(!this.resource || !this.cActionGetService)
           return false;
         this.ready = false;
-        this.cActionGetService(...this.fixGetServiceParams(...serviceParams))
+        return this.cActionGetService(...this.fixGetServiceParams(...serviceParams))
+      },
+      getService:function(...serviceParams){
+        this.dinamicGetService(...serviceParams).then(this.getSuccess).catch(this.getError)
       },
       setSuccess:function(response){
         if(this.action && this.action.type==="rows")
@@ -95,7 +94,7 @@
         return this.action && this.action.type && this[this.action.type]?
           this[this.action.type]:null
       },
-      fixSetServiceParams: function (setSuccess=null,setError=null,setParams=null,url=null,queryString=null) {
+      fixSetServiceParams: function (setParams=null,url=null,queryString=null) {
         return [
           ...(this.cHasRowIdentifier ? [this.rowKeyValue] : []),
           setSuccess||this.setSuccess,
@@ -105,7 +104,7 @@
           queryString
         ]
       },
-      setService: function (...serviceParams) {
+      dinamicSetService:function(...serviceParams){
         if (!this.resource || !this.cActionSetService)
           return false
 
@@ -117,7 +116,10 @@
 
         this.ready  = false
         this.errors = {}
-        this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
+        return this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
+      },
+      setService: function (...serviceParams) {
+        this.dinamicSetService(...serviceParams).then(this.setSuccess).catch(this.setError)
       },
       toSync:function(row,identifier){
         this.cvSynchronizer.toSync(row,this.cRowKey,identifier);

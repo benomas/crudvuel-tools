@@ -88,26 +88,13 @@
     }
   }
 </script>
-<style lang="scss">
-  .action-container{
-    /*padding:20px 30px;*/
-  }
-  .action-label{
-    width: 100%;
-    text-align:center;
-    & label{
-      font-weight: bold;
-    }
-    & hr{
+<style lang="stylus" scoped>
+  .action-label
+    width: 100%
+    text-align:center
+    & label
+      font-weight: bold
+    & hr
         border: 0;
-        border-top: 1px solid #CCCCCC;
-    }
-  }
-  .action-content{
-    /*
-    width      : 100%;
-    box-shadow : #514d5c1a 0px 1px 15px 1px;
-    padding    : 1.5%;
-    */
-  }
+        border-top: 1px solid #CCCCCC
 </style>

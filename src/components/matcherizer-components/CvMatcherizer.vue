@@ -508,90 +508,64 @@ export default {
   }
 }
 </script>
-<style lang="scss" scoped>
-  .cv-matcherizer-container{
-    & .related-items{
-      padding: 15px;
-      & i:hover{
-          color:#d9534f;
-      };
-    }
-    & .list-items{
-      & i:hover{
-          color:#20895e;
-      }
-      & .single-selected{
-        background-color:#dff0d8;
-        &-label{
-          display:inline-block;
-          padding:8px;
-          border:1px solid #CCCCCC;
-          border-radius:5px;
-          color: #fff;
-          background-color: #5cb85c;
-          font-weight: bold;
-          & i{
-            cursor:pointer;
-          }
-        }
-      }
-    }
-    & ul{
-      z-index: 1000;
-      position: absolute;
-      margin-block-start: 0;
-      margin-block-end: 0;
-      padding-inline-start: 0;
-      & .list-group{
-        margin-bottom: 20px;
-        padding-left: 0;
-        &-item{
-          cursor:pointer;
-          position: relative;
-          display: block;
-          padding: 10px 15px;
-          margin-bottom: -1px;
-          background-color: #fff;
-          border-left: 1px solid #d3e0e9;
-          border-right: 1px solid #d3e0e9;
-          &:first-child{
-            border-top: 1px solid #d3e0e9;
-            /*
-            border-top-right-radius: 4px;
-            border-top-left-radius: 4px;
-            */
-          }
-          &:last-child{
-            border-bottom: 1px solid #d3e0e9;
-            /*
-            border-bottom-right-radius: 4px;
-            border-bottom-left-radius: 4px;
-            */
-          }
-          & i{
-              margin-left:5px;
-              margin-right:5px;
-              font-weight: bold;
-              cursor:pointer;
-          }
-          &:hover{
-            background-color: #CCCCCC;
-          }
-          &.current-cursor-item{
-            background-color: #CCCCCC;
-          }
-          &.more-data-message{
-            cursor:default;
-            font-size: 11px;
-            vertical-align: middle;
-            padding: 2px 15px;
-            color:#A2A2A2;
-            &:hover{
-              background-color: #FFFFFF;
-            }
-          }
-        }
-      }
-    }
-  }
+<style lang="stylus" scoped>
+  .cv-matcherizer-container
+    & .related-items
+      padding: 15px
+      & i:hover
+          color:#d9534f
+    & .list-items
+      & i:hover
+          color:#20895e
+      & .single-selected
+        background-color:#dff0d8
+        &-label
+          display:inline-block
+          padding:8px
+          border:1px solid #CCCCCC
+          border-radius:5px
+          color: #fff
+          background-color: #5cb85c
+          font-weight: bold
+          & i
+            cursor:pointer
+    & ul
+      z-index: 1000
+      position: absolute
+      margin-block-start: 0
+      margin-block-end: 0
+      padding-inline-start: 0
+      & .list-group
+        margin-bottom: 20px
+        padding-left: 0
+        &-item
+          cursor:pointer
+          position: relative
+          display: block
+          padding: 10px 15px
+          margin-bottom: -1px
+          background-color: #fff
+          border-left: 1px solid #d3e0e9
+          border-right: 1px solid #d3e0e9
+          &:first-child
+            border-top: 1px solid #d3e0e9
+          &:last-child
+            border-bottom: 1px solid #d3e0e9
+          & i
+              margin-left:5px
+              margin-right:5px
+              font-weight: bold
+              cursor:pointer
+          &:hover
+            background-color: #CCCCCC
+          &.current-cursor-item
+            background-color: #CCCCCC
+          &.more-data-message
+            cursor:default
+            font-size: 11px
+            vertical-align: middle
+            padding: 2px 15px
+            color:#A2A2A2
+            &:hover
+              background-color: #FFFFFF
 </style>

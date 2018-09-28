@@ -177,33 +177,26 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.cv-paginate{
-  padding-top:5px;
-  & p{
-    padding-top:5px;
-  }
-  & button{
-    cursor:pointer;
-    border: 1px outset ThreeDLightShadow;
-    border-radius:5px;
-    &.active{
-      -webkit-transition: background-color 1.5s; /* For Safari 3.1 to 6.0 */
-      transition: background-color 1.5s;
-      background-color: #CCCCCC;
-      color:white;
-      &:hover{
-        color:white;
-      };
-    }
-    &:hover{
-      color:white;
-    };
-  }
-  p{
-    margin:0;
-  }
-}
+<style lang="stylus" scoped>
+.cv-paginate
+  padding-top:5px
+  & p
+    padding-top:5px
+  & button
+    cursor:pointer
+    border: 1px outset ThreeDLightShadow
+    border-radius:5px
+    &.active
+      -webkit-transition: background-color 1.5s /* For Safari 3.1 to 6.0 */
+      transition: background-color 1.5s
+      background-color: #CCCCCC
+      color:white
+      &:hover
+        color:white
+    &:hover
+      color:white
+  p
+    margin:0
 </style>
 
 

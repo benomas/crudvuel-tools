@@ -12,7 +12,7 @@
           return null
         }
         if (typeof resource === 'string'){
-          if (typeof this.resources[resource] !== 'undefined')
+          if (this.resources != null && this.resources[resource] != null)
             return this.resources[resource]
           return null
         }

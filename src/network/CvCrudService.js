@@ -40,95 +40,53 @@ export default function(cvComunicator,resourceName){
     this.statusText = response.statusText || "";
   }
 
-  this.show=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.get(
+  this.show=(id,params,url,queryString)=>{
+    return this.cvComunicator.axios.get(
         (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then((response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    );
   };
 
-  this.index=(successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.get(
+  this.index=(params,url,queryString)=>{
+    return this.cvComunicator.axios.get(
         (url || this.getRelBaseUrl()) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    );
   };
 
-  this.store=(successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.post(
+  this.store=(params,url,queryString)=>{
+    return this.cvComunicator.axios.post(
         (url || this.getRelBaseUrl()) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    );
   };
 
-  this.update=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.put(
+  this.update=(id,params,url,queryString)=>{
+    return this.cvComunicator.axios.put(
         (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    );
   };
 
-  this.destroy=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.delete(
+  this.destroy=(id,params,url,queryString)=>{
+    return this.cvComunicator.axios.delete(
         (url || this.getRelBaseUrl()+"/"+id) + (queryString?"?"+queryString:""),
         params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    );
   }
 
-  this.activate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.put(
+  this.activate=(id,params,url,queryString)=>{
+    return this.cvComunicator.axios.put(
         (url || this.getRelBaseUrl()+"/"+id+"/activate") + (queryString?"?"+queryString:""),
         params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    );
   }
 
-  this.deactivate=(id,successCallBack,ErrorCallBack,params,url,queryString)=>{
-    this.cvComunicator.axios.put(
+  this.deactivate=(id,params,url,queryString)=>{
+    return this.cvComunicator.axios.put(
         (url || this.getRelBaseUrl()+"/"+id+"/deactivate") + (queryString?"?"+queryString:""),
         params|| {}
-    ).then( (response)=>{
-        if(typeof successCallBack ==="function")
-            successCallBack(response);
-    }).catch( (error)=>{
-        if(typeof ErrorCallBack ==="function")
-            ErrorCallBack(error);
-    });
+    );
   }
 
   this.cvComunicator.pushDinamicCrudServices(this);
