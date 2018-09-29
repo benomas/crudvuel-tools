@@ -10,8 +10,12 @@
     </transition>
     <transition name="component-fade" mode="out-in">
       <cv-simple-filters
-        @go-to-find ="prepareToFind"
-        v-if        ="cSimpleFilters"
+        :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
+        class="q-pb-md"
+        :cv-icon="cIcon"
+        :cv-search-label="cSearchLabel"
+        @go-to-find="prepareToFind"
+        v-if="cSimpleFilters"
       >
       </cv-simple-filters>
     </transition>
@@ -135,7 +139,9 @@ export default {
     "cvAdvancedFilters",
     "cvExpertFilters",
     "cvMinHeight",
-    "cvGridLang"
+    "cvGridLang",
+    "cvIcon",
+    "cvSearchLabel"
   ],
   computed:{
     cPage:function(){
@@ -194,6 +200,12 @@ export default {
     },
     cGridLang: function () {
       return this.cvGridLang || null
+    },
+    cIcon: function () {
+      return this.cvIcon
+    },
+    cSearchLabel:function(){
+      return this.cvSearchLabel
     }
   },
   mounted:function(){

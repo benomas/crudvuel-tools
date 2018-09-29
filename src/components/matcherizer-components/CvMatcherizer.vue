@@ -72,7 +72,7 @@ export default {
       localData          : [],
       currentValue       : null,
       currentLabel       : null,
-      focus              : false,
+      focus              : true,
       listOver           : false,
       listWidth          :'200px',
       loading            : false,
@@ -139,23 +139,19 @@ export default {
       this.generalSearch = search
       if( !this.requireNewRemoteSearch() ){
         this.processList()
-        this.disableList   = false
+        this.$set(this,'disableList',false)
         return false
       }
 
       this.saveSearchState()
-      this.disableList   = false
+      this.$set(this,'disableList',false)
       this.toLoad()
       this.refreshSource()
     },
     refreshSource:function(){
-      this.cSourceService(
-        this.emitSuccessMutationSource,
-        this.emitErrorMutationSource,
-        null,
-        null,
-        this.sourceParametrizer.getSerialized()
-      )
+      this.cSourceService(null,null,this.sourceParametrizer.getSerialized())
+        .then(this.emitSuccessMutationSource)
+        .catch(this.emitErrorMutationSource)
     },
     //others
     mLabelCallBack:function(rows,row){
@@ -181,9 +177,8 @@ export default {
         this.cvRemoveCallBack(rows,row)
     },
     add:function(rowKey,row){
-      this.disableList  = true
+      this.$set(this,'disableList',true)
       this.setCurrent(this.cListOfItems,row)
-      //this.focus=false
       this.listOver=false
     },
     setSearch: function (label = null) {
@@ -205,11 +200,6 @@ export default {
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
     },
     resetCurrent:function(){
-      //this.focus=true
-      /*
-      if(this.cDisableFields)
-        return false;
-      */
       this.currentLabel = ''
       this.currentValue = null
       this.refresh()
@@ -224,16 +214,15 @@ export default {
     focused:function(){
       if(this.cDisableFields)
         return false
-      this.currentItem=null
-      this.focus=true
+      this.$set(this,'currentItem',null)
+      this.$set(this,'focus',true)
       if(this.cSimpleFilterRef)
         this.setSearch(this.cGeneralSearch)
-        //this.cSimpleFilterRef.search = this.cGeneralSearch
       this.fixListWidth()
       this.$emit('cv-focused', this.search);
     },
     blured:function(){
-      this.focus=false;
+      this.$set(this,'focus',false)
       if(this.currentLabel && this.currentLabel !== '')
         this.setSearch()
       this.$emit('cv-blured', this.search);
@@ -317,19 +306,20 @@ export default {
       return fixDataType.replace(patt,replace)
     },
     processList: function () {
-      this.listOfItems = []
+      let listOfItems = []
       let data = this.cSourceListOfItems
       if(typeof data ==='undefined' || !data)
-        return this.listOfItems
+        return listOfItems
       for (let i = 0; i < data.length; i++){
-        if(this.listOfItems.length === this.cListOfItemsLimit)
-          return this.listOfItems
+        if(listOfItems.length === this.cListOfItemsLimit)
+          return listOfItems
 
         let currentItemLabel = this.mLabelCallBack(data,data[i])
 
         if(this.mySubString(currentItemLabel,this.generalSearch))
-          this.listOfItems.push(data[i])
+          listOfItems.push(data[i])
       }
+      this.$set(this,'listOfItems',listOfItems)
       return this.listOfItems
     },
     showPatter:function(label,isCurrent){
@@ -446,7 +436,7 @@ export default {
     cShowList:function(){
       if (this.cDisableList)
         return false
-      return this.focus || this.listOver
+      return this.cFocus || this.cListOver
     },
     cContainerWidth:function(){
       return this.listWidth;
@@ -495,6 +485,12 @@ export default {
     },
     cParentRef: function() {
       return this.cvParentRef || null
+    },
+    cFocus:function(){
+      return this.focus
+    },
+    cListOver:function(){
+      return this.listOver
     }
   },
   mounted:function(){

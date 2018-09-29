@@ -178,12 +178,12 @@ if $color-module  == 'enabled'
         .colored-box-
           &{$color-prefix}
             color            :coloring($color-variation)
-            background-color :coloring($color-variation)
+            background-color :coloring('$white'+$i)
       if $color-dark-box-module  == 'enabled'
         .dark-colored-box-
           &{$color-prefix}
             color            :coloring($color-variation)
-            background-color :coloring($color-variation)
+            background-color :coloring('$black'+$i)
       if $color-border-module  == 'enabled'
         .border-
           &{$color-prefix}

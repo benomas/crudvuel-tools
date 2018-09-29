@@ -22,18 +22,20 @@
 export default {
   data () {
     return {
-      search          :"",
+      search          :'',
       keyInterruption :null
     }
   },
   props:[
-    "cvSearch",
-    "cvKeyInterruptionLimit",
-    "cvSearchMessage",
-    "cvSearchLabel",
-    "cvActiveFilter",
-    "cvLoading",
-    "cvDisableFields"
+    'cvActiveFilter',
+    'cvDisableFields',
+    'cvKeyInterruptionLimit',
+    'cvLoading',
+    'cvSearch',
+    'cvSearchLabel',
+    'cvSearchMessage',
+    'cvIcon',
+    'cvIconColor'
   ],
   methods:{
     goToFind:function(){
@@ -88,7 +90,9 @@ export default {
       return this.cvKeyInterruptionLimit || 500;
     },
     cSearchLabel:function(){
-      return this.cvSearchLabel || "Buscar";
+      if (this.cvSearchLabel !== null && this.cvSearchLabel !== '')
+        return "Buscar"
+      return this.cvSearchLabel
     },
     cSearchMessage:function(){
       return this.cvSearchMessage || "Realizar busqueda simple";
@@ -101,6 +105,14 @@ export default {
     },
     cInputRef: function() {
       return this.$refs.inputRef || null
+    },
+    cIconColor: function () {
+      return this.cvIconColor || ''
+    },
+    cIcon: function () {
+      if (this.cvIcon !== null && this.cvIcon !== '')
+        return 'fas fa-search'
+      return this.cvIcon
     }
   },
   mounted: function () {

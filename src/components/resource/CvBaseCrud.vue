@@ -97,8 +97,6 @@
       fixSetServiceParams: function (setParams=null,url=null,queryString=null) {
         return [
           ...(this.cHasRowIdentifier ? [this.rowKeyValue] : []),
-          setSuccess||this.setSuccess,
-          setError||this.setError,
           setParams||this.setParams(),
           url||null,
           queryString
