@@ -53,7 +53,14 @@
         return this.resorceAction(action,resource).getFixedPath(row) || null
       },
       setReady: function () {
-        this.ready = true
+        return new Promise((resolve, reject) => {
+          this.$nextTick().then(() => {
+            this.ready = true
+            resolve()
+          }).catch(()=> {
+            reject()
+          })
+        })
       },
       setUnReady: function () {
         this.ready = false

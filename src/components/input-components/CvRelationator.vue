@@ -33,90 +33,94 @@
   </div>
 </template>
 <script>
-  export default {
-    data:function(){
-      return {
-        source        :[],
-        related       :[],
-        labelProperty :"name",
-        keyProperty   :"id",
-        sourceLabel   :"Disponibles",
-        relatedLabel  :"Asignados",
-      }
+import CvSimpleFilters   from '../grid-components/CvSimpleFilters'
+export default {
+  components: {
+    CvSimpleFilters
+  },
+  data:function(){
+    return {
+      source        :[],
+      related       :[],
+      labelProperty :"name",
+      keyProperty   :"id",
+      sourceLabel   :"Disponibles",
+      relatedLabel  :"Asignados",
+    }
+  },
+  props:[
+    "cvSource",
+    "cvRelated",
+    "cvLabelProperty",
+    "cvRelatedIdentifier",
+    "cvDisableFields",
+  ],
+  computed:{
+    cSource:function(){
+        return this.cvSource;
     },
-    props:[
-      "cvSource",
-      "cvRelated",
-      "cvLabelProperty",
-      "cvRelatedIdentifier",
-      "cvDisableFields",
-    ],
-    computed:{
-      cSource:function(){
-          return this.cvSource;
-      },
-      cRelated:function(){
-          return this.cvRelated;
-      },
-      cLabelProperty:function(){
-          return this.cvLabelProperty;
-      },
-      cRelatedIdentifier:function(){
-          return this.cvRelatedIdentifier;
-      },
-      cDisableFields:function(){
-        return this.cvDisableFields || false;
-      },
+    cRelated:function(){
+        return this.cvRelated;
     },
-    mounted:function(){
-      if(this.cRelated && this.cRelated.length>0)
-        for(let i=0;i<this.cSource.length; i++){
-          let sourceRow = this.cSource[i];
-          let skip = false;
-          for(let j=0;j<this.cRelated.length; j++){
-            let relatedRow = this.cRelated[j];
-            if(sourceRow[this.keyProperty]===relatedRow[this.keyProperty]){
-              skip=true;
-              continue;
-            }
+    cLabelProperty:function(){
+        return this.cvLabelProperty;
+    },
+    cRelatedIdentifier:function(){
+        return this.cvRelatedIdentifier;
+    },
+    cDisableFields:function(){
+      return this.cvDisableFields || false;
+    }
+  },
+  mounted:function(){
+    if(this.cRelated && this.cRelated.length>0)
+      for(let i=0;i<this.cSource.length; i++){
+        let sourceRow = this.cSource[i];
+        let skip = false;
+        for(let j=0;j<this.cRelated.length; j++){
+          let relatedRow = this.cRelated[j];
+          if(sourceRow[this.keyProperty]===relatedRow[this.keyProperty]){
+            skip=true;
+            continue;
           }
-          if(!skip)
-            this.source.push(sourceRow);
-      }
-      else
-        this.source=this.cSource;
+        }
+        if(!skip)
+          this.source.push(sourceRow);
+    }
+    else
+      this.$set(this,'source',this.cSource)
 
-      this.related=this.cRelated;
-      this.labelProperty=this.cLabelProperty;
+    this.related=this.cRelated;
+    this.labelProperty=this.cLabelProperty;
+    this.relatedChanged();
+  },
+  methods:{
+    addRelated:function(index,row){
+      if(this.cDisableFields)
+        return false;
+      this.related.push(row);
+      this.source.splice(index,1);
       this.relatedChanged();
     },
-    methods:{
-      addRelated:function(index,row){
-        if(this.cDisableFields)
-          return false;
-        this.related.push(row);
-        this.source.splice(index,1);
-        this.relatedChanged();
-      },
-      removeRelated:function(index,row){
-        if(this.cDisableFields)
-          return false;
-        this.source.push(row);
-        this.related.splice(index,1);
-        this.relatedChanged();
-      },
-      relatedChanged:function(){
-        this.$emit(
-          'related-changed',
-          {
-            cRelatedIdentifier:this.cRelatedIdentifier,
-            related:this.related,
-            source:this.source,
-          }
-        );
-      }
+    removeRelated:function(index,row){
+      if(this.cDisableFields)
+        return false;
+      this.source.push(row);
+      this.related.splice(index,1);
+      this.relatedChanged();
+    },
+    relatedChanged:function(){
+      this.$emit(
+        'related-changed',
+        {
+          cRelatedIdentifier:this.cRelatedIdentifier,
+          related:this.related,
+          source:this.source,
+        }
+      );
     }
   }
+}
 </script>
 <style lang="stylus" scoped>
   .cv-relator-container

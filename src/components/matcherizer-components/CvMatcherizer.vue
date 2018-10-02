@@ -55,11 +55,12 @@
   </div>
 </template>
 <script>
-
-import CvParametrizer    from '../../CvParametrizer'
-import CvSimpleFilters   from '../grid-components/CvSimpleFilters'
+import CvParametrizer     from '../../CvParametrizer'
+import CvSimpleFilters    from '../grid-components/CvSimpleFilters'
+import CvLocalFilterTrait from '../grid-components/CvLocalFilterTrait'
 export default {
-  components: {
+  mixins     : [CvLocalFilterTrait],
+  components : {
     CvSimpleFilters
   },
   data () {
@@ -83,7 +84,6 @@ export default {
     }
   },
   props:[
-    'cvParentRef',
     'cvCurrentValue',
     'cvCurrentLabel',
     'cvSourceLabel',
@@ -95,7 +95,6 @@ export default {
     'cvEnableRemove',
     'cvAddCallBack',
     'cvRemoveCallBack',
-    'cvDisableFields',
     'cvLocalLimit',
     'cvLoading',
     'cvSelectQuery',
@@ -292,19 +291,6 @@ export default {
       this.sourceParametrizer.setSelectQuery(this.cSelectQuery)
       this.sourceParametrizer.setGeneralSearch(this.cGeneralSearch)
     },
-    mySubString: function(subject,patter){
-      let regexString = "(.|\s)*" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + "(.|\s)*"
-      let patt = new RegExp(regexString,"i")
-      return patt.test(subject)
-    },
-    myReplace: function(subject,patter,replace){
-      let regexString = "(" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + ")"
-      let patt = new RegExp(regexString,"ig")
-      let fixDataType = subject
-      if(typeof fixDataType === 'boolean' || typeof fixDataType === 'number')
-        fixDataType=fixDataType.toString()
-      return fixDataType.replace(patt,replace)
-    },
     processList: function () {
       let listOfItems = []
       let data = this.cSourceListOfItems
@@ -427,9 +413,6 @@ export default {
     cSourceMessage:function(){
       return this.cvSourceMessage || 'Buscar en disponibles'
     },
-    cDisableFields:function(){
-      return this.cvDisableFields || false
-    },
     cColumnMap:function(){
       return this.cvSelectQuery || false
     },
@@ -476,15 +459,6 @@ export default {
     },
     cDestination: function () {
       return this.cvDestination || 'row'
-    },
-    cSimpleFilterRef: function () {
-      return this.$refs.cvSimpleFilterRef || null
-    },
-    cInputRef: function() {
-      return this.cSimpleFilterRef.cInputRef || null
-    },
-    cParentRef: function() {
-      return this.cvParentRef || null
     },
     cFocus:function(){
       return this.focus
