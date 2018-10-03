@@ -10,12 +10,11 @@
     </transition>
     <transition name="component-fade" mode="out-in">
       <cv-simple-filters
+        v-if="cSimpleFilters"
         :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
         class="q-pb-md"
-        :cv-icon="cIcon"
-        :cv-search-label="cSearchLabel"
-        @go-to-find="prepareToFind"
-        v-if="cSimpleFilters"
+        v-bind="mDefMatcherizerProps()"
+        @cv-simple-filter-go-to-find="prepareToFind"
       >
       </cv-simple-filters>
     </transition>
@@ -90,15 +89,17 @@
 </template>
 <script>
 
-import CvTag             from '../CvTag'
-import CvPaginate        from './CvPaginate'
-import CvSimpleFilters   from './CvSimpleFilters'
-import CvAdvancedFilters from './CvAdvancedFilters'
-import CvExpertFilters   from './CvExpertFilters'
-import CvSpinner         from './CvSpinner'
-import CvParametrizer    from '../../CvParametrizer'
+import CvTag                    from '../CvTag'
+import CvPaginate               from './CvPaginate'
+import CvSimpleFilters          from './CvSimpleFilters'
+import CvAdvancedFilters        from './CvAdvancedFilters'
+import CvExpertFilters          from './CvExpertFilters'
+import CvSpinner                from './CvSpinner'
+import CvParametrizer           from '../../CvParametrizer'
+import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 export default {
-  components: {
+  mixins     : [CvLocalSimpleFilterTrait],
+  components : {
     CvTag,
     CvPaginate,
     CvSimpleFilters,

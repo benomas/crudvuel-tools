@@ -3,11 +3,20 @@
     <div
       class="col-sm-6 col-xs-12 related-items"
     >
-      <div class="t-center">{{relatedLabel}}</div>
+      <div class="t-center">
+        {{relatedLabel}}:
+        <cv-simple-filters
+          v-if="!cDisableFields"
+          v-bind="mDefMatcherizerProps('relatedSimpleFilterRef')"
+          @cv-simple-filter-go-to-find="relatedSimpleFilterFind"
+          class="q-pl-sm q-pr-xl"
+        >
+        </cv-simple-filters>
+      </div>
       <ul class="list-group">
         <li
             class="list-group-item"
-            v-for="(row, rowKey) in related"
+            v-for="(row, rowKey) in cFilteredRelated"
             v-on:click="removeRelated(rowKey,row)"
         >
           <i class="fa fa-caret-right f-right" v-if="!cDisableFields"></i>
@@ -18,11 +27,20 @@
     <div
       class="col-sm-6 col-xs-12 source-items"
     >
-      <div class="t-center">{{sourceLabel}}</div>
+      <div class="t-center">
+        {{sourceLabel}}
+        <cv-simple-filters
+          v-if="!cDisableFields"
+          v-bind="mDefMatcherizerProps('sourceSimpleFilterRef')"
+          @cv-simple-filter-go-to-find="sourceSimpleFilterFind"
+          class="q-pl-sm q-pr-xl"
+        >
+        </cv-simple-filters>
+      </div>
       <ul class="list-group">
         <li
             class="list-group-item"
-            v-for="(row, rowKey) in source"
+            v-for="(row, rowKey) in cFilteredSource"
             v-on:click="addRelated(rowKey,row)"
         >
           <i class="fa fa-caret-left f-left" v-if="!cDisableFields"></i>
@@ -33,27 +51,33 @@
   </div>
 </template>
 <script>
-import CvSimpleFilters   from '../grid-components/CvSimpleFilters'
+import CvSimpleFilters          from '../grid-components/CvSimpleFilters'
+import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 export default {
-  components: {
+  mixins     : [CvLocalSimpleFilterTrait],
+  components : {
     CvSimpleFilters
   },
   data:function(){
     return {
       source        :[],
       related       :[],
-      labelProperty :"name",
-      keyProperty   :"id",
-      sourceLabel   :"Disponibles",
-      relatedLabel  :"Asignados",
+      labelProperty :'name',
+      keyProperty   :'id',
+      sourceLabel   :'Disponibles',
+      relatedLabel  :'Asignados',
+      relatedSearch :'',
+      sourceSearch  :'',
+      filterSource  :[],
+      filterRelated :[],
     }
   },
   props:[
-    "cvSource",
-    "cvRelated",
-    "cvLabelProperty",
-    "cvRelatedIdentifier",
-    "cvDisableFields",
+    'cvSource',
+    'cvRelated',
+    'cvLabelProperty',
+    'cvRelatedIdentifier',
+    'cvDisableFields',
   ],
   computed:{
     cSource:function(){
@@ -61,6 +85,12 @@ export default {
     },
     cRelated:function(){
         return this.cvRelated;
+    },
+    cLocalSource:function(){
+        return this.source;
+    },
+    cLocalRelated:function(){
+        return this.related;
     },
     cLabelProperty:function(){
         return this.cvLabelProperty;
@@ -70,6 +100,18 @@ export default {
     },
     cDisableFields:function(){
       return this.cvDisableFields || false;
+    },
+    cSourceSearch: function () {
+      this.sourceSearch
+    },
+    cRelatedSearch: function () {
+      this.relatedSearch
+    },
+    cFilteredSource:function(){
+      return this.filterSource
+    },
+    cFilteredRelated:function(){
+      return this.filterRelated
     }
   },
   mounted:function(){
@@ -110,6 +152,8 @@ export default {
       this.relatedChanged();
     },
     relatedChanged:function(){
+      this.sourceReFilter()
+      this.relatedReFilter()
       this.$emit(
         'related-changed',
         {
@@ -118,6 +162,35 @@ export default {
           source:this.source,
         }
       );
+    },
+    sourceSimpleFilterFind: function (search) {
+      this.$set(this,'sourceSearch',search)
+      this.sourceReFilter()
+    },
+    sourceReFilter: function () {
+      this.$nextTick().then(() => {
+        this.$set(this,'filterSource',this.processList(this.cLocalSource,this.sourceSearch))
+      })
+    },
+    relatedSimpleFilterFind: function (search) {
+      this.$set(this,'relatedSearch',search)
+      this.relatedReFilter()
+    },
+    relatedReFilter: function () {
+      this.$nextTick().then(() => {
+        this.$set(this,'filterRelated',this.processList(this.cLocalRelated,this.relatedSearch))
+      })
+    },
+    processList: function (items = null,search = '') {
+      let filterItems = []
+      if(items == null)
+        return items
+      for (let i = 0; i < items.length; i++){
+        let currentItemLabel = items[i][this.cLabelProperty]
+        if(this.mySubString(currentItemLabel,search))
+          filterItems.push(items[i])
+      }
+      return filterItems
     }
   }
 }

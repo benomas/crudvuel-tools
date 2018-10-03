@@ -7,17 +7,15 @@
         ref="filterReference"
       >
         <cv-simple-filters
-          @cv-keyup="keyed"
-          @go-to-find="prepareToFindSource"
-          @cv-focused="focused"
-          @cv-blured="blured"
-          @cv-cleared="resetCurrent"
-          :cv-search-label="cSourceLabel"
+          v-bind="mDefMatcherizerProps()"
           :cv-search-message="cSourceMessage"
-          ref="cvSimpleFilterRef"
           :cv-active-filter="cShowingSelected"
           :cv-disable-fields="cDisableFields"
-          :cv-key-interruption-limit="cKeyInterruptionLimit"
+          @cv-simple-search-key-up="keyed"
+          @cv-simple-filter-go-to-find="prepareToFindSource"
+          @cv-simple-search-focused="focused"
+          @cv-simple-search-blured="blured"
+          @cv-simple-search-cleared="resetCurrent"
         >
         </cv-simple-filters>
       </div>
@@ -55,11 +53,11 @@
   </div>
 </template>
 <script>
-import CvParametrizer     from '../../CvParametrizer'
-import CvSimpleFilters    from '../grid-components/CvSimpleFilters'
-import CvLocalFilterTrait from '../grid-components/CvLocalFilterTrait'
+import CvParametrizer           from '../../CvParametrizer'
+import CvSimpleFilters          from '../grid-components/CvSimpleFilters'
+import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 export default {
-  mixins     : [CvLocalFilterTrait],
+  mixins     : [CvLocalSimpleFilterTrait],
   components : {
     CvSimpleFilters
   },
@@ -73,6 +71,7 @@ export default {
       localData          : [],
       currentValue       : null,
       currentLabel       : null,
+      preselected        : false,
       focus              : true,
       listOver           : false,
       listWidth          :'200px',
@@ -180,11 +179,11 @@ export default {
       this.setCurrent(this.cListOfItems,row)
       this.listOver=false
     },
-    setSearch: function (label = null) {
+    setSearch: function (label = null, reactive = true) {
       if(this.cSimpleFilterRef){
         if (label===null)
           label = this.currentLabel
-        this.cSimpleFilterRef.search = label
+        this.cSimpleFilterRef.mSimpleFilterInyectSearch(label,reactive)
       }
     },
     setCurrent:function(rows,row){
@@ -199,6 +198,7 @@ export default {
       this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
     },
     resetCurrent:function(){
+      this.preselected  = false
       this.currentLabel = ''
       this.currentValue = null
       this.refresh()
@@ -218,18 +218,19 @@ export default {
       if(this.cSimpleFilterRef)
         this.setSearch(this.cGeneralSearch)
       this.fixListWidth()
-      this.$emit('cv-focused', this.search);
+      this.mSimpleSearchFocused()
     },
     blured:function(){
       this.$set(this,'focus',false)
       if(this.currentLabel && this.currentLabel !== '')
-        this.setSearch()
-      this.$emit('cv-blured', this.search);
+        this.setSearch(this.cGeneralSearch)
+      this.mSimpleSearchBlured()
     },
     keyed:function(key){
       if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined')
         return false
-
+      this.preselected = false
+      this.mSimpleSearchKeyUp(key)
       switch(key.keyCode){
         case 38:
           if(this.currentItem !== null && this.currentItem > 0)
@@ -249,7 +250,7 @@ export default {
           break
         case 27:
           if(this.cSimpleFilterRef)
-            this.cSimpleFilterRef.clear()
+            this.cSimpleFilterRef.mSimpleSearchClear()
           break
         default: this.currentItem = null
           break
@@ -259,11 +260,11 @@ export default {
     listIn:function(){
       this.listOver=true;
       this.fixListWidth()
-      this.$emit('cv-list-in', this.search);
+      this.$emit('cv-list-in', this.cGeneralSearch);
     },
     listOut:function(){
       this.listOver=false;
-      this.$emit('cv-list-out', this.search);
+      this.$emit('cv-list-out', this.cGeneralSearch);
     },
     fixListWidth:function(){
       if( typeof this.$refs.filterReference!=='undefined' &&
@@ -321,7 +322,6 @@ export default {
       //when matcherizer has receiving static cvLocalData, then is not necesary to make a remote data call
       if (this.cLocalData)
         return false
-
       let lastSearch = this.sourceParametrizer.getGeneralSearch()
       let staticPropertys = [
         'Page',
@@ -337,7 +337,6 @@ export default {
         return true
 
       this.absolueRemoteData = false
-
       if (lastSearch==='' && this.sourcePageCount!==null && this.sourcePageCount < this.cLimit)
           this.absolueRemoteData = true
 
@@ -425,7 +424,7 @@ export default {
       return this.listWidth;
     },
     cShowingSelected:function(){
-      return this.cCurrentLabel && this.cCurrentLabel!=='' && this.cGeneralSearch === this.cCurrentLabel
+      return (this.cCurrentLabel && this.cCurrentLabel!=='' && this.cGeneralSearch === this.cCurrentLabel) || this.cPreselected
     },
     cLoading:function(){
       return this.cvLoading || this.loading || false
@@ -434,7 +433,8 @@ export default {
       return this.disableList || false
     },
     cListOfItemsLimit:function(){
-      return this.cvListOfItemsLimit || 10
+      let cvListOfItemsLimit = this.cvListOfItemsLimit || 10
+      return cvListOfItemsLimit > this.cLimit? this.cLimit:cvListOfItemsLimit
     },
     cLastSearchFail(){
       return this.sourcePageCount===0
@@ -465,13 +465,19 @@ export default {
     },
     cListOver:function(){
       return this.listOver
+    },
+    cPreselected: function () {
+      return this.preselected
     }
   },
   mounted:function(){
-    this.currenValue  =this.cvCurrentValue
-    this.currentLabel =this.cvCurrentLabel
-    if (this.currentLabel && this.currentLabel !== '')
-      this.setSearch()
+    this.currenValue   = this.cvCurrentValue
+    this.currentLabel  = this.cvCurrentLabel
+    this.generalSearch = this.currentLabel
+    if (this.currentLabel && this.currentLabel !== ''){
+      this.preselected =  true
+      this.setSearch(null,false)
+    }
   },
   created:function(){
     this.saveSearchState()
