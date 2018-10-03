@@ -9,6 +9,7 @@
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('relatedSimpleFilterRef')"
           @cv-simple-filter-go-to-find="relatedSimpleFilterFind"
+          @cv-simple-search-key-up="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
           class="q-pl-sm q-pr-xl"
         >
         </cv-simple-filters>
@@ -32,6 +33,7 @@
         <cv-simple-filters
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('sourceSimpleFilterRef')"
+          @cv-simple-search-key-up="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
           @cv-simple-filter-go-to-find="sourceSimpleFilterFind"
           class="q-pl-sm q-pr-xl"
         >
@@ -112,6 +114,9 @@ export default {
     },
     cFilteredRelated:function(){
       return this.filterRelated
+    },
+    cSimpleSearchKeyInterruption: function () {
+      return this.cvSimpleSearchKeyInterruption || 250
     }
   },
   mounted:function(){
@@ -142,14 +147,18 @@ export default {
         return false;
       this.related.push(row);
       this.source.splice(index,1);
-      this.relatedChanged();
+      this.related.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
+      this.source.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
+      this.$nextTick().then(this.relatedChanged)
     },
     removeRelated:function(index,row){
       if(this.cDisableFields)
         return false;
       this.source.push(row);
-      this.related.splice(index,1);
-      this.relatedChanged();
+      this.related.splice(index,1)
+      this.related.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
+      this.source.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
+      this.$nextTick().then(this.relatedChanged)
     },
     relatedChanged:function(){
       this.sourceReFilter()
@@ -158,8 +167,8 @@ export default {
         'related-changed',
         {
           cRelatedIdentifier:this.cRelatedIdentifier,
-          related:this.related,
-          source:this.source,
+          related:this.cLocalRelated,
+          source:this.cLocalSource,
         }
       );
     },
@@ -191,6 +200,19 @@ export default {
           filterItems.push(items[i])
       }
       return filterItems
+    },
+    keyed:function(key,ref){
+      if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined')
+        return false
+      this.mSimpleSearchKeyUp(key)
+      switch(key.keyCode){
+        case 27:
+          if(this.$refs[ref])
+            this.$refs[ref].mSimpleSearchClear()
+          break
+        default:
+          break
+      }
     }
   }
 }

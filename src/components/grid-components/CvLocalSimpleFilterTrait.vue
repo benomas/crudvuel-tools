@@ -16,7 +16,8 @@ export default {
     'cvSimpleSearchIconColor',
     'cvExcludedReactionCharacters',
     'cvSimpleFilterLoading',
-    'cvSimpleSearchKeyInterruption'
+    'cvSimpleSearchKeyInterruption',
+    'cvKeyInterruptionLimit'
   ],
   methods: {
     // Inyect search to the input filter
@@ -128,6 +129,9 @@ export default {
     },
     cSimpleSearchKeyInterruption: function () {
       return this.cvSimpleSearchKeyInterruption
+    },
+    cKeyInterruptionLimit:function () {
+      return this.cvKeyInterruptionLimit
     }
   },
 }
