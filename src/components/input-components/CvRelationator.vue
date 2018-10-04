@@ -18,10 +18,11 @@
         <li
             class="list-group-item"
             v-for="(row, rowKey) in cFilteredRelated"
-            v-on:click="removeRelated(rowKey,row)"
+            :key="mDinamicIndex(row)"
+            @click="removeRelated(rowKey,row)"
         >
           <i class="fa fa-caret-right f-right" v-if="!cDisableFields"></i>
-          {{row[labelProperty]}}
+          {{row[cLabelProperty]}}
         </li>
       </ul>
     </div>
@@ -43,10 +44,11 @@
         <li
             class="list-group-item"
             v-for="(row, rowKey) in cFilteredSource"
-            v-on:click="addRelated(rowKey,row)"
+            :key="mDinamicIndex(row)"
+            @click="addRelated(rowKey,row)"
         >
           <i class="fa fa-caret-left f-left" v-if="!cDisableFields"></i>
-          {{row[labelProperty]}}
+          {{row[cLabelProperty]}}
         </li>
       </ul>
     </div>
@@ -64,8 +66,6 @@ export default {
     return {
       source        :[],
       related       :[],
-      labelProperty :'name',
-      keyProperty   :'id',
       sourceLabel   :'Disponibles',
       relatedLabel  :'Asignados',
       relatedSearch :'',
@@ -95,7 +95,10 @@ export default {
         return this.related;
     },
     cLabelProperty:function(){
-        return this.cvLabelProperty;
+        return this.cvLabelProperty || 'name';
+    },
+    cKeyProperty:function(){
+        return this.cvKeyProperty || 'id';
     },
     cRelatedIdentifier:function(){
         return this.cvRelatedIdentifier;
@@ -126,7 +129,7 @@ export default {
         let skip = false;
         for(let j=0;j<this.cRelated.length; j++){
           let relatedRow = this.cRelated[j];
-          if(sourceRow[this.keyProperty]===relatedRow[this.keyProperty]){
+          if(sourceRow[this.cKeyProperty]===relatedRow[this.cKeyProperty]){
             skip=true;
             continue;
           }
@@ -138,7 +141,6 @@ export default {
       this.$set(this,'source',this.cSource)
 
     this.related=this.cRelated;
-    this.labelProperty=this.cLabelProperty;
     this.relatedChanged();
   },
   methods:{
@@ -146,19 +148,31 @@ export default {
       if(this.cDisableFields)
         return false;
       this.related.push(row);
-      this.source.splice(index,1);
       this.related.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
+      this.$set(
+        this,
+        'source',
+        this.source.filter(currentRow =>
+          this.mDinamicIndex(currentRow) !== this.mDinamicIndex(row)
+        )
+      )
       this.source.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
-      this.$nextTick().then(this.relatedChanged)
+      this.relatedChanged()
     },
     removeRelated:function(index,row){
       if(this.cDisableFields)
         return false;
-      this.source.push(row);
-      this.related.splice(index,1)
-      this.related.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
+      this.source.push(row)
       this.source.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
-      this.$nextTick().then(this.relatedChanged)
+      this.$set(
+        this,
+        'related',
+        this.related.filter(currentRow =>
+          this.mDinamicIndex(currentRow) !== this.mDinamicIndex(row)
+        )
+      )
+      this.related.sort((a,b) => a[this.cLabelProperty].localeCompare(b[this.cLabelProperty]))
+      this.relatedChanged()
     },
     relatedChanged:function(){
       this.sourceReFilter()
@@ -177,18 +191,14 @@ export default {
       this.sourceReFilter()
     },
     sourceReFilter: function () {
-      this.$nextTick().then(() => {
-        this.$set(this,'filterSource',this.processList(this.cLocalSource,this.sourceSearch))
-      })
+      this.$set(this,'filterSource',this.processList(this.cLocalSource,this.sourceSearch))
     },
     relatedSimpleFilterFind: function (search) {
       this.$set(this,'relatedSearch',search)
       this.relatedReFilter()
     },
     relatedReFilter: function () {
-      this.$nextTick().then(() => {
-        this.$set(this,'filterRelated',this.processList(this.cLocalRelated,this.relatedSearch))
-      })
+      this.$set(this,'filterRelated',this.processList(this.cLocalRelated,this.relatedSearch))
     },
     processList: function (items = null,search = '') {
       let filterItems = []
@@ -213,6 +223,13 @@ export default {
         default:
           break
       }
+    },
+    mDinamicIndex: function (row = null,index = null) {
+      if (index)
+        return index
+      if (row != null && row[this.cKeyProperty] != null)
+        return row[this.cKeyProperty]
+      return null
     }
   }
 }
