@@ -1,7 +1,7 @@
 <script>
-  import CvActionContainer from './CvActionContainer';
-  import CvSynchronizer    from '../../CvSynchronizer';
-  import CvErrorWraper     from '../input-components/CvErrorWraper';
+  import CvActionContainer from './CvActionContainer'
+  import CvSynchronizer    from '../../CvSynchronizer'
+  import CvErrorWraper     from '../input-components/CvErrorWraper'
   import cvVueSetter       from '../../cvVueSetter'
   export default{
     extends    : CvActionContainer,
@@ -33,20 +33,20 @@
       },
       getSuccess:function(response){
         if(this.action && this.action.type==="rows")
-          this.rows=this.transformResponse(response);
+          this.rows=this.transformResponse(response)
         if(this.action && this.action.type==="row")
-          this.row=this.transformResponse(response);
-        this.ready=true;
+          this.row=this.transformResponse(response)
+        this.setReady()
         if(this.cShowGetMessages)
           this.collectSuccessMessages(this.action.getGetSuccessMessage())
       },
       getError:function(response){
-        this.ready=true;
+        this.setReady()
         if(this.cShowGetMessages)
           this.collectErrorMessages(this.action.getGetErrorMessage())
       },
       getParams:function(){
-        return null;
+        return null
       },
       fixGetServiceParams: function (getParams=null,url=null,queryString=null) {
         return [
@@ -58,8 +58,8 @@
       },
       dinamicGetService:function(...serviceParams){
         if(!this.resource || !this.cActionGetService)
-          return false;
-        this.ready = false;
+          return false
+        this.setUnReady()
         return this.cActionGetService(...this.fixGetServiceParams(...serviceParams))
       },
       getService:function(...serviceParams){
@@ -67,17 +67,17 @@
       },
       setSuccess:function(response){
         if(this.action && this.action.type==="rows")
-          this.rows=this.transformResponse(response);
+          this.rows=this.transformResponse(response)
         if(this.action && this.action.type==="row")
-          this.row=this.transformResponse(response);
-        this.ready=true;
+          this.row=this.transformResponse(response)
+        this.setReady()
         if(this.cShowSetMessages)
           this.collectSuccessMessages(this.action.getSetSuccessMessage()+this.cIdentText)
         this.successRedirect()
       },
       setError:function(errorResponse){
-        this.ready=true;
-        this.errors = {};
+        this.setReady()
+        this.errors = {}
         if (
           typeof errorResponse!=='undefined' &&
           typeof errorResponse.response!=='undefined'  &&
@@ -112,7 +112,7 @@
           return false
         }
 
-        this.ready  = false
+        this.setUnReady()
         this.errors = {}
         return this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
       },
@@ -120,23 +120,23 @@
         this.dinamicSetService(...serviceParams).then(this.setSuccess).catch(this.setError)
       },
       toSync:function(row,identifier){
-        this.cvSynchronizer.toSync(row,this.cRowKey,identifier);
+        this.cvSynchronizer.toSync(row,this.cRowKey,identifier)
       },
       synchronized:function(row,identifier){
-        this.cvSynchronizer.synchronized(row,this.cRowKey,identifier);
+        this.cvSynchronizer.synchronized(row,this.cRowKey,identifier)
       },
       isSynchronizing:function(row,identifier){
-        return this.cvSynchronizer.isSynchronizing(row,this.cRowKey,identifier);
+        return this.cvSynchronizer.isSynchronizing(row,this.cRowKey,identifier)
       },
       validIdentifier:function(identifier){
-        return this.cvSynchronizer.validIdentifier(identifier);
+        return this.cvSynchronizer.validIdentifier(identifier)
       },
       someSyncInProgress:function(){
-        return this.cvSynchronizer.someSyncInProgress();
+        return this.cvSynchronizer.someSyncInProgress()
       },
       messageCollector:function(property,message){
         if(typeof this[property] ==="undefined")
-          return false;
+          return false
         if(!this[property])
           this[property]="-"+message
         else
@@ -146,10 +146,10 @@
       },
       messageNotificator:function(property,message){
         if(typeof this[property] ==="undefined")
-          return false;
+          return false
         if(typeof this[property] !=="undefined"){
           console.log(this[property])
-          this[property]=null;
+          this[property]=null
         }
       },
       collectSuccessMessages:function(message){
@@ -183,19 +183,19 @@
         this.messageNotificator("infoNotificationMessages")
       },
       validator:function(){
-        return true;
+        return true
       },
       rowChanged:function(){
-        this.$emit('row-changed', this.row);
+        this.$emit('row-changed', this.row)
       },
       rowsChanged:function(){
-        this.$emit('rows-changed', this.rows);
+        this.$emit('rows-changed', this.rows)
       },
       refreshRow:function(row){
-        this.row = row;
+        this.row = row
       },
       refreshRows:function(rows){
-        this.rows = rows;
+        this.rows = rows
       },
       backToIndex:function(){
       },
@@ -220,30 +220,30 @@
             typeof this.cRowKey==="undefined" ||
             typeof gridRow[this.cRowKey]==="undefined"
         )
-          return "";
+          return ""
         return " \""+this.cRowKey+":"+gridRow[this.cRowKey]+"\""
       }
     },
     computed:{
       cRows:function(){
-        return this.cvRows || this.rows || null;
+        return this.cvRows || this.rows || null
       },
       cRow:function(){
-        return this.cvRow  || this.row || null;
+        return this.cvRow  || this.row || null
       },
       cRowKey:function(){
-        return this.cvRowKey || 'id';
+        return this.cvRowKey || 'id'
       },
       cRowKeyRouteValue:function(){
-        return this.$route.params.id  || null;
+        return this.$route.params.id  || null
       },
       cShowGetMessages:function(){
         return (this.cAction && typeof this.cAction.cvShowGetMessages !== "undefined")?
-          this.cAction.cvShowGetMessages:false;
+          this.cAction.cvShowGetMessages:false
       },
       cShowSetMessages:function(){
         return (this.cAction && typeof this.cAction.cvShowSetMessages !== "undefined")?
-          this.cAction.cvShowSetMessages:true;
+          this.cAction.cvShowSetMessages:true
       },
       cHasRowKeyValue:function(){
         return this.cRow && this.cRow[this.cRowKey]
@@ -285,8 +285,8 @@
       "cvAutoload"
     ],
     created:function(){
-      this.rowKey      = this.cRowKey;
-      this.rowKeyValue = this.cRowKeyRouteValue;
+      this.rowKey      = this.cRowKey
+      this.rowKeyValue = this.cRowKeyRouteValue
 
       // Check for an active field, to set it 'true - 1' as default
       this.row = this.cResource !=null &&

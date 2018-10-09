@@ -44,16 +44,16 @@
     },
     computed:{
       cAction:function(){
-        return this.cvAction || null;
+        return this.cvAction || null
       },
       cResource:function(){
-        return (this.cAction && this.cAction.resource)? this.cAction.resource:null;
+        return (this.cAction && this.cAction.resource)? this.cAction.resource:null
       },
       cExcludeActions:function(){
-        return this.cvExcludeActions || [];
+        return this.cvExcludeActions || []
       },
       cGetted:function(){
-        return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false;
+        return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false
       },
       cShowHeader:function(){
         if(typeof this.cvShowHeader!=='undefined')
@@ -80,8 +80,8 @@
       "cvShowHeader"
     ],
     created:function(){
-      this.resource    = this.cResource;
-      this.action      = this.cAction;
+      this.resource    = this.cResource
+      this.action      = this.cAction
     },
     mounted: function () {
       this.isMounted = true
@@ -95,6 +95,6 @@
     & label
       font-weight: bold
     & hr
-        border: 0;
+        border: 0
         border-top: 1px solid #CCCCCC
 </style>

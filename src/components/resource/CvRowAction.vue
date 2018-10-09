@@ -1,5 +1,5 @@
 <script>
-import CvBaseCrud from './CvBaseCrud.vue';
+import CvBaseCrud from './CvBaseCrud.vue'
 export default {
   extends: CvBaseCrud
 }

@@ -33,7 +33,7 @@
       },
       vueSetter: function (source = null) {
         if(!source || typeof source.row==="undefined" || typeof source.cvColumnMap==="undefined")
-          return false;
+          return false
         let destination = source.destination || 'row'
         let mapKeys = Object.keys(source.cvColumnMap)
         for (let i=0; i<mapKeys.length; i++) {
@@ -47,7 +47,7 @@
         return this.actionAccessing(action,resource)
       },
       actionType:function(action=null,resource=null){
-        return this.resorceAction(action,resource).type || null;
+        return this.resorceAction(action,resource).type || null
       },
       actionPath:function(action,row,resource=null){
         return this.resorceAction(action,resource).getFixedPath(row) || null
@@ -63,7 +63,14 @@
         })
       },
       setUnReady: function () {
-        this.ready = false
+        return new Promise((resolve, reject) => {
+          this.$nextTick().then(() => {
+            this.ready = false
+            resolve()
+          }).catch(()=> {
+            reject()
+          })
+        })
       },
       setParentReady: function () {
         if (this.cParentRef)
@@ -76,7 +83,7 @@
     },
     computed:{
       cDisableFields:function(){
-        return this.cvDisableFields || (this.cAction && this.cAction.disableFields) || false;
+        return this.cvDisableFields || (this.cAction && this.cAction.disableFields) || false
       },
       cReady : function () {
         return this.cvReady || false

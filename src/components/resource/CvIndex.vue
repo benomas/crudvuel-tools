@@ -1,5 +1,5 @@
 <script>
-import CvBaseCrud from './CvBaseCrud.vue';
+import CvBaseCrud from './CvBaseCrud.vue'
 export default {
   extends: CvBaseCrud,
 	data (){
@@ -11,15 +11,15 @@ export default {
   computed:{
     cGridRef:function(){
       if(this.resource && this.resource.name && this.action)
-        return  this.resource.name + '-'+this.action.name+'-grid';
-      return "mainGrid";
+        return  this.resource.name + '-'+this.action.name+'-grid'
+      return "mainGrid"
     }
   },
   created:function(){
-    this.gridRef = this.cGridRef;
+    this.gridRef = this.cGridRef
   },
   mounted:function(){
-    this.mainGridData = this.$refs[this.gridRef] || null;
+    this.mainGridData = this.$refs[this.gridRef] || null
   }
 }
 </script>
