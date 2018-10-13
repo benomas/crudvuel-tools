@@ -1,2 +1,55 @@
-@import './app-variables'
-@import './dinamics'
+.cv-matcherizer-container
+  & .list-items
+    & i:hover
+        color:$secondary
+    & .single-selected
+      background-color:$secondary-l-96
+      &-label
+        display:inline-block
+        padding:8px
+        border:1px solid $grey
+        border-radius:5px
+        color: $white
+        background-color: $secondary-l-84
+        font-weight: bold
+        & i
+          cursor:pointer
+  & ul
+    z-index: 1000
+    position: absolute
+    margin-block-start: 0
+    margin-block-end: 0
+    padding-inline-start: 0
+    & .list-group
+      margin-bottom: 20px
+      padding-left: 0
+      &-item
+        cursor:pointer
+        position: relative
+        display: block
+        padding: 10px 15px
+        margin-bottom: -1px
+        background-color: $white
+        border-left: 1px solid $grey
+        border-right: 1px solid $grey
+        &:first-child
+          border-top: 1px solid $grey
+        &:last-child
+          border-bottom: 1px solid $grey
+        & i
+            margin-left:5px
+            margin-right:5px
+            font-weight: bold
+            cursor:pointer
+        &:hover
+          background-color: $primary-l-96
+        &.current-cursor-item
+          background-color: $grey
+        &.more-data-message
+          cursor:default
+          font-size: 11px
+          vertical-align: middle
+          padding: 2px 15px
+          color:$black-l-42
+          &:hover
+            background-color: $white

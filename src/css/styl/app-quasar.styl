@@ -1,6 +1,7 @@
 /*
   Here you can customize app styles for stylus framework in a global way
 */
+@import './app'
 a
   text-decoration  : none
   background-color : transparent
@@ -36,7 +37,7 @@ body
     cursor: progress !important
 .q-table
   & th
-    background-color : lightness($quaternary,95%)
+    background-color : $tertiary-l-96
     font-size        : $rem-font-size2
     font-weight      : bold
     color            : $primary
@@ -44,13 +45,13 @@ body
   & tbody
     & td
       font-size   : $rem-font-size2 !important
-      color       : $primary2
+      color       : $primary-l-21
       height      : 40px
       padding     : 5px 20px
       white-space : inherit
   & tr
     &:nth-of-type(2n)
-      background-color: lightness($quaternary,95%)
+      background-color: $tertiary-l-96
 .cv-orderable
   font-weight :bold
   font-size   :$rem-font-size3
@@ -182,7 +183,7 @@ body
     color:#CCCCCC
 .cv-info-table
   & th
-    background-color : lightness($quaternary,95%)
+    background-color : $quaternary-l-96
     font-size        : $rem-font-size2
     font-weight      : bold
     color            : $primary
@@ -196,7 +197,7 @@ body
       padding      : 5px 20px
   & tr
     &:nth-of-type(2n+1)
-      background-color: lightness($quaternary,95%)
+      background-color: $quaternary-l-96
 .cv-grid-container
   & .limit-label
     // hide text if it more than N lines
@@ -210,7 +211,7 @@ body
 .custom-q-btn-dropdown
   padding-left: 4px
 .q-if-hide-underline
-  border-bottom: 1px solid lightness($quaternary,95%)
+  border-bottom: 1px solid $quaternary-l-96
 
 /*transition css*/
 .component-fade-enter-active
@@ -262,7 +263,7 @@ body
 .q-layout-footer
   box-shadow $primary -5px -15px 20px -25px
 .q-item.active, .q-item.router-link-active, .q-item:focus
-  background-color:$quaternary2
+  background-color:$tertiary-l-87
 .q-layout-header
   & .q-toolbar
     background-image:none !important
@@ -289,4 +290,4 @@ body
 .q-collapsible-sub-item .relative-position
   cursor:pointer !important
   &:hover
-    background-color:$quaternary3
+    background-color:$tertiary-l-84

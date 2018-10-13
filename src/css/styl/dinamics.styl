@@ -156,13 +156,15 @@ if $sumatory-module  == 'enabled'
 
 //Color strategy
 if $color-module  == 'enabled'
-  for $i in (1..$color-variation-count)
+  for $i in ($lightness-start..$lightness-end)
     $prefix = ''
-    if $i > 1
-      $prefix = '-' + $i
+    if $i > $lightness-start
+      $prefix = '-l-' + $i * 3
     for $current-color in $colors
-      if $i > 1
-        $color-variation = '$' + $current-color + $i
+      if $i > $lightness-start
+        $new-color = $current-color + $prefix
+        define( '$' + $new-color, lightness(coloring('$'+$current-color),$i*3%))
+        $color-variation = '$' + $new-color
       else
         $color-variation = '$' + $current-color
       $color-prefix    = $current-color + $prefix
