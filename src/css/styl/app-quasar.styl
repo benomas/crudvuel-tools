@@ -253,10 +253,17 @@ body
       font-weight:bold
 .q-field-no-input .q-field-margin
     margin-top: 23px
+.q-item-side
+  color: $primary
 .cv-grid-container .simple-filters-container .q-if-standard.q-if-has-label
     padding-top: 8px
-.q-item-side
-    color: $primary
+  & .q-card
+    & .q-item-side
+      color: $primary
+      font-weight:bold
+    & .q-item-main
+      & .q-item-label
+        color: $primary
 .q-layout-drawer-delimiter
   box-shadow:none
 .q-layout-footer
