@@ -14,7 +14,7 @@ const CvParametrizer = function(paginate){
   }
 
   this.getParameter=function(parameter){
-    if(typeof this.params.paginate[parameter]!=="undefined")
+    if (typeof this.params.paginate[parameter]!=="undefined")
       return this.params.paginate[parameter]
     return null
   }

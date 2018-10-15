@@ -38,11 +38,12 @@
     <transition name="component-fade" mode="out-in">
       <cv-paginate
         v-if ='cTotalPageElements && cTopPaginate'
+        ref="top-cv-paginate"
         cvPosition="top"
         :cvTotalQueryElements='elementsCount'
         :cvTotalPageElements='cTotalPageElements'
         :cvCurrentPage='cvParametrizer.getPage()'
-        :cvLimit='cvParametrizer.getLimit()'
+        :cvLimit='cDLimit'
         :cvPagesPerView='cPagesPerView'
         :cvLimitValues='cLimitValues'
         :cvReady='cReady'
@@ -67,11 +68,12 @@
     <transition name="component-fade" mode="out-in">
       <cv-paginate
         v-if='cTotalPageElements && cBottomPaginate'
+        ref="bottom-cv-paginate"
         cvPosition="bottom"
         :cvTotalQueryElements='elementsCount'
         :cvTotalPageElements='cTotalPageElements'
         :cvCurrentPage='cvParametrizer.getPage()'
-        :cvLimit='cvParametrizer.getLimit()'
+        :cvLimit='cDLimit'
         :cvPagesPerView='cPagesPerView'
         :cvLimitValues='cLimitValues'
         :cvReady='cReady'
@@ -153,6 +155,9 @@ export default {
     },
     cLimit:function(){
       return this.cvLimit || 10
+    },
+    cDLimit: function (){
+      return this.cvParametrizer.getLimit() || this.cLimit
     },
     cOrderBy:function(){
       return this.cvOrderBy || "id"
@@ -254,6 +259,12 @@ export default {
     refreshPaginate:function(event){
       this.cvParametrizer.setPage(event.page)
       this.cvParametrizer.setLimit(event.limit)
+      this.$nextTick().then(() => {
+        if (this.$refs['top-cv-paginate'] != null )
+          this.$refs['top-cv-paginate'].refreshParams()
+        if (this.$refs['bottom-cv-paginate'] != null )
+          this.$refs['bottom-cv-paginate'].refreshParams()
+      })
       this.refresh()
     },
     prepareToFind(search){

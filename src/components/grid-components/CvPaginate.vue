@@ -79,7 +79,6 @@ export default {
       if (!this.cReady)
         return this.oldCarrusel
       let carrusel =[];
-      this.limitSelected = this.cvLimit;
       this.totalPaginado = Math.ceil(this.cvTotalQueryElements/this.cvLimit);
       let start          = 1;
       let fixForCenter;
@@ -166,14 +165,17 @@ export default {
     },
     hasRight:function(){
       return this.carrousel && this.carrousel.length && this.carrousel[this.carrousel.length-1] < this.totalPaginado;
+    },
+    refreshParams: function () {
+      if(this.cvLimit ===  "" || this.cvLimit ===  null)
+        this.cvLimit = 25;
+      if(this.cvPagesPerView ===  "" || this.cvPagesPerView ===  null)
+        this.cvPagesPerView = 5;
+      this.$set(this,'limitSelected',this.cvLimit)
     }
   },
   created:function(){
-    if(this.cvLimit ===  "" || this.cvLimit ===  null)
-      this.cvLimit = 25;
-    if(this.cvPagesPerView ===  "" || this.cvPagesPerView ===  null)
-      this.cvPagesPerView = 5;
-    this.limitSelected=this.cvLimit;
+    this.refreshParams()
   }
 }
 </script>
