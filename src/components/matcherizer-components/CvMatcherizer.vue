@@ -72,7 +72,7 @@ export default {
       currentValue       : null,
       currentLabel       : null,
       preselected        : false,
-      focus              : false,
+      focus              : true,
       listOver           : false,
       listWidth          :'200px',
       loading            : false,
@@ -117,6 +117,10 @@ export default {
       this.sourceCount     = response.data.count
       this.sourcePageCount = response.data.data.length
       this.processList().then(() => {
+        console.log([
+          this.cShowList,
+          this.cLoading
+        ])
         this.$emit('success-source-mutation', this.$data)
       })
     },
@@ -309,7 +313,6 @@ export default {
             if(this.mySubString(currentItemLabel,this.generalSearch))
               listOfItems.push(data[i])
           }
-
         this.$set(this,'listOfItems',listOfItems)
         this.$nextTick().then(() => {
           resolve(listOfItems)
