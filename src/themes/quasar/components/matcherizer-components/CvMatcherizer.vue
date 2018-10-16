@@ -57,8 +57,8 @@
   </div>
 </template>
 <script>
-import CvCustomExtender         from 'src/crudvuel/customs/components/matcherizer-components/CvMatcherizer.vue'
-import CvSimpleFilters          from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSimpleFilters.vue'
+import CvCustomExtender         from 'src/crudvuel/customs/components/matcherizer-components/CvMatcherizer'
+import CvSimpleFilters          from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSimpleFilters'
 import {QIcon,QSlideTransition} from 'quasar'
 export default {
   extends    : CvCustomExtender,
@@ -72,7 +72,7 @@ export default {
   ],
   computed: {
     cLimit: function () {
-      return this.cvLimit || 5
+      return this.cvLimit || 50
     },
     cSimpleSearchIconColor: function () {
       return this.cvSimpleSearchIconColor || (this.cShowingSelected ? 'positive' : '')

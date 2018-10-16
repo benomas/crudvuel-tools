@@ -72,7 +72,7 @@ export default {
       currentValue       : null,
       currentLabel       : null,
       preselected        : false,
-      focus              : true,
+      focus              : false,
       listOver           : false,
       listWidth          :'200px',
       loading            : false,
@@ -116,13 +116,15 @@ export default {
       this.sourceData      = response.data.data
       this.sourceCount     = response.data.count
       this.sourcePageCount = response.data.data.length
-      this.processList()
-      this.$emit('success-source-mutation', this.$data)
+      this.processList().then(() => {
+        this.$emit('success-source-mutation', this.$data)
+      })
     },
     emitErrorMutationSource:function(response){
       this.loaded()
-      this.processList()
-      this.$emit('error-source-mutation', this.$data)
+      this.processList().then(() => {
+        this.$emit('error-source-mutation', this.$data)
+      })
     },
     emitInitialMutationSource:function(){
       this.loaded()
@@ -136,8 +138,9 @@ export default {
     prepareToFindSource:function(search){
       this.generalSearch = search
       if( !this.requireNewRemoteSearch() ){
-        this.processList()
-        this.$set(this,'disableList',false)
+        this.processList().then(() => {
+          this.$set(this,'disableList',false)
+        })
         return false
       }
 
@@ -293,21 +296,25 @@ export default {
       this.sourceParametrizer.setGeneralSearch(this.cGeneralSearch)
     },
     processList: function () {
-      let listOfItems = []
-      let data = this.cSourceListOfItems
-      if(typeof data ==='undefined' || !data)
-        return listOfItems
-      for (let i = 0; i < data.length; i++){
-        if(listOfItems.length === this.cListOfItemsLimit)
-          return listOfItems
+      return new Promise ((resolve, reject) => {
+        var listOfItems = []
+        let data = this.cSourceListOfItems
+        if (data != null)
+          for (let i = 0; i < data.length; i++){
+            if(listOfItems.length === this.cListOfItemsLimit)
+              break
 
-        let currentItemLabel = this.mLabelCallBack(data,data[i])
+            let currentItemLabel = this.mLabelCallBack(data,data[i])
 
-        if(this.mySubString(currentItemLabel,this.generalSearch))
-          listOfItems.push(data[i])
-      }
-      this.$set(this,'listOfItems',listOfItems)
-      return this.listOfItems
+            if(this.mySubString(currentItemLabel,this.generalSearch))
+              listOfItems.push(data[i])
+          }
+
+        this.$set(this,'listOfItems',listOfItems)
+        this.$nextTick().then(() => {
+          resolve(listOfItems)
+        })
+      })
     },
     showPatter:function(label,isCurrent){
       let located = this.myReplace(label,this.generalSearch,'<span class="matcherizer-item">$1</span>')
