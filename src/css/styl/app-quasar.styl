@@ -2,39 +2,6 @@
   Here you can customize app styles for stylus framework in a global way
 */
 @import './app'
-a
-  text-decoration  : none
-  background-color : transparent
-  cursor           : pointer
-.c
-  &-pointer
-    cursor:pointer !important
-.o
-  &-auto
-    overflow: auto !important
-.in-progress-cursor
-  cursor: progress !important
-  &:disabled
-    cursor: progress !important
-body
-  display     : flex
-  margin      : 0
-  padding     : 0
-  font-size   : 16px
-  font-weight : 350
-  font-family : 'Roboto', sans-serif
-  line-height : 1.5
-  & #q-app
-    display : flex
-    width   : 100%
-    height  : 100%
-.active-icon
-  font-size : 20px
-  cursor    : pointer !important
-.in-progress-cursor
-  cursor: progress !important
-  &:disabled
-    cursor: progress !important
 .q-table
   & th
     background-color : $tertiary-l-96
@@ -58,94 +25,6 @@ body
   cursor      :pointer
 .action-label
   text-align:left !important
-.cv-field-container
-  padding-left  : 5px
-  padding-right : 5px
-.simple-filters-container
-  display:inline-block
-  & label
-    display       : inline-block
-    margin-bottom : 5px
-    font-weight   : 700
-.form-control
-    -moz-appearance    : textfield
-    -moz-user-select   : text
-    -webkit-box-shadow : inset 0 1px 1px $black
-    background-color   : $white
-    background-image   : none
-    border             : 1px solid #ccc
-    border-radius      : 4px
-    box-shadow         : inset 0 1px 1px $black
-    color              : $black
-    cursor             : text
-    display            : inline-block
-    font               : -moz-field
-    font-size          : $rem-font-size2
-    height             : 34px
-    letter-spacing     : normal
-    line-height        : 1.42857143
-    overflow-clip-box  : padding-box content-box
-    padding            : 6px 6px
-    text-align         : start
-    text-indent        : 0
-    text-rendering     : optimizeLegibility
-    text-shadow        : none
-    text-transform     : none
-    word-spacing       : normal
-    margin:5px 10px 5px 0
-    &:focus
-      border-color       : $quaternary
-      outline            : 0
-      -webkit-box-shadow : inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
-      box-shadow         : inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6)
-  select.form-control
-    -moz-appearance    : menulist
-  .btn
-    display             : inline-block
-    margin-bottom       : 0
-    font-weight         : 400
-    text-align          : center
-    vertical-align      : middle
-    -ms-touch-action    : manipulation
-    touch-action        : manipulation
-    cursor              : pointer
-    background-image    : none
-    white-space         : nowrap
-    padding             : 3px 9px
-    font-size           : $rem-font-size2
-    line-height         : 1.6
-    border-radius       : 4px
-    -webkit-user-select : none
-    -moz-user-select    : none
-    -ms-user-select     : none
-    user-select         : none
-    &.active
-      background-color : $tertiary !important
-      color            : $white
-      &:hover
-        color:$white
-    &:hover
-      background-color : $secondary-l-39 !important
-      color            : $white
-.btn-default
-    color            : $secondary
-    background-color : $white
-    border           : none !important
-    height           : 2rem
-    min-width        : 2rem
-    padding          : 0.5rem
-    border-radius    : 50% !important
-    align-items      : center
-    text-align       : center
-    vertical-align   : middle
-    font-size        : 1rem
-    line-height      : 1rem
-    font-weight      : 400
-.cv-grid-data-container
-  margin-top     : 10px
-  margin-bottom  : 10px
-  padding-top    : 10px
-  padding-bottom : 10px
 .simple-filters-container,.action-container
   & .q-field-icon
     width        : 16px
@@ -159,21 +38,10 @@ body
     font-size   : $rem-font-size1
     padding-top : 0
     text-align  : right
-.matcherizer-item
-  text-decoration: underline
 .q-input-target
   height  : 21px !important
   outline : 0
   color   : $secondary
-.custom-action-container .action-content
-  padding:0
-  & .block-container
-    width   : 100%
-    padding : 40px 20px 0 20px
-  & .block-input
-    width         : 100%
-    margin-top    : 25px
-    margin-bottom : 25px
 .q-if-focused .q-if-label .q-if-addon .q-if-focused .q-if-control
   color:$tertiary
 .q-layout-header
@@ -211,37 +79,6 @@ body
   padding-left: 4px
 .q-if-hide-underline
   border-bottom: 1px solid $quaternary-l-96
-
-/*transition css*/
-.component-fade-enter-active
-  transition: opacity .6s ease
-.component-fade-leave-active
-  transition: opacity .3s ease
-.component-fade-enter, .component-fade-leave-to
-  opacity: 0
-.component-fade-slow-enter-active
-  transition: opacity .4s ease
-.component-fade-slow-leave-active
-  transition: opacity .2s ease
-.component-fade-slow-enter, .component-fade-leave-to
-  opacity: 0
-.bounce-enter-active
-  animation: bounce-in .8s
-@keyframes bounce-in
-  0%
-    transform: scale(0)
-  50%
-    transform: scale(1.2)
-  100%
-    transform: scale(1)
-.slide-fade-enter-active
-  transition: all .4s ease
-.slide-fade-leave-active
-  transition: all .5s cubic-bezier(1.0, 0.5, 0.8, 1.0)
-.slide-fade-enter, .slide-fade-leave-to
-  transform : translateX(40px)
-  opacity   : 0
-
 //custom quasar stepper
 .q-stepper-dot
   width  :50px
@@ -297,3 +134,5 @@ body
   cursor:pointer !important
   &:hover
     background-color:$tertiary-l-84
+.q-field-error
+  font-size:$font-size4

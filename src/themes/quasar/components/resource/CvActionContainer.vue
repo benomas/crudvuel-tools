@@ -35,10 +35,10 @@ export default {
   ],
   computed: {
     cActionContentClasses: function () {
-      return this.cvActionContentClasses || ('row action-content shadow-1 w-100 ' + (this.cLtmd ? 'q-pa-xs' : 'q-pa-md'))
+      return this.cvActionContentClasses || ('row action-content w-100 ' + (this.cLtsm ? '' : 'q-pa-md shadow-1'))
     },
     cActionClasses: function () {
-      return this.cvActionClasses || 'row action-container fix-container q-pa-lg txt-secondary'
+      return this.cvActionClasses || ('row action-container fix-container txt-secondary ' + (this.cLtsm ? 'q-pa-md' : 'q-pa-lg'))
     }
   },
   components: {
