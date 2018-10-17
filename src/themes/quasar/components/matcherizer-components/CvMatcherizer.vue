@@ -21,12 +21,13 @@
         >
         </cv-simple-filters>
       </div>
-        <q-slide-transition>
+        <q-slide-transition >
           <ul
             v-if="cShowList"
             @mouseover="listIn"
             @mouseleave="listOut"
             class="list-group"
+            :class="{'b-none':!cListOfItems || !cShowList}"
             :style="{'width':cContainerWidth}"
           >
               <li
@@ -43,29 +44,32 @@
                 v-if="cLoading"
                 class="list-group-item more-data-message"
               >
-                Cargando...
+                <q-spinner-facebook :size="18" class="q-mx-md txt-secondary-l-30"/>
+                <span class="txt-secondary-l-30">Cargando...</span>
               </li>
               <li
                 v-if="sourceCount && sourceCount > cListOfItemsLimit"
                 class="list-group-item more-data-message"
               >
-                {{cMoreDataMessage}}
+                <span class="txt-secondary-l-30">{{cMoreDataMessage}}</span>
               </li>
           </ul>
-        </q-slide-transition>
+        </q-slide-transition >
     </div>
   </div>
 </template>
 <script>
-import CvCustomExtender         from 'src/crudvuel/customs/components/matcherizer-components/CvMatcherizer'
-import CvSimpleFilters          from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSimpleFilters'
-import {QIcon,QSlideTransition} from 'quasar'
+import CvCustomExtender                  from 'src/crudvuel/customs/components/matcherizer-components/CvMatcherizer'
+import CvSimpleFilters                   from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSimpleFilters'
+import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook} from 'quasar'
 export default {
   extends    : CvCustomExtender,
   components : {
     CvSimpleFilters,
     QSlideTransition,
-    QIcon
+    QIcon,
+    QSpinner,
+    QSpinnerFacebook
   },
   props: [
     'cvHelper'

@@ -73,6 +73,7 @@ export default {
       currentLabel       : null,
       preselected        : false,
       focus              : true,
+      bluring            : false,
       listOver           : false,
       listWidth          :'200px',
       loading            : false,
@@ -80,6 +81,7 @@ export default {
       listOfItems        : null,
       absolueRemoteData  : false,
       currentItem        : null,
+      itemAdded          : false
     }
   },
   props:[
@@ -112,22 +114,24 @@ export default {
   methods:{
     //sourceData
     emitSuccessMutationSource:function(response){
-      this.loaded()
-      this.sourceData      = response.data.data
-      this.sourceCount     = response.data.count
-      this.sourcePageCount = response.data.data.length
-      this.processList().then(() => {
-        console.log([
-          this.cShowList,
-          this.cLoading
-        ])
-        this.$emit('success-source-mutation', this.$data)
+      return new Promise ((resolve, reject) => {
+        this.loaded()
+        this.sourceData      = response.data.data
+        this.sourceCount     = response.data.count
+        this.sourcePageCount = response.data.data.length
+        this.processList().then(() => {
+          this.$emit('success-source-mutation', this.$data)
+          resolve()
+        }).catch(reject)
       })
     },
     emitErrorMutationSource:function(response){
-      this.loaded()
-      this.processList().then(() => {
-        this.$emit('error-source-mutation', this.$data)
+      return new Promise ((resolve, reject) => {
+        this.loaded()
+        this.processList().then(() => {
+          this.$emit('error-source-mutation', this.$data)
+          resolve()
+        }).catch(reject)
       })
     },
     emitInitialMutationSource:function(){
@@ -135,28 +139,42 @@ export default {
       this.$emit('initial-source-mutation', this.$data)
     },
     refreshPaginateSource:function(event){
-      this.sourceParametrizer.setPage(event.page)
-      this.sourceParametrizer.setLimit(event.limit)
-      this.refreshSource()
+      return new Promise ((resolve, reject) => {
+        this.sourceParametrizer.setPage(event.page)
+        this.sourceParametrizer.setLimit(event.limit)
+        this.refreshSource().then(resolve).catch(reject)
+      })
     },
     prepareToFindSource:function(search){
-      this.generalSearch = search
-      if( !this.requireNewRemoteSearch() ){
-        this.processList().then(() => {
-          this.$set(this,'disableList',false)
-        })
-        return false
-      }
-
-      this.saveSearchState()
-      this.$set(this,'disableList',false)
-      this.toLoad()
-      this.refreshSource()
+      return new Promise ((resolve, reject) => {
+        this.generalSearch = search
+        if (this.itemAdded) {
+          this.$set(this,'itemAdded',false)
+          resolve()
+        }else{
+          if (!this.requireNewRemoteSearch())
+            this.processList().then(() => {
+              this.$set(this,'disableList',false)
+              resolve()
+            }).catch(reject)
+          else{
+            console.log('prepareToFindSource')
+            this.saveSearchState()
+            this.$set(this,'disableList',false)
+            this.$nextTick().then(() => {
+              this.toLoad()
+              this.refreshSource().then(resolve).catch(reject)
+            }).catch(reject)
+          }
+        }
+      })
     },
     refreshSource:function(){
-      this.cSourceService(null,null,this.sourceParametrizer.getSerialized())
-        .then(this.emitSuccessMutationSource)
-        .catch(this.emitErrorMutationSource)
+      return new Promise ((resolve, reject) => {
+        this.cSourceService(null,null,this.sourceParametrizer.getSerialized())
+          .then(response => this.emitSuccessMutationSource(response).then(resolve).catch(reject))
+          .catch(response => this.emitErrorMutationSource(response).then(resolve).catch(reject))
+      })
     },
     //others
     mLabelCallBack:function(rows,row){
@@ -182,56 +200,93 @@ export default {
         this.cvRemoveCallBack(rows,row)
     },
     add:function(rowKey,row){
-      this.$set(this,'disableList',true)
-      this.setCurrent(this.cListOfItems,row)
-      this.listOver=false
+      return new Promise ((resolve, reject) => {
+        this.$set(this,'disableList',true)
+        this.$set(this,'itemAdded',true)
+        this.setCurrent(this.cListOfItems,row).then(() => this.listOut().then(resolve).catch(reject)).catch(reject)
+      })
     },
     setSearch: function (label = null, reactive = true) {
-      if(this.cSimpleFilterRef){
-        if (label===null)
-          label = this.currentLabel
-        this.cSimpleFilterRef.mSimpleFilterInyectSearch(label,reactive)
-      }
+      return new Promise ((resolve, reject) => {
+        if(this.cSimpleFilterRef){
+          if (label===null)
+            label = this.currentLabel
+          this.cSimpleFilterRef.mSimpleFilterInyectSearch(label,reactive).then(() => {
+            resolve()
+          })
+        }
+        else
+          resolve()
+      })
     },
     setCurrent:function(rows,row){
-      if(this.cDisableFields)
-        return false;
-      this.currentLabel = this.mLabelCallBack(rows,row)
-      this.currentValue = this.mValueCallBack(rows,row)
-      this.refresh()
-      if(this.cParentRef){
-        this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
-      }
-      this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
+      return new Promise ((resolve, reject) => {
+        if(this.cDisableFields)
+          resolve()
+        else{
+          this.currentLabel = this.mLabelCallBack(rows,row)
+          this.currentValue = this.mValueCallBack(rows,row)
+          this.refresh().then(() => {
+            if(this.cParentRef)
+              this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
+            this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
+            resolve()
+          }).catch(reject)
+        }
+      })
     },
     resetCurrent:function(){
-      this.preselected  = false
-      this.currentLabel = ''
-      this.currentValue = null
-      this.refresh()
-      if(this.cParentRef)
-        this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
-      this.$emit('cv-reset', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
+      return new Promise ((resolve, reject) => {
+        this.preselected  = false
+        this.currentLabel = ''
+        this.currentValue = null
+        this.listOut().then(
+          () => this.refresh().then(() => {
+            if(this.cParentRef)
+              this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
+            this.$emit('cv-reset', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
+          }).catch(reject)
+        ).catch(reject)
+      })
     },
     refresh:function(){
-      this.setSearch()
-      this.prepareToFindSource(this.currentLabel)
+      return new Promise (
+        (resolve, reject) => this.setSearch().then(
+          () => this.prepareToFindSource(this.currentLabel).then(resolve).catch(reject)).catch(reject)
+        )
     },
-    focused:function(){
-      if(this.cDisableFields)
-        return false
-      this.$set(this,'currentItem',null)
-      this.$set(this,'focus',true)
-      if(this.cSimpleFilterRef)
-        this.setSearch(this.cGeneralSearch)
-      this.fixListWidth()
-      this.mSimpleSearchFocused()
+    focused: function() {
+      return new Promise ((resolve, reject) => {
+        if (this.cDisableFields)
+          resolve()
+        else {
+          this.$set(this,'currentItem',null)
+          this.$set(this,'focus',true)
+          if (this.cSimpleFilterRef) {
+            this.setSearch(this.cGeneralSearch).then(() => {
+              this.fixListWidth()
+              this.mSimpleSearchFocused()
+              resolve()
+            }).catch(reject)
+          }
+          else {
+            this.fixListWidth()
+            this.mSimpleSearchFocused()
+            resolve()
+          }
+        }
+      })
     },
     blured:function(){
-      this.$set(this,'focus',false)
-      if(this.currentLabel && this.currentLabel !== '')
-        this.setSearch(this.cGeneralSearch)
-      this.mSimpleSearchBlured()
+      return new Promise ((resolve, reject) => {
+        this.$set(this,'focus',false)
+        if(this.currentLabel && this.currentLabel !== '')
+          this.setSearch(this.cGeneralSearch)
+        this.mSimpleSearchBlured()
+        this.$nextTick().then(() => {
+          this.listOut()
+        })
+      })
     },
     keyed:function(key){
       if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined')
@@ -262,16 +317,20 @@ export default {
         default: this.currentItem = null
           break
       }
-      //console.log(key.keyCode)
     },
     listIn:function(){
-      this.listOver=true;
-      this.fixListWidth()
-      this.$emit('cv-list-in', this.cGeneralSearch);
+      return new Promise ((resolve, reject) => {
+        this.$set(this,'listOver',true)
+        this.$emit('cv-list-out', this.cGeneralSearch)
+        resolve()
+      })
     },
     listOut:function(){
-      this.listOver=false;
-      this.$emit('cv-list-out', this.cGeneralSearch);
+      return new Promise ((resolve, reject) => {
+        this.$set(this,'listOver',false)
+        this.$emit('cv-list-out', this.cGeneralSearch)
+        resolve()
+      })
     },
     fixListWidth:function(){
       if( typeof this.$refs.filterReference!=='undefined' &&

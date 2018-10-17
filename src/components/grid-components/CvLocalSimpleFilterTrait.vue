@@ -22,12 +22,17 @@ export default {
   methods: {
     // Inyect search to the input filter
     mSimpleFilterInyectSearch: function (simpleSearch = null,reactive =  true) {
-      this.$set(this,'simpleSearch',simpleSearch)
-      if (!this.cSimpleSearchInputContainer)
-        return this.cSimpleFilterRef.mSimpleFilterInyectSearch(this.simpleSearch)
-      this.mSimpleSearchInyected()
-      if (reactive)
-        this.mSimpleSearchStart()
+      return new Promise ((resolve, reject) => {
+        this.$set(this,'simpleSearch',simpleSearch)
+        if (!this.cSimpleSearchInputContainer){
+          this.cSimpleFilterRef.mSimpleFilterInyectSearch(this.simpleSearch)
+          resolve()
+        }
+        this.mSimpleSearchInyected()
+        if (reactive)
+          this.mSimpleSearchStart()
+        resolve()
+      })
     },
     // trigger inyected event through the parent tree
     mSimpleSearchInyected: function () {
