@@ -7,9 +7,9 @@
           {{ fLang('id') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
         </th>
-        <th cv-key="full_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
-          {{ fLang('full_name') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="full_name"></cv-order-icons>
+        <th cv-key="user_full_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
+          {{ fLang('user_full_name') }}
+          <cv-order-icons :cv-data="props.gridData" cv-key="user_full_name"></cv-order-icons>
         </th>
         <th  cv-key="email" class="gt-lg cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
           {{ fLang('email') }}
@@ -31,7 +31,7 @@
         {{props.slotRow.id}}
       </td>
       <td>
-        {{props.slotRow.full_name}}
+        {{props.slotRow.user_full_name}}
       </td>
       <td class="gt-lg">
         {{props.slotRow.email}}
@@ -52,8 +52,8 @@
       </q-item>
       <q-item>
         <q-item-main>
-          <q-item-tile label>{{ fLang('full_name') }}</q-item-tile>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.full_name}}</q-item-tile>
+          <q-item-tile label>{{ fLang('user_full_name') }}</q-item-tile>
+          <q-item-tile sublabel class="limit-label">{{props.slotRow.user_full_name}}</q-item-tile>
         </q-item-main>
       </q-item>
       <q-item>

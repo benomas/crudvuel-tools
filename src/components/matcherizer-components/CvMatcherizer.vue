@@ -158,7 +158,6 @@ export default {
               resolve()
             }).catch(reject)
           else{
-            console.log('prepareToFindSource')
             this.saveSearchState()
             this.$set(this,'disableList',false)
             this.$nextTick().then(() => {
@@ -228,7 +227,7 @@ export default {
           this.currentValue = this.mValueCallBack(rows,row)
           this.refresh().then(() => {
             if(this.cParentRef)
-              this.cParentRefSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
+              this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
             this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
             resolve()
           }).catch(reject)
@@ -243,7 +242,7 @@ export default {
         this.listOut().then(
           () => this.refresh().then(() => {
             if(this.cParentRef)
-              this.cParentRefSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
+              this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
             this.$emit('cv-reset', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
           }).catch(reject)
         ).catch(reject)
