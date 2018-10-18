@@ -1,5 +1,5 @@
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvAdvancedFilters.vue'
+import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvAdvancedFilters'
 export default {
   extends: CvCustomExtender
 }

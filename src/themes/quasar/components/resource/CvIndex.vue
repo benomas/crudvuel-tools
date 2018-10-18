@@ -1,8 +1,8 @@
 <script>
-import CvCustomExtender  from 'src/crudvuel/customs/components/resource/CvIndex.vue'
-import CvOrderIcons      from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvOrderIcons.vue'
-import CvThs             from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvThs.vue'
-import CvActionContainer from './CvActionContainer.vue'
+import CvCustomExtender  from 'src/crudvuel/customs/components/resource/CvIndex'
+import CvOrderIcons      from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvOrderIcons'
+import CvThs             from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvThs'
+import CvActionContainer from './CvActionContainer'
 import {
   Dialog,
   QBtn,

@@ -220,8 +220,8 @@ import {
   QItemTile
 } from 'quasar'
 import CvNotify from './CvNotify.js'
-import CvIndex  from 'src/crudvuel/customs/themes/quasar/components/resource/CvIndex.vue'
-import CvGrid    from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvGrid.vue'
+import CvIndex  from 'src/crudvuel/customs/themes/quasar/components/resource/CvIndex'
+import CvGrid    from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvGrid'
 export default {
   extends    : CvIndex,
   components : {

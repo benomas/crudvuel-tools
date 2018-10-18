@@ -1,8 +1,8 @@
 <script>
-import CvCustomExtender           from 'src/crudvuel/customs/components/resource/CvBaseCrud.vue'
-import CvActionContainer          from './CvActionContainer.vue'
-import CvButtons                  from '../others/CvButtons.vue'
-import CvToggle                   from '../others/CvToggle.vue'
+import CvCustomExtender           from 'src/crudvuel/customs/components/resource/CvBaseCrud'
+import CvActionContainer          from './CvActionContainer'
+import CvButtons                  from '../others/CvButtons'
+import CvToggle                   from '../others/CvToggle'
 import CvNotify                   from '../others/CvNotify.js'
 import CvSpinner                  from '../grid-components/CvSpinner'
 import {QIcon,QField,QInput,QBtn} from 'quasar'

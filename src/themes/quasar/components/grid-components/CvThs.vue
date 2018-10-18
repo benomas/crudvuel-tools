@@ -1,5 +1,5 @@
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvThs.vue'
+import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvThs'
 export default {
   extends: CvCustomExtender
 }

@@ -91,7 +91,7 @@
   </div>
 </template>
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvPaginate.vue'
+import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvPaginate'
 import {QTooltip,CloseOverlay,QWindowResizeObservable,QIcon,QBtn,QSelect,QField} from 'quasar'
 export default {
   extends    : CvCustomExtender,

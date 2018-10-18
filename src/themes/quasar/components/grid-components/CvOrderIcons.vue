@@ -23,7 +23,7 @@
   </span>
 </template>
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvOrderIcons.vue'
+import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvOrderIcons'
 import {QIcon} from 'quasar'
 export default {
   extends    : CvCustomExtender,

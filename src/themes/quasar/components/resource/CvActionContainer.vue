@@ -24,7 +24,7 @@
   </div>
 </template>
 <script>
-import CvCustomExtender from 'src/crudvuel/customs/components/resource/CvActionContainer.vue'
+import CvCustomExtender from 'src/crudvuel/customs/components/resource/CvActionContainer'
 import CvSpinner        from '../grid-components/CvSpinner'
 import CvTag            from '../CvTag'
 export default {
