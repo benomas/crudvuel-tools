@@ -1,6 +1,6 @@
 {
   "name": "crudvuel-tools",
-  "version": "2.1.23",
+  "version": "2.1.24",
   "description": "Grid for interact with laravel crudvel api, es6 versión",
   "main": "./dist/crudvuel-tools.min.js",
   "scripts": {
