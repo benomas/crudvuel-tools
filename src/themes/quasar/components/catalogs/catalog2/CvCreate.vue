@@ -6,6 +6,11 @@
           <q-input v-bind="defInputProps('name')" v-model.trim="row.name"/>
         </q-field>
       </div>
+      <div class="col-xs-12 col-sm-6 col-md-5 q-pa-md">
+        <q-field v-bind="defErrorInputProps('slug')">
+          <q-input v-bind="defInputProps('slug')" v-model.trim="row.slug"/>
+        </q-field>
+      </div>
       <div class="col-xs-12 col-sm-2 col-md-2 q-pa-md m-auto">
          <q-field v-bind="defErrorInputProps('active')">
           <cv-toggle v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>

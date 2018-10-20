@@ -11,6 +11,10 @@
           {{ fLang('name') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="name"></cv-order-icons>
         </th>
+        <th cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
+          {{ fLang('slug') }}
+          <cv-order-icons :cv-data="props.gridData" cv-key="slug"></cv-order-icons>
+        </th>
         <th cv-key="description" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
           {{ fLang('description') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="description"></cv-order-icons>
@@ -30,6 +34,9 @@
       </td>
       <td>
         {{props.slotRow.name}}
+      </td>
+      <td>
+        {{props.slotRow.slug}}
       </td>
       <td>
         {{props.slotRow.description}}
@@ -52,6 +59,12 @@
         <q-item-main>
           <q-item-tile label>{{ fLang('name') }}</q-item-tile>
           <q-item-tile sublabel class="limit-label">{{props.slotRow.name}}</q-item-tile>
+        </q-item-main>
+      </q-item>
+      <q-item>
+        <q-item-main>
+          <q-item-tile label>{{ fLang('slug') }}</q-item-tile>
+          <q-item-tile sublabel class="limit-label">{{props.slotRow.slug}}</q-item-tile>
         </q-item-main>
       </q-item>
       <q-item>

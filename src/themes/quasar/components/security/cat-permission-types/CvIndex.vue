@@ -1,5 +1,5 @@
 <script>
-import CvRowAction from 'crudvuel-tools/src/themes/quasar/components/catalogs/catalog1/CvIndex'
+import CvRowAction from 'crudvuel-tools/src/themes/quasar/components/catalogs/catalog2/CvIndex'
 export default {
   extends: CvRowAction
 }
