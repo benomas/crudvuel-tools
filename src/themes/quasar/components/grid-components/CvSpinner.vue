@@ -10,9 +10,9 @@
           v-bind:speed="1.0"
           :size="cXs?70:cSm?75:cMd?80:cLg?90:90"
           :message="$tc('loading')"
-          :text-fg-color="cBlack"
-          :line-fg-color="cTertiary"
-          :line-bg-color="cPrimary"
+          :text-fg-color="cFgColor"
+          :line-fg-color="cFgLineColor"
+          :line-bg-color="cBgColor"
         >
         </vue-simple-spinner>
       </slot>
@@ -29,13 +29,13 @@ export default {
     VueSimpleSpinner
   },
   computed: {
-    cPrimary: function () {
+    cBgColor: function () {
       return colors.getBrand('primary')
     },
-    cTertiary: function () {
+    cFgLineColor: function () {
       return colors.getBrand('tertiary')
     },
-    cBlack: function () {
+    cFgColor: function () {
       return colors.getBrand('black')
     }
   }
