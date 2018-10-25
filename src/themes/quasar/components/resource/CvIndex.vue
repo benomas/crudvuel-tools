@@ -1,7 +1,7 @@
 <script>
 import CvCustomExtender  from 'src/crudvuel/customs/components/resource/CvIndex'
-import CvOrderIcons      from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvOrderIcons'
-import CvThs             from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvThs'
+import CvOrderIcons      from '../grid-components/CvOrderIcons'
+import CvThs             from '../grid-components/CvThs'
 import CvActionContainer from './CvActionContainer'
 import {
   Dialog,

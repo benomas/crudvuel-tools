@@ -31,7 +31,7 @@
   </cv-action-container>
 </template>
 <script>
-import CvBaseCrud from 'src/crudvuel/customs/themes/quasar/components/resource/CvBaseCrud'
+import CvBaseCrud from '../../resource/CvBaseCrud'
 export default {
   extends : CvBaseCrud,
   methods : {

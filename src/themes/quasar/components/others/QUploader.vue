@@ -134,7 +134,7 @@
 </template>
 <script>
 import {humanStorageSize} from 'quasar-framework/src/utils/format'
-import {QUploader} from 'quasar'
+import {QUploader}        from 'quasar'
 
 function initFile (file) {
   file.__doneUploading = false

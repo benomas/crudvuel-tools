@@ -57,8 +57,8 @@
   </cv-action-container>
 </template>
 <script>
-import CvBaseCrud     from 'src/crudvuel/customs/themes/quasar/components/resource/CvBaseCrud'
-import CvRelationator from 'src/crudvuel/customs/themes/quasar/components/input-components/CvRelationator'
+import CvBaseCrud     from '../../resource/CvBaseCrud'
+import CvRelationator from '../../input-components/CvRelationator'
 export default {
   extends    : CvBaseCrud,
   components : {

@@ -60,7 +60,7 @@
 </template>
 <script>
 import CvCustomExtender                  from 'src/crudvuel/customs/components/matcherizer-components/CvMatcherizer'
-import CvSimpleFilters                   from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSimpleFilters'
+import CvSimpleFilters                   from '../grid-components/CvSimpleFilters'
 import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook} from 'quasar'
 export default {
   extends    : CvCustomExtender,
