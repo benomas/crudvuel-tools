@@ -25,11 +25,14 @@
 </template>
 <script>
 import CvCustomExtender from 'src/crudvuel/customs/components/resource/CvActionContainer'
-import CvSpinner        from '../grid-components/CvSpinner'
+import CvSpinner        from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSpinner'
 import CvTag            from '../CvTag'
 export default {
-  extends : CvCustomExtender,
-  props   : [
+  extends    : CvCustomExtender,
+  components : {
+    CvSpinner,CvTag
+  },
+  props: [
     'cvActionClasses',
     'cvActionContentClasses'
   ],
@@ -40,9 +43,6 @@ export default {
     cActionClasses: function () {
       return this.cvActionClasses || ('row action-container fix-container txt-secondary ' + (this.cLtsm ? 'q-pa-md' : 'q-pa-lg'))
     }
-  },
-  components: {
-    CvSpinner,CvTag
   }
 }
 </script>

@@ -1,7 +1,7 @@
 <template>
   <span>
     <input
-      type="text" 
+      type="text"
       v-on:keyup.13="goToFind()"
       v-on:keyup="interfaceInput"
       v-model="search"
@@ -35,7 +35,6 @@ export default {
     interfaceInput:function(){
       if(this.keyInterruptionLimit<=0)
         return false;
-      console.log("asdasd");
       clearTimeout(this.keyInterruption);
       this.keyInterruption = setTimeout(()=>{
         this.goToFind();

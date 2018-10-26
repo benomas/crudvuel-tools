@@ -4,7 +4,7 @@ import CvActionContainer          from './CvActionContainer'
 import CvButtons                  from '../others/CvButtons'
 import CvToggle                   from '../others/CvToggle'
 import CvNotify                   from '../others/CvNotify.js'
-import CvSpinner                  from '../grid-components/CvSpinner'
+import CvSpinner                  from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSpinner'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
 export default {
   extends    : CvCustomExtender,
