@@ -8,7 +8,8 @@
     "test:watch": "karma start --single-run=false",
     "lint": "eslint src --ext=js,vue || exit 0",
     "dev": "webpack-dev-server --content-base ./dev --env=webpack.dev --open --hot",
-    "dist": "webpack --env=webpack.dist"
+    "dist": "webpack --env=webpack.dist",
+    "push": "npm version patch && npm publish"
   },
   "repository": {
     "type": "git",

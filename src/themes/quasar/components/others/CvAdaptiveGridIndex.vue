@@ -72,7 +72,7 @@
             <tr v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
               <slot name="table-properties-slot" :slot-row="gridRow">
               </slot>
-              <td  v-if="typeof gridRow.active!=='undefined' && cGtxs" class="t-left t-middle">
+              <td  v-if="typeof gridRow.active!=='undefined' && cGtxs" class="t-center t-middle">
                 <div
                     v-if="gridRow.active"
                     @click="temp = 'deactivateRow'; deactivateRow(gridRow)"

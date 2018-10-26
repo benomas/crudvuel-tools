@@ -19,7 +19,7 @@
           {{ fLang('description') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="description"></cv-order-icons>
         </th>
-        <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-10" >
+        <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-10" >
           {{ fLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>

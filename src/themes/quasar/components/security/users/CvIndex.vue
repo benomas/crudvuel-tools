@@ -15,7 +15,7 @@
           {{ fLang('email') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="email"></cv-order-icons>
         </th>
-        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-15" >
+        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-15" >
           {{ fLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>
