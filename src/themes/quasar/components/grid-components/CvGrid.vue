@@ -18,7 +18,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-  hr
-    display:none
-</style>

@@ -2,13 +2,12 @@
   Here you can customize app styles for stylus framework in a global way
 */
 @import './app'
-body
-  color:$black-l-18
 .form-control
     -webkit-box-shadow : inset 0 1px 1px $black
     background-color   : $white
     border             : 1px solid #ccc
     box-shadow         : inset 0 1px 1px $black
+    color              : $black
     font-size          : $rem-font-size2
     &:focus
       border-color       : $quaternary
@@ -23,10 +22,12 @@ body
       background-color : $secondary-l-39 !important
       color            : $white
 .btn-default
+    color            : $secondary
     background-color : $white
 .cv-matcherizer-container
   & .list-items
     & i:hover
+      color:$secondary
     & .single-selected
       background-color:$secondary-l-96
       &-label
@@ -55,6 +56,7 @@ body
   & tbody
     & td
       font-size   : $rem-font-size2 !important
+      color       : $primary-l-21
   & tr
     &:nth-of-type(2n)
       background-color: $tertiary-l-96
@@ -63,11 +65,11 @@ body
 .simple-filters-container,.action-container
   & .q-field-icon
     font-size    : $rem-font-size3
+    color        : $tertiary
   & .q-field-bottom
     font-size   : $rem-font-size1
 .q-input-target
-  color:$black-l-18
-  //color   : $secondary //input color
+  color   : $secondary
 .q-if-focused .q-if-label .q-if-addon .q-if-focused .q-if-control
   color:$tertiary
 
@@ -86,6 +88,7 @@ body
 .cv-grid-container .simple-filters-container .q-if-standard.q-if-has-label
   & .q-card
     & .q-item-side
+      color: $primary
     & .q-item-main
       & .q-item-label
         color: $primary
@@ -140,6 +143,7 @@ body
   & tbody
     & td
       font-size    : $rem-font-size2 !important
+      color        : $primary
   & tr
     &:nth-of-type(2n+1)
       background-color: $quaternary-l-96

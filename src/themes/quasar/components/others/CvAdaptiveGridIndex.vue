@@ -1,5 +1,5 @@
 <template>
-  <cv-action-container v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container class="cv-adaptative-grid-index" v-if="resource && action" v-bind="defActionProps()">
     <div slot="cv-title-slot" class="row action-label">
       <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
         <label>
@@ -321,27 +321,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-  @import '~variables'
-  .cv-grid-container
-    width:100%
-  .q-btn
-    height : 2rem
-    width  : 2rem
-  .in-progress-cursor
-    cursor: progress !important
-    &:disabled
-      cursor: progress !important
-  tr
-    border-bottom: 1px solid $grey
-  td,th
-    & button
-      &.q-btn
-        padding: 4px 14px !important
-  .h5
-    margin: 0 0 !important
-  .border-all
-    border:1px solid $grey
-  .q-btn-round
-    margin:1px
-</style>

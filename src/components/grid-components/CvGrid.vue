@@ -410,18 +410,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-.cv-grid-container
-  & .cv-
-    &orderable
-      cursor:pointer
-  & hr
-    border: 0
-    border-top: 1px solid #CCCCCC
-  .b-top
-    border-top:1px solid #CCCCCC
-  .b-bottom
-    border-bottom:1px solid #CCCCCC
-  .cv-grid-data-container
-    overflow-x: auto
-</style>

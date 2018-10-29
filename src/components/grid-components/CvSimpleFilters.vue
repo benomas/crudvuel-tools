@@ -85,7 +85,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-  .simple-filters-input
-    margin-left: 10px
-</style>

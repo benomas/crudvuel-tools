@@ -88,13 +88,3 @@
     }
   }
 </script>
-<style lang="stylus" scoped>
-  .action-label
-    width: 100%
-    text-align:center
-    & label
-      font-weight: bold
-    & hr
-        border: 0
-        border-top: 1px solid #CCCCCC
-</style>

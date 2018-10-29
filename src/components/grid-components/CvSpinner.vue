@@ -115,15 +115,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-  .cv-spinner
-    position : absolute
-    z-index  : 2000
-    & .animation-img
-      max-height:100px
-      min-height:20px
-      height:100%
-  .animation-container
-    vertical-align   : middle
-    text-align       : center
-</style>

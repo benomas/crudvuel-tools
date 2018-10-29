@@ -1,3 +1,5 @@
+body
+  color:$black-l-30
 a
   text-decoration  : none
   background-color : transparent
@@ -114,11 +116,6 @@ body
     font-size        : 1rem
     line-height      : 1rem
     font-weight      : 400
-.cv-grid-data-container
-  margin-top     : 10px
-  margin-bottom  : 10px
-  padding-top    : 10px
-  padding-bottom : 10px
 .matcherizer-item
   text-decoration: underline
 .custom-action-container .action-content
@@ -133,16 +130,15 @@ body
 .cv-matcherizer-container
   & .list-items
     & i:hover
-        color:$secondary
     & .single-selected
-      background-color:$secondary-l-96
+      background-color:$primary-l-96
       &-label
         display:inline-block
         padding:8px
         border:1px solid $grey
         border-radius:5px
         color: $white
-        background-color: $secondary-l-84
+        background-color: $primary-l-84
         font-weight: bold
         & i
           cursor:pointer
@@ -165,17 +161,11 @@ body
         padding: 6px 15px
         margin-bottom: -1px
         background-color: $white
-        //border-left: 1px solid $grey
-        //border-right: 1px solid $grey
-        &:first-child
-          //&border-top: 1px solid $grey
-        &:last-child
-          //border-bottom: 1px solid $grey
         & i
-            margin-left:5px
-            margin-right:5px
-            font-weight: bold
-            cursor:pointer
+          margin-left:5px
+          margin-right:5px
+          font-weight: bold
+          cursor:pointer
         &:hover
           background-color: $primary-l-96
         &.current-cursor-item
@@ -185,9 +175,48 @@ body
           font-size: 11px
           vertical-align: middle
           padding: 2px 15px
-          color:$black-l-42
           &:hover
             background-color: $white
+.q-table
+  & th
+    background-color : $tertiary-l-96
+    font-size        : $rem-font-size2
+    font-weight      : bold
+    color            : $primary
+    height           : 40px
+  & tbody
+    & td
+      font-size   : $rem-font-size2 !important
+      height      : 40px
+      padding     : 5px 20px
+      white-space : inherit
+  & tr
+    &:nth-of-type(2n)
+      background-color: $tertiary-l-96
+.cv-orderable
+  font-weight :bold
+  font-size   :$rem-font-size3
+  cursor      :pointer
+.action-label
+  text-align:left !important
+.simple-filters-container,.action-container
+  & .q-field-icon
+    width        : 16px
+    height       : 16px
+    min-width    : 16px
+    font-size    : $rem-font-size3
+    margin-right : 5px
+    margin-top   : 16px
+  & .q-field-bottom
+    font-size   : $rem-font-size1
+    padding-top : 0
+    text-align  : right
+.q-input-target
+  height  : 21px !important
+  outline : 0
+  //color   : $secondary //input color
+.q-if-focused .q-if-label .q-if-addon .q-if-focused .q-if-control
+  color:$tertiary
 .b-none
   border:none !important
 .shadow-none
@@ -221,3 +250,231 @@ body
 .slide-fade-enter, .slide-fade-leave-to
   transform : translateX(40px)
   opacity   : 0
+
+//cv grid styles
+.cv-grid-container
+  width:100%
+  & .cv-
+    &orderable
+      cursor:pointer
+  & hr
+    display:none
+  .b-top
+    border-top:1px solid $grey
+  .b-bottom
+    border-bottom:1px solid $grey
+  .cv-grid-data-container
+    overflow-x: auto
+    margin: 10px
+  & .limit-label
+    // hide text if it more than N lines
+    overflow      :hidden
+    text-overflow :ellipsis
+  & .q-item-label
+    word-break: break-all
+  .q-list.round-borders
+    border-radius: 4px !important
+  &-data-container
+    margin: 10px
+
+.custom-q-btn-dropdown
+  padding-left: 4px
+
+.q-if-hide-underline
+  border-bottom: 1px solid $quaternary-l-96
+
+//custom quasar stepper
+.q-stepper-dot
+  width  :50px
+  height :50px
+  & i
+    font-weight:bold
+  & span
+    & span
+      font-weight:bold
+.q-field-no-input .q-field-margin
+    margin-top: 23px
+.q-item-side
+  color: $primary
+.cv-grid-container .simple-filters-container .q-if-standard.q-if-has-label
+    padding-top: 8px
+  & .q-card
+    & .q-item-side
+      font-weight:bold
+    & .q-item-main
+      & .q-item-label
+        color: $primary
+.q-layout-drawer-delimiter
+  box-shadow:none
+.q-layout-footer
+  box-shadow $primary -5px -15px 20px -25px
+  & .q-toolbar-title
+    display:inline
+  & ul
+    margin-right: 25px
+    display:block
+    float: right
+    line-height: 21px
+    list-style-image: none
+    list-style-position: outside
+    list-style-type: none
+    margin:0
+    padding:0
+    text-align: right
+    width: 45px
+  & .copy-label
+    box-sizing: border-box
+    line-height: 18.9px
+.q-drawer-container
+  font-weight:400
+.q-item.active, .q-item.router-link-active, .q-item:focus
+  background-color:$tertiary-l-87
+.q-layout-header
+  & .q-toolbar
+    background-image:none !important
+.q-collapsible-sub-item .relative-position
+  cursor:pointer !important
+  &:hover
+    background-color:$tertiary-l-84
+.q-field-error
+  font-size:$font-size4
+//cv paginate styles
+.cv-paginate
+  padding-top:5px
+  & p
+    padding-top:5px
+  & button
+    cursor:pointer
+    border: 1px outset ThreeDLightShadow
+    border-radius:5px
+    &.active
+      -webkit-transition: background-color 1.5s /* For Safari 3.1 to 6.0 */
+      transition: background-color 1.5s
+      background-color: $grey
+      color:$white
+      &:hover
+        color:$white
+    &:hover
+      color:$white
+  p
+    margin:0
+  .q-field
+    display:inline-flex
+    &.q-input
+      padding-top:0
+      padding-bottom:0
+  .q-btn
+    padding: 4px 10px !important
+    webkit-box-shadow: none
+    box-shadow: none
+  .q-select-custom
+    padding-top: 0
+    padding-bottom: 0
+    margin:0
+//cv simple filter styles
+.simple-filters-input
+  margin-left: 10px
+
+//cv spinner styles
+.cv-spinner
+  position : absolute
+  z-index  : 2000
+  & .animation-img
+    max-height:100px
+    min-height:20px
+    height:100%
+  .animation-container
+    vertical-align   : middle
+    text-align       : center
+
+//cv spinner styles
+.cv-relator-container
+  border-bottom : 1px solid $grey
+  margin-top:20px
+  & ul
+    border:1px solid $grey
+    background-color:$grey-l-96
+    min-height: 100px
+    max-height: 250px
+    overflow-y: auto
+    border-radius: 5px
+    padding-inline-start: 0
+    list-style-type  : none
+    & .list-group
+      margin-bottom: 20px
+      padding-left: 0
+      &-item
+        position: relative
+        display: block
+        padding: 10px 15px
+        margin-bottom: -1px
+        background-color: $white
+        border: 1px solid $grey-l-60
+        &:first-child
+          border-top-right-radius: 4px
+          border-top-left-radius: 4px
+        &:last-child
+          border-bottom-right-radius: 4px
+          border-bottom-left-radius: 4px
+    & i
+        margin-left  : 5px
+        margin-right : 5px
+        font-weight  : bold
+        cursor       : pointer
+  & .related-items
+    & i:hover
+      color:$negative-l-36
+  & .source-items
+    padding: 15px
+    & i:hover
+      color:$positive-l-36
+//cv action container styles
+.action-container
+  .action-label
+    width: 100%
+    text-align:center
+    & label
+      font-weight: bold
+    & hr
+      border: 0
+      border-top: 1px solid $grey
+.informative-data
+  & table
+    color:$grey
+.cv-info-table
+  & th
+    background-color : $quaternary-l-96
+    font-size        : $rem-font-size2
+    font-weight      : bold
+    color            : $primary
+    height           : 40px
+  & tbody
+    & td
+      padding-left : 10px
+      font-size    : $rem-font-size2 !important
+      height       : 40px
+      padding      : 5px 20px
+  & tr
+    &:nth-of-type(2n+1)
+      background-color: $quaternary-l-96
+
+.cv-adaptative-grid-index, .cv-flex-grid-index, .cv-table-grid-index
+  .q-btn
+    height : 2rem
+    width  : 2rem
+  .in-progress-cursor
+    cursor: progress !important
+    &:disabled
+      cursor: progress !important
+  tr
+    border-bottom: 1px solid $grey
+  td,th
+    & button
+      &.q-btn
+        padding: 4px 14px !important
+  .h5
+    margin: 0 0 !important
+  .border-all
+    border:1px solid $grey
+  .q-btn-round
+    margin:1px

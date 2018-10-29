@@ -1,5 +1,5 @@
 <template>
-  <cv-action-container v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container class="cv-flex-grid-index" v-if="resource && action" v-bind="defActionProps()">
   <!-- cv-grid-customization-->
     <div slot="cv-content-slot" class="row action-inner-container">
       <cv-grid
@@ -293,25 +293,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-  @import '~variables'
-  .cv-grid-container
-    width:100%
-  .q-btn
-    height : 2em
-    width  : 2em
-  .in-progress-cursor
-    cursor: progress !important
-    &:disabled
-      cursor: progress !important
-  tr
-    border-bottom: 1px solid $grey
-  td,th
-    & button
-      &.q-btn
-        padding: 4px 14px !important
-  .h5
-    margin: 0 0 !important
-  .border-all
-    border:1px solid $grey
-</style>

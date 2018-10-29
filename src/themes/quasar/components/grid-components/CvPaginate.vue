@@ -136,18 +136,3 @@ export default {
   }
 }
 </script>
-<style lang="stylus" scoped>
-  .q-field
-    display:inline-flex
-    &.q-input
-      padding-top:0
-      padding-bottom:0
-  .q-btn
-    padding: 4px 10px !important
-    webkit-box-shadow: none
-    box-shadow: none
-  .q-select-custom
-    padding-top: 0
-    padding-bottom: 0
-    margin:0
-</style>
