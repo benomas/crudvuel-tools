@@ -1,5 +1,5 @@
 <template>
-  <div class="cv-paginate row">
+  <div class="cv-paginate row txt-secondary">
     <div class="col-xs-12 col-sm-10 col-md-7 pull-left">
       <div class="cv-paginate-buttons form-inline mnh-25px">
         <q-btn @click="setPage(1)" v-if="hasLeft()" size="sm" class="btn btn-default">«</q-btn>

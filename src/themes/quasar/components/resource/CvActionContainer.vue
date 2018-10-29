@@ -41,7 +41,7 @@ export default {
       return this.cvActionContentClasses || ('row action-content w-100 ' + (this.cLtsm ? '' : 'q-pa-md shadow-1'))
     },
     cActionClasses: function () {
-      return this.cvActionClasses || ('row action-container fix-container txt-secondary ' + (this.cLtsm ? 'q-pa-md' : 'q-pa-lg'))
+      return this.cvActionClasses || ('row action-container fix-container ' + (this.cLtsm ? 'q-pa-md' : 'q-pa-lg'))
     }
   }
 }

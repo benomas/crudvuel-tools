@@ -1,7 +1,7 @@
 <template>
   <cv-tag
     :tag="cTag"
-    class="cv-grid-container"
+    class="cv-grid-container f-weight-400"
     :style="{'min-height':cMinHeight, 'opacity':!cReady? '0.5':'1'}"
   >
     <transition name="component-fade" mode="out-in">
@@ -61,7 +61,7 @@
         {{fLang('no-rows','Sin resultados para mostrar')}}
       </span>
     </transition>
-    <div :class="{'b-top':cTotalPageElements && cTopPaginate,'b-bottom':cTotalPageElements && cBottomPaginate}" class="cv-grid-data-container">
+    <div class="cv-grid-data-container">
       <slot name="cv-grid-data">
       </slot>
     </div>

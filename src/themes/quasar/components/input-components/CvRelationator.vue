@@ -5,7 +5,7 @@
     >
       <hr class="lt-sm border-quaternary">
       <div class="t-center">
-        {{relatedLabel}}:
+        <span class="txt-secondary f-weight-400 q-mr-xs">{{relatedLabel}}:</span>
         <q-chip
           v-if="!cDisableFields"
           color="positive">
@@ -37,7 +37,7 @@
     >
       <hr class="lt-sm border-quaternary">
       <div class="t-center">
-        {{sourceLabel}}
+        <span class="txt-secondary f-weight-400 q-mr-xs">{{sourceLabel}}:</span>
         <q-chip
           v-if="!cDisableFields"
           color="positive">
