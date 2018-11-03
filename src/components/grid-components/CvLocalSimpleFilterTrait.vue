@@ -96,7 +96,7 @@ export default {
       return this.$refs.cvSimpleFilterRef || null
     },
     cInputRef: function() {
-      return this.cSimpleFilterRef.cInputRef || null
+      return this.cSimpleFilterRef.cSimpleSearchInputRef || null
     },
     cParentRef: function() {
       return this.cvParentRef || null
