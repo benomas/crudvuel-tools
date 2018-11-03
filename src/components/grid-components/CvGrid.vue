@@ -127,6 +127,7 @@ export default {
   },
   props:[
     "cvTag",
+    "cvRows",
     "cvService",
     "cvPage",
     "cvByColumn",
@@ -147,6 +148,9 @@ export default {
     "cvSearchLabel"
   ],
   computed:{
+    cRows: function () {
+      return this.cvRows
+    },
     cPage:function(){
       return this.cvPage || 1
     },
@@ -216,6 +220,8 @@ export default {
   },
   mounted:function(){
     this.isMounted = true
+    if (this.cRows)
+      this.$set(this,'rows',this.rows)
     this.processSlots()
     this.refresh()
   },
@@ -277,9 +283,12 @@ export default {
     },
     refresh:function(){
       this.ready=false
-      this.cvService(null,null,this.cvParametrizer.getSerialized())
-        .then(this.emitSuccessMutation)
-        .catch(this.emitErrorMutation)
+      if (this.cvService)
+        this.cvService(null,null,this.cvParametrizer.getSerialized())
+          .then(this.emitSuccessMutation)
+          .catch(this.emitErrorMutation)
+      else
+        this.emitSuccessMutation({response:{data:{data:this.rows}}})
     },
     showConfigErrorMessage:function(){
       this.correctConfig=false
