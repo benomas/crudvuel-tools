@@ -1,19 +1,27 @@
-var cvAuthHelper = {
-  authCallError: response => {
-    CvNotify.createNegative(this.router.VueRouter.app.$tc('crudvuel.labels.needToLogin'))
-    this.router.VueRouter.cvPassport.destroyAutentication()
-    return this.unloguedStart()
-  },
-  authNoPermmission: response => {
-    CvNotify.createNegative(this.router.VueRouter.app.$tc('crudvuel.labels.noAccessAllowed'))
-    this.globals.store.commit('setUnauthorizedInteractions',response.data)
-    return this.loguedStart()
+var cvAuthHelper = (context) => {
+  var parentContext = context
+  const authCallError = response => {
+    parentContext.CvNotify.createNegative(parentContext.router.VueRouter.app.$tc('crudvuel.labels.needToLogin'))
+    parentContext.router.VueRouter.cvPassport.destroyAutentication()
+    return parentContext.unloguedStart()
   }
-}
-cvAuthHelper.authValidation = () => {
-  this.router.resources.permissions.crudServices.unauthorizedPermissions()
-    .then(cvAuthHelper.authNoPermmission)
-    .catch(cvAuthHelper.authCallError)
+
+  const authNoPermmission = response => {
+    parentContext.CvNotify.createNegative(parentContext.router.VueRouter.app.$tc('crudvuel.labels.noAccessAllowed'))
+    parentContext.globals.store.commit('setUnauthorizedInteractions',response.data)
+    return parentContext.loguedStart()
+  }
+
+  const authValidation = function () {
+    parentContext.router.resources.permissions.crudServices.unauthorizedPermissions()
+      .then(authNoPermmission)
+      .catch(authCallError)
+  }
+  return {
+    authCallError,
+    authNoPermmission,
+    authValidation
+  }
 }
 
 const mySubString = function (subject,patter) {

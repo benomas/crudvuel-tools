@@ -26,6 +26,11 @@
           <q-input v-bind="defInputProps('password')" v-model.trim="row.password" type="password" autocomplete="off"/>
         </q-field>
       </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
+        <q-field v-bind="defErrorInputProps('confirm_password')">
+          <q-input v-bind="defInputProps('confirm_password')" v-model.trim="row.confirm_password" type="password" autocomplete="off"/>
+        </q-field>
+      </div>
       <div class="ccol-xs-12 col-sm-6 col-md-4 q-pa-md m-auto">
         <q-field v-bind="defErrorInputProps('active')">
           <cv-toggle v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
