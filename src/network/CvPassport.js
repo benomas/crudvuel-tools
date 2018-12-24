@@ -61,17 +61,17 @@ export default function(globals){
       this.setRefreshToken()
       return false;
     }
-
-    if(typeof response!=="undefined" && typeof response.data!=="undefined" && typeof response.data.token_type!=="undefined" && response.data.token_type==="Bearer"){
-      if(response.data.access_token!=="undefined")
+    if(response != null && response.data != null && response.data.token_type != null && response.data.token_type==='Bearer'){
+      if(response.data.access_token != null)
         this.setAccessToken(response.data.access_token)
       else
         this.setAccessToken()
-      if(response.data.refresh_token!=="undefined")
+      if(response.data.refresh_token != null)
         this.setRefreshToken(response.data.refresh_token)
       else
         this.setRefreshToken()
     }
+    console.log(response)
   };
   this.loadTokens();
 };
