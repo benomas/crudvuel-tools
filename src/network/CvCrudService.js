@@ -1,4 +1,5 @@
 import FileSaver from 'file-saver'
+import { date }  from 'quasar'
 export default function(cvComunicator,resourceName){
   this.cvComunicator  = cvComunicator
   this.resourceName   = resourceName
@@ -86,12 +87,15 @@ export default function(cvComunicator,resourceName){
   this.exporting = (id, params = null,url = null,qString = null) =>
     new Promise((resolve, reject) => {
       this.cvComunicator.axios.get(...this.fixRowsUrl('/'+id+'/exporting',this.fHeaders(params),url,qString)).then(response => {
-          const fileNameHeader = 'x-suggested-filename'
-          const suggestedFileName = response.headers[fileNameHeader]
-          const effectiveFileName = (suggestedFileName === undefined
-            ? 'export.xlsx'
-            : suggestedFileName)
-          FileSaver.saveAs(response.data, effectiveFileName)
+          let suggestedFileName = ''
+          let fileName          = ''
+          if(response.headers['content-disposition'] != null)
+            suggestedFileName = response.headers['content-disposition'].match(/^.*?filename=(.+)$/)
+          if(suggestedFileName[1] != null)
+            fileName = suggestedFileName[1]
+          else
+            fileName = date.formatDate(Date.now(), 'YYYY-MM-DDTHH:mm:ss.SSSZ') + 'export.xlsx'
+          FileSaver.saveAs(response.data, fileName)
           resolve(response)
         }).catch((response) => {
           reject(response)
@@ -101,12 +105,15 @@ export default function(cvComunicator,resourceName){
   this.exportings = (params = null,url = null,qString = null) =>
     new Promise((resolve, reject) => {
       this.cvComunicator.axios.get(...this.fixRowsUrl('/exporting',this.fHeaders(params),url,qString)).then(response => {
-          const fileNameHeader = 'x-suggested-filename'
-          const suggestedFileName = response.headers[fileNameHeader]
-          const effectiveFileName = (suggestedFileName === undefined
-            ? 'export.xlsx'
-            : suggestedFileName)
-          FileSaver.saveAs(response.data, effectiveFileName)
+          let suggestedFileName = ''
+          let fileName          = ''
+          if(response.headers['content-disposition'] != null)
+            suggestedFileName = response.headers['content-disposition'].match(/^.*?filename=(.+)$/)
+          if(suggestedFileName[1] != null)
+            fileName = suggestedFileName[1]
+          else
+            fileName = date.formatDate(Date.now(), 'YYYY-MM-DDTHH:mm:ss.SSSZ') + 'export.xlsx'
+          FileSaver.saveAs(response.data, fileName)
           resolve(response)
         }).catch((response) => {
           reject(response)
