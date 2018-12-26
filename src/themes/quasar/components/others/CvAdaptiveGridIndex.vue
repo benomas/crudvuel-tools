@@ -45,7 +45,7 @@
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
           <cv-ths cv-tag="thead" class="gt-md">
             <tr slot="cv-ths-slot" cv-role="cv-header-config">
-              <slot name="headers-slot" :grid-data="mainGridData">
+              <slot name="headers-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
               </slot>
               <th  class="t-center t-middle">
                 {{ $tc('crudvuel.actions') }}
@@ -58,7 +58,7 @@
                   small
                   :title="resorceAction('create').label"
                 ></q-btn>
-                <slot name="extra-actions-header-slot" :grid-data="mainGridData">
+                <slot name="extra-actions-header-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                 </slot>
               </th>
             </tr>
@@ -70,7 +70,7 @@
             :enter-active-class="pageAnimation"
             :duration="{ enter: 500, leave: 0 }">
             <tr v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
-              <slot name="table-properties-slot" :slot-row="gridRow">
+              <slot name="table-properties-slot" :slot-row="gridRow" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
               </slot>
               <td  v-if="typeof gridRow.active!=='undefined' && cGtxs" class="t-center t-middle">
                 <div
@@ -137,7 +137,7 @@
                   :disabled="isSynchronizing(gridRow)"
                 >
                 </q-btn>
-                <slot name="table-extra-actions-slot" :slot-row="gridRow">
+                <slot name="table-extra-actions-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                 </slot>
               </td>
             </tr>
@@ -152,7 +152,7 @@
             <div class="row col-md-3 col-sm-6 col-xs-12 q-pa-sm" v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
               <div class="row col-xs-12 q-pa-sm">
                 <q-card class="w-100 round-borders" dense >
-                  <slot name="flexi-properties-slot" :slot-row="gridRow">
+                  <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                   </slot>
                   <q-card-title>
                     {{ $tc('crudvuel.actions') }}
@@ -192,7 +192,7 @@
                       :disabled="isSynchronizing(gridRow)"
                     >
                     </q-btn>
-                    <slot name="flexi-extra-actions-slot" :slot-row="gridRow">
+                    <slot name="flexi-extra-actions-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                     </slot>
                   </q-card-actions>
                 </q-card>

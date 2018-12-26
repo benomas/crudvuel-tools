@@ -71,7 +71,6 @@ export default function(globals){
       else
         this.setRefreshToken()
     }
-    console.log(response)
   };
   this.loadTokens();
 };
