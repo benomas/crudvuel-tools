@@ -47,6 +47,7 @@
     "webpack-dev-server": "^2.11.2"
   },
   "dependencies": {
-    "node-sass": "^4.9.0"
+    "node-sass": "^4.9.0",
+    "file-saver": "^2.0.0"
   }
 }
