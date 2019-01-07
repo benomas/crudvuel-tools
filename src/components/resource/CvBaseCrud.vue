@@ -204,9 +204,11 @@
       },
       errorRedirect:function(){
       },
-      cancelRedirect:function(){
-        if(this.action.name!=="index" && typeof this.resource.actions.index !=="undefined")
-            this.$router.push("../../"+this.actionPath("index"))
+      cancelRedirect: function () {
+        if (this.action.name !== 'index' && typeof this.resource.actions.index !== 'undefined') {
+          let baseRoute = this.$route.path.split(this.actionPath('index'))
+          this.$router.push(baseRoute[0] + this.actionPath('index'))
+        }
       },
       cancelAction:function(){
         let cancelMessage = this.action.getSetCancelMessage()

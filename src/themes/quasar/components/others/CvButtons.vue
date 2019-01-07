@@ -13,7 +13,7 @@
           {{cBackLabel}}
         </q-tooltip>
         <span v-if="!cXs && cShowBackLabel" class="q-pl-xs q-pr-xs">
-            {{cBackLabel}}
+          {{cBackLabel}}
         </span>
       </q-btn>
     </div>
