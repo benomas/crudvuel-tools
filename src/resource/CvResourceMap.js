@@ -80,8 +80,10 @@ export default class CvResourceMap extends CvClass {
       this.addAction(actionsOptions[i]);
   }
 
-  getRoutes(){
-    return this.routes;
+  getRoutes (...excludes) {
+    return excludes.length ?
+      this.routes.filter(route => excludes.find(e => e !== route.name )) :
+      this.routes
   }
 
   getGetSuccessMessage(){
@@ -102,5 +104,9 @@ export default class CvResourceMap extends CvClass {
 
   getSetCancelMessage(){
     return this.setCancelMessage;
+  }
+
+  getAction (action=null) {
+    return action && this.actions[action] != null ? this.actions[action] : action
   }
 }
