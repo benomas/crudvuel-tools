@@ -134,7 +134,7 @@
 </template>
 <script>
 import {humanStorageSize} from 'quasar-framework/src/utils/format'
-import {QUploader}        from 'quasar'
+import {QUploader,QInputFrame,QSlideTransition,QSpinner,QProgress,QItemTile} from 'quasar'
 
 function initFile (file) {
   file.__doneUploading = false
@@ -201,6 +201,13 @@ export default {
       expanded     : false,
       componentId  : this
     }
+  },
+  components : {
+    QInputFrame,
+    QSlideTransition,
+    QSpinner,
+    QProgress,
+    QItemTile
   },
   computed: {
     queueLength () {
