@@ -7,8 +7,8 @@
         {{ fLang('id') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
       </th>
-      <th cv-key="report_needle" class="t-left t-middle w-27" ref="headers">
-        {{ fLang('report_needle') }}
+      <th cv-key="search_field" class="t-left t-middle w-27" ref="headers">
+        {{ fLang('search_field') }}
       </th>
       <th cv-key="cat_file_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" ref="headers">
         {{ fLang('cat_file_name') }}
@@ -34,7 +34,7 @@
         {{props.slotRow.id}}
       </td>
       <td>
-        {{props.slotRow.resource.v_report.report_needle}}
+        {{props.slotRow.resource.search_field}}
       </td>
       <td>
         {{props.slotRow.cat_file_name}}
@@ -58,8 +58,8 @@
       </q-item>
       <q-item>
         <q-item-main>
-          <q-item-tile label>{{ fLang('report_needle') }}</q-item-tile>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.resource.v_report.report_needle}}</q-item-tile>
+          <q-item-tile label>{{ fLang('search_field') }}</q-item-tile>
+          <q-item-tile sublabel class="limit-label">{{props.slotRow.resource.search_field}}</q-item-tile>
         </q-item-main>
       </q-item>
       <q-item>

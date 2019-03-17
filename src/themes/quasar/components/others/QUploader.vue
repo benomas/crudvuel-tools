@@ -185,6 +185,10 @@ export default {
     sendRaw            : {
       type    : Boolean,
       default : false
+    },
+    cvPreventEmpty:{
+      type   : Boolean,
+      default: false
     }
   },
   data () {
@@ -210,6 +214,12 @@ export default {
     QItemTile
   },
   computed: {
+    cSize () {
+      return this.__computeTotalSize()
+    },
+    cPreventEmpty () {
+      return 1 || this.cvPreventEmpty
+    },
     queueLength () {
       return this.queue.length
     },
@@ -472,9 +482,10 @@ export default {
     },
     upload () {
       const length = this.queueLength
-      if (this.disable || length === 0) {
-        return
-      }
+      if (this.cPreventEmpty)
+        if (this.disable || length === 0) {
+          return
+        }
       let filesDone = 0
       this.uploadedSize = 0
       this.uploading = true

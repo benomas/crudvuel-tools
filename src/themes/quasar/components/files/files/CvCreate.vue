@@ -34,11 +34,11 @@
               v-if="cGetted && cCurrentCvResource"
               v-bind="defMatcherizerProps(cCurrentCvResource)"
               :cv-disable-fields="cAction.name==='edit' || cDisableFields"
-              :cv-select-query="{'id':'resource_id','report_needle':'resource_report_needle'}"
+              :cv-select-query="{'id':'resource_id','search_field':'resource_search_field'}"
               :cv-current-value="row.resource_id"
-              :cv-current-label="row.request_report_needle_full_name"
-              :cv-order-by="'report_needle'"
-              :cv-label-call-back="((rows,row) => {return row['report_needle']})"
+              :cv-current-label="row.resource_search_field"
+              :cv-order-by="'search_field'"
+              :cv-label-call-back="((rows,row) => {return row['search_field']})"
               @cv-single-selected="(() => {inputFocus('row.active'); reset()})"
               @cv-reset="reset"
               ref="row.active"
@@ -240,8 +240,8 @@ export default {
           row.cat_file_camel_resource = row.cat_file.camel_resource
           row.cat_file_resource       = row.cat_file.resource
         }
-        if (row.resource != null && row.resource.v_report != null)
-          row.request_report_needle_full_name = row.resource.v_report.report_needle
+        if (row.resource != null)
+          row.resource_search_field = row.resource.search_field
       }
       return row
     }
