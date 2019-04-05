@@ -224,6 +224,9 @@
         )
           return ""
         return " \""+this.cRowKey+":"+gridRow[this.cRowKey]+"\""
+      },
+      nextTick:function(){
+        return this.$nextTick()
       }
     },
     computed:{

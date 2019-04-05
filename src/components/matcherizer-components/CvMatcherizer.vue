@@ -20,14 +20,13 @@
         </cv-simple-filters>
       </div>
       <ul
-        v-if="cShowList"
+        v-if="cShowList && !cLoading"
         @mouseover="listIn"
         @mouseleave="listOut"
         class="list-group"
         :style="{'width':cContainerWidth}"
       >
         <li
-            v-if="!cLoading"
             class="list-group-item"
             v-for="(row, rowKey) in cListOfItems"
             v-on:click="add(rowKey,row)"
