@@ -1,5 +1,6 @@
 <script>
   import cvVueSetter from '../../cvVueSetter'
+  import {mySubString,myReplace,cvF} from '../../cvHelper'
   export default{
     methods:{
       openFile: function (path) {
@@ -79,7 +80,10 @@
       setParentUnReady: function () {
         if (this.cParentRef)
           this.cParentRef.setUnReady()
-      }
+      },
+      mySubString,
+      myReplace,
+      cvF
     },
     computed:{
       cDisableFields:function(){

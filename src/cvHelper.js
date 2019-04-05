@@ -39,4 +39,10 @@ const myReplace = function (subject,patter,replace) {
   return fixDataType.replace(patt,replace)
 }
 
-export {cvAuthHelper,mySubString,myReplace}
+const cvF = function (container = null, property = null) {
+  if ( container == null || property == null)
+    return null
+  return container[property] == null ? null : container[property]
+}
+
+export {cvAuthHelper,mySubString,myReplace,cvF}
