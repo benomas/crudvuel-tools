@@ -225,6 +225,7 @@ export default {
           this.currentLabel = this.mLabelCallBack(rows,row)
           this.currentValue = this.mValueCallBack(rows,row)
           this.refresh().then(() => {
+            this.focus = false
             if(this.cParentRef)
               this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
             this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
