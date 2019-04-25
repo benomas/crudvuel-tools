@@ -1,6 +1,6 @@
 <script>
   import cvVueSetter from '../../cvVueSetter'
-  import {mySubString,myReplace,cvF} from '../../cvHelper'
+  import {mySubString,myReplace,cvF,cvFixDotDepth} from '../../cvHelper'
   export default{
     methods:{
       openFile: function (path) {
@@ -36,12 +36,15 @@
         if(!source || typeof source.row==="undefined" || typeof source.cvColumnMap==="undefined")
           return false
         let destination = source.destination || 'row'
+        if (typeof destination === 'string')
+          destination = cvFixDotDepth(this,destination)
+
         let mapKeys = Object.keys(source.cvColumnMap)
         for (let i=0; i<mapKeys.length; i++) {
           if(source.row && typeof source.row[mapKeys[i]]!=="undefined")
-            this.$set(this[destination], source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
+            this.$set(destination, source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
           else
-            this.$set(this[destination], source.cvColumnMap[mapKeys[i]], null)
+            this.$set(destination, source.cvColumnMap[mapKeys[i]], null)
         }
       },
       resorceAction:function(action=null,resource=null){

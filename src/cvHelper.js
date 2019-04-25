@@ -45,4 +45,19 @@ const cvF = function (container = null, property = null) {
   return container[property] == null ? null : container[property]
 }
 
-export {cvAuthHelper,mySubString,myReplace,cvF}
+const cvFixDotDepth = function (container = null, dotString = null) {
+  if ( container == null || dotString == null)
+    return null
+  if (typeof dotString === 'object')
+    return dotString
+  let dotSegments = dotString.split('.')
+  let fixedContainer = container
+  for (let i = 0; i < dotSegments.length; i++){
+    if(typeof fixedContainer[dotSegments[i]] === 'undefined')
+      container.$set(fixedContainer,dotSegments[i],{})
+    fixedContainer = fixedContainer[dotSegments[i]]
+  }
+  return fixedContainer
+}
+
+export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth}
