@@ -484,6 +484,8 @@ export default {
       return this.cvSelectQuery || false
     },
     cShowList:function(){
+      if (this.cDisableFields)
+        return false
       if (this.cDisableList)
         return false
       return this.cFocus || this.cListOver

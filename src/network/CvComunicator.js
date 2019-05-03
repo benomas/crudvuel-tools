@@ -36,7 +36,7 @@ export default function(router,globals){
 
   this.axios.interceptors.request.use((config)=>{
     if(this.cvPassport.autenticated())
-     config.headers = this.cvPassport.injectHeaders(config.headers)
+      config.headers = this.cvPassport.injectHeaders(config.headers)
     return config
   },(error)=> {
     return Promise.reject(error)
