@@ -430,6 +430,17 @@ export default {
         return false
 
       return true
+    },
+    mClearData: function () {
+      this.$set(this,'sourceCount', 0)
+      this.$set(this,'sourcePageCount', null)
+      this.$set(this,'generalSearch', '')
+      this.$set(this,'sourceData', [])
+      this.$set(this,'localData', [])
+      this.$set(this,'currentValue', null)
+      this.$set(this,'currentLabel', null)
+      this.$set(this,'listOfItems', null)
+      this.$set(this,'absolueRemoteData', false)
     }
   },
   computed:{
