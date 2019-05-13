@@ -31,17 +31,17 @@
             <q-field v-bind="defErrorInputProps('resource_id')">
             <cv-matcherizer
               :cv-parent-ref="cSelfRef"
+              ref="row.resource_id"
               v-if="cGetted && cCurrentCvResource"
               v-bind="defMatcherizerProps(cCurrentCvResource)"
               :cv-disable-fields="cAction.name==='edit' || cDisableFields"
-              :cv-select-query="{'id':'resource_id','search_field':'resource_search_field'}"
+              :cv-select-query="{'id':'resource_id','search_field':'search_field'}"
               :cv-current-value="row.resource_id"
-              :cv-current-label="row.resource_search_field"
+              :cv-current-label="row.search_field"
               :cv-order-by="'search_field'"
               :cv-label-call-back="((rows,row) => {return row['search_field']})"
               @cv-single-selected="(() => {inputFocus('row.active'); reset()})"
               @cv-reset="reset"
-              ref="row.active"
             >
             </cv-matcherizer>
             </q-field>
@@ -240,8 +240,7 @@ export default {
           row.cat_file_camel_resource = row.cat_file.camel_resource
           row.cat_file_resource       = row.cat_file.resource
         }
-        if (row.resource != null)
-          row.resource_search_field = row.resource.search_field
+        row.search_field = row.search_field
       }
       return row
     }
