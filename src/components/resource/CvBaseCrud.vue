@@ -147,10 +147,8 @@
       messageNotificator:function(property,message){
         if(typeof this[property] ==="undefined")
           return false
-        if(typeof this[property] !=="undefined"){
-          console.log(this[property])
+        if(typeof this[property] !=="undefined")
           this[property]=null
-        }
       },
       collectSuccessMessages:function(message){
         this.messageCollector("successNotificationMessages",message)

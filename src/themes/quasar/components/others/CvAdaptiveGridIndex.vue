@@ -69,7 +69,7 @@
             tag="tbody"
             :enter-active-class="pageAnimation"
             :duration="{ enter: 500, leave: 0 }">
-            <tr v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
+            <tr v-for="(gridRow, position) in mainGridData.rows" :key="position + '|' +gridRow[rowKey]">
               <slot name="table-properties-slot" :slot-row="gridRow" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
               </slot>
               <td  v-if="typeof gridRow.active!=='undefined' && cGtxs" class="t-center t-middle">
