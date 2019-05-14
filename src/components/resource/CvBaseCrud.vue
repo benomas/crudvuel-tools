@@ -3,6 +3,7 @@
   import CvSynchronizer    from '../../CvSynchronizer'
   import CvErrorWraper     from '../input-components/CvErrorWraper'
   import cvVueSetter       from '../../cvVueSetter'
+  import {cvFixDotDepth}   from '../../cvHelper'
   export default{
     extends    : CvActionContainer,
     components : {
@@ -21,7 +22,8 @@
         successNotificationMessages : null,
         errorNotificationMessages   : null,
         cancelNotificationMessages  : null,
-        infoNotificationMessages    : null
+        infoNotificationMessages    : null,
+        toggles                     : {}
       }
     },
     methods:{
@@ -225,6 +227,17 @@
       },
       nextTick:function(){
         return this.$nextTick()
+      },
+      mDinamicBooleanModel (dothProperty,value) {
+        return cvFixDotDepth(this,dothProperty)
+      },
+      mDinamicBooleanSwitch (dothProperty,value = true) {
+        return new Promise((resolve, reject) => {
+          let dinamicModalModel = cvFixDotDepth(this,dothProperty,value)
+          let timeOut = setTimeout(()=>{
+            resolve(dinamicModalModel)
+          }, 200)
+        })
       }
     },
     computed:{
