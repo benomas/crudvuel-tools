@@ -43,7 +43,7 @@
         :cv-simple-search-icon="cLtmd?'fas fa-search':''"
         :cv-simple-search-label="cGtsm?$tc('crudvuel.labels.crudvuelGrid.searchLabel'):''">
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
-          <cv-ths cv-tag="thead" class="gt-md">
+          <cv-ths cv-tag="thead" class="gt-md" v-show="!cDisableGrid">
             <tr slot="cv-ths-slot" cv-role="cv-header-config">
               <slot name="headers-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
               </slot>
@@ -64,8 +64,8 @@
             </tr>
           </cv-ths>
           <transition-group
-            v-if="mainGridData"
-            v-show="cGtmd"
+            v-if="mainGridData && !cDisableGrid"
+            v-show="cvForceGrid || cGtmd"
             tag="tbody"
             :enter-active-class="pageAnimation"
             :duration="{ enter: 500, leave: 0 }">
@@ -143,21 +143,21 @@
             </tr>
           </transition-group>
           <transition-group
-            v-if="mainGridData"
-            v-show="cLtlg"
+            v-if="mainGridData && !cvDisableCards"
+            v-show="cvForceCards || cLtlg"
             tag="div"
             class="row"
             :enter-active-class="pageAnimation"
             :duration="{ enter: 500, leave: 0 }">
-            <div class="row col-md-3 col-sm-6 col-xs-12 q-pa-sm" v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
+            <div :class="cCardContainerClass" v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
               <div class="row col-xs-12 q-pa-sm">
-                <q-card class="w-100 round-borders" dense >
+                <q-card dense :class="cCardClass">
                   <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                   </slot>
-                  <q-card-title>
+                  <q-card-title :class="cActionCardTitleClass">
                     {{ $tc('crudvuel.actions') }}
                   </q-card-title>
-                  <q-card-actions class="bg-tertiary-l-90">
+                  <q-card-actions :class="cActionCardClass" >
                     <q-btn
                       v-if="hasPermission('show')"
                       icon="visibility"
@@ -243,6 +243,42 @@ export default {
     return {
       temp          : null,
       pageAnimation : 'animated fadeIn'
+    }
+  },
+  props:[
+    'cvForceCards',
+    'cvForceGrid',
+    'cvDisableCards',
+    'cvDisableGrid',
+    'cvCardClass',
+    'cvActionCardClass',
+    'cvCardContainerClass',
+    'cvActionCardTitleClass'
+  ],
+  computed:{
+    cForceCards: function () {
+      return this.cvForceCards
+    },
+    cForceGrid: function () {
+      return this.cvForceGrid
+    },
+    cDisableCards: function () {
+      return this.cvDisableCards
+    },
+    cDisableGrid: function () {
+      return this.cvDisableGrid
+    },
+    cCardClass: function () {
+      return this.cvCardClass || {'w-100 round-borders':'true'}
+    },
+    cActionCardClass: function () {
+      return this.cvActionCardClass || {'bg-tertiary-l-90':'true'}
+    },
+    cCardContainerClass: function () {
+      return this.cvCardContainerClass || {'row col-md-12 col-sm-6 col-xs-12 q-pa-sm':true}
+    },
+    cActionCardTitleClass: function () {
+      return this.cvActionCardTitleClass || {'':true}
     }
   },
   methods: {

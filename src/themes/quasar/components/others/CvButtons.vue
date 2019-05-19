@@ -82,7 +82,7 @@ export default {
       return 'Cancelar'
     },
     cNextLabel: function () {
-      if (this.cvNextLabel)
+      if (this.cvNextLabel != null)
         return this.cvNextLabel
       if (this.cAction)
         return this.cAction.nextLabel || null
