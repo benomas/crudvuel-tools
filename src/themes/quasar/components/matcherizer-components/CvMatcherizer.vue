@@ -21,38 +21,41 @@
         >
         </cv-simple-filters>
       </div>
-        <q-slide-transition >
-          <ul
-            v-if="cShowList && !cLoading"
-            @mouseover="listIn"
-            @mouseleave="listOut"
-            class="list-group"
-            :class="{'b-none':!cListOfItems || !cShowList}"
-            :style="{'width':cContainerWidth}"
-          >
-              <li
-                  class="list-group-item"
-                  v-for="(row, rowKey) in cListOfItems"
-                  v-on:click="add(rowKey,row)"
-                  :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue,'current-cursor-item':currentItem===rowKey}"
-                  :key="mValueCallBack(cListOfItems,row) + '|' + rowKey"
-                  v-html="showPatter(mLabelCallBack(cListOfItems,row),mValueCallBack(cListOfItems,row)===cCurrentValue)"
-              >
-              </li>
-              <li
-                v-if="cLoading"
-                class="list-group-item more-data-message"
-              >
-                <q-spinner-facebook :size="18" class="q-mx-md txt-secondary-l-30"/>
-                <span class="txt-secondary-l-30">Cargando...</span>
-              </li>
-              <li
-                v-if="sourceCount && sourceCount > cListOfItemsLimit"
-                class="list-group-item more-data-message"
-              >
-                <span class="txt-secondary-l-30">{{cMoreDataMessage}}</span>
-              </li>
-          </ul>
+        <!--TODO fix animation-->
+        <q-slide-transition appear>
+          <div>
+            <ul
+              v-if="cShowList && !cLoading"
+              @mouseover="listIn"
+              @mouseleave="listOut"
+              class="list-group"
+              :class="{'b-none':!cListOfItems || !cShowList}"
+              :style="{'width':cContainerWidth}"
+            >
+                <li
+                    class="list-group-item"
+                    v-for="(row, rowKey) in cListOfItems"
+                    v-on:click="add(rowKey,row)"
+                    :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue,'current-cursor-item':currentItem===rowKey}"
+                    :key="mValueCallBack(cListOfItems,row) + '|' + rowKey"
+                    v-html="showPatter(mLabelCallBack(cListOfItems,row),mValueCallBack(cListOfItems,row)===cCurrentValue)"
+                >
+                </li>
+                <li
+                  v-if="cLoading"
+                  class="list-group-item more-data-message"
+                >
+                  <q-spinner-facebook :size="18" class="q-mx-md txt-secondary-l-30"/>
+                  <span class="txt-secondary-l-30">Cargando...</span>
+                </li>
+                <li
+                  v-if="sourceCount && sourceCount > cListOfItemsLimit"
+                  class="list-group-item more-data-message"
+                >
+                  <span class="txt-secondary-l-30">{{cMoreDataMessage}}</span>
+                </li>
+            </ul>
+          </div>
         </q-slide-transition >
     </div>
   </div>
