@@ -1,7 +1,7 @@
 {
   "name": "crudvuel-tools",
-  "version": "2.1.67",
-  "description": "Grid for interact with laravel crudvel api, es6 versión",
+  "version": "2.3.1",
+  "description": "Vue plugins, with some integrations to quasar, compatible with crudvuel v0.3",
   "main": "./dist/crudvuel-tools.min.js",
   "scripts": {
     "test": "karma start",

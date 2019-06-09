@@ -1,4 +1,5 @@
 export default function(){
+  //new version strategy to mach with crudvel package
 	this.environmentProperty=(property,defaultValue)=>{
 		return process.env[property] || defaultValue
 	};
