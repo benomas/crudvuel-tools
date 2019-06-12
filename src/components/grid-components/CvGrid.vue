@@ -9,7 +9,7 @@
       </cv-spinner>
     </transition>
     <div>
-      <cv-filter-selector @cv-filter-selected="mSwitchFilter"></cv-filter-selector>
+      <cv-filter-selector @cv-filter-selected="mSwitchFilter" :cv-current-filter="currentFilter"></cv-filter-selector>
       <!--<transition name="component-fade" mode="out-in">-->
         <cv-simple-filters
           v-if="cSimpleFilters"
@@ -145,7 +145,8 @@ export default {
       showSimpleFilters      : true,
       showCombinatoryFilters : false,
       showAdvancedFilters    : false,
-      showExpertFilters      : false
+      showExpertFilters      : false,
+      currentFilter          : 'simple-filters'
     }
   },
   props:[
@@ -456,15 +457,19 @@ export default {
       switch (newFilter){
         case 'simple-filters':
           this.showSimpleFilters = true
+          this.currentFilter     = newFilter
           break
         case 'combinatory-filters':
           this.showCombinatoryFilters = true
+          this.currentFilter     = newFilter
           break
         case 'advanced-filters':
           this.showAdvancedFilters = true
+          this.currentFilter     = newFilter
           break
         case 'expert-filters':
           this.showExpertFilters = true
+          this.currentFilter     = newFilter
           break
       }
     }
