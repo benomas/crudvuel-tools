@@ -25,7 +25,7 @@
               :cv-parent-ref="cSelfRef"
               v-bind="defMatcherizerProps('catPermissionTypes')"
               :cv-select-query="{'id':'cat_permission_type_id','name':'cat_permission_type'}"
-              :cv-simple-search-label="fLang('cat_permission_type')"
+              :cv-search-label="fLang('cat_permission_type')"
               :cv-current-value="row.cat_permission_type_id"
               :cv-current-label="row.cat_permission_type"
               @cv-single-selected="(() => {inputFocus('row.description')})"

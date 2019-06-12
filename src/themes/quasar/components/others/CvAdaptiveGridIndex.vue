@@ -40,8 +40,8 @@
         @page-nave-up="pageAnimation='animated slideInUp'"
         @page-nave-down="pageAnimation='animated slideInDown'"
         @page-nave-neutral="pageAnimation='animated fadeIn'"
-        :cv-simple-search-icon="cLtmd?'fas fa-search':''"
-        :cv-simple-search-label="cGtsm?$tc('crudvuel.labels.crudvuelGrid.searchLabel'):''">
+        :cv-search-icon="cLtmd?'fas fa-search':''"
+        :cv-search-label="cGtsm?$tc('crudvuel.labels.crudvuelGrid.searchLabel'):''">
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
           <cv-ths cv-tag="thead" class="gt-md" v-show="!cDisableGrid">
             <tr slot="cv-ths-slot" cv-role="cv-header-config">

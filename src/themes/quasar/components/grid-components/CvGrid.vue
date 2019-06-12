@@ -5,6 +5,8 @@ import CvPaginate        from './CvPaginate'
 import CvAdvancedFilters from './CvAdvancedFilters'
 import CvExpertFilters   from './CvExpertFilters'
 import CvSimpleFilters   from './CvSimpleFilters'
+import CvCombinatoryFilters   from './CvCombinatoryFilters'
+import CvFilterSelector   from './CvFilterSelector'
 import CvSpinner         from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSpinner'
 export default {
   extends    : CvCustomExtender,
@@ -14,7 +16,9 @@ export default {
     CvAdvancedFilters,
     CvExpertFilters,
     CvSimpleFilters,
-    CvSpinner
+    CvCombinatoryFilters,
+    CvSpinner,
+    CvFilterSelector
   }
 }
 </script>

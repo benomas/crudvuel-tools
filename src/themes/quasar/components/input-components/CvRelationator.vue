@@ -14,8 +14,8 @@
         <cv-simple-filters
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('relatedSimpleFilterRef')"
-          @cv-simple-search-key-up="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
-          @cv-simple-filter-go-to-find="relatedSimpleFilterFind"
+          @cv-search-key-up="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
+          @cv-event-filter-go-to-find="relatedSimpleFilterFind"
           class="q-pl-sm q-pr-xl"
         >
         </cv-simple-filters>
@@ -46,8 +46,8 @@
         <cv-simple-filters
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('sourceSimpleFilterRef')"
-          @cv-simple-search-key-up="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
-          @cv-simple-filter-go-to-find="sourceSimpleFilterFind"
+          @cv-search-key-up="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
+          @cv-event-filter-go-to-find="sourceSimpleFilterFind"
           class="q-pl-sm q-pr-xl"
         >
         </cv-simple-filters>

@@ -3,87 +3,88 @@ import {mySubString,myReplace} from '../../cvHelper'
 export default {
   data () {
     return {
-      simpleSearch               : null,
-      simpleSearchInputContainer : false
+      search               : null,
+      searchInputContainer : false,
+      staticSearchLabel    : null
     }
   },
   props: [
     'cvParentRef',
     'cvDisableFields',
-    'cvSimpleSearchLabel',
-    'cvSimpleSearchMessage',
-    'cvSimpleSearchIcon',
-    'cvSimpleSearchIconColor',
+    'cvSearchLabel',
+    'cvSearchMessage',
+    'cvSearchIcon',
+    'cvSearchIconColor',
     'cvExcludedReactionCharacters',
-    'cvSimpleFilterLoading',
-    'cvSimpleSearchKeyInterruption',
+    'cvFilterLoading',
+    'cvSearchKeyInterruption',
     'cvKeyInterruptionLimit'
   ],
   methods: {
     // Inyect search to the input filter
-    mSimpleFilterInyectSearch: function (simpleSearch = null,reactive =  true) {
+    mSimpleFilterInyectSearch: function (search = null,reactive =  true) {
       return new Promise ((resolve, reject) => {
-        this.$set(this,'simpleSearch',simpleSearch)
-        if (!this.cSimpleSearchInputContainer){
-          this.cSimpleFilterRef.mSimpleFilterInyectSearch(this.simpleSearch)
+        this.$set(this,'search',search)
+        if (!this.cSearchInputContainer){
+          this.cSimpleFilterRef.mSimpleFilterInyectSearch(this.search)
           resolve()
         }
-        this.mSimpleSearchInyected()
+        this.mSearchInyected()
         if (reactive)
-          this.mSimpleSearchStart()
+          this.mSearchStart()
         resolve()
       })
     },
     // trigger inyected event through the parent tree
-    mSimpleSearchInyected: function () {
-      this.$emit('cv-simple-search-inyected', this.simpleSearch)
+    mSearchInyected: function () {
+      this.$emit('cv-search-inyected', this.search)
     },
     // trigger focused event through the parent tree
-    mSimpleSearchFocused:function () {
-      if (!this.cSimpleSearchInputContainer)
-        return this.$emit('cv-simple-search-focused', this.simpleSearch)
+    mSearchFocused:function () {
+      if (!this.cSearchInputContainer)
+        return this.$emit('cv-search-focused', this.search)
       if(this.cDisableFields)
         return false
-      this.$emit('cv-simple-search-focused', this.simpleSearch)
-      this.mSimpleSearchStart()
+      this.$emit('cv-search-focused', this.search)
+      this.mSearchStart()
     },
-    mSimpleSearchBlured:function () {
+    mSearchBlured:function () {
       if(this.cDisableFields)
         return false
-      this.$emit('cv-simple-search-blured', this.simpleSearch)
+      this.$emit('cv-search-blured', this.search)
     },
-    mSimpleSearchKeyUp: function (key = null) {
-      if (!this.cSimpleSearchInputContainer)
-        return this.$emit('cv-simple-search-key-up', key)
+    mSearchKeyUp: function (key = null) {
+      if (!this.cSearchInputContainer)
+        return this.$emit('cv-search-key-up', key)
       if(this.cDisableFields)
         return false
-      this.mSimpleSearchStart(key)
+      this.mSearchStart(key)
     },
-    mSimpleSearchCleared:function (params) {
-      this.$emit('cv-simple-search-cleared')
-      if (!this.cSimpleSearchInputContainer)
+    mSearchCleared:function (params) {
+      this.$emit('cv-search-cleared')
+      if (!this.cSearchInputContainer)
         return null
-      this.mSimpleSearchStart(params)
+      this.mSearchStart(params)
     },
-    mSimpleSearchClear: function () {
-      if (this.cSimpleSearchInputContainer){
-        this.$set(this,'simpleSearch','')
-        return this.$emit('cv-simple-search-cleared')
+    mSearchClear: function () {
+      if (this.cSearchInputContainer){
+        this.$set(this,'search','')
+        return this.$emit('cv-search-cleared')
       }
       if(this.cSimpleFilterRef)
-        this.cSimpleFilterRef.mSimpleSearchClear()
+        this.cSimpleFilterRef.mSearchClear()
     },
     mDefMatcherizerProps: function (referenceName = 'cvSimpleFilterRef') {
       return {
-        'cv-simple-search-label'            : this.cSimpleSearchLabel,
-        'cv-simple-search-icon'             : this.cSimpleSearchIcon,
-        'cv-simple-search-icon-color'       : this.cSimpleSearchIconColor,
-        'cv-simple-filter-loading'          : this.cSimpleFilterLoading,
-        'cv-simple-search-key-interruption' : this.cSimpleSearchKeyInterruption,
-        'ref'                               : referenceName
+        'cv-search-label'            : this.cSearchLabel,
+        'cv-search-icon'             : this.cSearchIcon,
+        'cv-search-icon-color'       : this.cSearchIconColor,
+        'cv-event-filter-loading'    : this.cFilterLoading,
+        'cv-search-key-interruption' : this.cSearchKeyInterruption,
+        'ref'                        : referenceName
       }
     },
-    prepareToFindSource:function(simpleSearch){
+    prepareToFindSource:function(search){
       this.processList()
       this.$set(this,'disableList',false)
       return false
@@ -96,7 +97,7 @@ export default {
       return this.$refs.cvSimpleFilterRef || null
     },
     cInputRef: function() {
-      return this.cSimpleFilterRef.cSimpleSearchInputRef || null
+      return this.cSimpleFilterRef.cSearchInputRef || null
     },
     cParentRef: function() {
       return this.cvParentRef || null
@@ -104,36 +105,36 @@ export default {
     cDisableFields:function(){
       return this.cvDisableFields || false
     },
-    cSimpleSearchInputContainer: function () {
-      return this.simpleSearchInputContainer
+    cSearchInputContainer: function () {
+      return this.searchInputContainer
     },
-    cSimpleSearchLabel:function(){
-      if (this.cvSimpleSearchLabel != null){
-        if(this.cvSimpleSearchLabel === '')
+    cSearchLabel:function(){
+      if (this.cvSearchLabel != null){
+        if(this.cvSearchLabel === '')
           return ''
-        return this.cvSimpleSearchLabel
+        return this.cvSearchLabel
       }
-      return 'Buscar'
+      return this.staticSearchLabel || 'Buscar'
     },
-    cSimpleSearchMessage:function(){
-      return this.cvSimpleSearchMessage || "Realizar busqueda simple";
+    cSearchMessage:function(){
+      return this.cvSearchMessage || "Realizar busqueda simple";
     },
-    cSimpleSearchIconColor: function () {
-      return this.cvSimpleSearchIconColor || ''
+    cSearchIconColor: function () {
+      return this.cvSearchIconColor || ''
     },
-    cSimpleSearchIcon: function () {
-      if (this.cvSimpleSearchIcon != null){
-        if(this.cvSimpleSearchIcon === '')
+    cSearchIcon: function () {
+      if (this.cvSearchIcon != null){
+        if(this.cvSearchIcon === '')
           return ''
-        return this.cvSimpleSearchIcon
+        return this.cvSearchIcon
       }
       return 'fas fa-search'
     },
-    cSimpleFilterLoading: function () {
-      return this.cvSimpleFilterLoading
+    cFilterLoading: function () {
+      return this.cvFilterLoading
     },
-    cSimpleSearchKeyInterruption: function () {
-      return this.cvSimpleSearchKeyInterruption
+    cSearchKeyInterruption: function () {
+      return this.cvSearchKeyInterruption
     },
     cKeyInterruptionLimit:function () {
       return this.cvKeyInterruptionLimit

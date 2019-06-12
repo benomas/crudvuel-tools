@@ -11,11 +11,11 @@
           :cv-search-message="cSourceMessage"
           :cv-active-filter="cShowingSelected"
           :cv-disable-fields="cDisableFields"
-          @cv-simple-search-key-up="keyed"
-          @cv-simple-filter-go-to-find="prepareToFindSource"
-          @cv-simple-search-focused="focused"
-          @cv-simple-search-blured="blured"
-          @cv-simple-search-cleared="resetCurrent"
+          @cv-search-key-up="keyed"
+          @cv-event-filter-go-to-find="prepareToFindSource"
+          @cv-search-focused="focused"
+          @cv-search-blured="blured"
+          @cv-search-cleared="resetCurrent"
         >
         </cv-simple-filters>
       </div>
@@ -65,7 +65,7 @@ export default {
       sourceParametrizer : new CvParametrizer(),
       sourceCount        : 0,
       sourcePageCount    : null,
-      generalSearch      : '',
+      searchObject      : '',
       sourceData         : [],
       localData          : [],
       currentValue       : null,
@@ -146,7 +146,7 @@ export default {
     },
     prepareToFindSource:function(search){
       return new Promise ((resolve, reject) => {
-        this.generalSearch = search
+        this.searchObject = search
         if (this.itemAdded) {
           this.$set(this,'itemAdded',false)
           resolve()
@@ -262,15 +262,15 @@ export default {
           this.$set(this,'currentItem',null)
           this.$set(this,'focus',true)
           if (this.cSimpleFilterRef) {
-            this.setSearch(this.cGeneralSearch).then(() => {
+            this.setSearch(this.cSearchObject).then(() => {
               this.fixListWidth()
-              this.mSimpleSearchFocused()
+              this.mSearchFocused()
               resolve()
             }).catch(reject)
           }
           else {
             this.fixListWidth()
-            this.mSimpleSearchFocused()
+            this.mSearchFocused()
             resolve()
           }
         }
@@ -280,8 +280,8 @@ export default {
       return new Promise ((resolve, reject) => {
         this.$set(this,'focus',false)
         if(this.currentLabel && this.currentLabel !== '')
-          this.setSearch(this.cGeneralSearch)
-        this.mSimpleSearchBlured()
+          this.setSearch(this.cSearchObject)
+        this.mSearchBlured()
         this.$nextTick().then(() => {
           this.listOut()
         })
@@ -291,7 +291,7 @@ export default {
       if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined')
         return false
       this.preselected = false
-      this.mSimpleSearchKeyUp(key)
+      this.mSearchKeyUp(key)
       switch(key.keyCode){
         case 38:
           if(this.currentItem !== null && this.currentItem > 0)
@@ -311,7 +311,7 @@ export default {
           break
         case 27:
           if(this.cSimpleFilterRef)
-            this.cSimpleFilterRef.mSimpleSearchClear()
+            this.cSimpleFilterRef.mSearchClear()
           break
         default: this.currentItem = null
           break
@@ -320,14 +320,14 @@ export default {
     listIn:function(){
       return new Promise ((resolve, reject) => {
         this.$set(this,'listOver',true)
-        this.$emit('cv-list-out', this.cGeneralSearch)
+        this.$emit('cv-list-out', this.cSearchObject)
         resolve()
       })
     },
     listOut:function(){
       return new Promise ((resolve, reject) => {
         this.$set(this,'listOver',false)
-        this.$emit('cv-list-out', this.cGeneralSearch)
+        this.$emit('cv-list-out', this.cSearchObject)
         resolve()
       })
     },
@@ -355,7 +355,7 @@ export default {
       this.sourceParametrizer.setAscending(this.cAscending)
       this.sourceParametrizer.setFilterQuery(this.cFilterQuery)
       this.sourceParametrizer.setSelectQuery(this.cSelectQuery)
-      this.sourceParametrizer.setGeneralSearch(this.cGeneralSearch)
+      this.sourceParametrizer.setSearchObject(this.cSearchObject)
     },
     processList: function () {
       return new Promise ((resolve, reject) => {
@@ -368,7 +368,7 @@ export default {
 
             let currentItemLabel = this.mLabelCallBack(data,data[i])
 
-            if(this.mySubString(currentItemLabel,this.generalSearch))
+            if(this.mySubString(currentItemLabel,this.searchObject))
               listOfItems.push(data[i])
           }
         this.$set(this,'listOfItems',listOfItems)
@@ -378,7 +378,7 @@ export default {
       })
     },
     showPatter:function(label,isCurrent){
-      let located = this.myReplace(label,this.generalSearch,'<span class="matcherizer-item">$1</span>')
+      let located = this.myReplace(label,this.searchObject,'<span class="matcherizer-item">$1</span>')
       if(isCurrent)
         located += this.currentSelectedItemMark()
       return located
@@ -390,7 +390,7 @@ export default {
       //when matcherizer has receiving static cvLocalData, then is not necesary to make a remote data call
       if (this.cLocalData)
         return false
-      let lastSearch = this.sourceParametrizer.getGeneralSearch()
+      let lastSearch = this.sourceParametrizer.getSearchObject()
       let staticPropertys = [
         'Page',
         'ByColumn',
@@ -416,14 +416,14 @@ export default {
         }
       }
 
-      if(lastSearch===this.generalSearch)
+      if(lastSearch===this.searchObject)
         return false
 
       //When the page is full, that means that there is more remote data compatible with the current searsh, other wise, no is necesary to make another remote data call
       if(this.sourcePageCount === this.cLimit)
         return true
 
-      if(this.mySubString(this.generalSearch,lastSearch))
+      if(this.mySubString(this.searchObject,lastSearch))
         return false
 
       if(this.absolueRemoteData)
@@ -434,7 +434,7 @@ export default {
     mClearData: function () {
       this.$set(this,'sourceCount', 0)
       this.$set(this,'sourcePageCount', null)
-      this.$set(this,'generalSearch', '')
+      this.$set(this,'searchObject', '')
       this.$set(this,'sourceData', [])
       this.$set(this,'localData', [])
       this.$set(this,'currentValue', null)
@@ -473,8 +473,8 @@ export default {
     cFilterQuery:function(){
       return this.cvFilterQuery || {'name':''}
     },
-    cGeneralSearch:function(){
-      return this.generalSearch || ''
+    cSearchObject:function(){
+      return this.searchObject || ''
     },
     cSourceService:function(){
       return this.cvSourceService || null
@@ -505,7 +505,7 @@ export default {
       return this.listWidth;
     },
     cShowingSelected:function(){
-      return (this.cCurrentLabel && this.cCurrentLabel!=='' && this.cGeneralSearch === this.cCurrentLabel) || this.cPreselected
+      return (this.cCurrentLabel && this.cCurrentLabel!=='' && this.cSearchObject === this.cCurrentLabel) || this.cPreselected
     },
     cLoading:function(){
       return this.cvLoading || this.loading || false
@@ -554,7 +554,7 @@ export default {
   mounted:function(){
     this.currenValue   = this.cvCurrentValue
     this.currentLabel  = this.cvCurrentLabel
-    this.generalSearch = this.currentLabel
+    this.searchObject = this.currentLabel
     if (this.currentLabel && this.currentLabel !== ''){
       this.preselected =  true
       this.setSearch(null,false)

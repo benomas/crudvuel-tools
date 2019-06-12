@@ -1,8 +1,8 @@
 <template>
-  <div class="simple-filters-container">
+  <div class="filters-container">
     <label for="search">{{cSearchLabel}}</label>
     <input
-      class="simple-filters-input form-control"
+      class="filters-input form-control"
       type="text"
       name="search"
       autocomplete="off"
@@ -33,13 +33,13 @@ export default {
     'cvSearchActiveFilter',
     'cvDisableFields',
     'cvSearchKeyInterruption',
-    'cvsearch'
+    'cvSearch'
   ],
   methods:{
     mSearchGoToFind:function(){
       if(this.cDisableFields)
         return false;
-      this.$emit('cv-event-filter-go-to-find', this.search, 'cv-simple-paginator');
+      this.$emit('cv-filter-go-to-find', this.search, 'cv-combinatory-paginator');
     },
     /**
      * auto launch get service after a limit time without press a new key
@@ -50,7 +50,7 @@ export default {
      */
     mSearchStart:function(key = null){
       this.$nextTick().then(() => {
-        this.$emit('cv-search-key-up', key)
+        this.$emit('cv-earch-key-up', key)
         if(this.cKeyInterruptionLimit<=0)
           return false
         clearTimeout(this.searchKeyInterruption)
@@ -65,8 +65,8 @@ export default {
     cDisableFields:function(){
       return this.cvDisableFields || false
     },
-    csearch:function(){
-      return this.cvsearch || "";
+    cSearch:function(){
+      return this.cvSearch || "";
     },
     cKeyInterruptionLimit:function(){
       return this.cvKeyInterruptionLimit || 500;
@@ -82,7 +82,7 @@ export default {
     }
   },
   mounted: function () {
-    this.search = this.csearch || ''
+    this.search = this.cSearch || ''
   }
 }
 </script>

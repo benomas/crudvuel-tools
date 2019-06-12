@@ -8,30 +8,45 @@
       <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
-    <transition name="component-fade" mode="out-in">
-      <cv-simple-filters
-        v-if="cSimpleFilters"
-        :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
-        class="q-pb-md"
-        v-bind="mDefMatcherizerProps()"
-        @cv-simple-filter-go-to-find="prepareToFind"
-      >
-      </cv-simple-filters>
-    </transition>
-    <transition name="component-fade" mode="out-in">
-      <cv-advanced-filters
-        @go-to-find ="prepareToFind"
-        v-if        ="cAdvancedFilters"
-      >
-      </cv-advanced-filters>
-    </transition>
-    <transition name="component-fade" mode="out-in">
-      <cv-expert-filters
-        @go-to-find ="prepareToFind"
-        v-if        ="cExpertFilters"
-      >
-      </cv-expert-filters>
-    </transition>
+    <div>
+      <cv-filter-selector @cv-filter-selected="mSwitchFilter"></cv-filter-selector>
+      <!--<transition name="component-fade" mode="out-in">-->
+        <cv-simple-filters
+          v-if="cSimpleFilters"
+          :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
+          class="q-pb-md"
+          v-bind="mDefMatcherizerProps()"
+          :cv-search-label="'Busqueda simple'"
+          @cv-event-filter-go-to-find="prepareToFind"
+        >
+        </cv-simple-filters>
+      <!--</transition>-->
+      <!--<transition name="component-fade" mode="out-in">-->
+        <cv-combinatory-filters
+          v-if="cCombinatoryFilters"
+          :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
+          class="q-pb-md"
+          v-bind="mDefMatcherizerProps()"
+          :cv-search-label="'Busqueda por combinaciones'"
+          @cv-filter-go-to-find="prepareToFind"
+        >
+        </cv-combinatory-filters>
+      <!--</transition>-->
+      <!--<transition name="component-fade" mode="out-in">-->
+        <cv-advanced-filters
+          @go-to-find ="prepareToFind"
+          v-if        ="cAdvancedFilters"
+        >
+        </cv-advanced-filters>
+      <!--</transition>-->
+      <!--<transition name="component-fade" mode="out-in">-->
+        <cv-expert-filters
+          @go-to-find ="prepareToFind"
+          v-if        ="cExpertFilters"
+        >
+        </cv-expert-filters>
+      <!--</transition>-->
+    </div>
     <transition name="component-fade" mode="out-in">
       <hr v-if="cTotalPageElements && cTopPaginate">
     </transition>
@@ -94,10 +109,12 @@
 import CvTag                    from '../CvTag'
 import CvPaginate               from './CvPaginate'
 import CvSimpleFilters          from './CvSimpleFilters'
+import CvCombinatoryFilters     from './CvCombinatoryFilters'
 import CvAdvancedFilters        from './CvAdvancedFilters'
 import CvExpertFilters          from './CvExpertFilters'
 import CvSpinner                from './CvSpinner'
 import CvParametrizer           from '../../CvParametrizer'
+import CvFilterSelector         from './CvFilterSelector'
 import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 export default {
   mixins     : [CvLocalSimpleFilterTrait],
@@ -105,24 +122,30 @@ export default {
     CvTag,
     CvPaginate,
     CvSimpleFilters,
+    CvCombinatoryFilters,
     CvAdvancedFilters,
     CvExpertFilters,
     CvSpinner,
+    CvFilterSelector
   },
   data () {
     return {
-      config           : null,
-      correctConfig    : true,
-      cvParametrizer   : new CvParametrizer(),
-      cvThs            : null,
-      cvTds            : null,
-      cvTableChildren  : null,
-      cvHeadTrChildren : null,
-      cvBodyTrs        : null,
-      rows             : [],
-      elementsCount    : 0,
-      ready            : false,
-      isMounted        : false
+      config                 : null,
+      correctConfig          : true,
+      cvParametrizer         : new CvParametrizer(),
+      cvThs                  : null,
+      cvTds                  : null,
+      cvTableChildren        : null,
+      cvHeadTrChildren       : null,
+      cvBodyTrs              : null,
+      rows                   : [],
+      elementsCount          : 0,
+      ready                  : false,
+      isMounted              : false,
+      showSimpleFilters      : true,
+      showCombinatoryFilters : false,
+      showAdvancedFilters    : false,
+      showExpertFilters      : false
     }
   },
   props:[
@@ -140,6 +163,7 @@ export default {
     "cvTopPaginate",
     "cvBottomPaginate",
     "cvSimpleFilters",
+    "cvCombinatoryFilters",
     "cvAdvancedFilters",
     "cvExpertFilters",
     "cvMinHeight",
@@ -185,13 +209,16 @@ export default {
       return this.cvBottomPaginate || false
     },
     cSimpleFilters:function(){
-      return typeof this.cvSimpleFilters!=="undefined"?this.cvSimpleFilters:true
+      return this.showSimpleFilters
+    },
+    cCombinatoryFilters:function(){
+      return this.showCombinatoryFilters
     },
     cAdvancedFilters:function(){
-      return typeof this.cvAdvancedFilters!=="undefined"?this.cvAdvancedFilters:false
+      return this.showAdvancedFilters
     },
     cExpertFilters:function(){
-      return typeof this.cvExpertFilters!=="undefined"?this.cvExpertFilters:false
+      return this.showExpertFilters
     },
     cTag:function(){
       return this.cvTag || "div"
@@ -222,6 +249,10 @@ export default {
     this.isMounted = true
     if (this.cRows)
       this.$set(this,'rows',this.rows)
+    this.showSimpleFilters      = this.cvSimpleFilters || this.showSimpleFilters
+    this.showCombinatoryFilters = this.cvCombinatoryFilters || this.showCombinatoryFilters
+    this.showAdvancedFilters    = this.cvAdvancedFilters || this.showAdvancedFilters
+    this.showExpertFilters      = this.cvExpertFilters || this.showExpertFilters
     this.processSlots()
     this.refresh()
   },
@@ -273,10 +304,11 @@ export default {
       })
       this.refresh()
     },
-    prepareToFind(search){
-      if(this.cvParametrizer.getGeneralSearch() === search)
+    prepareToFind(searchObject = null, searchMode = 'cv-simple-paginator') {
+      if(this.cvParametrizer.getSearchObject() === searchObject && this.cvParametrizer.getSearchMode() === searchMode)
         return false
-      this.cvParametrizer.setGeneralSearch(search)
+      this.cvParametrizer.setSearchObject(searchObject)
+      this.cvParametrizer.setSearchMode(searchMode)
       this.cvParametrizer.setPage(1)
       this.pageNavNeutral()
       this.refresh()
@@ -415,6 +447,26 @@ export default {
       if(this.cGridLang && this.cGridLang[word])
         return this.cGridLang[word]
       return defWord || ''
+    },
+    mSwitchFilter: function (newFilter=null) {
+      this.showSimpleFilters      = false
+      this.showCombinatoryFilters = false
+      this.showAdvancedFilters    = false
+      this.showExpertFilters      = false
+      switch (newFilter){
+        case 'simple-filters':
+          this.showSimpleFilters = true
+          break
+        case 'combinatory-filters':
+          this.showCombinatoryFilters = true
+          break
+        case 'advanced-filters':
+          this.showAdvancedFilters = true
+          break
+        case 'expert-filters':
+          this.showExpertFilters = true
+          break
+      }
     }
   }
 }

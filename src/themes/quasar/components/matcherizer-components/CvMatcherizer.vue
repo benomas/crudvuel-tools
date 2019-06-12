@@ -13,11 +13,11 @@
           :cv-loading="cLoading"
           :cv-helper="cCurrentLabel"
           :cv-disable-fields="cDisableFields"
-          @cv-simple-search-key-up="keyed"
-          @cv-simple-filter-go-to-find="prepareToFindSource"
-          @cv-simple-search-focused="focused"
-          @cv-simple-search-blured="blured"
-          @cv-simple-search-cleared="resetCurrent"
+          @cv-search-key-up="keyed"
+          @cv-event-filter-go-to-find="prepareToFindSource"
+          @cv-search-focused="focused"
+          @cv-search-blured="blured"
+          @cv-search-cleared="resetCurrent"
         >
         </cv-simple-filters>
       </div>
@@ -80,8 +80,8 @@ export default {
     cLimit: function () {
       return this.cvLimit || 50
     },
-    cSimpleSearchIconColor: function () {
-      return this.cvSimpleSearchIconColor || (this.cShowingSelected ? 'positive' : '')
+    cSearchIconColor: function () {
+      return this.cvSearchIconColor || (this.cShowingSelected ? 'positive' : '')
     },
     cHelper: function () {
       return this.cvHelper || ''

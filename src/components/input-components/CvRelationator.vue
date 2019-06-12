@@ -8,8 +8,8 @@
         <cv-simple-filters
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('relatedSimpleFilterRef')"
-          @cv-simple-filter-go-to-find="relatedSimpleFilterFind"
-          @cv-simple-search-key-up="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
+          @cv-event-filter-go-to-find="relatedSimpleFilterFind"
+          @cv-search-key-up="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
           class="q-pl-sm q-pr-xl"
         >
         </cv-simple-filters>
@@ -34,8 +34,8 @@
         <cv-simple-filters
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('sourceSimpleFilterRef')"
-          @cv-simple-search-key-up="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
-          @cv-simple-filter-go-to-find="sourceSimpleFilterFind"
+          @cv-search-key-up="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
+          @cv-event-filter-go-to-find="sourceSimpleFilterFind"
           class="q-pl-sm q-pr-xl"
         >
         </cv-simple-filters>
@@ -118,8 +118,8 @@ export default {
     cFilteredRelated:function(){
       return this.filterRelated
     },
-    cSimpleSearchKeyInterruption: function () {
-      return this.cvSimpleSearchKeyInterruption || 250
+    cSearchKeyInterruption: function () {
+      return this.cvSearchKeyInterruption || 250
     }
   },
   mounted:function(){
@@ -214,11 +214,11 @@ export default {
     keyed:function(key,ref){
       if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined')
         return false
-      this.mSimpleSearchKeyUp(key)
+      this.mSearchKeyUp(key)
       switch(key.keyCode){
         case 27:
           if(this.$refs[ref])
-            this.$refs[ref].mSimpleSearchClear()
+            this.$refs[ref].mSearchClear()
           break
         default:
           break

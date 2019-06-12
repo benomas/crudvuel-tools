@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import CvCustomExtender           from 'src/crudvuel/customs/components/grid-components/CvSimpleFilters'
+import CvCustomExtender           from 'src/crudvuel/customs/components/grid-components/CvCombinatoryFilters'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
 export default {
   extends    : CvCustomExtender,
