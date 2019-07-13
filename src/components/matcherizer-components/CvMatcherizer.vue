@@ -234,8 +234,10 @@ export default {
         }
       })
     },
-    resetCurrent:function(){
+    resetCurrent:function(clearBuffer = false){
       return new Promise ((resolve, reject) => {
+        if (this.clearBuffer)
+          this.sourcePageCount = true
         this.preselected  = false
         this.currentLabel = ''
         this.currentValue = null
