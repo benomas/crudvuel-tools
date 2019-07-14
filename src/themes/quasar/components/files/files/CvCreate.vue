@@ -39,6 +39,7 @@
               :cv-current-value="row.resource_id"
               :cv-current-label="row.search_field"
               :cv-order-by="'search_field'"
+              :cv-filter-query="{'search_field':''}"
               :cv-label-call-back="((rows,row) => {return row['search_field']})"
               @cv-single-selected="(() => {inputFocus('row.active'); reset()})"
               @cv-reset="reset"
