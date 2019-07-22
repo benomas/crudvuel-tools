@@ -13,11 +13,11 @@
           <div class="f-right">
             <q-btn
               v-if="hasPermission('create')"
-              icon="add_circle_outline"
+              icon="fas fa-plus-circle"
               @click="$router.push(actionPath('create'))"
               color="secondary"
               round
-              small
+              size="sm"
               :title="resorceAction('create').label"
             ></q-btn>
           </div>
@@ -51,11 +51,11 @@
                 {{ $tc('crudvuel.actions') }}
                 <q-btn
                   v-if="hasPermission('create')"
-                  icon="add_circle_outline"
+                  icon="fas fa-plus-circle"
                   @click="$router.push(actionPath('create'))"
                   color="secondary"
                   round
-                  small
+                  size="sm"
                   :title="resorceAction('create').label"
                 ></q-btn>
                 <slot name="extra-actions-header-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
@@ -105,33 +105,33 @@
               <td class="t-center t-middle">
                 <q-btn
                   v-if="hasPermission('show')"
-                  icon="visibility"
+                  icon="fas fa-eye"
                   @click="$router.push(actionPath('show',gridRow))"
                   color="info"
                   round
-                  small
+                  size="sm"
                   :title="resorceAction('show').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
                   v-if="hasPermission('edit')"
-                  icon="edit"
+                  icon="fas fa-pencil-alt"
                   @click="$router.push(actionPath('edit',gridRow))"
                   color="positive"
                   round
-                  small
+                  size="sm"
                   :title="resorceAction('edit').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
                   v-if="hasPermission('delete')"
-                  icon="delete"
+                  icon="fas fa-trash-alt"
                   @click="deleteRow(gridRow)"
                   color="negative"
                   round
-                  small
+                  size="sm"
                   :title="resorceAction('delete').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
@@ -154,39 +154,39 @@
                 <q-card dense :class="cCardClass">
                   <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                   </slot>
-                  <q-card-title :class="cActionCardTitleClass">
+                  <q-card-section :class="cActionCardTitleClass">
                     {{ $tc('crudvuel.actions') }}
-                  </q-card-title>
+                  </q-card-section>
                   <q-card-actions :class="cActionCardClass" >
                     <q-btn
                       v-if="hasPermission('show')"
-                      icon="visibility"
+                      icon="fas fa-eye"
                       @click="$router.push(actionPath('show',gridRow))"
                       color="info"
                       round
-                      small
+                      size="sm"
                       :title="resorceAction('show').label"
                       v-cv-in-progress="isSynchronizing(gridRow)"
                       :disabled="isSynchronizing(gridRow)"
                     ></q-btn>
                     <q-btn
                       v-if="hasPermission('edit')"
-                      icon="edit"
+                      icon="fas fa-pencil-alt"
                       @click="$router.push(actionPath('edit',gridRow))"
                       color="positive"
                       round
-                      small
+                      size="sm"
                       :title="resorceAction('edit').label"
                       v-cv-in-progress="isSynchronizing(gridRow)"
                       :disabled="isSynchronizing(gridRow)"
                     ></q-btn>
                     <q-btn
                       v-if="hasPermission('delete')"
-                      icon="delete"
+                      icon="fas fa-trash-alt"
                       @click="deleteRow(gridRow)"
                       color="negative"
                       round
-                      small
+                      size="sm"
                       :title="resorceAction('delete').label"
                       v-cv-in-progress="isSynchronizing(gridRow)"
                       :disabled="isSynchronizing(gridRow)"
@@ -210,14 +210,12 @@ import {
   QBtn,
   QIcon,
   QCard,
-  QCardActions,
-  QCardTitle,
   QList,
   QItem,
-  QItemMain,
-  QItemSide,
-  QItemSeparator,
-  QItemTile
+  QItemLabel,
+  QItemSection,
+  QSeparator,
+  QCardSection
 } from 'quasar'
 import CvNotify from './CvNotify.js'
 import CvIndex  from '../resource/CvIndex'
@@ -230,14 +228,12 @@ export default {
     QBtn,
     CvGrid,
     QCard,
-    QCardActions,
-    QCardTitle,
     QList,
     QItem,
-    QItemMain,
-    QItemSide,
-    QItemSeparator,
-    QItemTile
+    QItemLabel,
+    QItemSection,
+    QSeparator,
+    QCardSection
   },
   data () {
     return {

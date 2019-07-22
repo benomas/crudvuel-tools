@@ -1,8 +1,6 @@
 <template>
   <div class="row cv-relator-container">
-    <div
-      class="col-sm-6 col-xs-12 related-items q-pa-sm"
-    >
+    <div class="col-xs-12 col-sm-6 related-items q-pa-sm">
       <hr class="lt-sm border-quaternary">
       <div class="t-center">
         <span class="txt-secondary f-weight-400 q-mr-xs">{{relatedLabel}}:</span>
@@ -27,14 +25,12 @@
             :key="mDinamicIndex(row)"
             @click="removeRelated(rowKey,row)"
         >
-          <q-icon v-if="!cDisableFields" name="clear" class="f-right"/>
+          <q-icon v-if="!cDisableFields" name="fas fa-minus-square" class="f-right"/>
           {{row[cLabelProperty]}}
         </li>
       </ul>
     </div>
-    <div
-      class="col-sm-6 col-xs-12 related-items q-pa-sm"
-    >
+    <div class="col-xs-12 col-sm-6 related-items q-pa-sm">
       <hr class="lt-sm border-quaternary">
       <div class="t-center">
         <span class="txt-secondary f-weight-400 q-mr-xs">{{sourceLabel}}:</span>
@@ -59,7 +55,7 @@
             :key="mDinamicIndex(row)"
             @click="addRelated(rowKey,row)"
         >
-          <q-icon v-if="!cDisableFields" name="add" class="f-left"/>
+          <q-icon v-if="!cDisableFields" name="fas fa-plus-square" class="f-left"/>
           {{row[cLabelProperty]}}
         </li>
       </ul>

@@ -130,9 +130,9 @@
                   <slot name="flexi-properties-slot" :slot-row="gridRow">
                   </slot>
                   <q-item class="relative-position">
-                    <q-item-main>
-                      <q-item-tile label>{{ $tc('crudvuel.actions') }}</q-item-tile>
-                      <q-item-tile sublabel>
+                    <q-item-label>
+                      <q-item-section label>{{ $tc('crudvuel.actions') }}</q-item-section>
+                      <q-item-section sublabel>
                         <q-btn
                           v-if="hasPermission('show')"
                           icon="visibility"
@@ -167,8 +167,8 @@
                           :disabled="isSynchronizing(gridRow)"
                         >
                         </q-btn>
-                      </q-item-tile>
-                    </q-item-main>
+                      </q-item-section>
+                    </q-item-label>
                   </q-item>
                   <slot name="flexi-extra-actions-slot" :slot-row="gridRow">
                   </slot>
@@ -189,10 +189,10 @@ import {
   QCard,
   QList,
   QItem,
-  QItemMain,
-  QItemSide,
-  QItemSeparator,
-  QItemTile
+  QItemLabel,
+  QItemSection,
+  QSeparator,
+  QItemSection
 } from 'quasar'
 import CvNotify from './CvNotify.js'
 import CvIndex  from '../resource/CvIndex'
@@ -206,10 +206,10 @@ export default {
     QCard,
     QList,
     QItem,
-    QItemMain,
-    QItemSide,
-    QItemSeparator,
-    QItemTile
+    QItemLabel,
+    QItemSection,
+    QSeparator,
+    QItemSection
   },
   data () {
     return {

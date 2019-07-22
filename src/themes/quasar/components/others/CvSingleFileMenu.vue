@@ -17,16 +17,12 @@
 <script>
 import {
   QBtn,
-  QTooltip,
-  CloseOverlay
+  QTooltip
 } from 'quasar'
 export default {
   components: {
     QBtn,
     QTooltip
-  },
-  directives: {
-    CloseOverlay
   },
   props: [
     'cvDisabled',

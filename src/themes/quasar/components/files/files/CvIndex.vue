@@ -50,30 +50,30 @@
     <!-- cv-grid-flexi-data-cells-->
     <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
       <q-item>
-        <q-item-side>
-          <q-item-tile label>{{ fLang('id') }}</q-item-tile>
-        </q-item-side>
-        <q-item-main>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.id}}</q-item-tile>
-        </q-item-main>
+        <q-item-section>
+          <q-item-section label>{{ fLang('id') }}</q-item-section>
+        </q-item-section>
+        <q-item-label>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.id}}</q-item-section>
+        </q-item-label>
       </q-item>
       <q-item>
-        <q-item-main>
-          <q-item-tile label>{{ fLang('search_field') }}</q-item-tile>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.search_field}}</q-item-tile>
-        </q-item-main>
+        <q-item-label>
+          <q-item-section label>{{ fLang('search_field') }}</q-item-section>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.search_field}}</q-item-section>
+        </q-item-label>
       </q-item>
       <q-item>
-        <q-item-main>
-          <q-item-tile label>{{ fLang('cat_file_name') }}</q-item-tile>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.cat_file_name}}</q-item-tile>
-        </q-item-main>
+        <q-item-label>
+          <q-item-section label>{{ fLang('cat_file_name') }}</q-item-section>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.cat_file_name}}</q-item-section>
+        </q-item-label>
       </q-item>
       <q-item>
-        <q-item-main>
-          <q-item-tile label>{{ fLang('cat_file_slug') }}</q-item-tile>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.cat_file_slug}}</q-item-tile>
-        </q-item-main>
+        <q-item-label>
+          <q-item-section label>{{ fLang('cat_file_slug') }}</q-item-section>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.cat_file_slug}}</q-item-section>
+        </q-item-label>
       </q-item>
     </template>
     <!-- cv-grid-flexi-extra-actions-->

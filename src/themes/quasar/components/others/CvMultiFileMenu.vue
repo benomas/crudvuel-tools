@@ -8,7 +8,7 @@
     <q-chip floating :color="cChipColor">
       {{cChipValue}}
     </q-chip>
-    <q-popover class="bg-primary">
+    <q-menu class="bg-primary">
       <q-list inset-separator class="q-mt-md dark-example" dark >
         <transition-group
           enter-active-class="animated zoomInUp"
@@ -16,12 +16,12 @@
           :duration="{ enter: 800, leave: 800 }"
         >
           <q-item v-for="(file, filePos) in cFiles" :key="file.id">
-            <q-item-main :label="itemTitle(file, filePos)">
+            <q-item-label :label="itemTitle(file, filePos)">
               <q-tooltip >
                 {{file.cat_file.name}} {{filePos+1}}
               </q-tooltip>
-            </q-item-main>
-            <q-item-side right>
+            </q-item-label>
+            <q-item-section right>
               <q-btn
                 class="q-ma-xs"
                 size="sm"
@@ -49,11 +49,11 @@
                   {{cDownloadLang}}
                 </q-tooltip>
               </q-btn>
-            </q-item-side >
+            </q-item-section >
           </q-item>
         </transition-group>
       </q-list>
-    </q-popover>
+    </q-menu>
   </q-btn>
 </template>
 <script>
@@ -61,13 +61,12 @@ import {
   QBtn,
   QIcon,
   QChip,
-  QPopover,
+  QMenu,
   QList,
   QItem,
-  QItemMain,
+  QItemLabel,
   QTooltip,
-  QItemSide,
-  CloseOverlay,
+  QItemSection,
   QSpinner,
   QSpinnerFacebook
 } from 'quasar'
@@ -81,17 +80,14 @@ export default {
     QBtn,
     QIcon,
     QChip,
-    QPopover,
+    QMenu,
     QList,
     QItem,
-    QItemMain,
+    QItemLabel,
     QTooltip,
-    QItemSide,
+    QItemSection,
     QSpinner,
     QSpinnerFacebook
-  },
-  directives: {
-    CloseOverlay
   },
   props: [
     'cvDisabled',

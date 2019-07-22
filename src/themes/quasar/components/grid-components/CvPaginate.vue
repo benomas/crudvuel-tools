@@ -18,7 +18,7 @@
                 :key="position"
                 @click="setPage(position)"
                 :color="position===currentPage?'primary':''"
-                :class="{'bg-secondary': position===currentPage}"
+                :class="{'bg-secondary': position===currentPage,'bg-secondary-l-75':position!==currentPage}"
                 v-if="cReady || position!==currentPage"
                 class="btn btn-default"
               >
@@ -60,6 +60,8 @@
             </q-field>
           </span>
           <q-select
+            options-cover
+            dropdown-icon="fas fa-caret-down"
             class="lt-md q-ma-sm"
             style="display:inline-flex;"
             v-model="limitSelected"
@@ -77,6 +79,8 @@
         {{$tc('crudvuel.labels.paginate.recordsPerPage')}}:
       </label>
       <q-select
+        options-cover
+        dropdown-icon="fas fa-caret-down"
         class="q-ma-sm q-select-custom"
         style="display:inline-flex;"
         v-model="limitSelected"
@@ -92,7 +96,7 @@
 </template>
 <script>
 import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvPaginate'
-import {QTooltip,CloseOverlay,QWindowResizeObservable,QIcon,QBtn,QSelect,QField} from 'quasar'
+import {QTooltip,QIcon,QBtn,QSelect,QField} from 'quasar'
 export default {
   extends    : CvCustomExtender,
   components : {
@@ -100,11 +104,7 @@ export default {
     QIcon,
     QBtn,
     QField,
-    QWindowResizeObservable,
     QSelect
-  },
-  directives: {
-    CloseOverlay
   },
   computed: {
     cKeyedLimitValuesArray: function () {

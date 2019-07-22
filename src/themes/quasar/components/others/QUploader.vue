@@ -93,29 +93,29 @@
             :key="file.name + file.__timestamp"
             class="q-uploader-file q-pa-xs"
           >
-            <q-progress v-if="!hideUploadProgress"
+            <q-linear-progress v-if="!hideUploadProgress"
               class="q-uploader-progress-bg absolute-full"
               :color="file.__failed ? 'negative' : progressColor"
               :percentage="file.__progress"
               height="100%"
-            ></q-progress>
+            ></q-linear-progress>
             <div class="q-uploader-progress-text absolute" v-if="!hideUploadProgress">
               {{ file.__progress }}%
             </div>
 
-            <q-item-side v-if="file.__img" :image="file.__img.src"></q-item-side>
-            <q-item-side v-else :icon="$q.icon.uploader.file" :color="color"></q-item-side>
+            <q-item-section v-if="file.__img" :image="file.__img.src"></q-item-section>
+            <q-item-section v-else :icon="$q.icon.uploader.file" :color="color"></q-item-section>
 
-            <q-item-main :label="file.name" :sublabel="file.__size"></q-item-main>
+            <q-item-label :label="file.name" :sublabel="file.__size"></q-item-label>
 
-            <q-item-side right>
-              <q-item-tile
+            <q-item-section right>
+              <q-item-section
                 :icon="$q.icon.uploader[file.__doneUploading ? 'done' : 'clear']"
                 :color="color"
                 class="cursor-pointer"
                 @click.native="__remove(file)"
-              ></q-item-tile>
-            </q-item-side>
+              ></q-item-section>
+            </q-item-section>
           </q-item>
         </q-list>
       </div>
@@ -134,7 +134,7 @@
 </template>
 <script>
 import {humanStorageSize} from 'quasar-framework/src/utils/format'
-import {QUploader,QInputFrame,QSlideTransition,QSpinner,QProgress,QItemTile} from 'quasar'
+import {QSlideTransition,QSpinner,QLinearProgress,QItemSection} from 'quasar'
 
 function initFile (file) {
   file.__doneUploading = false
@@ -143,7 +143,6 @@ function initFile (file) {
   file.__progress = 0
 }
 export default {
-  extends : QUploader,
   props   : {
     cvShareData: {
       type    : Array,
@@ -207,11 +206,10 @@ export default {
     }
   },
   components : {
-    QInputFrame,
     QSlideTransition,
     QSpinner,
-    QProgress,
-    QItemTile
+    QLinearProgress,
+    QItemSection
   },
   computed: {
     cSize () {

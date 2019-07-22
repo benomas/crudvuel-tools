@@ -43,24 +43,24 @@
     <!-- cv-grid-flexi-data-cells-->
     <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
       <q-item>
-        <q-item-side>
-          <q-item-tile label>{{ fLang('id') }}</q-item-tile>
-        </q-item-side>
-        <q-item-main>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.id}}</q-item-tile>
-        </q-item-main>
+        <q-item-section>
+          <q-item-section label>{{ fLang('id') }}</q-item-section>
+        </q-item-section>
+        <q-item-label>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.id}}</q-item-section>
+        </q-item-label>
       </q-item>
       <q-item>
-        <q-item-main>
-          <q-item-tile label>{{ fLang('user_full_name') }}</q-item-tile>
-          <q-item-tile sublabel class="limit-label">{{props.slotRow.user_full_name}}</q-item-tile>
-        </q-item-main>
+        <q-item-label>
+          <q-item-section label>{{ fLang('user_full_name') }}</q-item-section>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.user_full_name}}</q-item-section>
+        </q-item-label>
       </q-item>
       <q-item>
-        <q-item-main>
-          <q-item-tile label>{{ fLang('email') }}</q-item-tile>
-          <q-item-tile sublabel class="limit-label h-40px">{{props.slotRow.email}}</q-item-tile>
-        </q-item-main>
+        <q-item-label>
+          <q-item-section label>{{ fLang('email') }}</q-item-section>
+          <q-item-section sublabel class="limit-label h-40px">{{props.slotRow.email}}</q-item-section>
+        </q-item-label>
       </q-item>
     </template>
     <!-- cv-grid-flexi-extra-actions-->

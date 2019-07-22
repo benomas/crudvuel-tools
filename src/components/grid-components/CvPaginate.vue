@@ -153,9 +153,12 @@ export default {
       this.info["limit"] = this.cvLimit;
       this.eventPage();
     },
-    changeLimitPerPage:function(limit){
-      let validcvCurrentPage = Math.ceil(this.cvTotalQueryElements/limit);
-      this.info["limit"] = limit;
+    changeLimitPerPage:function(limit = null){
+      if (!limit || limit.value == null || limit.value < 1)
+        return
+
+      let validcvCurrentPage = Math.ceil(this.cvTotalQueryElements/limit.value);
+      this.info["limit"] = limit.value;
       this.info.page     = this.currentPage>validcvCurrentPage?validcvCurrentPage:this.currentPage;
       this.pageNavNeutral()
       this.eventPage();

@@ -4,20 +4,20 @@
       name="orderable-icon"
       v-if="cData.cvParametrizer.getOrderBy()!=cKey"
     >
-      <q-icon name="swap_vert" color="secondary"/>
+      <q-icon name="fas fa-arrows-alt-v" color="secondary"/>
     </slot>
     <template v-if="1">
       <slot
         name="ascending-icon"
         v-if="cData.cvParametrizer.getOrderBy()===cKey && cData.cvParametrizer.getAscending()"
       >
-        <q-icon name="arrow_downward"  color="primary"/>
+        <q-icon name="fas fa-sort-amount-down-alt"  color="primary"/>
       </slot>
       <slot
         name="descending-icon"
         v-if="cData.cvParametrizer.getOrderBy()===cKey && !cData.cvParametrizer.getAscending()"
       >
-        <q-icon name="arrow_upward"  color="positive"/>
+        <q-icon name="fas fa-sort-amount-up"  color="positive"/>
       </slot>
     </template>
   </span>

@@ -7,17 +7,13 @@ import {
   Dialog,
   QBtn,
   QCard,
-  QCardActions,
-  QCardTitle,
   QIcon,
   QItem,
-  QItemMain,
-  QItemSeparator,
-  QItemSide,
-  QItemTile,
+  QItemLabel,
+  QSeparator,
+  QItemSection,
   QList,
-  QTooltip,
-  QCardMedia
+  QTooltip
 } from 'quasar'
 export default {
   extends    : CvCustomExtender,
@@ -28,17 +24,13 @@ export default {
     Dialog,
     QBtn,
     QCard,
-    QCardActions,
-    QCardTitle,
     QIcon,
     QItem,
-    QItemMain,
-    QItemSeparator,
-    QItemSide,
-    QItemTile,
+    QItemLabel,
+    QSeparator,
+    QItemSection,
     QList,
-    QTooltip,
-    QCardMedia
+    QTooltip
   },
   computed: {
     cvGridComponentSwitch: function () {

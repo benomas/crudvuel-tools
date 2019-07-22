@@ -28,7 +28,7 @@
             {{$tc('crudvuel.resources.permissions.rowsLabel')}}:
           </label>
           <br>
-          <div v-if="cPermissions && cRelatedPermissions && cPermissionsLoaded">
+          <div v-if="cPermissions && cRelatedPermissions && cPermissionsLoaded" class="row w-100">
             <cv-relationator
               :cv-source="cPermissions"
               :cv-related="cRelatedPermissions"
@@ -36,6 +36,7 @@
               :cv-related-identifier="'permissions'"
               :cv-disable-fields="cDisableFields"
               @related-changed="checkRelatedPermissions"
+              class="row w-100"
             >
             </cv-relationator>
           </div>
@@ -48,7 +49,7 @@
             {{$tc('crudvuel.resources.roles.dominedRoles')}}:
           </label>
           <br>
-          <div v-if="cRoles && cRelatedRoles && cRolesLoaded">
+          <div v-if="cRoles && cRelatedRoles && cRolesLoaded" class="row w-100">
             <cv-relationator
               :cv-source="cRoles"
               :cv-related="cRelatedRoles"
@@ -56,6 +57,7 @@
               :cv-related-identifier="'roles'"
               :cv-disable-fields="cDisableFields"
               @related-changed="checkRelatedRoles"
+              class="row w-100"
             >
             </cv-relationator>
           </div>

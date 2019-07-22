@@ -39,7 +39,7 @@
       <div class="col-xs-12 q-pa-md">
         <q-field v-bind="defErrorInputProps('roles')">
           <label for="message-text" class="control-label">Roles:</label>
-          <div v-if="cRoles && cRelatedRoles && cRolesLoaded">
+          <div v-if="cRoles && cRelatedRoles && cRolesLoaded" class="row w-100">
             <cv-relationator
               :cv-source="cRoles"
               :cv-related="cRelatedRoles"
@@ -47,6 +47,7 @@
               :cv-related-identifier="'roles'"
               @related-changed="checkRelated"
               :cv-disable-fields="cDisableRelationator || cDisableFields"
+              class="w-100"
             >
             </cv-relationator>
           </div>

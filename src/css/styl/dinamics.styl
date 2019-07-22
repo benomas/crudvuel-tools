@@ -116,10 +116,6 @@ if $alings-module  == 'enabled'
       text-align: right !important
     &-left
       text-align: left !important
-    &-top
-      text-align: top !important
-    &-bottom
-      text-align: bottom !important
   .f
     &-left
       float: left !important
@@ -181,11 +177,11 @@ if $color-module  == 'enabled'
       if $color-txt-module  == 'enabled'
         .txt-
           &{$color-prefix}
-            color:coloring($color-variation)
+            color:coloring($color-variation) !important
       if $color-bg-module  == 'enabled'
         .bg-
           &{$color-prefix}
-            background-color:coloring($color-variation)
+            background-color:coloring($color-variation) !important
       if $color-box-module  == 'enabled'
         .colored-box-
           &{$color-prefix}

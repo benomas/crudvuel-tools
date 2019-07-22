@@ -42,8 +42,7 @@ import {
   QBtn,
   QIcon,
   QPageSticky,
-  QTooltip,
-  CloseOverlay
+  QTooltip
 } from 'quasar'
 export default {
   components: {
@@ -51,9 +50,6 @@ export default {
     QIcon,
     QPageSticky,
     QTooltip
-  },
-  directives: {
-    CloseOverlay
   },
   props: [
     'cvReady',
@@ -95,13 +91,13 @@ export default {
       return this.$refs.nextLabelRef || null
     },
     cIconBack: function () {
-      return this.cvIconBack || 'reply'
+      return this.cvIconBack || 'fas fa-backspace'
     },
     cColorBack: function () {
       return this.cvColorBack || 'negative'
     },
     cIconNext: function () {
-      return this.cvIconNext || 'edit'
+      return this.cvIconNext || 'fas fa-check'
     },
     cColorNext: function () {
       return this.cvColorNext || 'positive'

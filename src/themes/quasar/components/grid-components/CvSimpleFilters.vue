@@ -1,10 +1,11 @@
 <template>
   <div class="filters-container w-100">
     <q-field
-      :icon="cSearchIcon"
       :helper="cHelper"
-      :icon-color="cSearchIconColor"
     >
+      <template v-slot:prepend>
+        <q-icon :name="cSearchIcon" :color="cSearchIconColor" />
+      </template>
       <q-input
         ref="searchInputRef"
         suffix=""
@@ -21,6 +22,8 @@
         @keyup="mSearchKeyUp"
         @focus="mSearchFocused"
         @blur="mSearchBlured"
+        clear-icon='fas fa-times-circle'
+        class="w-100"
       />
     </q-field>
   </div>

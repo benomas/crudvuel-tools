@@ -104,7 +104,7 @@
 <script>
 import CvBaseCrud       from 'src/crudvuel/customs/themes/quasar/components/resource/CvBaseCrud'
 import CvMatcherizer    from 'src/crudvuel/customs/themes/quasar/components/matcherizer-components/CvMatcherizer'
-import QUploader        from 'src/crudvuel/customs/themes/quasar/components/others/QUploader'
+//import QUploader        from 'src/crudvuel/customs/themes/quasar/components/others/QUploader'
 import {QTooltip}       from 'quasar'
 import CvMultiFileMenu  from 'src/crudvuel/customs/themes/quasar/components/others/CvMultiFileMenu'
 import CvSingleFileMenu from 'src/crudvuel/customs/themes/quasar/components/others/CvSingleFileMenu'
@@ -117,7 +117,7 @@ export default {
   },
   components: {
     CvMatcherizer,
-    QUploader,
+    //QUploader,
     QTooltip,
     CvMultiFileMenu,
     CvSingleFileMenu

@@ -35,7 +35,7 @@
                 <li
                     class="list-group-item"
                     v-for="(row, rowKey) in cListOfItems"
-                    v-on:click="add(rowKey,row)"
+                    @click="add(rowKey,row)"
                     :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue,'current-cursor-item':currentItem===rowKey}"
                     :key="mValueCallBack(cListOfItems,row) + '|' + rowKey"
                     v-html="showPatter(mLabelCallBack(cListOfItems,row),mValueCallBack(cListOfItems,row)===cCurrentValue)"
