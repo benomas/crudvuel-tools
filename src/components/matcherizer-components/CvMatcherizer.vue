@@ -328,9 +328,11 @@ export default {
     },
     listOut:function(){
       return new Promise ((resolve, reject) => {
-        this.$set(this,'listOver',false)
-        this.$emit('cv-list-out', this.cSearchObject)
-        resolve()
+        setTimeout(()=>{
+          this.$emit('cv-list-out', this.cSearchObject)
+          this.$set(this,'listOver',false)
+          resolve()
+        }, 200)
       })
     },
     fixListWidth:function(){

@@ -11,7 +11,7 @@
           {{ fLang('user_full_name') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="user_full_name"></cv-order-icons>
         </th>
-        <th  cv-key="email" class="gt-lg cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
+        <th  cv-key="email" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
           {{ fLang('email') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="email"></cv-order-icons>
         </th>
@@ -33,7 +33,7 @@
       <td>
         {{props.slotRow.user_full_name}}
       </td>
-      <td class="gt-lg">
+      <td class="gt-md">
         {{props.slotRow.email}}
       </td>
     </template>

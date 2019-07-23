@@ -12,7 +12,7 @@
         <q-tooltip  :disable="!cShowBackLabel && !cXs && !cSm" cPosition>
           {{cBackLabel}}
         </q-tooltip>
-        <span v-if="!cXs && cShowBackLabel" class="q-pl-xs q-pr-xs">
+        <span v-if="!cXs && cShowBackLabel" class="q-px-md">
           {{cBackLabel}}
         </span>
       </q-btn>
@@ -30,7 +30,7 @@
         <q-tooltip  :disable="!cShowNextLabel && !cXs && !cSm" cPosition>
           {{cNextLabel}}
         </q-tooltip>
-        <span v-if="!cXs && cShowNextLabel" class="q-pl-xs q-pr-xs">
+        <span v-if="!cXs && cShowNextLabel" class="q-px-md">
             {{cNextLabel}}
         </span>
       </q-btn>

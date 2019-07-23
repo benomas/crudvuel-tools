@@ -17,7 +17,7 @@
         :clearable="!cDisableFields"
         :loading="cFilterLoading"
         :hide-underline="cDisableFields"
-        @clear="mSearchCleared"
+        @input="mInput"
         @keyup.13="mSearchGoToFind()"
         @keyup="mSearchKeyUp"
         @focus="mSearchFocused"
@@ -43,6 +43,10 @@ export default {
     clear: function () {
       if (this.cInputRef != null)
         this.cInputRef.clear()
+    },
+    mInput: function() {
+      if (this.search === null || this.search === '')
+        this.mSearchCleared()
     }
   },
   props: [
