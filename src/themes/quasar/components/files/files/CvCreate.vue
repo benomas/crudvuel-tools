@@ -125,12 +125,6 @@ export default {
     CvMultiFileMenu,
     CvSingleFileMenu
   },
-  computed: {
-  },
-  mounted: function () {
-  },
-  methods: {
-  }
 }
 </script>
 <style lang="scss" scoped>

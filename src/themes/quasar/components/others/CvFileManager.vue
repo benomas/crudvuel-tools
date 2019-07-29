@@ -43,6 +43,9 @@ export default {
     },
     cCurrentResource: function () {
       return this.row.cat_file_resource != null ? this.row.cat_file_resource : null
+    },
+    cCatFiles: function () {
+      return this.catFiles
     }
   },
   methods: {
@@ -62,18 +65,23 @@ export default {
         this.successRedirect()
     },
     uploadFileCompleted: function (info) {
-      let {file,xhr} = info
-      this.row   = xhr.response.data
-      if (this.cShowSetMessages)
-        this.collectSuccessMessages(this.action.getSetSuccessMessage() + this.cIdentText)
+      return new Promise ((resolve,reject) => {
+        let {file,xhr} = info
+        this.row   = xhr.response.data
+        this.ready = true
+        if (this.cShowSetMessages)
+          this.collectSuccessMessages(this.action.getSetSuccessMessage() + this.cIdentText)
+        resolve(xhr)
+      })
     },
     uploadFileFail: function (info) {
       let {file,xhr} = info
+      console.log(info)
       if (this.cvComunicator.proccessErrorStatus(xhr))
         return false
       this.ready  = true
       this.errorCount++
-      if (typeof xhr !== 'undefined' && typeof xhr.response !== 'undefined') {
+      if (xhr !== undefined && xhr.response != null && xhr.response !== '') {
         let parsed = JSON.parse(xhr.response)
         if (typeof parsed.errors !== 'undefined') {
           if (!this.cMultiple)
@@ -134,13 +142,37 @@ export default {
         this.resources.catFiles.crudServices.sluged().then( response => {
           let catFiles = response.data.data || response.data || null
           this.$set(this,'catFiles',catFiles)
-          console.log(this.catFiles)
           resolve(response)
         }).catch( response => {
           this.$set(this,'catFiles',null)
           reject(response)
         })
       })
+    },
+    mFieldFormater: function (catFileOrSlug) {
+      let catFile
+      if (typeof catFileOrSlug === 'object')
+        catFile = catFileOrSlug
+      else
+        catFile = this.cCatFiles[catFileOrSlug] || null
+      return this.row ? [
+        {
+          name  : 'resource_id',
+          value : this.row.id
+        },
+        {
+          name  : 'resource',
+          value : this.resource.name
+        },
+        {
+          name  : 'cat_file_id',
+          value : catFile.id || null
+        },
+        {
+          name  : 'active',
+          value : 1
+        }
+      ] : []
     }
   }
 }
