@@ -64,6 +64,7 @@ export default function(router,globals){
   }
 
   this.proccessErrorStatus = (response) => {
+    console.log(response)
     switch(response.status){
       case 401:
         this['error' + response.status]()

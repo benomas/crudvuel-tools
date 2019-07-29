@@ -6,7 +6,7 @@
         <span class="txt-secondary f-weight-400 q-mr-xs">{{relatedLabel}}:</span>
         <q-chip
           v-if="!cDisableFields"
-          color="positive">
+          color="positive" class="txt-white">
           {{cFilteredRelated.length}} / {{cLocalRelated.length}}
         </q-chip>
         <cv-simple-filters
@@ -36,7 +36,9 @@
         <span class="txt-secondary f-weight-400 q-mr-xs">{{sourceLabel}}:</span>
         <q-chip
           v-if="!cDisableFields"
-          color="positive">
+          color="positive"
+          class="txt-white"
+          >
           {{cFilteredSource.length}} / {{cLocalSource.length}}
         </q-chip>
         <cv-simple-filters
