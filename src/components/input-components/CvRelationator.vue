@@ -187,6 +187,8 @@ export default {
       );
     },
     sourceSimpleFilterFind: function (search) {
+      if (search == null)
+        search = ''
       this.$set(this,'sourceSearch',search)
       this.sourceReFilter()
     },
@@ -194,6 +196,8 @@ export default {
       this.$set(this,'filterSource',this.processList(this.cLocalSource,this.sourceSearch))
     },
     relatedSimpleFilterFind: function (search) {
+      if (search == null)
+        search = ''
       this.$set(this,'relatedSearch',search)
       this.relatedReFilter()
     },

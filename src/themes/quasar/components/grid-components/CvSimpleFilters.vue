@@ -12,7 +12,7 @@
         v-model="search"
         autocomplete="off"
         :class="{'active-filter':cSearchActiveFilter}"
-        :float-label="cSearchLabel"
+        :label="cSearchLabel"
         :readonly="cDisableFields"
         :clearable="!cDisableFields"
         :loading="cFilterLoading"

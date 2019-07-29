@@ -17,12 +17,16 @@
 <script>
 import {
   QBtn,
-  QTooltip
+  QTooltip,
+  ClosePopup
 } from 'quasar'
 export default {
   components: {
     QBtn,
     QTooltip
+  },
+  directives: {
+    ClosePopup
   },
   props: [
     'cvDisabled',

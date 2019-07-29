@@ -61,7 +61,6 @@ export default {
       this.mSearchStart(key)
     },
     mSearchCleared:function (params) {
-      console.log('asd')
       this.$emit('cv-search-cleared')
       if (!this.cSearchInputContainer)
         return null
