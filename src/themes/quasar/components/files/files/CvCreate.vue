@@ -60,7 +60,7 @@
           <q-uploader
             class="w-100"
             no-thumbnails
-            :url="cAbsBaseUrl + (cAction.name==='edit'? '/' + row.id : '')"
+            :url="cFileUrl + (cAction.name==='edit'? '/' + row.id : '')"
             method="POST"
             :headers="cQFieldFileHeaders"
             :multiple="cAction.name==='edit'?false:cMultiple"

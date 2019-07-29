@@ -2,7 +2,8 @@
 export default {
   data    : function () {
     return {
-      errorCount: 0
+      errorCount : 0,
+      catFiles   : []
     }
   },
   computed: {
@@ -127,6 +128,19 @@ export default {
         row.search_field = row.search_field
       }
       return row
+    },
+    loadCatFiles: function () {
+      return new Promise((resolve, reject) => {
+        this.resources.catFiles.crudServices.sluged().then( response => {
+          let catFiles = response.data.data || response.data || null
+          this.$set(this,'catFiles',catFiles)
+          console.log(this.catFiles)
+          resolve(response)
+        }).catch( response => {
+          this.$set(this,'catFiles',null)
+          reject(response)
+        })
+      })
     }
   }
 }
