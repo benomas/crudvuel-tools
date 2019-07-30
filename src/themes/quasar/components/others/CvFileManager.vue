@@ -57,7 +57,6 @@ export default {
     },
     uploadFileStart: function () {
       this.errorCount = 0
-      this.ready      = false
       this.errors     = {}
     },
     uploadFilesFinish: function () {
