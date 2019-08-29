@@ -46,12 +46,12 @@
           <cv-toggle v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
         </q-field>
       </div>
-      <div class="col-xs-12 q-pa-md">
+      <div class="col-xs-12 col-sm-4 col-lg-2 q-pa-md">
         <q-field v-bind="defErrorInputProps('resource')">
           <q-input v-bind="defInputProps('resource')" v-model.trim="row.resource"/>
         </q-field>
       </div>
-      <div class="col-xs-12 q-pa-md">
+      <div class="col-xs-12 col-sm-8 col-md-8 col-lg-10 q-pa-md">
         <q-field v-bind="defErrorInputProps('description')">
           <q-input v-bind="defInputProps('description')" v-model="row.description" type="textarea" :max-height="100" :min-rows="7"/>
         </q-field>

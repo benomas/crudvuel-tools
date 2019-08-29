@@ -3,11 +3,11 @@
     <!-- cv-grid-customization-->
     <template v-if="1" slot="headers-slot" slot-scope="props">
         <!-- cv-grid-customization-->
-        <th  cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" >
+        <th  cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-10" >
           {{ fLang('id') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
         </th>
-        <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
+        <th cv-key="name" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-22" >
           {{ fLang('name') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="name"></cv-order-icons>
         </th>
@@ -19,7 +19,7 @@
           {{ fLang('description') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="description"></cv-order-icons>
         </th>
-        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
+        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-10" >
           {{ fLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>
@@ -32,7 +32,7 @@
       <td >
         {{props.slotRow.id}}
       </td>
-      <td >
+      <td class="gt-md">
         {{props.slotRow.name}}
       </td>
       <td >

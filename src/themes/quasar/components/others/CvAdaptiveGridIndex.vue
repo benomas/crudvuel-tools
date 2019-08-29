@@ -8,7 +8,7 @@
           </span>
         </label>
       </div>
-      <div class="col-xs-2 col-sm-3 col-md-4 lt-md">
+      <div class="col-xs-2 col-sm-3 col-md-4 lt-lg">
         <slot :offset="[18, 30]" name="flexi-extra-actions-header-slot">
           <div class="f-right">
             <q-btn
@@ -43,7 +43,7 @@
         :cv-search-icon="cLtmd?'fas fa-search':''"
         :cv-search-label="cGtsm?$tc('crudvuel.labels.crudvuelGrid.searchLabel'):''">
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
-          <cv-ths cv-tag="thead" class="gt-sm" v-show="!cDisableGrid">
+          <cv-ths cv-tag="thead" class="gt-md" v-show="!cDisableGrid">
             <tr slot="cv-ths-slot" cv-role="cv-header-config">
               <slot name="headers-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
               </slot>

@@ -4,10 +4,9 @@
       v-model="currentFilter"
       @input="selected"
       toggle-color="primary"
-      stretch
       :options="[
-        {label: cGtsm?'Busqueda simple':'', value: 'simple-filters', icon:'fas fa-search'},
-        {label: cGtsm?'Busqueda combinada':'', value: 'combinatory-filters', icon:'fas fa-search-plus'},
+        {label: 'Busqueda simple', value: 'simple-filters'},
+        {label: 'Busqueda combinada', value: 'combinatory-filters'},
       ]"
     />
   </div>

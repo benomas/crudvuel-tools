@@ -1,7 +1,7 @@
 <template>
   <cv-action-container v-if="resource && action" v-bind="defActionProps()">
     <div slot="cv-content-slot" class="row w-100">
-      <div class="col-xs-12 col-md-5 q-pa-md m-auto">
+      <div class="col-xs-12 q-pa-md m-auto">
         <div class="row">
           <div class="col-xs-12">
             <q-field v-bind="defErrorInputProps('cat_file_id')">
@@ -25,9 +25,9 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-md-5 q-pa-md m-auto">
+      <div class="col-xs-12 q-pa-md m-auto">
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-lg-12">
             <q-field v-bind="defErrorInputProps('resource_id')">
             <cv-matcherizer
               :cv-parent-ref="cSelfRef"
@@ -49,30 +49,28 @@
           </div>
         </div>
       </div>
-      <div class="col-xs-12 col-md-2 q-pa-md m-auto">
-        <q-field v-bind="defErrorInputProps('active')"  >
+      <div class="col-xs-12 col-sm-3 q-pa-md m-auto">
+        <q-field v-bind="defErrorInputProps('active')">
           <cv-toggle
-            ref="row.active" v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
+              ref="row.active" v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
         </q-field>
       </div>
-      <div class="col-xs-9 col-sm-10 col-md-11 q-pa-md">
+      <div class="col-xs-9 col-sm-7 col-md-8 q-pa-md">
         <q-field v-bind="defErrorInputProps(cFileName)">
           <q-uploader
-            class="w-100"
-            no-thumbnails
-            :url="cFileUrl + (cAction.name==='edit'? '/' + row.id : '')"
+            :url="cAbsBaseUrl + (cAction.name==='edit'? '/' + row.id : '')"
             method="POST"
-            :headers="cQFieldFileHeaders"
+            :headers="cFileHeaders"
             :multiple="cAction.name==='edit'?false:cMultiple"
             :hide-upload-button="true"
             :auto-expand="true"
-            :form-fields="cFieldFormater"
+            :additional-fields="cFieldFormater"
             ref="uploader"
-            :field-name="cFileName"
+            :name="cFileName"
             :disable="cDisableFields"
             :readonly="cDisableFields"
             :clearable="cDisableFields"
-            @failed="uploadFileFail"
+            @fail="uploadFileFail"
             @upload="uploadFileCompleted"
             @finish="uploadFilesFinish"
             @start="uploadFileStart"
@@ -94,9 +92,9 @@
           </q-tooltip>
         </q-btn>
       </div>
-      <div class="col-xs-12 h-50px">
+      <div class="col-lg-12 h-50px">
       </div>
-      <div class="col-xs-12">
+      <div class="col-lg-12">
         <cv-buttons :cv-ready="ready" :cv-action="action" @cv-back="cancelAction" @cv-next="upload" >
         </cv-buttons>
       </div>
@@ -106,13 +104,12 @@
 <script>
 import CvBaseCrud       from 'src/crudvuel/customs/themes/quasar/components/resource/CvBaseCrud'
 import CvMatcherizer    from 'src/crudvuel/customs/themes/quasar/components/matcherizer-components/CvMatcherizer'
-import QUploader        from 'src/crudvuel/customs/themes/quasar/components/others/QUploader'
-import CvFileManager    from 'src/crudvuel/customs/themes/quasar/components/others/CvFileManager'
+//import QUploader        from 'src/crudvuel/customs/themes/quasar/components/others/QUploader'
 import {QTooltip}       from 'quasar'
 import CvMultiFileMenu  from 'src/crudvuel/customs/themes/quasar/components/others/CvMultiFileMenu'
 import CvSingleFileMenu from 'src/crudvuel/customs/themes/quasar/components/others/CvSingleFileMenu'
 export default {
-  mixins: [CvBaseCrud,CvFileManager],
+  extends : CvBaseCrud,
   data    : function () {
     return {
       errorCount: 0
@@ -120,11 +117,135 @@ export default {
   },
   components: {
     CvMatcherizer,
-    QUploader,
+    //QUploader,
     QTooltip,
     CvMultiFileMenu,
     CvSingleFileMenu
   },
+  computed: {
+    cFieldFormater: function () {
+      return this.row ? [
+        {
+          name  : 'resource_id',
+          value : this.row.resource_id
+        },
+        {
+          name  : 'resource',
+          value : this.row.cat_file_resource
+        },
+        {
+          name  : 'cat_file_id',
+          value : this.row.cat_file_id
+        },
+        {
+          name  : 'active',
+          value : this.row.active
+        }
+      ] : []
+    },
+    cUploadReference: function () {
+      return this.$refs.uploader
+    },
+    cFileName: function () {
+      return this.cCurrentResource
+    },
+    cMultiple: function () {
+      if (typeof this.row.cat_file_multiple !== 'undefined' && this.row.cat_file_multiple)
+        return true
+      return false
+    },
+    cCurrentCvResource: function () {
+      return this.row.cat_file_camel_resource != null ? this.row.cat_file_camel_resource : false
+    },
+    cCurrentResource: function () {
+      return this.row.cat_file_resource != null ? this.row.cat_file_resource : null
+    }
+  },
+  mounted: function () {
+  },
+  methods: {
+    init: function () {
+      this.$set(this.row,'cat_file_camel_resource',null)
+    },
+    openFile: function () {
+      window.open(this.row.absolute_path)
+    },
+    uploadFileStart: function () {
+      this.errorCount = 0
+      this.ready      = false
+      this.errors     = {}
+    },
+    uploadFilesFinish: function () {
+      if (!this.errorCount)
+        this.successRedirect()
+    },
+    uploadFileCompleted: function (file, xhr) {
+      this.row   = xhr.response.data
+      if (this.cShowSetMessages)
+        this.collectSuccessMessages(this.action.getSetSuccessMessage() + this.cIdentText)
+    },
+    uploadFileFail: function (file, xhr) {
+      if (this.cvComunicator.proccessErrorStatus(xhr))
+        return false
+      this.ready  = true
+      this.errorCount++
+      if (typeof xhr !== 'undefined' && typeof xhr.response !== 'undefined') {
+        let parsed = JSON.parse(xhr.response)
+        if (typeof parsed.errors !== 'undefined') {
+          if (!this.cMultiple)
+            this.errors = parsed.errors
+          else {
+            if (typeof parsed.errors['resource_id'] !== 'undefined')
+              this.errors['resource_id'] = parsed.errors['resource_id']
+            if (typeof parsed.errors['cat_file_id'] !== 'undefined')
+              this.errors['cat_file_id'] = parsed.errors['cat_file_id']
+            if (typeof parsed.errors['active'] !== 'undefined')
+              this.errors['active'] = parsed.errors['active']
+            if (this.row.cat_file_id) {
+              if (typeof parsed.errors['request_file_' + this.row.cat_file_id] !== 'undefined') {
+                if (typeof this.errors['request_file_' + this.row.cat_file_id] === 'undefined')
+                  this.errors['request_file_' + this.row.cat_file_id] = parsed.errors['request_file_' + this.row.cat_file_id]
+                /* fix error concat
+                else {
+                  let oldError = this.errors['request_file_' + this.row.cat_file_id][0]
+                  for (let i = 0; i < parsed.errors['request_file_' + this.row.cat_file_id].length; i++)
+                    oldError = oldError + ', ' + parsed.errors['request_file_' + this.row.cat_file_id][i]
+                  //this.$set(this.errors['request_file_' + this.row.cat_file_id],0,'asdasdasd')
+                  this.errors['request_file_' + this.row.cat_file_id].push()
+                  //this.errors['request_file_' + this.row.cat_file_id][0] = 'asdasdasd'
+                }
+                */
+              }
+            }
+          }
+        }
+      }
+
+      if (this.cShowSetMessages)
+        this.collectErrorMessages(this.action.getSetErrorMessage() + this.cIdentText)
+      this.errorRedirect()
+    },
+    validator: function () {
+      return true
+    },
+    upload: function () {
+      this.cUploadReference.upload()
+    },
+    reset: function () {
+      this.cUploadReference.reset()
+    },
+    transformResponse: function (response) {
+      let row = response.data.data || response.data
+      if (row != null) {
+        if (row.cat_file != null) {
+          row.cat_file_camel_resource = row.cat_file.camel_resource
+          row.cat_file_resource       = row.cat_file.resource
+        }
+        row.search_field = row.search_field
+      }
+      return row
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>

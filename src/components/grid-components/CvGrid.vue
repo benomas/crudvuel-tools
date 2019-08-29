@@ -17,7 +17,6 @@
           class="q-pb-md"
           v-bind="mDefMatcherizerProps()"
           :cv-search-label="'Busqueda simple'"
-          cv-search-icon="fas fa-search"
           @cv-event-filter-go-to-find="prepareToFind"
         >
         </cv-simple-filters>
@@ -29,7 +28,6 @@
           class="q-pb-md"
           v-bind="mDefMatcherizerProps()"
           :cv-search-label="'Busqueda por combinaciones'"
-          cv-search-icon="fas fa-search-plus"
           @cv-filter-go-to-find="prepareToFind"
         >
         </cv-combinatory-filters>
@@ -308,8 +306,6 @@ export default {
       this.refresh()
     },
     prepareToFind(searchObject = null, searchMode = 'cv-simple-paginator') {
-      if(searchObject == null)
-        searchObject = ''
       if(this.cvParametrizer.getSearchObject() === searchObject && this.cvParametrizer.getSearchMode() === searchMode)
         return false
       this.cvParametrizer.setSearchObject(searchObject)

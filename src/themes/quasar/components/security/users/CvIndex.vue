@@ -3,19 +3,19 @@
     <!-- cv-grid-customization-->
     <template v-if="1" slot="headers-slot" slot-scope="props">
         <!-- cv-grid-customization-->
-       <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" >
+       <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-15" >
           {{ fLang('id') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
         </th>
-        <th cv-key="user_full_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-35" >
+        <th cv-key="user_full_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
           {{ fLang('user_full_name') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="user_full_name"></cv-order-icons>
         </th>
-        <th  cv-key="email" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-30" >
+        <th  cv-key="email" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
           {{ fLang('email') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="email"></cv-order-icons>
         </th>
-        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
+        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-15" >
           {{ fLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>
