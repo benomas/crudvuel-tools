@@ -41,6 +41,15 @@
       }
     },
     methods:{
+      setCvAction: function (action = null) {
+        if (!action)
+          return
+        this.$set(this,'action',action)
+        this.setCvResource(action.resource)
+      },
+      setCvResource: function (resource) {
+        this.$set(this,'resource',resource)
+      }
     },
     computed:{
       cAction:function(){
@@ -80,8 +89,7 @@
       "cvShowHeader"
     ],
     created:function(){
-      this.resource    = this.cResource
-      this.action      = this.cAction
+      this.setCvAction(this.cAction)
     },
     mounted: function () {
       this.isMounted = true
