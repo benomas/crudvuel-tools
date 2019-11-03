@@ -47,7 +47,7 @@
             <tr slot="cv-ths-slot" cv-role="cv-header-config">
               <slot name="headers-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
               </slot>
-              <th  class="t-center t-middle">
+              <th  class="t-center t-middle" v-if="cShowActions">
                 {{ $tc('crudvuel.actions') }}
                 <q-btn
                   v-if="hasPermission('create')"
@@ -102,7 +102,7 @@
                   />
                 </div>
               </td>
-              <td class="t-center t-middle">
+              <td class="t-center t-middle" v-if="cShowActions">
                 <q-btn
                   v-if="hasPermission('show')"
                   icon="visibility"
@@ -154,10 +154,10 @@
                 <q-card dense :class="cCardClass">
                   <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                   </slot>
-                  <q-card-title :class="cActionCardTitleClass">
+                  <q-card-title :class="cActionCardTitleClass" v-if="cShowActions">
                     {{ $tc('crudvuel.actions') }}
                   </q-card-title>
-                  <q-card-actions :class="cActionCardClass" >
+                  <q-card-actions :class="cActionCardClass" v-if="cShowActions">
                     <q-btn
                       v-if="hasPermission('show')"
                       icon="visibility"
@@ -253,7 +253,8 @@ export default {
     'cvCardClass',
     'cvActionCardClass',
     'cvCardContainerClass',
-    'cvActionCardTitleClass'
+    'cvActionCardTitleClass',
+    'cvShowActions'
   ],
   computed:{
     cForceCards: function () {
@@ -279,6 +280,11 @@ export default {
     },
     cActionCardTitleClass: function () {
       return this.cvActionCardTitleClass || {'':true}
+    },
+    cShowActions: function () {
+      if (this.cvShowActions === null)
+        return true
+      return this.cvShowActions
     }
   },
   methods: {
