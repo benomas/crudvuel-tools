@@ -49,6 +49,9 @@
       },
       setCvResource: function (resource) {
         this.$set(this,'resource',resource)
+      },
+      emitErrorMutation:function(response){
+        this.$emit('error-mutation', response)
       }
     },
     computed:{

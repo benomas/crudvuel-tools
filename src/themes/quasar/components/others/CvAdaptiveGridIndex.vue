@@ -37,11 +37,20 @@
         @initial-mutation="ready=false;"
         :ref="gridRef"
         :cv-min-height="'300px'"
+        :cv-extra-paginate-params="cExtraPaginateParams"
+        :cv-show-actions="cShowActions"
+        @error-mutation="((response)=>{
+          emitErrorMutation(response)
+        })"
         @page-nave-up="pageAnimation='animated slideInUp'"
         @page-nave-down="pageAnimation='animated slideInDown'"
         @page-nave-neutral="pageAnimation='animated fadeIn'"
         :cv-simple-search-icon="cLtmd?'fas fa-search':''"
         :cv-simple-search-label="cGtsm?$tc('crudvuel.labels.crudvuelGrid.searchLabel'):''">
+        <div slot="cv-grid-start-extras">
+          <slot name="cv-flexy-grid-start-extras">
+          </slot>
+        </div>
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
           <cv-ths cv-tag="thead" class="gt-md" v-show="!cDisableGrid">
             <tr slot="cv-ths-slot" cv-role="cv-header-config">
@@ -200,6 +209,10 @@
             </div>
           </transition-group>
         </table>
+        <div slot="cv-grid-end-extras">
+          <slot name="cv-flexy-grid-end-extras">
+          </slot>
+        </div>
       </cv-grid>
     </div>
   </cv-action-container>
@@ -254,7 +267,8 @@ export default {
     'cvActionCardClass',
     'cvCardContainerClass',
     'cvActionCardTitleClass',
-    'cvShowActions'
+    'cvShowActions',
+    "cvExtraPaginateParams"
   ],
   computed:{
     cForceCards: function () {
@@ -282,9 +296,12 @@ export default {
       return this.cvActionCardTitleClass || {'':true}
     },
     cShowActions: function () {
-      if (this.cvShowActions === null)
+      if (this.cvShowActions == null)
         return true
       return this.cvShowActions
+    },
+    cExtraPaginateParams: function(){
+      return this.cvExtraPaginateParams
     }
   },
   methods: {
@@ -297,7 +314,7 @@ export default {
       let resorceAction = this.resorceAction('activate')
       resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
-        this.mainGridData.refresh()
+        this.mRefreshGrid()
         this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
@@ -313,7 +330,7 @@ export default {
       let resorceAction = this.resorceAction('deactivate')
       resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
-        this.mainGridData.refresh()
+        this.mRefreshGrid()
         this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
@@ -331,7 +348,7 @@ export default {
       }).then(() => {
         resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
           this.synchronized(gridRow)
-          this.mainGridData.refresh()
+          this.mRefreshGrid()
           this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
         }).catch(response => false)
       }).catch(() => {
@@ -356,6 +373,22 @@ export default {
         CvNotify.createWarning(this.cancelNotificationMessages)
         this.cancelNotificationMessages = null
       }
+    },
+    mSetExtraPaginateParams: function (extraParams = null){
+      this.extraParams = extraParams
+    },
+    mRefreshGrid: function () {
+      this.mainGridData.refresh()
+    },
+    emitErrorMutation:function(error = null){
+      if(
+        error.response != null &&
+        error.response.response != null &&
+        error.response.response.data != null &&
+        error.response.response.data.message != null
+      )
+        this.collectErrorMessages(error.response.response.data.message)
+      this.$emit('error-mutation', error)
     }
   },
   created: function () {

@@ -2,15 +2,16 @@ import cvSerialize   from './cvSerialize'
 const CvParametrizer = function(paginate){
   this.params = {
     paginate     :{
-          selectQuery  :[],
-          page         :1,
-          byColumn     :0,
-          limit        :10,
-          orderBy      :"id",
-          ascending    :1,
-          filterQuery  :{},
-          generalSearch:"",
-        }
+      selectQuery  :[],
+      page         :1,
+      byColumn     :0,
+      limit        :10,
+      orderBy      :"id",
+      ascending    :1,
+      filterQuery  :{},
+      generalSearch:"",
+      extraParams:null,
+    }
   }
 
   this.getParameter=function(parameter){
@@ -121,6 +122,10 @@ const CvParametrizer = function(paginate){
   this.setPaginate=function(paginate){
     if(typeof paginate !=="undefined")
     this.params.paginate = paginate
+  }
+  this.setExtraParams=function(extraParams = null){
+    if(extraParams)
+      this.params.paginate.extraParams = extraParams
   }
 
   this.serialize=cvSerialize

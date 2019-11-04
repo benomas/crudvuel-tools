@@ -8,6 +8,8 @@
       <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
+    <slot name="cv-grid-start-extras">
+    </slot>
     <transition name="component-fade" mode="out-in">
       <cv-simple-filters
         v-if="cSimpleFilters"
@@ -87,6 +89,8 @@
     <transition name="component-fade" mode="out-in">
       <hr v-if="cTotalPageElements && cBottomPaginate">
     </transition>
+    <slot name="cv-grid-end-extras">
+    </slot>
   </cv-tag>
 </template>
 <script>
@@ -145,7 +149,9 @@ export default {
     "cvMinHeight",
     "cvGridLang",
     "cvIcon",
-    "cvSearchLabel"
+    "cvSearchLabel",
+    'cvShowActions',
+    "cvExtraPaginateParams"
   ],
   computed:{
     cRows: function () {
@@ -216,6 +222,14 @@ export default {
     },
     cSearchLabel:function(){
       return this.cvSearchLabel
+    },
+    cExtraPaginateParams: function(){
+      return this.cvExtraPaginateParams
+    },
+    cShowActions: function () {
+      if (this.cvShowActions == null)
+        return true
+      return this.cvShowActions
     }
   },
   mounted:function(){
@@ -255,9 +269,9 @@ export default {
       this.ready=true
       this.$emit('success-mutation', this.$data)
     },
-    emitErrorMutation:function(response){
+    emitErrorMutation:function(error){
       this.ready=true
-      this.$emit('error-mutation', this.$data)
+      this.$emit('error-mutation', {data:this.$data,error})
     },
     emitInitialMutation:function(){
       this.$emit('initial-mutation', this.$data)
@@ -283,10 +297,14 @@ export default {
     },
     refresh:function(){
       this.ready=false
-      if (this.cvService)
+      if (this.cvService){
+        this.cvParametrizer.setExtraParams(this.cExtraPaginateParams);
         this.cvService(null,null,this.cvParametrizer.getSerialized())
-          .then(this.emitSuccessMutation)
-          .catch(this.emitErrorMutation)
+          .then(response=>this.emitSuccessMutation(response))
+          .catch(error=>{
+            this.emitErrorMutation(error.response)
+          })
+      }
       else
         this.emitSuccessMutation({response:{data:{data:this.rows}}})
     },
