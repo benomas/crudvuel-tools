@@ -1,13 +1,15 @@
 <template>
   <cv-action-container class="cv-adaptative-grid-index" v-if="resource && action" v-bind="defActionProps()">
     <div slot="cv-title-slot" class="row action-label">
-      <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
-        <label>
-          <span class="q-headline txt-secondary">
-            {{action.label}}
-          </span>
-        </label>
-      </div>
+      <slot name="cv-flexy-grid-title-slot">
+        <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
+          <label>
+            <span class="q-headline txt-secondary">
+              {{action.label}}
+            </span>
+          </label>
+        </div>
+      </slot>
       <div class="col-xs-2 col-sm-3 col-md-4 lt-lg">
         <slot :offset="[18, 30]" name="flexi-extra-actions-header-slot">
           <div class="f-right">
@@ -380,15 +382,16 @@ export default {
     mRefreshGrid: function () {
       this.mainGridData.refresh()
     },
-    emitErrorMutation:function(error = null){
+    emitErrorMutation:function(response = null){
       if(
-        error.response != null &&
-        error.response.response != null &&
-        error.response.response.data != null &&
-        error.response.response.data.message != null
+        response != null &&
+        response.error != null &&
+        response.error.response != null &&
+        response.error.response.data != null &&
+        response.error.response.data.message != null
       )
-        this.collectErrorMessages(error.response.response.data.message)
-      this.$emit('error-mutation', error)
+        this.collectErrorMessages(response.error.response.data.message)
+      this.$emit('response-mutation', response)
     }
   },
   created: function () {

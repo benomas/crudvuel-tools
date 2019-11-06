@@ -271,7 +271,7 @@ export default {
     },
     emitErrorMutation:function(error){
       this.ready=true
-      this.$emit('error-mutation', {data:this.$data,error})
+      this.$emit('error-mutation', {data:this.$data,error:error})
     },
     emitInitialMutation:function(){
       this.$emit('initial-mutation', this.$data)
@@ -302,7 +302,7 @@ export default {
         this.cvService(null,null,this.cvParametrizer.getSerialized())
           .then(response=>this.emitSuccessMutation(response))
           .catch(error=>{
-            this.emitErrorMutation(error.response)
+            this.emitErrorMutation(error)
           })
       }
       else
