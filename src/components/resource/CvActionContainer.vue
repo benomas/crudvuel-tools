@@ -64,6 +64,11 @@
       cExcludeActions:function(){
         return this.cvExcludeActions || []
       },
+      cShowActions:function(){
+        if (this.cvShowActions == null)
+          return true
+        return this.cvShowActions
+      },
       cGetted:function(){
         return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false
       },
@@ -84,12 +89,19 @@
         if (this.cAction)
           return this.cAction.nextLabel || null
         return 'Guardar'
+      },
+      cShowSearch: function () {
+        if (this.cvShowSearch === null)
+          return true
+        return this.cvShowSearch
       }
     },
     props:[
       "cvAction",
       "cvExcludeActions",
-      "cvShowHeader"
+      "cvShowActions",
+      "cvShowHeader",
+      'cvShowSearch'
     ],
     created:function(){
       this.setCvAction(this.cAction)

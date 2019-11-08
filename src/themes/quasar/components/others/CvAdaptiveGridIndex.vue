@@ -1,6 +1,6 @@
 <template>
   <cv-action-container class="cv-adaptative-grid-index" v-if="resource && action" v-bind="defActionProps()">
-    <div slot="cv-title-slot" class="row action-label">
+    <div slot="cv-title-slot" class="row action-label" v-if="cShowHeader">
       <slot name="cv-flexy-grid-title-slot">
         <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
           <label>
@@ -37,10 +37,12 @@
         :cv-limit-values="[8,10,20,30,50,100,200]"
         :cv-limit="8"
         @initial-mutation="ready=false;"
-        :ref="gridRef"
+        :ref="cGridRef"
         :cv-min-height="'300px'"
+        :cv-simple-filters="cShowSearch"
         :cv-extra-paginate-params="cExtraPaginateParams"
         :cv-show-actions="cShowActions"
+        :cv-order-by="cOrderBy"
         @error-mutation="((response)=>{
           emitErrorMutation(response)
         })"
@@ -56,7 +58,7 @@
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
           <cv-ths cv-tag="thead" class="gt-md" v-show="!cDisableGrid">
             <tr slot="cv-ths-slot" cv-role="cv-header-config">
-              <slot name="headers-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+              <slot name="headers-slot" :grid-data="cMainGridData" :slot-component-ref="cSelfRef">
               </slot>
               <th  class="t-center t-middle" v-if="cShowActions">
                 {{ $tc('crudvuel.actions') }}
@@ -69,19 +71,19 @@
                   small
                   :title="resorceAction('create').label"
                 ></q-btn>
-                <slot name="extra-actions-header-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+                <slot name="extra-actions-header-slot" :grid-data="cMainGridData" :slot-component-ref="cSelfRef">
                 </slot>
               </th>
             </tr>
           </cv-ths>
           <transition-group
-            v-if="mainGridData && !cDisableGrid"
+            v-if="cMainGridData && !cDisableGrid"
             v-show="cvForceGrid || cGtmd"
             tag="tbody"
             :enter-active-class="pageAnimation"
             :duration="{ enter: 500, leave: 0 }">
-            <tr v-for="(gridRow, position) in mainGridData.rows" :key="position + '|' +gridRow[rowKey]">
-              <slot name="table-properties-slot" :slot-row="gridRow" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+            <tr v-for="(gridRow, position) in cMainGridData.rows" :key="position + '|' +gridRow[rowKey]">
+              <slot name="table-properties-slot" :slot-row="gridRow" :grid-data="cMainGridData" :slot-component-ref="cSelfRef">
               </slot>
               <td  v-if="typeof gridRow.active!=='undefined' && cGtxs" class="t-center t-middle">
                 <div
@@ -148,22 +150,22 @@
                   :disabled="isSynchronizing(gridRow)"
                 >
                 </q-btn>
-                <slot name="table-extra-actions-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+                <slot name="table-extra-actions-slot" :slot-row="gridRow"  :grid-data="cMainGridData" :slot-component-ref="cSelfRef">
                 </slot>
               </td>
             </tr>
           </transition-group>
           <transition-group
-            v-if="mainGridData && !cvDisableCards"
+            v-if="cMainGridData && !cvDisableCards"
             v-show="cvForceCards || cLtlg"
             tag="div"
             class="row"
             :enter-active-class="pageAnimation"
             :duration="{ enter: 500, leave: 0 }">
-            <div :class="cCardContainerClass" v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
+            <div :class="cCardContainerClass" v-for="gridRow in cMainGridData.rows" :key="gridRow[rowKey]">
               <div class="row col-xs-12 q-pa-sm">
                 <q-card dense :class="cCardClass">
-                  <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+                  <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="cMainGridData" :slot-component-ref="cSelfRef">
                   </slot>
                   <q-card-title :class="cActionCardTitleClass" v-if="cShowActions">
                     {{ $tc('crudvuel.actions') }}
@@ -203,7 +205,7 @@
                       :disabled="isSynchronizing(gridRow)"
                     >
                     </q-btn>
-                    <slot name="flexi-extra-actions-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+                    <slot name="flexi-extra-actions-slot" :slot-row="gridRow"  :grid-data="cMainGridData" :slot-component-ref="cSelfRef">
                     </slot>
                   </q-card-actions>
                 </q-card>
@@ -270,7 +272,10 @@ export default {
     'cvCardContainerClass',
     'cvActionCardTitleClass',
     'cvShowActions',
-    "cvExtraPaginateParams"
+    "cvExtraPaginateParams",
+    "cvShowSearch",
+    "cvShowHeader",
+    "cvOrderBy"
   ],
   computed:{
     cForceCards: function () {
@@ -304,6 +309,22 @@ export default {
     },
     cExtraPaginateParams: function(){
       return this.cvExtraPaginateParams
+    },
+    cShowSearch: function () {
+      if (this.cvShowSearch === null)
+        return true
+      return this.cvShowSearch
+    },
+    cMainGridData: function (){
+      return this.mainGridData
+    },
+    cOrderBy:function(){
+      return this.cvOrderBy || "id"
+    },
+    cShowHeader:function(){
+      if (this.cvShowHeader == null)
+        return 1
+      return this.cvShowHeader
     }
   },
   methods: {
@@ -380,7 +401,7 @@ export default {
       this.extraParams = extraParams
     },
     mRefreshGrid: function () {
-      this.mainGridData.refresh()
+      this.cMainGridData.refresh()
     },
     emitErrorMutation:function(response = null){
       if(
@@ -396,6 +417,8 @@ export default {
   },
   created: function () {
     // console.log("Is mobile " + this.isMobile)
+  },
+  mounted: function () {
   }
 }
 </script>
