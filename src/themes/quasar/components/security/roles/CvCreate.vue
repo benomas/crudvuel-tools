@@ -17,7 +17,7 @@
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-9 col-md-12 q-pa-md">
-        <q-field v-bind="defErrorInputProps('description')">
+        <q-field v-bind="defErrorInputProps('description')" >
           <q-input v-bind="defInputProps('description')" v-model="row.description" type="textarea" :max-height="100" :min-rows="7"/>
         </q-field>
       </div>

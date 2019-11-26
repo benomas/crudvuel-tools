@@ -3,23 +3,23 @@
     <!-- cv-grid-customization-->
     <template v-if="1" slot="headers-slot" slot-scope="props">
         <!-- cv-grid-customization-->
-        <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-10" >
+        <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" >
           {{ fLang('id') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
         </th>
-        <th cv-key="name" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-18" >
+        <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-18" >
           {{ fLang('name') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="name"></cv-order-icons>
         </th>
-        <th cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
+        <th cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
           {{ fLang('slug') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="slug"></cv-order-icons>
         </th>
-        <th cv-key="cat_permission_type" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-15" >
-          {{ fLang('cat_permission_type') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="cat_permission_type"></cv-order-icons>
+        <th cv-key="cat_permission_type_name" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-15" >
+          {{ fLang('cat_permission_type_name') }}
+          <cv-order-icons :cv-data="props.gridData" cv-key="cat_permission_type_name"></cv-order-icons>
         </th>
-        <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-10" >
+        <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
           {{ fLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>
@@ -32,14 +32,14 @@
       <td >
         {{props.slotRow.id}}
       </td>
-      <td class="gt-md">
+      <td >
         {{props.slotRow.name}}
       </td>
       <td>
         {{props.slotRow.slug}}
       </td>
       <td class="gt-md">
-        {{props.slotRow.cat_permission_type}}
+        {{props.slotRow.cat_permission_type_name}}
       </td>
     </template>
     <!-- cv-grid-extra-actions-->
@@ -69,8 +69,8 @@
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('cat_permission_type') }}</q-item-section>
-          <q-item-section sublabel class="limit-label">{{props.slotRow.cat_permission_type}}</q-item-section>
+          <q-item-section label>{{ fLang('cat_permission_type_name') }}</q-item-section>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.cat_permission_type_name}}</q-item-section>
         </q-item-label>
       </q-item>
     </template>

@@ -292,7 +292,10 @@
       },
       cAbsBaseUrl: function () {
         return this.resource.crudServices.getAbsBaseUrl() || ''
-      }
+      },
+      cFileUrl: function () {
+        return this.cvGlobDep.globals.cvEnv.apiUrl() + '/api/files'
+      },
     },
     props:[
       "cvRow",

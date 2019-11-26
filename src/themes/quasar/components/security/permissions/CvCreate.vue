@@ -36,7 +36,7 @@
         </div>
       </div>
       <div class="col-xs-12 q-pa-md">
-        <q-field v-bind="defErrorInputProps('description')">
+        <q-field v-bind="defErrorInputProps('description')" items-aligned>
           <q-input
             v-bind="defInputProps('description')"
             v-model="row.description"
