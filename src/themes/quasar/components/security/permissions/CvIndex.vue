@@ -15,9 +15,9 @@
           {{ fLang('slug') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="slug"></cv-order-icons>
         </th>
-        <th cv-key="cat_permission_type_name" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-15" >
-          {{ fLang('cat_permission_type_name') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="cat_permission_type_name"></cv-order-icons>
+        <th cv-key="cat_permission_type_cv_search" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-15" >
+          {{ fLang('cat_permission_type_cv_search') }}
+          <cv-order-icons :cv-data="props.gridData" cv-key="cat_permission_type_cv_search"></cv-order-icons>
         </th>
         <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
           {{ fLang('active') }}
@@ -39,7 +39,7 @@
         {{props.slotRow.slug}}
       </td>
       <td class="gt-md">
-        {{props.slotRow.cat_permission_type_name}}
+        {{props.slotRow.cat_permission_type_cv_search}}
       </td>
     </template>
     <!-- cv-grid-extra-actions-->
@@ -69,8 +69,8 @@
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('cat_permission_type_name') }}</q-item-section>
-          <q-item-section sublabel class="limit-label">{{props.slotRow.cat_permission_type_name}}</q-item-section>
+          <q-item-section label>{{ fLang('cat_permission_type_cv_search') }}</q-item-section>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.cat_permission_type_cv_search}}</q-item-section>
         </q-item-label>
       </q-item>
     </template>

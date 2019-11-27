@@ -24,10 +24,10 @@
               v-if="cGetted"
               :cv-parent-ref="cSelfRef"
               v-bind="defMatcherizerProps('catPermissionTypes')"
-              :cv-select-query="{'id':'cat_permission_type_id','name':'cat_permission_type'}"
-              :cv-search-label="fLang('cat_permission_type')"
+              :cv-select-query="{'id':'cat_permission_type_id','cv_search':'cat_permission_type_cv_search'}"
+              :cv-search-label="fLang('cat_permission_type_cv_search')"
               :cv-current-value="row.cat_permission_type_id"
-              :cv-current-label="row.cat_permission_type"
+              :cv-current-label="row.cat_permission_type_cv_search"
               @cv-single-selected="(() => {inputFocus('row.description')})"
             >
             </cv-matcherizer>

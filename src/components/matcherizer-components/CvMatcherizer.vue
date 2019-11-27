@@ -177,7 +177,7 @@ export default {
     //others
     mLabelCallBack:function(rows,row){
       if(typeof this.cvLabelCallBack ==='undefined')
-        return row.name || ''
+        return row.cv_search || ''
 
       return typeof this.cvLabelCallBack ==='function'?
         this.cvLabelCallBack(rows,row):this.cvLabelCallBack
@@ -469,13 +469,13 @@ export default {
       return this.cvLimit || null
     },
     cOrderBy:function(){
-      return this.cvOrderBy || 'name'
+      return this.cvOrderBy || 'cv_search'
     },
     cAscending:function(){
       return this.cvAscending || 1
     },
     cFilterQuery:function(){
-      return this.cvFilterQuery || {'name':''}
+      return this.cvFilterQuery || {'cv_search':''}
     },
     cSearchObject:function(){
       return this.searchObject || ''

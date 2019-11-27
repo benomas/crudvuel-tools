@@ -23,12 +23,30 @@
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
         <q-field v-bind="defErrorInputProps('password')">
-          <q-input v-bind="defInputProps('password')" v-model.trim="row.password" type="password" autocomplete="off"/>
+          <!--<q-input v-bind="defInputProps('password')" v-model.trim="row.password" type="password" autocomplete="off"/>-->
+          <q-input v-bind="defInputProps('password')" v-model.trim="row.password" :type="isPwd ? 'password' : 'text'" autocomplete="off" >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
         <q-field v-bind="defErrorInputProps('confirm_password')">
-          <q-input v-bind="defInputProps('confirm_password')" v-model.trim="row.confirm_password" type="password" autocomplete="off"/>
+          <!--<q-input v-bind="defInputProps('confirm_password')" v-model.trim="row.confirm_password" type="password" autocomplete="off"/>-->
+          <q-input v-bind="defInputProps('confirm_password')" v-model.trim="row.confirm_password" :type="isPwd ? 'password' : 'text'" autocomplete="off" >
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
+            </template>
+          </q-input>
         </q-field>
       </div>
       <div class="ccol-xs-12 col-sm-6 col-md-4 q-pa-md m-auto">
@@ -75,7 +93,8 @@ export default {
       cvParams     : null,
       roles        : null,
       relatedRoles : null,
-      rolesLoaded  : false
+      rolesLoaded  : false,
+      isPwd        : true
     }
   },
   computed: {
@@ -94,6 +113,7 @@ export default {
   },
   mounted: function () {
     this.setUnReady()
+    this.row.password = ''
     if (!this.rowKeyValue)
       this.getAdittionalData()
   },
@@ -104,12 +124,14 @@ export default {
           this.roles = response.data.data || response.data
           this.setReady().then(() => {
             this.rolesLoaded = true
+            this.row.password = ''
           })
         })
         .catch((response) => {
           this.roles = []
           this.setReady().then(() => {
             this.rolesLoaded = true
+            this.row.password = ''
           })
         })
     },
