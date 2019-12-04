@@ -7,7 +7,7 @@
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-2 col-md-2 q-pa-md m-auto">
-         <q-field v-bind="defErrorInputProps('active')">
+          <q-field v-bind="defErrorInputProps('active')">
           <cv-toggle v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
         </q-field>
       </div>

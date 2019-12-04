@@ -1,31 +1,29 @@
 <template>
   <div class="filters-container w-100">
-    <q-field
+    <q-input
       :helper="cHelper"
+      ref="searchInputRef"
+      suffix=""
+      v-model="search"
+      autocomplete="off"
+      :class="{'active-filter':cSearchActiveFilter}"
+      :label="cSearchLabel"
+      :readonly="cDisableFields"
+      :clearable="!cDisableFields"
+      :loading="cFilterLoading"
+      :hide-underline="cDisableFields"
+      @input="mInput"
+      @keyup.13="mSearchGoToFind()"
+      @keyup="mSearchKeyUp"
+      @focus="mSearchFocused"
+      @blur="mSearchBlured"
+      clear-icon='fas fa-times-circle'
+      class="w-100"
     >
-      <template v-slot:prepend>
-        <q-icon :name="cSearchIcon" :color="cSearchIconColor" />
-      </template>
-      <q-input
-        ref="searchInputRef"
-        suffix=""
-        v-model="search"
-        autocomplete="off"
-        :class="{'active-filter':cSearchActiveFilter}"
-        :label="cSearchLabel"
-        :readonly="cDisableFields"
-        :clearable="!cDisableFields"
-        :loading="cFilterLoading"
-        :hide-underline="cDisableFields"
-        @input="mInput"
-        @keyup.13="mSearchGoToFind()"
-        @keyup="mSearchKeyUp"
-        @focus="mSearchFocused"
-        @blur="mSearchBlured"
-        clear-icon='fas fa-times-circle'
-        class="w-100"
-      />
-    </q-field>
+    <template v-slot:prepend>
+      <q-icon :name="cSearchIcon" :color="cSearchIconColor" />
+    </template>
+    </q-input>
   </div>
 </template>
 <script>
