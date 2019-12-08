@@ -2,52 +2,38 @@
   <cv-action-container v-if="resource && action" v-bind="defActionProps()">
     <div slot="cv-content-slot" class="row w-100">
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('first_name')">
-          <q-input v-bind="defInputProps('first_name')" v-model.trim="row.first_name"/>
-        </q-field>
+        <q-input v-bind="defInputProps('first_name')" v-model.trim="row.first_name"/>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('last_name')">
-          <q-input v-bind="defInputProps('last_name')" v-model.trim="row.last_name"/>
-        </q-field>
+        <q-input v-bind="defInputProps('last_name')" v-model.trim="row.last_name"/>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('username')">
-          <q-input v-bind="defInputProps('username')" v-model.trim="row.username" autocomplete="off"/>
-        </q-field>
+        <q-input v-bind="defInputProps('username')" v-model.trim="row.username" autocomplete="off"/>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('email')">
-          <q-input v-bind="defInputProps('email')" v-model.trim="row.email" autocomplete="off"/>
-        </q-field>
+        <q-input v-bind="defInputProps('email')" v-model.trim="row.email" autocomplete="off"/>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('password')">
-          <!--<q-input v-bind="defInputProps('password')" v-model.trim="row.password" type="password" autocomplete="off"/>-->
-          <q-input v-bind="defInputProps('password')" v-model.trim="row.password" :type="isPwd ? 'password' : 'text'" autocomplete="off" >
-            <template v-slot:append>
-              <q-icon
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              />
-            </template>
-          </q-input>
-        </q-field>
+        <q-input v-bind="defInputProps('password')" v-model.trim="row.password" :type="isPwd ? 'password' : 'text'" autocomplete="off" >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('confirm_password')">
-          <!--<q-input v-bind="defInputProps('confirm_password')" v-model.trim="row.confirm_password" type="password" autocomplete="off"/>-->
-          <q-input v-bind="defInputProps('confirm_password')" v-model.trim="row.confirm_password" :type="isPwd ? 'password' : 'text'" autocomplete="off" >
-            <template v-slot:append>
-              <q-icon
-                :name="isPwd ? 'visibility_off' : 'visibility'"
-                class="cursor-pointer"
-                @click="isPwd = !isPwd"
-              />
-            </template>
-          </q-input>
-        </q-field>
+        <q-input v-bind="defInputProps('confirm_password')" v-model.trim="row.confirm_password" :type="isPwd ? 'password' : 'text'" autocomplete="off" >
+          <template v-slot:append>
+            <q-icon
+              :name="isPwd ? 'visibility_off' : 'visibility'"
+              class="cursor-pointer"
+              @click="isPwd = !isPwd"
+            />
+          </template>
+        </q-input>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
         <q-field v-bind="defErrorInputProps('active')">
