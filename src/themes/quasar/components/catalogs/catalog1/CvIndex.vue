@@ -67,8 +67,8 @@
   </cv-adaptive-grid-index>
 </template>
 <script>
-import CvIndex             from '../../resource/CvIndex'
-import CvAdaptiveGridIndex from '../../others/CvAdaptiveGridIndex'
+import CvIndex             from 'src/crudvuel/customs/themes/quasar/components/resource/CvIndex'
+import CvAdaptiveGridIndex from 'src/crudvuel/customs/themes/quasar/components/others/CvAdaptiveGridIndex'
 import {QIcon}             from 'quasar'
 export default {
   extends    : CvIndex,

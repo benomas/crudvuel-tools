@@ -28,7 +28,7 @@
           :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
           class="q-pb-md"
           v-bind="mDefMatcherizerProps()"
-          :cv-search-label="'Busqueda por combinaciones'"
+          :cv-search-label="'Busqueda dinamica'"
           cv-search-icon="fas fa-search-plus"
           @cv-filter-go-to-find="prepareToFind"
         >
