@@ -2,7 +2,7 @@
   <div class="cv-paginate row txt-secondary">
     <div class="col-xs-12 col-sm-10 col-md-7 pull-left">
       <div class="cv-paginate-buttons form-inline mnh-25px">
-        <q-btn @click="setPage(1)" v-if="hasLeft()" size="sm" class="btn btn-default">«</q-btn>
+        <q-btn @click="setPage(1)" v-if="hasLeft()" size="sm" class="">«</q-btn>
         <span>
           <span>
             <q-tooltip  :disable="!cXs && !cSm" cPosition class="fs-5">
@@ -20,7 +20,7 @@
                 :color="position===currentPage?'primary':''"
                 :class="{'bg-secondary': position===currentPage,'bg-secondary-l-75':position!==currentPage}"
                 v-if="cReady || position!==currentPage"
-                class="btn btn-default"
+                class="t-center t-middle"
               >
                 {{position}}
               </q-btn>
@@ -28,18 +28,18 @@
                 size="sm"
                 v-else
                 :key="position"
-                class="btn btn-default"
+                class=""
                 @click="setPage(position)"
               >
                 {{position}}
               </q-btn>
             </transition-group>
           </span>
-          <q-btn size="sm" @click="setPage(totalPaginated)" v-if="hasRight()" class="btn btn-default">»</q-btn>
+          <q-btn size="sm" @click="setPage(totalPaginated)" v-if="hasRight()" class="">»</q-btn>
           <span class="mnh-25px" >
             <q-btn
               size="sm"
-              class="btn btn-default"
+              class=""
               @click="jump()"
               v-if="carrousel.length < totalPaginated"
             >
