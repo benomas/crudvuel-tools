@@ -7,9 +7,9 @@
         {{ fLang('id') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
       </th>
-      <th cv-key="search_field" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-27" ref="headers">
-        {{ fLang('search_field') }}
-        <cv-order-icons :cv-data="props.gridData" cv-key="search_field"></cv-order-icons>
+      <th cv-key="cv_search" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-27" ref="headers">
+        {{ fLang('cv_search') }}
+        <cv-order-icons :cv-data="props.gridData" cv-key="cv_search"></cv-order-icons>
       </th>
       <th cv-key="cat_file_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" ref="headers">
         {{ fLang('cat_file_name') }}
@@ -35,7 +35,7 @@
         {{props.slotRow.id}}
       </td>
       <td>
-        {{props.slotRow.search_field}}
+        {{props.slotRow.cv_search}}
       </td>
       <td>
         {{props.slotRow.cat_file_name}}
@@ -59,8 +59,8 @@
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('search_field') }}</q-item-section>
-          <q-item-section sublabel class="limit-label">{{props.slotRow.search_field}}</q-item-section>
+          <q-item-section label>{{ fLang('cv_search') }}</q-item-section>
+          <q-item-section sublabel class="limit-label">{{props.slotRow.cv_search}}</q-item-section>
         </q-item-label>
       </q-item>
       <q-item>

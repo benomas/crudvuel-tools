@@ -132,7 +132,7 @@ export default {
           row.cat_file_camel_resource = row.cat_file.camel_resource
           row.cat_file_resource       = row.cat_file.resource
         }
-        row.search_field = row.search_field
+        row.cv_search = row.cv_search
       }
       return row
     },

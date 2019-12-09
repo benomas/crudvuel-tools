@@ -7,11 +7,11 @@
         {{ fLang('id') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
       </th>
-      <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-35" ref="headers">
+      <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30" ref="headers">
         {{ fLang('name') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="name"></cv-order-icons>
       </th>
-      <th cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-35" ref="headers">
+      <th cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30" ref="headers">
         {{ fLang('slug') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="slug"></cv-order-icons>
       </th>
