@@ -2,51 +2,47 @@
   <cv-action-container v-if="resource && action" v-bind="defActionProps()">
     <div slot="cv-content-slot" class="row w-100">
       <div class="col-xs-12 col-md-5 q-pa-md m-auto">
-        <div class="row">
-          <div class="col-xs-12">
-            <q-field v-bind="defErrorInputProps('cat_file_id')">
-            <cv-matcherizer
-              v-if="cGetted"
-              :cv-disable-fields="cAction.name==='edit' || cDisableFields"
-              :cv-parent-ref="cSelfRef"
-              ref="row.cat_file_id"
-              v-bind="defMatcherizerProps('catFiles')"
-              :cv-select-query="{'id':'cat_file_id','name':'cat_file_name','multiple':'cat_file_multiple','description':'cat_file_description','resource':'cat_file_resource','slug_resource':'cat_file_slug_resource','camel_resource':'cat_file_camel_resource'}"
-              :cv-filter-query="{'name':''}"
-              :cv-order-by="'name'"
-              :cv-label-call-back="((rows,row)=>{return row['name']})"
-              :cv-current-value="row.cat_file_id"
-              :cv-current-label="row.cat_file_name"
-              :cv-list-of-items-limit="10"
-              @cv-single-selected="(() => {inputFocus('row.resource_id')})"
-            >
-            </cv-matcherizer>
-            </q-field>
-          </div>
+        <div class="col-xs-12">
+          <q-field v-bind="defErrorInputProps('cat_file_id')">
+          <cv-matcherizer
+            v-if="cGetted"
+            :cv-disable-fields="cAction.name==='edit' || cDisableFields"
+            :cv-parent-ref="cSelfRef"
+            ref="row.cat_file_id"
+            v-bind="defMatcherizerProps('catFiles')"
+            :cv-select-query="{'id':'cat_file_id','name':'cat_file_name','multiple':'cat_file_multiple','description':'cat_file_description','resource':'cat_file_resource','slug_resource':'cat_file_slug_resource','camel_resource':'cat_file_camel_resource'}"
+            :cv-filter-query="{'name':''}"
+            :cv-order-by="'name'"
+            :cv-label-call-back="((rows,row)=>{return row['name']})"
+            :cv-current-value="row.cat_file_id"
+            :cv-current-label="row.cat_file_name"
+            :cv-list-of-items-limit="10"
+            @cv-single-selected="(() => {inputFocus('row.resource_id')})"
+          >
+          </cv-matcherizer>
+          </q-field>
         </div>
       </div>
       <div class="col-xs-12 col-md-5 q-pa-md m-auto">
-        <div class="row">
-          <div class="col-xs-12">
-            <q-field v-bind="defErrorInputProps('resource_id')">
-            <cv-matcherizer
-              :cv-parent-ref="cSelfRef"
-              ref="row.resource_id"
-              v-if="cGetted && cCurrentCvResource"
-              v-bind="defMatcherizerProps(cCurrentCvResource)"
-              :cv-disable-fields="cAction.name==='edit' || cDisableFields"
-              :cv-select-query="{'id':'resource_id','cv_search':'cv_search'}"
-              :cv-current-value="row.resource_id"
-              :cv-current-label="row.cv_search"
-              :cv-order-by="'cv_search'"
-              :cv-filter-query="{'cv_search':''}"
-              :cv-label-call-back="((rows,row) => {return row['cv_search']})"
-              @cv-single-selected="(() => {inputFocus('row.active'); reset()})"
-              @cv-reset="reset"
-            >
-            </cv-matcherizer>
-            </q-field>
-          </div>
+        <div class="col-xs-12">
+          <q-field v-bind="defErrorInputProps('resource_id')">
+          <cv-matcherizer
+            :cv-parent-ref="cSelfRef"
+            ref="row.resource_id"
+            v-if="cGetted && cCurrentCvResource"
+            v-bind="defMatcherizerProps(cCurrentCvResource)"
+            :cv-disable-fields="cAction.name==='edit' || cDisableFields"
+            :cv-select-query="{'id':'resource_id','cv_search':'cv_search'}"
+            :cv-current-value="row.resource_id"
+            :cv-current-label="row.cv_search"
+            :cv-order-by="'cv_search'"
+            :cv-filter-query="{'cv_search':''}"
+            :cv-label-call-back="((rows,row) => {return row['cv_search']})"
+            @cv-single-selected="(() => {inputFocus('row.active'); reset()})"
+            @cv-reset="reset"
+          >
+          </cv-matcherizer>
+          </q-field>
         </div>
       </div>
       <div class="col-xs-12 col-md-2 q-pa-md m-auto">

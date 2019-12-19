@@ -23,6 +23,8 @@
           {{ fLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>
+        <th  cv-key="cv_search" class="cv-selectable" hidden >
+        </th>
     </template>
     <!-- cv-grid-extra-headers-->
     <template v-if="1" slot="extra-actions-header-slot" slot-scope="props">

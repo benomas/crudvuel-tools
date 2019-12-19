@@ -17,22 +17,20 @@
         </q-field>
       </div>
       <div class="col-xs-12 col-sm-9 col-md-10 q-pa-md m-auto">
-        <div class="row">
-          <div class="col-xs-12">
-            <q-field v-bind="defErrorInputProps('cat_permission_type_id')">
-            <cv-matcherizer
-              v-if="cGetted"
-              :cv-parent-ref="cSelfRef"
-              v-bind="defMatcherizerProps('catPermissionTypes')"
-              :cv-select-query="{'id':'cat_permission_type_id','cv_search':'cat_permission_type_cv_search'}"
-              :cv-search-label="fLang('cat_permission_type_cv_search')"
-              :cv-current-value="row.cat_permission_type_id"
-              :cv-current-label="row.cat_permission_type_cv_search"
-              @cv-single-selected="(() => {inputFocus('row.description')})"
-            >
-            </cv-matcherizer>
-            </q-field>
-          </div>
+        <div class="col-xs-12">
+          <q-field v-bind="defErrorInputProps('cat_permission_type_id')">
+          <cv-matcherizer
+            v-if="cGetted"
+            :cv-parent-ref="cSelfRef"
+            v-bind="defMatcherizerProps('catPermissionTypes')"
+            :cv-select-query="{'id':'cat_permission_type_id','cv_search':'cat_permission_type_cv_search'}"
+            :cv-search-label="fLang('cat_permission_type_cv_search')"
+            :cv-current-value="row.cat_permission_type_id"
+            :cv-current-label="row.cat_permission_type_cv_search"
+            @cv-single-selected="(() => {inputFocus('row.description')})"
+          >
+          </cv-matcherizer>
+          </q-field>
         </div>
       </div>
       <div class="col-xs-12 q-pa-md">
