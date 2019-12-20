@@ -113,7 +113,7 @@ export default {
   },
   mounted: function () {
     this.setUnReady()
-    if (!this.rowKeyValue)
+    //if (!this.rowKeyValue)
       this.getAdittionalData()
   },
   methods: {
