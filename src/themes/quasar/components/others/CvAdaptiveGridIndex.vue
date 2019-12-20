@@ -349,7 +349,12 @@ export default {
     }
   },
   created: function () {
-    // console.log("Is mobile " + this.isMobile)
+    let gridSystemName
+    if (this.resource != null && this.resource.name != null)
+      gridSystemName = 'grid-system-' + this.resource.name + '-ref'
+    else
+      gridSystemName = 'grid-system-ref'
+    this.$set(this.cParentRef.gridRefs,gridSystemName,this)
   }
 }
 </script>

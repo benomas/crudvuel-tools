@@ -23,7 +23,8 @@
         errorNotificationMessages   : null,
         cancelNotificationMessages  : null,
         infoNotificationMessages    : null,
-        toggles                     : {}
+        toggles                     : {},
+        gridRefs                    : {}
       }
     },
     methods:{

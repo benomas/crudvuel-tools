@@ -318,6 +318,15 @@ export default {
       this.pageNavNeutral()
       this.refresh()
     },
+    forceToFind() {
+      let searchObject = this.cvParametrizer.getSearchObject()
+      let searchMode = this.cvParametrizer.getSearchMode()
+      this.cvParametrizer.setSearchObject(searchObject)
+      this.cvParametrizer.setSearchMode(searchMode)
+      this.cvParametrizer.setPage(1)
+      this.pageNavNeutral()
+      this.refresh()
+    },
     refresh:function(){
       this.ready=false
       if (this.cvService)

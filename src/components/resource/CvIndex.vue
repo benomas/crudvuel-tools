@@ -13,6 +13,11 @@ export default {
       if(this.resource && this.resource.name && this.action)
         return  this.resource.name + '-'+this.action.name+'-grid'
       return "mainGrid"
+    },
+    cGridEl:function(){
+      if (!this.cGridRef || this.$refs[this.cGridRef] == null)
+        return null
+      return this.$refs[this.cGridRef]
     }
   },
   created:function(){

@@ -44,6 +44,13 @@ export default {
     },
     cvGridShowCellLabel: function () {
       return this.isMobile
+    },
+    cMyGridSystem: function () {
+      if (this.gridRefs['grid-system-' + this.resource.name + '-ref'] != null)
+        return this.gridRefs['grid-system-' + this.resource.name + '-ref']
+      if (this.gridRefs['grid-system-ref'] != null)
+        this.gridRefs['grid-system-ref'] != null
+      return null
     }
   },
   methods: {
@@ -53,6 +60,7 @@ export default {
     },
     defActionProps: function () {
       return {
+        'cv-parent-ref'       : this.cSelfRef,
         'cv-resource'         : this.resource,
         'cv-action'           : this.action,
         'cv-ready'            : this.cReady,

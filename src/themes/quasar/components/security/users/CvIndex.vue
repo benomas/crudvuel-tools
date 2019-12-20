@@ -27,6 +27,47 @@
     <!-- cv-grid-extra-headers-->
     <template v-if="1" slot="extra-actions-header-slot" slot-scope="props">
     </template>
+    <template v-if="1" slot="sub-headers-slot" slot-scope="props">
+      <tr >
+        <td >
+          <cv-simple-filters
+            class="w-100"
+            :cv-search-label="''"
+            cv-search-icon=""
+            @cv-event-filter-go-to-find="((search)=>{
+              superFilter('id',search)
+            })"
+          >
+          </cv-simple-filters>
+        </td>
+        <td >
+          <cv-simple-filters
+            class="w-100"
+            :cv-search-label="''"
+            cv-search-icon=""
+            @cv-event-filter-go-to-find="((search)=>{
+              superFilter('user_full_name',search)
+            })"
+          >
+          </cv-simple-filters>
+        </td>
+        <td >
+          <cv-simple-filters
+            class="w-100"
+            :cv-search-label="''"
+            cv-search-icon=""
+            @cv-event-filter-go-to-find="((search)=>{
+              superFilter('email',search)
+            })"
+          >
+          </cv-simple-filters>
+        </td>
+        <td >
+        </td>
+        <td class="t-center">
+        </td>
+      </tr>
+    </template>
     <!-- cv-grid-data-cells-->
     <template v-if="1" slot="table-properties-slot" slot-scope="props">
       <td >
