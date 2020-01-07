@@ -5,7 +5,7 @@ import CvButtons                  from '../others/CvButtons'
 import CvToggle                   from '../others/CvToggle'
 import CvNotify                   from '../others/CvNotify.js'
 import CvSpinner                  from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSpinner'
-import {QIcon,QField,QInput,QBtn} from 'quasar'
+import {QIcon,QField,QInput,QBtn,colors} from 'quasar'
 export default {
   extends    : CvCustomExtender,
   components : {
@@ -51,6 +51,17 @@ export default {
       this.getService()
     else
       this.setReady()
+
+    if(this.cAutoFill){
+      console.log(
+        '%c Autofill function is enabled'+
+        '%c every create component now autofill his fields with 1,' +
+        '%c this behaivor can be changed in .env file',
+        'font-weight: bold; background: ' + colors.getBrand('white') + '; color: ' + colors.getBrand('info'),
+        'background: ' + colors.getBrand('white') + '; color: ' + colors.getBrand('warning'),
+        'background: ' + colors.getBrand('white') + '; color: ' + colors.getBrand('negative')
+      );
+    }
   }
 }
 </script>

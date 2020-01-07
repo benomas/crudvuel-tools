@@ -21,6 +21,9 @@
     <slot name="cv-test"
     >
     </slot>
+    <h5 v-if="cAutoFill">
+      Autofill enabled
+    </h5>
   </div>
 </template>
 <script>

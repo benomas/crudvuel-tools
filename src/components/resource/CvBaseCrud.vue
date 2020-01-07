@@ -28,13 +28,13 @@
       }
     },
     methods:{
-      serverMessageTransform: function (message = ''){
+      serverMessageTransform (message = ''){
         return message!==''?' Server:' + message:message
       },
-      transformResponse: function (response){
+      transformResponse (response){
         return response.data.data || response.data
       },
-      getSuccess:function(response){
+      getSuccess (response){
         if(this.action && this.action.type==="rows")
           this.rows=this.transformResponse(response)
         if(this.action && this.action.type==="row")
@@ -43,15 +43,15 @@
         if(this.cShowGetMessages)
           this.collectSuccessMessages(this.action.getGetSuccessMessage())
       },
-      getError:function(response){
+      getError (response){
         this.setReady()
         if(this.cShowGetMessages)
           this.collectErrorMessages(this.action.getGetErrorMessage())
       },
-      getParams:function(){
+      getParams (){
         return null
       },
-      fixGetServiceParams: function (getParams=null,url=null,queryString=null) {
+      fixGetServiceParams (getParams=null,url=null,queryString=null) {
         return [
           ...(this.cHasRowIdentifier ? [this.rowKeyValue] : []),
           getParams||this.getParams(),
@@ -59,16 +59,16 @@
           queryString
         ]
       },
-      dinamicGetService:function(...serviceParams){
+      dinamicGetService (...serviceParams){
         if(!this.resource || !this.cActionGetService)
           return false
         this.setUnReady()
         return this.cActionGetService(...this.fixGetServiceParams(...serviceParams))
       },
-      getService:function(...serviceParams){
+      getService (...serviceParams){
         this.dinamicGetService(...serviceParams).then(this.getSuccess).catch(this.getError)
       },
-      setSuccess:function(response){
+      setSuccess (response){
         if(this.action && this.action.type==="rows")
           this.rows=this.transformResponse(response)
         if(this.action && this.action.type==="row")
@@ -78,7 +78,7 @@
           this.collectSuccessMessages(this.action.getSetSuccessMessage()+this.cIdentText)
         this.successRedirect()
       },
-      setError:function(errorResponse){
+      setError (errorResponse){
         this.setReady()
         this.errors = {}
         if (
@@ -93,11 +93,11 @@
           this.collectErrorMessages(this.action.getSetErrorMessage()+this.cIdentText + this.serverMessageTransform(errorResponse.response.data.message || ''))
         this.errorRedirect()
       },
-      setParams:function(){
+      setParams (){
         return this.action && this.action.type && this[this.action.type]?
           this[this.action.type]:null
       },
-      fixSetServiceParams: function (setParams=null,url=null,queryString=null) {
+      fixSetServiceParams (setParams=null,url=null,queryString=null) {
         return [
           ...(this.cHasRowIdentifier ? [this.rowKeyValue] : []),
           setParams||this.setParams(),
@@ -105,7 +105,7 @@
           queryString
         ]
       },
-      dinamicSetService:function(...serviceParams){
+      dinamicSetService (...serviceParams){
         if (!this.resource || !this.cActionSetService)
           return false
 
@@ -119,25 +119,25 @@
         this.errors = {}
         return this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
       },
-      setService: function (...serviceParams) {
+      setService (...serviceParams) {
         this.dinamicSetService(...serviceParams).then(this.setSuccess).catch(this.setError)
       },
-      toSync:function(row,identifier){
+      toSync (row,identifier){
         this.cvSynchronizer.toSync(row,this.cRowKey,identifier)
       },
-      synchronized:function(row,identifier){
+      synchronized (row,identifier){
         this.cvSynchronizer.synchronized(row,this.cRowKey,identifier)
       },
-      isSynchronizing:function(row,identifier){
+      isSynchronizing (row,identifier){
         return this.cvSynchronizer.isSynchronizing(row,this.cRowKey,identifier)
       },
-      validIdentifier:function(identifier){
+      validIdentifier (identifier){
         return this.cvSynchronizer.validIdentifier(identifier)
       },
-      someSyncInProgress:function(){
+      someSyncInProgress (){
         return this.cvSynchronizer.someSyncInProgress()
       },
-      messageCollector:function(property,message){
+      messageCollector (property,message){
         if(typeof this[property] ==="undefined")
           return false
         if(!this[property])
@@ -147,77 +147,77 @@
         if(!this.someSyncInProgress())
           this.proccessMessages()
       },
-      messageNotificator:function(property,message){
+      messageNotificator (property,message){
         if(typeof this[property] ==="undefined")
           return false
         if(typeof this[property] !=="undefined")
           this[property]=null
       },
-      collectSuccessMessages:function(message){
+      collectSuccessMessages (message){
         this.messageCollector("successNotificationMessages",message)
       },
-      collectErrorMessages:function(message){
+      collectErrorMessages (message){
         this.messageCollector("errorNotificationMessages",message)
       },
-      collectCancelMessages:function(message){
+      collectCancelMessages (message){
         this.messageCollector("cancelNotificationMessages",message)
       },
-      collectInfoMessages:function(message){
+      collectInfoMessages (message){
         this.messageCollector("infoNotificationMessages",message)
       },
-      proccessMessages:function(){
+      proccessMessages (){
         this.successNotification()
         this.errorNotification()
         this.cancelNotification()
         this.infoNotification()
       },
-      successNotification:function(){
+      successNotification (){
         this.messageNotificator("successNotificationMessages")
       },
-      errorNotification:function(){
+      errorNotification (){
         this.messageNotificator("errorNotificationMessages")
       },
-      cancelNotification:function(){
+      cancelNotification (){
         this.messageNotificator("cancelNotificationMessages")
       },
-      infoNotification:function(){
+      infoNotification (){
         this.messageNotificator("infoNotificationMessages")
       },
-      validator:function(){
+      validator (){
         return true
       },
-      rowChanged:function(){
+      rowChanged (){
         this.$emit('row-changed', this.row)
       },
-      rowsChanged:function(){
+      rowsChanged (){
         this.$emit('rows-changed', this.rows)
       },
-      refreshRow:function(row){
+      refreshRow (row){
         this.row = row
       },
-      refreshRows:function(rows){
+      refreshRows (rows){
         this.rows = rows
       },
-      backToIndex:function(){
+      backToIndex (){
       },
-      successRedirect:function(){
+      successRedirect (){
         this.cancelRedirect()
       },
-      errorRedirect:function(){
+      errorRedirect (){
       },
-      cancelRedirect: function () {
+      cancelRedirect () {
         if (this.action.name !== 'index' && typeof this.resource.actions.index !== 'undefined') {
           let baseRoute = this.$route.path.split(this.actionPath('index'))
           this.$router.push(baseRoute[0] + this.actionPath('index'))
         }
       },
-      cancelAction:function(){
+      cancelAction (){
         let cancelMessage = this.action.getSetCancelMessage()
         if(cancelMessage)
           this.collectCancelMessages(cancelMessage+this.actionKeyMessage(this.row))
         this.cancelRedirect()
       },
-      actionKeyMessage:function(gridRow){
+      actionKeyMessage (gridRow){
         if( typeof gridRow==="undefined" ||
             !gridRow ||
             typeof this.cRowKey==="undefined" ||
@@ -226,7 +226,7 @@
           return ""
         return " \""+this.cRowKey+":"+gridRow[this.cRowKey]+"\""
       },
-      nextTick:function(){
+      nextTick (){
         return this.$nextTick()
       },
       mDinamicBooleanModel (dothProperty,value) {
@@ -239,6 +239,9 @@
             resolve(dinamicModalModel)
           }, 200)
         })
+      },
+      init () {
+
       }
     },
     computed:{
@@ -297,6 +300,23 @@
       cFileUrl: function () {
         return this.cvGlobDep.globals.cvEnv.apiUrl() + '/api/files'
       },
+      cAutoFill: function () {
+        if (this.cEnv == null || this.cEnv !== 'dev')
+          return false
+        if (this.cAutofillEnabled == null || this.cAutofillEnabled !== true)
+          return false
+        if (
+          this.cResource == null ||
+          this.cResource.lang == null ||
+          this.cResource.lang.fields ==  null ||
+          !this.cAction ||
+          !this.cAction.name ||
+          this.cAction.name !== 'create'
+
+        )
+          return false
+        return true
+      }
     },
     props:[
       "cvRow",
@@ -309,13 +329,20 @@
       this.rowKeyValue = this.cRowKeyRouteValue
 
       // Check for an active field, to set it 'true - 1' as default
-      this.row = this.cResource !=null &&
-        this.cResource.lang !=null &&
-        this.cResource.lang.fields !=null &&
-        this.cResource.lang.fields.active !=null?
+      this.row = this.cResource != null &&
+        this.cResource.lang != null &&
+        this.cResource.lang.fields != null &&
+        this.cResource.lang.fields.active != null?
         {active: 1}:{}
       // Call to init, this function helps to init props for components, example: toggle and checkboxes or whatever you want to pre-init
-      if(typeof this.init === 'function') this.init()
+      this.init()
+      if(this.cAutoFill){
+        let fields = Object.keys(this.cResource.lang.fields)
+        for (let i=0; i<fields.length; i++){
+          if (this.row[fields[i]] ==  null)
+            this.$set(this.row,fields[i],1)
+        }
+      }
     }
   }
 </script>
