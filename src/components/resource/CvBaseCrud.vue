@@ -299,23 +299,6 @@
       },
       cFileUrl: function () {
         return this.cvGlobDep.globals.cvEnv.apiUrl() + '/api/files'
-      },
-      cAutoFill: function () {
-        if (this.cEnv == null || this.cEnv !== 'dev')
-          return false
-        if (this.cAutofillEnabled == null || this.cAutofillEnabled !== true)
-          return false
-        if (
-          this.cResource == null ||
-          this.cResource.lang == null ||
-          this.cResource.lang.fields ==  null ||
-          !this.cAction ||
-          !this.cAction.name ||
-          this.cAction.name !== 'create'
-
-        )
-          return false
-        return true
       }
     },
     props:[

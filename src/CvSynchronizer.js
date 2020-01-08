@@ -4,18 +4,18 @@ export default function(){
 
 	this.toSync=function(row,rowKey,identifier){
 		if(typeof identifier ==="undefined"){
-		  if(typeof row!=="undefined" && typeof rowKey!=="undefined" && typeof row[rowKey]!=="undefined")
-		    identifier = row[rowKey]
+      if(typeof row!=="undefined" && typeof rowKey!=="undefined" && typeof row[rowKey]!=="undefined")
+        identifier = row[rowKey]
 		}
 
 		if(this.validIdentifier(identifier))
-		  this.synchronizingRows.push(identifier);
+      this.synchronizingRows.push(identifier);
 	}
 
 	this.synchronized=function(row,rowKey,identifier){
 		if(typeof identifier ==="undefined"){
-		  if(typeof row!=="undefined" && typeof rowKey!=="undefined" && typeof row[rowKey]!=="undefined")
-		    identifier = row[rowKey]
+      if(typeof row!=="undefined" && typeof rowKey!=="undefined" && typeof row[rowKey]!=="undefined")
+        identifier = row[rowKey]
 		}
 
 		if(this.validIdentifier(identifier) && this.synchronizingRows && this.synchronizingRows.indexOf(identifier)>=0)
@@ -23,11 +23,11 @@ export default function(){
 	},
 	this.isSynchronizing=function(row,rowKey,identifier){
 		if(typeof identifier ==="undefined"){
-		  if(typeof row!=="undefined" && typeof rowKey!=="undefined" && typeof row[rowKey]!=="undefined")
-		    identifier = row[rowKey]
+      if(typeof row!=="undefined" && typeof rowKey!=="undefined" && typeof row[rowKey]!=="undefined")
+        identifier = row[rowKey]
 		}
 		if(this.validIdentifier(identifier) && this.synchronizingRows && this.synchronizingRows.indexOf(identifier)>=0)
-		  return true
+      return true
 		return false
 	},
 

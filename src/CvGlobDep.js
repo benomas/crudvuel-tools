@@ -3,11 +3,11 @@ export default function(){
 	this.globals={};
 
 	this.upperFirstLetter=function(string) {
-	    return string.charAt(0).toUpperCase() + string.slice(1);
+    return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
 	this.lowerFirstLetter=function(string) {
-	    return string.charAt(0).toLowerCase() + string.slice(1);
+    return string.charAt(0).toLowerCase() + string.slice(1);
 	};
 
 	this.add=function(ClassConst,className,objectInstance){

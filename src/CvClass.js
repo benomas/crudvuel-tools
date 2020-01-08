@@ -35,9 +35,9 @@ export default class CvClass {
 		if(typeof options ==="function")
 			opts = options();
 		if(typeof options ==="object"){
-    		let optionsKeys = Object.keys(options);
-    		for(let i=0;i<optionsKeys.length;i++)
-    			this.setProperty(optionsKeys[i],options)
+      let optionsKeys = Object.keys(options);
+      for(let i=0;i<optionsKeys.length;i++)
+        this.setProperty(optionsKeys[i],options)
 		}
 	}
 };
