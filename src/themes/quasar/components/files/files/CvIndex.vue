@@ -1,5 +1,5 @@
 <template>
-  <cv-adaptive-grid-index v-if="resource && action" v-bind="defActionProps()">
+  <cv-adaptive-grid-index v-if="resource && action" v-bind="defActionProps()" v-on="bGridOn()">
     <!-- cv-grid-customization-->
     <template v-if="1" slot="headers-slot" slot-scope="props">
       <!-- cv-grid-customization-->
@@ -29,7 +29,7 @@
     <!-- cv-grid-table-extra-headers-->
     <template v-if="1" slot="extra-actions-header-slot" slot-scope="props">
     </template>
-    <template v-if="1" slot="sub-headers-slot" slot-scope="props">
+    <template v-if="cEnableSuperFilers" slot="sub-headers-slot" slot-scope="props">
       <tr >
         <td >
           <cv-simple-filters

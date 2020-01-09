@@ -9,7 +9,7 @@
       </cv-spinner>
     </transition>
     <div>
-      <cv-filter-selector @cv-filter-selected="mSwitchFilter" :cv-current-filter="currentFilter"></cv-filter-selector>
+      <cv-filter-selector @cv-filter-selected="mSwitchFilter" :cv-current-filter="cdGridCurrentFilter"></cv-filter-selector>
       <!--<transition name="component-fade" mode="out-in">-->
         <cv-simple-filters
           v-if="cSimpleFilters"
@@ -117,9 +117,10 @@ import CvExpertFilters          from './CvExpertFilters'
 import CvSpinner                from './CvSpinner'
 import CvParametrizer           from '../../CvParametrizer'
 import CvFilterSelector         from './CvFilterSelector'
-import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
+import CvLocalSimpleFilterTrait from './CvLocalSimpleFilterTrait'
+import CvGridMirroring          from './CvGridMirroring'
 export default {
-  mixins     : [CvLocalSimpleFilterTrait],
+  mixins     : [CvLocalSimpleFilterTrait,CvGridMirroring],
   components : {
     CvTag,
     CvPaginate,
@@ -148,7 +149,7 @@ export default {
       showCombinatoryFilters : false,
       showAdvancedFilters    : false,
       showExpertFilters      : false,
-      currentFilter          : 'simple-filters'
+      gridCurrentFilter      : null
     }
   },
   props:[
@@ -265,6 +266,7 @@ export default {
     this.cvParametrizer.setLimit(this.cLimit)
     this.cvParametrizer.setOrderBy(this.cOrderBy)
     this.cvParametrizer.setAscending(this.cAscending)
+    this.gridCurrentFilter = this.cGridCurrentFilter
   },
   methods:{
     pageNavUp: function () {
@@ -470,21 +472,27 @@ export default {
       switch (newFilter){
         case 'simple-filters':
           this.showSimpleFilters = true
-          this.currentFilter     = newFilter
+          this.gridCurrentFilter     = newFilter
+          this.cvParametrizer.setSearchMode(newFilter)
           break
         case 'combinatory-filters':
           this.showCombinatoryFilters = true
-          this.currentFilter     = newFilter
+          this.gridCurrentFilter     = newFilter
+          this.cvParametrizer.setSearchMode(newFilter)
           break
         case 'advanced-filters':
           this.showAdvancedFilters = true
-          this.currentFilter     = newFilter
+          this.gridCurrentFilter     = newFilter
+          this.cvParametrizer.setSearchMode(newFilter)
           break
         case 'expert-filters':
           this.showExpertFilters = true
-          this.currentFilter     = newFilter
+          this.gridCurrentFilter     = newFilter
+          this.cvParametrizer.setSearchMode(newFilter)
           break
       }
+      this.cvParametrizer.setSearchObject('')
+      this.mGridSwitchFilterStartEmiter()
     }
   }
 }

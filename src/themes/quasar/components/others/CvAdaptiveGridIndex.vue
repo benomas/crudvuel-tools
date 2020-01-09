@@ -1,5 +1,5 @@
 <template>
-  <cv-action-container class="cv-adaptative-grid-index" v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container class="cv-adaptative-grid-index" v-if="resource && action" v-bind="{...defActionProps(), ...bGridBind() }">
     <div slot="cv-title-slot" class="row action-label">
       <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
         <label>
@@ -220,8 +220,9 @@ import {
 import CvNotify from './CvNotify.js'
 import CvIndex   from 'src/crudvuel/customs/themes/quasar/components/resource/CvIndex'
 import CvGrid    from '../grid-components/CvGrid'
+import CvGridMirroring from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
 export default {
-  extends    : CvIndex,
+  mixins     : [CvIndex,CvGridMirroring],
   components : {
     Dialog,
     QIcon,
