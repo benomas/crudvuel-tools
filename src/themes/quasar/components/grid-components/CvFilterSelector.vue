@@ -13,10 +13,10 @@
   </div>
 </template>
 <script>
-import CvCustomExtender           from 'src/crudvuel/customs/components/grid-components/CvFilterSelector'
+import CvFilterSelector from '../../../../components/grid-components/CvFilterSelector'
 import {QIcon,QField,QInput,QBtn,QBtnToggle} from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvFilterSelector,
   components : {
     QBtn,
     QField,

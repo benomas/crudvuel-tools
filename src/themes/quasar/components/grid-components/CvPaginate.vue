@@ -86,10 +86,10 @@
   </div>
 </template>
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvPaginate'
+import CvPaginate from '../../../../components/grid-components/CvPaginate'
 import {QTooltip,QIcon,QBtn,QSelect,QField} from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvPaginate,
   components : {
     QTooltip,
     QIcon,

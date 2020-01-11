@@ -20,11 +20,11 @@
   </div>
 </template>
 <script>
-import CvCustomExtender from 'src/crudvuel/customs/components/grid-components/CvSpinner'
+import CvSpinner from '../../../../components/grid-components/CvSpinner'
 import VueSimpleSpinner from 'vue-simple-spinner'
 import { colors }       from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvSpinner,
   components : {
     VueSimpleSpinner
   },

@@ -1,6 +1,6 @@
 <script>
-import CvCustomExtender from 'src/crudvuel/customs/components/CvTag'
+import CvTag  from '../../../components/CvTag'
 export default {
-  extends: CvCustomExtender
+  extends: CvTag
 }
 </script>

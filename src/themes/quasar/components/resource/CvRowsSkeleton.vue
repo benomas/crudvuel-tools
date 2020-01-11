@@ -1,5 +1,4 @@
 <script>
-import CvDefiner from './CvDefiner'
 export default {
   data () {
     return {

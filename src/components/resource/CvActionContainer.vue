@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="row action-container fix-container"
-  >
+  <div class="row action-container fix-container">
     <transition name="component-fade" mode="out-in" v-if="cShowOwnSpinner">
       <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
       </cv-spinner>

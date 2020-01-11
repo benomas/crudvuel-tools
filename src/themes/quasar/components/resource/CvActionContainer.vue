@@ -24,11 +24,11 @@
   </div>
 </template>
 <script>
-import CvCustomExtender from 'src/crudvuel/customs/components/resource/CvActionContainer'
-import CvSpinner        from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSpinner'
-import CvTag            from '../CvTag'
+import CvActionContainer  from '../../../../components/resource/CvActionContainer'
+import CvSpinner          from '../../components/grid-components/CvSpinner'
+import CvTag              from '../CvTag'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvActionContainer,
   components : {
     CvSpinner,CvTag
   },

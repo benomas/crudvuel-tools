@@ -1,5 +1,5 @@
 <script>
-import CvCustomExtender  from 'src/crudvuel/customs/components/resource/CvIndex'
+import CvIndex  from '../../../../components/resource/CvIndex'
 import CvOrderIcons      from '../grid-components/CvOrderIcons'
 import CvThs             from '../grid-components/CvThs'
 import CvActionContainer from './CvActionContainer'
@@ -16,7 +16,7 @@ import {
   QTooltip
 } from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvIndex,
   components : {
     CvActionContainer,
     CvOrderIcons,

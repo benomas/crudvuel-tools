@@ -23,10 +23,10 @@
   </span>
 </template>
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvOrderIcons'
+import CvOrderIcons from '../../../../components/grid-components/CvOrderIcons'
 import {QIcon} from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvOrderIcons,
   components : {
     QIcon
   }

@@ -218,7 +218,7 @@ import {
   QCardSection
 } from 'quasar'
 import CvNotify from './CvNotify.js'
-import CvIndex   from 'src/crudvuel/customs/themes/quasar/components/resource/CvIndex'
+import CvIndex   from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
 import CvGrid    from '../grid-components/CvGrid'
 import CvGridMirroring from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
 export default {

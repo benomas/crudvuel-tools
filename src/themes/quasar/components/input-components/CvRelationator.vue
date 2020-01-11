@@ -65,11 +65,11 @@
   </div>
 </template>
 <script>
-import CvCustomExtender from 'src/crudvuel/customs/components/input-components/CvRelationator'
+import CvRelationator from '../../../../components/input-components/CvRelationator'
 import CvSimpleFilters  from '../grid-components/CvSimpleFilters'
 import {QIcon,QChip}    from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvRelationator,
   components : {
     QIcon,
     CvSimpleFilters,

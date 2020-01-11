@@ -31,10 +31,10 @@
   </div>
 </template>
 <script>
-import CvCustomExtender           from 'src/crudvuel/customs/components/grid-components/CvCombinatoryFilters'
+import CvCombinatoryFilters from '../../../../components/grid-components/CvCombinatoryFilters'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  extends    : CvCombinatoryFilters,
   components : {
     QBtn,
     QField,

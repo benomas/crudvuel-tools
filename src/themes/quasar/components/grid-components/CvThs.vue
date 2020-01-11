@@ -1,6 +1,6 @@
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvThs'
+import CvThs from '../../../../components/grid-components/CvThs'
 export default {
-  extends: CvCustomExtender
+  extends: CvThs
 }
 </script>

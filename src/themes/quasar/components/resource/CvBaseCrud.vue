@@ -1,13 +1,17 @@
 <script>
-import CvCustomExtender           from 'src/crudvuel/customs/components/resource/CvBaseCrud'
+import CvBaseCrud                 from '../../../../components/resource/CvBaseCrud'
+import CvDefiner                  from './CvDefiner'
 import CvActionContainer          from './CvActionContainer'
 import CvButtons                  from '../others/CvButtons'
 import CvToggle                   from '../others/CvToggle'
 import CvNotify                   from '../others/CvNotify.js'
-import CvSpinner                  from 'src/crudvuel/customs/themes/quasar/components/grid-components/CvSpinner'
+import CvSpinner                  from 'src/customs/crudvuel/themes/quasar/components/grid-components/CvSpinner'
 import {QIcon,QField,QInput,QBtn,colors} from 'quasar'
 export default {
-  extends    : CvCustomExtender,
+  mixins: [
+    CvBaseCrud,
+    CvDefiner
+  ],
   components : {
     CvActionContainer,
     CvButtons,

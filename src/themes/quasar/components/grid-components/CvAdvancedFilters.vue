@@ -1,6 +1,6 @@
 <script>
-import CvCustomExtender   from 'src/crudvuel/customs/components/grid-components/CvAdvancedFilters'
+import CvAdvancedFilters from '../../../../components/grid-components/CvAdvancedFilters'
 export default {
-  extends: CvCustomExtender
+  extends: CvAdvancedFilters
 }
 </script>
