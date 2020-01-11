@@ -1,17 +1,22 @@
 <script>
+import CvCore from '../CvCore'
 import CvDefiner from './CvDefiner'
+import VueMirroring from '../../VueMirroring'
+let vueMirroring = new VueMirroring()
 export default {
-  extends: CvDefiner
+  mixins: [
+    CvCore,
+    CvDefiner,
+    vueMirroring.fixProperty('row')
+  ],
   data () {
     return {
-      row       : {},
       resource  : null,
       action    : null,
       isMounted : false
     }
   },
   props: [
-    'cvRow',
     'cvContainerResource',
     'cvCurrentResource'
   ],
@@ -21,9 +26,6 @@ export default {
     },
     cCurrentResource: function () {
       return this.cvCurrentResource
-    },
-    cRow: function () {
-      return this.cvRow
     }
   },
   methods: {
@@ -33,12 +35,12 @@ export default {
   },
   created: function () {
     this.resource = this.resources.locations
-    this.action = this.resource.actions.create
+    this.action   = this.resource.actions.createBundleRenderer
+    this.row      = this.cRow
+    console.log(this.cvRow)
   },
   mounted: function () {
     this.isMounted = true
-    this.row = this.cRow
-    console.log(this.cRow)
   }
 }
 </script>

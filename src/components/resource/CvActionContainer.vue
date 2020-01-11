@@ -22,11 +22,11 @@
   </div>
 </template>
 <script>
-  import CvCore    from './CvCore'
+  import CvCrudCore    from './CvCrudCore'
   import CvTag     from '../CvTag'
   import CvSpinner from '../grid-components/CvSpinner'
   export default{
-    extends    : CvCore,
+    extends    : CvCrudCore,
     components : {
       CvSpinner,
       CvTag

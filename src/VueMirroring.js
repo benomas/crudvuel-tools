@@ -1,13 +1,21 @@
-//Global Dinamic dependencies
-//To complete
-export default class CvClass {
-  constructor(...options){
-    this.data     = function () { return { row:{} } }
-    this.props    = []
-    this.computed = {}
-    this.components         = {}
-    if (options != null){
-
+import {camelCase} from 'lodash'
+export default class VueMirroring {
+  fixProperty (property=null) {
+    return {
+      data () {
+        return {
+          [property]: null
+        }
+      },
+      props: [camelCase('cv '+property)],
+      computed: {
+        [camelCase('c '+property)]:function () {
+          return this[camelCase('cv '+property)]
+        },
+        [camelCase('cd '+property)]:function () {
+          return this[property]
+        }
+      }
     }
   }
 }

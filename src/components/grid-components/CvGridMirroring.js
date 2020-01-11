@@ -1,16 +1,10 @@
+import VueMirroring from '../../VueMirroring'
+let vueMirroring = new VueMirroring()
 export default {
-  data () {
-    return {
-      gridCurrentFilter : null
-    }
-  },
-  props:[
-    'cvGridCurrentFilter',
+  mixins: [
+    vueMirroring.fixProperty('gridCurrentFilter')
   ],
   computed:{
-    cGridCurrentFilter: function () {
-      return this.cvGridCurrentFilter
-    },
     cdGridCurrentFilter: function () {
       return this.gridCurrentFilter || 'simple-filters'
     }
