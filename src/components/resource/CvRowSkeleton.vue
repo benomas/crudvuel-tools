@@ -1,6 +1,7 @@
 <script>
 import CvDefiner from './CvDefiner'
 export default {
+  extends: CvDefiner
   data () {
     return {
       row       : {},
@@ -20,6 +21,9 @@ export default {
     },
     cCurrentResource: function () {
       return this.cvCurrentResource
+    },
+    cRow: function () {
+      return this.cvRow
     }
   },
   methods: {
@@ -28,12 +32,13 @@ export default {
     }
   },
   created: function () {
-    console.log(this)
     this.resource = this.resources.locations
     this.action = this.resource.actions.create
   },
   mounted: function () {
     this.isMounted = true
+    this.row = this.cRow
+    console.log(this.cRow)
   }
 }
 </script>
