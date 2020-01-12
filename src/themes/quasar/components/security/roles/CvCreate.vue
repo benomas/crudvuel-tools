@@ -1,5 +1,5 @@
 <template>
-  <cv-action-container v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container v-if="cResource && cAction" v-bind="defActionProps()">
     <div slot="cv-content-slot" class="row w-100">
       <div class="col-xs-12 col-sm-6 col-md-5 q-pa-md">
         <q-field v-bind="defErrorInputProps('name')">
@@ -66,7 +66,7 @@
       <div class="col-xs-12 h-50px">
       </div>
       <div class="col-xs-12">
-        <cv-buttons :cv-ready="ready" @cv-back="cancelAction()" @cv-next="setService()" :cv-action="action">
+        <cv-buttons :cv-ready="ready" @cv-back="cancelAction()" @cv-next="setService()" :cv-action="cAction">
         </cv-buttons>
       </div>
     </div>
@@ -112,7 +112,7 @@ export default {
     }
   },
   mounted: function () {
-    this.setUnReady()
+    this.mSetUnReady()
     //if (!this.rowKeyValue)
       this.getAdittionalData()
   },
@@ -127,33 +127,33 @@ export default {
           this.services.roles.index(null,null,this.cvParams.getSerialized())
             .then((rolesResponse) => {
               this.$set(this,'roles',rolesResponse.data.data || rolesResponse.data)
-              this.setReady().then(() => {
+              this.mSetReady().then(() => {
                 this.rolesLoaded = true
               })
             })
             .catch((rolesResponse) => {
               this.$set(this,'roles',[])
-              this.setReady().then(() => {
+              this.mSetReady().then(() => {
                 this.rolesLoaded = true
               })
             })
         })
         .catch((response) => {
           this.permissions = []
-          this.setReady().then(() => {
+          this.mSetReady().then(() => {
             this.permissionsLoaded = true
             this.rolesLoaded       = true
           })
         })
     },
     getSuccess: function (response) {
-      this.setUnReady()
+      this.mSetUnReady()
       this.row                = response.data.data || response.data
       this.relatedPermissions = this.row.permissions.filter(row => row != null)
       this.relatedRoles       = this.row.roles.filter(row => row != null)
       this.getAdittionalData()
       if (this.cShowGetMessages)
-        this.collectSuccessMessages(this.action.getGetSuccessMessage())
+        this.collectSuccessMessages(this.cAction.getGetSuccessMessage())
     },
     checkRelatedPermissions: function (data) {
       if (data.cRelatedIdentifier === 'permissions')

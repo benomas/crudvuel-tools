@@ -54,7 +54,7 @@ export default {
     if (this.rowKeyValue)
       this.getService()
     else
-      this.setReady()
+      this.mSetReady()
 
     if(this.cAutoFill){
       console.log(

@@ -1,13 +1,13 @@
 <template>
   <div class="row action-container fix-container">
     <transition name="component-fade" mode="out-in" v-if="cShowOwnSpinner">
-      <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
+      <cv-spinner v-if="!cReady && cdIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
     <slot name="cv-title-slot" class="col-lg-12 action-label" v-if="cShowHeader">
       <label>
         <h5 class="custom-h">
-          {{action.label}}
+          {{cAction.label}}
         </h5>
       </label>
     </slot>
@@ -16,73 +16,41 @@
       >
       </slot>
     </div>
-    <slot name="cv-test"
-    >
-    </slot>
   </div>
 </template>
 <script>
-  import CvCrudCore    from './CvCrudCore'
-  import CvTag     from '../CvTag'
-  import CvSpinner from '../grid-components/CvSpinner'
-  export default{
-    extends    : CvCrudCore,
-    components : {
-      CvSpinner,
-      CvTag
+import CvTag     from '../CvTag'
+import CvSpinner from '../grid-components/CvSpinner'
+import VueMirroring from '../../VueMirroring'
+import CvBaseComponent from '../CvBaseComponent'
+let vueMirroring = new VueMirroring()
+export default{
+  mixins: [
+    CvBaseComponent,
+    vueMirroring.fixProperties({
+      'showOwnSpinner' : {init:true,mode:'P|C'},
+      'excludeActions' : {init:[],mode:'P|C'},
+      'showHeader'     : {init:true,mode:'P|C'}
+    }),
+  ],
+  components : {
+    CvSpinner,
+    CvTag
+  },
+  computed:{
+    cGetted:function(){
+      return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false
     },
-    data (){
-      return {
-        resource                    : null,
-        action                      : null,
-        isMounted                   : false
-      }
+    cBackLabel: function () {
+      if (this.cAction)
+        return this.cAction.backLabel || null
+      return 'Cancelar'
     },
-    methods:{
-    },
-    computed:{
-      cAction:function(){
-        return this.cvAction || null
-      },
-      cResource:function(){
-        return (this.cAction && this.cAction.resource)? this.cAction.resource:null
-      },
-      cExcludeActions:function(){
-        return this.cvExcludeActions || []
-      },
-      cGetted:function(){
-        return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false
-      },
-      cShowHeader:function(){
-        if(typeof this.cvShowHeader!=='undefined')
-          return this.cvShowHeader
-        return true
-      },
-      cIsMounted: function () {
-        return this.isMounted || false
-      },
-      cBackLabel: function () {
-        if (this.cAction)
-          return this.cAction.backLabel || null
-        return 'Cancelar'
-      },
-      cNextLabel: function () {
-        if (this.cAction)
-          return this.cAction.nextLabel || null
-        return 'Guardar'
-      }
-    },
-    props:[
-      "cvAction",
-      "cvExcludeActions",
-      "cvShowHeader"
-    ],
-    created:function(){
-      this.resource    = this.cResource
-      this.action      = this.cAction
-    },
-    mounted: function () {
-      this.isMounted = true
+    cNextLabel: function () {
+      if (this.cAction)
+        return this.cAction.nextLabel || null
+      return 'Guardar'
     }
   }
+}
 </script>

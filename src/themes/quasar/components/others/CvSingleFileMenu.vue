@@ -7,7 +7,7 @@
     :color="cDownloadColor"
     size="md"
     :disable="!cPath"
-    @click="openFile">
+    @click="mOpenFile">
     <q-tooltip >
       {{cDownloadLang}}
     </q-tooltip>
@@ -74,7 +74,7 @@ export default {
     }
   },
   methods: {
-    openFile: function () {
+    mOpenFile: function () {
       window.open(this.cPath)
     }
   }

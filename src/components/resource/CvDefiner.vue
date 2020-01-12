@@ -1,12 +1,9 @@
 <script>
 export default {
   methods: {
-    resourceAccessing: function (resource = null) {
-      if (!resource) {
-        if (typeof this.resource !== 'undefined')
-          return this.resource
-        return null
-      }
+    mResourceAccessing: function (resource = null) {
+      if (!resource)
+        return this.cResource
       if (typeof resource === 'string') {
         if (this.resources != null && this.resources[resource] != null)
           return this.resources[resource]
@@ -15,7 +12,7 @@ export default {
       return resource
     },
     rLang: function (source,resource = null) {
-      let lResource = this.resourceAccessing(resource)
+      let lResource = this.mResourceAccessing(resource)
       return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
     },
     fLang: function (field,resource = null) {
@@ -24,7 +21,7 @@ export default {
     defActionProps: function (action = null,resource = null) {
       let currentDefActionProps = {
         'cv-parent-ref' : this.cSelfRef,
-        'cv-action'     : this.actionAccessing(action,this.resourceAccessing(resource)),
+        'cv-action'     : this.mActionAccessing(action,this.mResourceAccessing(resource)),
         'cv-ready'      : this.cReady
       }
 
@@ -33,12 +30,13 @@ export default {
       return currentDefActionProps
     },
     defInputProps: function (field,resource = null) {
-      let lResource = this.resourceAccessing(resource)
+      let lResource = this.mResourceAccessing(resource)
       let def =  {
         'float-label'    : lResource ? this.fLang(field,lResource) : null,
         'label'          : lResource ? this.fLang(field,lResource) : null,
         'clearable'      : 'clearable',
         'readonly'       : this.cDisableFields,
+        'disable'        : this.cDisableFields,
         'hide-underline' : this.cDisableFields,
         'clear-icon'     : 'fas fa-times-circle',
         'class'          : 'w-100',
@@ -53,7 +51,7 @@ export default {
       return def
     },
     defErrorInputProps: function (field,resource = null) {
-      let lResource = this.resourceAccessing(resource)
+      let lResource = this.mResourceAccessing(resource)
       let def =  {
         'error'         : this.cvErr(this.errors,field,'boolean'),
         'error-message' : this.cvErr(this.errors,field),
@@ -64,7 +62,7 @@ export default {
       return def
     },
     defMatcherizerProps: function (resource = null,snakeResource = null) {
-      let lResource = this.resourceAccessing(resource)
+      let lResource = this.mResourceAccessing(resource)
       return {
         'cv-source-service'      : lResource.crudServices.index || null,
         'cv-source-label'        : lResource.rowLabel || null,

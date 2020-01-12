@@ -5,7 +5,7 @@
     :style="{'min-height':cMinHeight, 'opacity':!cReady? '0.5':'1'}"
   >
     <transition name="component-fade" mode="out-in">
-      <cv-spinner v-if="!cReady && cIsMounted" :cv-target="cSelfRef">
+      <cv-spinner v-if="!cReady && cdIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
     <div>
@@ -236,7 +236,7 @@ export default {
     cSelfRef :  function () {
       return this
     },
-    cIsMounted: function () {
+    cdIsMounted: function () {
       return this.isMounted || false
     },
     cGridLang: function () {

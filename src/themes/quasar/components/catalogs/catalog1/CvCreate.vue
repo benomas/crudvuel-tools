@@ -1,5 +1,5 @@
 <template>
-  <cv-action-container v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container v-if="cResource && cAction" v-bind="defActionProps()">
     <div slot="cv-content-slot" class="row w-100">
       <div class="col-xs-12 col-sm-6 col-md-5 q-pa-md">
         <q-field v-bind="defErrorInputProps('name')">
@@ -19,7 +19,7 @@
       <div class="col-xs-12 h-50px">
       </div>
       <div class="col-xs-12">
-        <cv-buttons :cv-ready="cReady" :cv-action="action" @cv-back="cancelAction()" @cv-next="setService()" >
+        <cv-buttons :cv-ready="cReady" :cv-action="cAction" @cv-back="cancelAction()" @cv-next="setService()" >
         </cv-buttons>
       </div>
     </div>

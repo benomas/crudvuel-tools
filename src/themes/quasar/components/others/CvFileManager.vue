@@ -52,7 +52,7 @@ export default {
     init: function () {
       this.$set(this.row,'cat_file_camel_resource',null)
     },
-    openFile: function () {
+    mOpenFile: function () {
       window.open(this.row.absolute_path)
     },
     uploadFileStart: function () {
@@ -69,7 +69,7 @@ export default {
         this.row   = xhr.response.data
         this.ready = true
         if (this.cShowSetMessages)
-          this.collectSuccessMessages(this.action.getSetSuccessMessage() + this.cIdentText)
+          this.collectSuccessMessages(this.cAction.getSetSuccessMessage() + this.cIdentText)
         resolve(xhr)
       })
     },
@@ -113,7 +113,7 @@ export default {
       }
 
       if (this.cShowSetMessages)
-        this.collectErrorMessages(this.action.getSetErrorMessage() + this.cIdentText)
+        this.collectErrorMessages(this.cAction.getSetErrorMessage() + this.cIdentText)
       this.errorRedirect()
     },
     validator: function () {
@@ -161,7 +161,7 @@ export default {
         },
         {
           name  : 'resource',
-          value : this.resource.name
+          value : this.cResource.name
         },
         {
           name  : 'cat_file_id',

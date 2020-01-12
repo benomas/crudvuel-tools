@@ -1,10 +1,10 @@
 <template>
-  <cv-action-container class="cv-adaptative-grid-index" v-if="resource && action" v-bind="{...defActionProps(), ...bGridBind() }">
+  <cv-action-container class="cv-adaptative-grid-index" v-if="cResource && cAction" v-bind="{...defActionProps(), ...bGridBind() }">
     <div slot="cv-title-slot" class="row action-label">
       <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
         <label>
           <span class="q-headline txt-secondary">
-            {{action.label}}
+            {{cAction.label}}
           </span>
         </label>
       </div>
@@ -14,11 +14,11 @@
             <q-btn
               v-if="hasPermission('create')"
               icon="fas fa-plus-circle"
-              @click="$router.push(actionPath('create'))"
+              @click="$router.push(mActionPath('create'))"
               color="secondary"
               round
               size="sm"
-              :title="resorceAction('create').label"
+              :title="mResorceAction('create').label"
             ></q-btn>
           </div>
         </slot>
@@ -28,7 +28,7 @@
     <div slot="cv-content-slot" class="row action-inner-container w-100">
       <cv-grid
         cv-tag="div"
-        :cv-service="action.getService"
+        :cv-service="cAction.getService"
         :cv-top-paginate="true"
         :cv-bottom-paginate="true"
         :cv-pages-per-view="5"
@@ -52,11 +52,11 @@
                 <q-btn
                   v-if="hasPermission('create')"
                   icon="fas fa-plus-circle"
-                  @click="$router.push(actionPath('create'))"
+                  @click="$router.push(mActionPath('create'))"
                   color="secondary"
                   round
                   size="sm"
-                  :title="resorceAction('create').label"
+                  :title="mResorceAction('create').label"
                 ></q-btn>
                 <slot name="extra-actions-header-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                 </slot>
@@ -81,7 +81,7 @@
                     class="active-icon"
                     name="fas fa-check"
                     color="positive"
-                    :title="resorceAction('deactivate').label"
+                    :title="mResorceAction('deactivate').label"
                     v-cv-in-progress="isSynchronizing(gridRow)"
                     :disabled="isSynchronizing(gridRow)"
                   />
@@ -96,7 +96,7 @@
                     name="fas fa-times-circle"
                     color="negative"
                     @click="temp = 'activateRow'; activateRow(gridRow)"
-                    :title="resorceAction('activate').label"
+                    :title="mResorceAction('activate').label"
                     v-cv-in-progress="isSynchronizing(gridRow)"
                     :disabled="isSynchronizing(gridRow)"
                   />
@@ -106,22 +106,22 @@
                 <q-btn
                   v-if="hasPermission('show')"
                   icon="fas fa-eye"
-                  @click="$router.push(actionPath('show',gridRow))"
+                  @click="$router.push(mActionPath('show',gridRow))"
                   color="info"
                   round
                   size="sm"
-                  :title="resorceAction('show').label"
+                  :title="mResorceAction('show').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
                   v-if="hasPermission('edit')"
                   icon="fas fa-pencil-alt"
-                  @click="$router.push(actionPath('edit',gridRow))"
+                  @click="$router.push(mActionPath('edit',gridRow))"
                   color="positive"
                   round
                   size="sm"
-                  :title="resorceAction('edit').label"
+                  :title="mResorceAction('edit').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
@@ -132,7 +132,7 @@
                   color="negative"
                   round
                   size="sm"
-                  :title="resorceAction('delete').label"
+                  :title="mResorceAction('delete').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 >
@@ -161,22 +161,22 @@
                     <q-btn
                       v-if="hasPermission('show')"
                       icon="fas fa-eye"
-                      @click="$router.push(actionPath('show',gridRow))"
+                      @click="$router.push(mActionPath('show',gridRow))"
                       color="info"
                       round
                       size="sm"
-                      :title="resorceAction('show').label"
+                      :title="mResorceAction('show').label"
                       v-cv-in-progress="isSynchronizing(gridRow)"
                       :disabled="isSynchronizing(gridRow)"
                     ></q-btn>
                     <q-btn
                       v-if="hasPermission('edit')"
                       icon="fas fa-pencil-alt"
-                      @click="$router.push(actionPath('edit',gridRow))"
+                      @click="$router.push(mActionPath('edit',gridRow))"
                       color="positive"
                       round
                       size="sm"
-                      :title="resorceAction('edit').label"
+                      :title="mResorceAction('edit').label"
                       v-cv-in-progress="isSynchronizing(gridRow)"
                       :disabled="isSynchronizing(gridRow)"
                     ></q-btn>
@@ -187,7 +187,7 @@
                       color="negative"
                       round
                       size="sm"
-                      :title="resorceAction('delete').label"
+                      :title="mResorceAction('delete').label"
                       v-cv-in-progress="isSynchronizing(gridRow)"
                       :disabled="isSynchronizing(gridRow)"
                     >
@@ -285,14 +285,14 @@ export default {
       if (this.isSynchronizing(gridRow))
         return false
       this.toSync(gridRow)
-      let resorceAction = this.resorceAction('activate')
-      resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+      let mResorceAction = this.mResorceAction('activate')
+      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
         this.mainGridData.refresh()
-        this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
-        this.collectErrorMessages(resorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
+        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
       })
     },
     deactivateRow: function (gridRow) {
@@ -301,33 +301,33 @@ export default {
       if (this.isSynchronizing(gridRow))
         return false
       this.toSync(gridRow)
-      let resorceAction = this.resorceAction('deactivate')
-      resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+      let mResorceAction = this.mResorceAction('deactivate')
+      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
         this.mainGridData.refresh()
-        this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
-        this.collectErrorMessages(resorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
+        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
       })
     },
     deleteRow (gridRow) {
-      let resorceAction = this.resorceAction('delete')
+      let mResorceAction = this.mResorceAction('delete')
       this.toSync(gridRow)
       this.$q.dialog({
-        title   : resorceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
-        message : resorceAction.confirmLabel,
-        ok      : resorceAction.nextLabel,
-        cancel  : resorceAction.backLabel
+        title   : mResorceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
+        message : mResorceAction.confirmLabel,
+        ok      : mResorceAction.nextLabel,
+        cancel  : mResorceAction.backLabel
       }).onOk(() => {
-        resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+        mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
           this.synchronized(gridRow)
           this.mainGridData.refresh()
-          this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+          this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
         }).catch(response => false)
       }).onCancel(() => {
         this.synchronized(gridRow)
-        this.collectCancelMessages(resorceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
+        this.collectCancelMessages(mResorceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
       })
     },
     successNotification: function () {
@@ -351,8 +351,8 @@ export default {
   },
   created: function () {
     let gridSystemName
-    if (this.resource != null && this.resource.name != null)
-      gridSystemName = 'grid-system-' + this.resource.name + '-ref'
+    if (this.resource != null && this.cResource.name != null)
+      gridSystemName = 'grid-system-' + this.cResource.name + '-ref'
     else
       gridSystemName = 'grid-system-ref'
     this.$set(this.cParentRef.gridRefs,gridSystemName,this)

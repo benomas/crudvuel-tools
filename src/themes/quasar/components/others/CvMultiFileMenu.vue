@@ -44,7 +44,7 @@
                 round
                 :color="cDownloadColor"
                 :disabled="getDeleteAsyc(file.id)"
-                @click="(()=>{openFile(file.absolute_path)})">
+                @click="(()=>{mOpenFile(file.absolute_path)})">
                 <q-tooltip :disable="getDeleteAsyc(file.id)">
                   {{cDownloadLang}}
                 </q-tooltip>
@@ -162,7 +162,7 @@ export default {
         return this.cItemTitle
       return this.cItemLabel + ' ' + (position + 1)
     },
-    openFile: function (path) {
+    mOpenFile: function (path) {
       window.open(path)
     },
     getAsyc: function (type,pos) {

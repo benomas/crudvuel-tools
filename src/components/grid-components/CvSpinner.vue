@@ -2,7 +2,7 @@
   <div class="cv-spinner" :style="{'width': cFixedWidth,'height': cFixedHeight}">
     <div
       class="animation-container"
-      v-if="cIsMounted"
+      v-if="cdIsMounted"
       :style="{
         'width'       :cAnimationFixedWidth,
         'height'      :cAnimationFixedHeight,
@@ -106,7 +106,7 @@ export default {
     cSelfRef :  function () {
       return this
     },
-    cIsMounted: function () {
+    cdIsMounted: function () {
       return this.isMounted || false
     }
   },

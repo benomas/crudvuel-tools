@@ -46,8 +46,8 @@ export default {
       return this.isMobile
     },
     cMyGridSystem: function () {
-      if (this.gridRefs['grid-system-' + this.resource.name + '-ref'] != null)
-        return this.gridRefs['grid-system-' + this.resource.name + '-ref']
+      if (this.gridRefs['grid-system-' + this.cResource.name + '-ref'] != null)
+        return this.gridRefs['grid-system-' + this.cResource.name + '-ref']
       if (this.gridRefs['grid-system-ref'] != null)
         this.gridRefs['grid-system-ref'] != null
       return null
@@ -55,14 +55,14 @@ export default {
   },
   methods: {
     fLang: function (field) {
-      let word = 'crudvuel.resources.' + this.resource.name + '.fields.' + field
+      let word = 'crudvuel.resources.' + this.cResource.name + '.fields.' + field
       return  this.$tc(word)
     },
     defActionProps: function () {
       return {
         'cv-parent-ref'       : this.cSelfRef,
         'cv-resource'         : this.resource,
-        'cv-action'           : this.action,
+        'cv-action'           : this.cAction,
         'cv-ready'            : this.cReady,
         'cv-show-own-spinner' : false
       }

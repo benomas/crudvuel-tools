@@ -1,10 +1,10 @@
 <template>
-  <cv-action-container class="cv-flex-grid-index" v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container class="cv-flex-grid-index" v-if="cResource && cAction" v-bind="defActionProps()">
   <!-- cv-grid-customization-->
     <div slot="cv-content-slot" class="row action-inner-container">
       <cv-grid
         cv-tag="div"
-        :cv-service="action.getService"
+        :cv-service="cAction.getService"
         :cv-top-paginate="true"
         :cv-bottom-paginate="true"
         :cv-pages-per-view="7"
@@ -27,11 +27,11 @@
                 <q-btn
                   v-if="hasPermission('create')"
                   icon="add_circle_outline"
-                  @click="$router.push(actionPath('create'))"
+                  @click="$router.push(mActionPath('create'))"
                   color="f-color"
                   round
                   small
-                  :title="resorceAction('create').label"
+                  :title="mResorceAction('create').label"
                 ></q-btn>
                 <slot name="extra-actions-header-slot" :grid-data="mainGridData">
                 </slot>
@@ -56,7 +56,7 @@
                     class="active-icon"
                     name="fa-check"
                     color="positive"
-                    :title="resorceAction('deactivate').label"
+                    :title="mResorceAction('deactivate').label"
                     v-cv-in-progress="isSynchronizing(gridRow)"
                     :disabled="isSynchronizing(gridRow)"
                   />
@@ -71,7 +71,7 @@
                     name="fa-times-circle"
                     color="negative"
                     @click="temp = 'activateRow'; activateRow(gridRow)"
-                    :title="resorceAction('activate').label"
+                    :title="mResorceAction('activate').label"
                     v-cv-in-progress="isSynchronizing(gridRow)"
                     :disabled="isSynchronizing(gridRow)"
                   />
@@ -81,22 +81,22 @@
                 <q-btn
                   v-if="hasPermission('show')"
                   icon="visibility"
-                  @click="$router.push(actionPath('show',gridRow))"
+                  @click="$router.push(mActionPath('show',gridRow))"
                   color="info"
                   round
                   small
-                  :title="resorceAction('show').label"
+                  :title="mResorceAction('show').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
                   v-if="hasPermission('edit')"
                   icon="edit"
-                  @click="$router.push(actionPath('edit',gridRow))"
+                  @click="$router.push(mActionPath('edit',gridRow))"
                   color="positive"
                   round
                   small
-                  :title="resorceAction('edit').label"
+                  :title="mResorceAction('edit').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
@@ -107,7 +107,7 @@
                   color="negative"
                   round
                   small
-                  :title="resorceAction('delete').label"
+                  :title="mResorceAction('delete').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 >
@@ -136,22 +136,22 @@
                         <q-btn
                           v-if="hasPermission('show')"
                           icon="visibility"
-                          @click="$router.push(actionPath('show',gridRow))"
+                          @click="$router.push(mActionPath('show',gridRow))"
                           color="info"
                           round
                           small
-                          :title="resorceAction('show').label"
+                          :title="mResorceAction('show').label"
                           v-cv-in-progress="isSynchronizing(gridRow)"
                           :disabled="isSynchronizing(gridRow)"
                         ></q-btn>
                         <q-btn
                           v-if="hasPermission('edit')"
                           icon="edit"
-                          @click="$router.push(actionPath('edit',gridRow))"
+                          @click="$router.push(mActionPath('edit',gridRow))"
                           color="positive"
                           round
                           small
-                          :title="resorceAction('edit').label"
+                          :title="mResorceAction('edit').label"
                           v-cv-in-progress="isSynchronizing(gridRow)"
                           :disabled="isSynchronizing(gridRow)"
                         ></q-btn>
@@ -162,7 +162,7 @@
                           color="negative"
                           round
                           small
-                          :title="resorceAction('delete').label"
+                          :title="mResorceAction('delete').label"
                           v-cv-in-progress="isSynchronizing(gridRow)"
                           :disabled="isSynchronizing(gridRow)"
                         >
@@ -224,14 +224,14 @@ export default {
       if (this.isSynchronizing(gridRow))
         return false
       this.toSync(gridRow)
-      let resorceAction = this.resorceAction('activate')
-      resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+      let mResorceAction = this.mResorceAction('activate')
+      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
         this.mainGridData.refresh()
-        this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
-        this.collectErrorMessages(resorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
+        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
       })
     },
     deactivateRow: function (gridRow) {
@@ -240,33 +240,33 @@ export default {
       if (this.isSynchronizing(gridRow))
         return false
       this.toSync(gridRow)
-      let resorceAction = this.resorceAction('deactivate')
-      resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+      let mResorceAction = this.mResorceAction('deactivate')
+      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
         this.mainGridData.refresh()
-        this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
-        this.collectErrorMessages(resorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
+        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
       })
     },
     deleteRow (gridRow) {
-      let resorceAction = this.resorceAction('delete')
+      let mResorceAction = this.mResorceAction('delete')
       this.toSync(gridRow)
       this.$q.dialog({
-        title   : resorceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
-        message : resorceAction.confirmLabel,
-        ok      : resorceAction.nextLabel,
-        cancel  : resorceAction.backLabel
+        title   : mResorceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
+        message : mResorceAction.confirmLabel,
+        ok      : mResorceAction.nextLabel,
+        cancel  : mResorceAction.backLabel
       }).then(() => {
-        resorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+        mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
           this.synchronized(gridRow)
           this.mainGridData.refresh()
-          this.collectSuccessMessages(resorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+          this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
         }).catch(response => false)
       }).catch(() => {
         this.synchronized(gridRow)
-        this.collectCancelMessages(resorceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
+        this.collectCancelMessages(mResorceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
       })
     },
     successNotification: function () {

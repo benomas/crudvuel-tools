@@ -1,5 +1,5 @@
 <template>
-  <cv-action-container v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container v-if="cResource && cAction" v-bind="defActionProps()">
     <div slot="cv-content-slot" class="row w-100">
       <div class="col-xs-12 col-md-5 q-pa-md m-auto">
         <div class="col-xs-12">
@@ -84,7 +84,7 @@
           color="primary"
           small
           :disabled="!row.absolute_path"
-          @click="openFile">
+          @click="mOpenFile">
           <q-tooltip >
             {{!row.absolute_path?rLang('otherLabels.noDownload','files'):rLang('otherLabels.download','files')}}
           </q-tooltip>
@@ -93,7 +93,7 @@
       <div class="col-xs-12 h-50px">
       </div>
       <div class="col-xs-12">
-        <cv-buttons :cv-ready="ready" :cv-action="action" @cv-back="cancelAction" @cv-next="upload" >
+        <cv-buttons :cv-ready="ready" :cv-action="cAction" @cv-back="cancelAction" @cv-next="upload" >
         </cv-buttons>
       </div>
     </div>

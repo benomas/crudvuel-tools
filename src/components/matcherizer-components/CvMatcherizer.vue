@@ -228,7 +228,7 @@ export default {
             this.focus = false
             console.log(this.cParentRef)
             if(this.cParentRef)
-              this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
+              this.cParentRef.mVueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
             this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
             resolve()
           }).catch(reject)
@@ -245,7 +245,7 @@ export default {
         this.listOut().then(
           () => this.refresh().then(() => {
             if(this.cParentRef)
-              this.cParentRef.vueSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
+              this.cParentRef.mVueSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
             this.$emit('cv-reset', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
           }).catch(reject)
         ).catch(reject)

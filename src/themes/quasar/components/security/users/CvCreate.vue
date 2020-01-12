@@ -1,5 +1,5 @@
 <template>
-  <cv-action-container v-if="resource && action" v-bind="defActionProps()">
+  <cv-action-container v-if="cResource && cAction" v-bind="defActionProps()">
     <div slot="cv-content-slot" class="row w-100">
       <div class="col-xs-12 col-sm-6 col-md-4 q-pa-md">
         <q-input v-bind="defInputProps('first_name')" v-model.trim="row.first_name"/>
@@ -60,7 +60,7 @@
       <div class="col-xs-12 h-50px">
       </div>
       <div class="col-xs-12">
-        <cv-buttons :cv-ready="ready" @cv-back="cancelAction()" @cv-next="setService()" :cv-action="action">
+        <cv-buttons :cv-ready="ready" @cv-back="cancelAction()" @cv-next="setService()" :cv-action="cAction">
         </cv-buttons>
       </div>
     </div>
@@ -98,7 +98,7 @@ export default {
     }
   },
   mounted: function () {
-    this.setUnReady()
+    this.mSetUnReady()
     this.row.password = ''
     if (!this.rowKeyValue)
       this.getAdittionalData()
@@ -108,14 +108,14 @@ export default {
       this.services.roles.index(null,null,this.cvParams.getSerialized())
         .then((response) => {
           this.roles = response.data.data || response.data
-          this.setReady().then(() => {
+          this.mSetReady().then(() => {
             this.rolesLoaded = true
             this.row.password = ''
           })
         })
         .catch((response) => {
           this.roles = []
-          this.setReady().then(() => {
+          this.mSetReady().then(() => {
             this.rolesLoaded = true
             this.row.password = ''
           })
@@ -126,7 +126,7 @@ export default {
       this.relatedRoles = this.row.roles
       this.getAdittionalData()
       if (this.cShowGetMessages)
-        this.collectSuccessMessages(this.action.getGetSuccessMessage())
+        this.collectSuccessMessages(this.cAction.getGetSuccessMessage())
     },
     checkRelated: function (data) {
       if (data.cRelatedIdentifier === 'roles')

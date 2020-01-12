@@ -25,14 +25,6 @@ export default {
     validator: function () {
       return true
     }
-  },
-  created: function () {
-    console.log(this)
-    this.resource = this.resources.locations
-    this.action = this.resource.actions.create
-  },
-  mounted: function () {
-    this.isMounted = true
   }
 }
 </script>

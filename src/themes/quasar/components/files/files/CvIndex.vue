@@ -1,5 +1,5 @@
 <template>
-  <cv-adaptive-grid-index v-if="resource && action" v-bind="defActionProps()" v-on="bGridOn()">
+  <cv-adaptive-grid-index v-if="cResource && cAction" v-bind="defActionProps()" v-on="bGridOn()">
     <!-- cv-grid-customization-->
     <template v-if="1" slot="headers-slot" slot-scope="props">
       <!-- cv-grid-customization-->

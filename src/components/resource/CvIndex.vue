@@ -11,8 +11,8 @@ export default {
 	},
   computed:{
     cGridRef:function(){
-      if(this.resource && this.resource.name && this.action)
-        return  this.resource.name + '-'+this.action.name+'-grid'
+      if(this.cResource && this.cResource.name && this.cAction)
+        return  this.cResource.name + '-'+this.cAction.name+'-grid'
       return "mainGrid"
     },
     cGridEl:function(){

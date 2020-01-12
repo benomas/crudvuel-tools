@@ -2,7 +2,7 @@
   <div class="cv-spinner absolute-center" >
     <div
       class="animation-container"
-      v-if="cIsMounted"
+      v-if="cdIsMounted"
     >
       <slot>
         <vue-simple-spinner

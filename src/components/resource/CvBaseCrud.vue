@@ -5,6 +5,8 @@ import CvSynchronizer    from '../../CvSynchronizer'
 import CvErrorWraper     from '../input-components/CvErrorWraper'
 import cvVueSetter       from '../../cvVueSetter'
 import {cvFixDotDepth}   from '../../cvHelper'
+import VueMirroring from '../../VueMirroring'
+let vueMirroring = new VueMirroring()
 export default{
   mixins: [
     CvActionContainer,
@@ -19,7 +21,6 @@ export default{
       rowKeyValue                 : null,
       row                         : null,
       rows                        : null,
-      ready                       : false,
       errors                      : {},
       hasErrors                   : false,
       cvSynchronizer              : new CvSynchronizer(),
@@ -39,18 +40,18 @@ export default{
       return response.data.data || response.data
     },
     getSuccess (response){
-      if(this.action && this.action.type==="rows")
+      if(this.cAction && this.cAction.type==="rows")
         this.rows=this.transformResponse(response)
-      if(this.action && this.action.type==="row")
+      if(this.cAction && this.cAction.type==="row")
         this.row=this.transformResponse(response)
-      this.setReady()
+      this.mSetReady()
       if(this.cShowGetMessages)
-        this.collectSuccessMessages(this.action.getGetSuccessMessage())
+        this.collectSuccessMessages(this.cAction.getGetSuccessMessage())
     },
     getError (response){
-      this.setReady()
+      this.mSetReady()
       if(this.cShowGetMessages)
-        this.collectErrorMessages(this.action.getGetErrorMessage())
+        this.collectErrorMessages(this.cAction.getGetErrorMessage())
     },
     getParams (){
       return null
@@ -64,26 +65,26 @@ export default{
       ]
     },
     dinamicGetService (...serviceParams){
-      if(!this.resource || !this.cActionGetService)
+      if(!this.cResource || !this.cActionGetService)
         return false
-      this.setUnReady()
+      this.mSetUnReady()
       return this.cActionGetService(...this.fixGetServiceParams(...serviceParams))
     },
     getService (...serviceParams){
       this.dinamicGetService(...serviceParams).then(this.getSuccess).catch(this.getError)
     },
     setSuccess (response){
-      if(this.action && this.action.type==="rows")
+      if(this.cAction && this.cAction.type==="rows")
         this.rows=this.transformResponse(response)
-      if(this.action && this.action.type==="row")
+      if(this.cAction && this.cAction.type==="row")
         this.row=this.transformResponse(response)
-      this.setReady()
+      this.mSetReady()
       if(this.cShowSetMessages)
-        this.collectSuccessMessages(this.action.getSetSuccessMessage()+this.cIdentText)
+        this.collectSuccessMessages(this.cAction.getSetSuccessMessage()+this.cIdentText)
       this.successRedirect()
     },
     setError (errorResponse){
-      this.setReady()
+      this.mSetReady()
       this.errors = {}
       if (
         typeof errorResponse!=='undefined' &&
@@ -94,12 +95,12 @@ export default{
         this.errors = errorResponse.response.data.errors
 
       if(this.cShowSetMessages)
-        this.collectErrorMessages(this.action.getSetErrorMessage()+this.cIdentText + this.serverMessageTransform(errorResponse.response.data.message || ''))
+        this.collectErrorMessages(this.cAction.getSetErrorMessage()+this.cIdentText + this.serverMessageTransform(errorResponse.response.data.message || ''))
       this.errorRedirect()
     },
     setParams (){
-      return this.action && this.action.type && this[this.action.type]?
-        this[this.action.type]:null
+      return this.cAction && this.cAction.type && this[this.cAction.type]?
+        this[this.cAction.type]:null
     },
     fixSetServiceParams (setParams=null,url=null,queryString=null) {
       return [
@@ -110,7 +111,7 @@ export default{
       ]
     },
     dinamicSetService (...serviceParams){
-      if (!this.resource || !this.cActionSetService)
+      if (!this.cResource || !this.cActionSetService)
         return false
 
       if (!this.validator()) {
@@ -119,7 +120,7 @@ export default{
         return false
       }
 
-      this.setUnReady()
+      this.mSetUnReady()
       this.errors = {}
       return this.cActionSetService(...this.fixSetServiceParams(...serviceParams))
     },
@@ -210,13 +211,13 @@ export default{
     errorRedirect (){
     },
     cancelRedirect () {
-      if (this.action.name !== 'index' && typeof this.resource.actions.index !== 'undefined') {
-        let baseRoute = this.$route.path.split(this.actionPath('index'))
-        this.$router.push(baseRoute[0] + this.actionPath('index'))
+      if (this.cAction.name !== 'index' && typeof this.cResource.actions.index !== 'undefined') {
+        let baseRoute = this.$route.path.split(this.mActionPath('index'))
+        this.$router.push(baseRoute[0] + this.mActionPath('index'))
       }
     },
     cancelAction (){
-      let cancelMessage = this.action.getSetCancelMessage()
+      let cancelMessage = this.cAction.getSetCancelMessage()
       if(cancelMessage)
         this.collectCancelMessages(cancelMessage+this.actionKeyMessage(this.row))
       this.cancelRedirect()
@@ -281,10 +282,10 @@ export default{
       return true
     },
     cActionGetService: function () {
-      return this.action.getService || null
+      return this.cAction.getService || null
     },
     cActionSetService: function () {
-      return this.action.setService || null
+      return this.cAction.setService || null
     },
     cHasRowIdentifier: function () {
       return this.rowKeyValue || false
@@ -296,10 +297,10 @@ export default{
       return this.services.general.cvComunicator.shareHeaders() || {}
     },
     cRelBaseUrl: function () {
-      return this.resource.crudServices.getRelBaseUrl() || ''
+      return this.cResource.crudServices.getRelBaseUrl() || ''
     },
     cAbsBaseUrl: function () {
-      return this.resource.crudServices.getAbsBaseUrl() || ''
+      return this.cResource.crudServices.getAbsBaseUrl() || ''
     },
     cFileUrl: function () {
       return this.cvGlobDep.globals.cvEnv.apiUrl() + '/api/files'
