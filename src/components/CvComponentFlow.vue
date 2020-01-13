@@ -53,7 +53,6 @@ export default{
   ],
   mounted: function () {
     if(!this.cdPreparing){
-      console.log(this.preparing)
       this.preparing =  true
       this.mSetPreparing(true).mActionInitialize().then((startData = null) => {
         this.mSetPrepared(true)
