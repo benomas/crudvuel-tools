@@ -22,7 +22,7 @@ export default {
       let currentDefActionProps = {
         'cv-parent-ref' : this.cSelfRef,
         'cv-action'     : this.mActionAccessing(action,this.mResourceAccessing(resource)),
-        'cv-ready'      : this.cReady
+        'cv-ready'      : this.cdReady
       }
 
       if (this.bGridBind !== undefined)

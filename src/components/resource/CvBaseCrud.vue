@@ -9,6 +9,9 @@ import VueMirroring from '../../VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [
+    vueMirroring.fixProperties({
+      'ready': {init:false,mode:'D|CD'}
+    }),
     CvActionContainer,
     CvDefiner
   ],
