@@ -109,9 +109,6 @@ export default{
     cReady : function () {
       return this.cvReady || false
     }
-  },
-  mounted: function () {
-    this.isMounted = true
   }
 }
 </script>

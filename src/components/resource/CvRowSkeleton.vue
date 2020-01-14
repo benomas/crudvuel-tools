@@ -43,8 +43,8 @@ export default {
     }
   },
   created: function () {
-    this.row      = this.cParentRef.row.location
-    this.errors   = this.cParentRef.errors
+    this.row    = this.cRow
+    this.errors = this.cParentRef.errors
   },
   mounted: function () {
     this.isMounted = true

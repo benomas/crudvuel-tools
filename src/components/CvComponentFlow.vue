@@ -16,7 +16,7 @@ export default{
   methods : {
     mActionInitialize: function () {
       return new Promise((resolve, reject) => {
-        alert('initialized')
+        console.log('initialized')
         this.$nextTick(()=>{
           resolve()
         })
@@ -33,7 +33,7 @@ export default{
     },
     mFailInitializeNotification: function () {
       return new Promise((resolve, reject) => {
-        alert('action fail')
+        console.log('action fail')
         this.$nextTick(()=>{
           resolve(prepareActionData)
         })
@@ -45,6 +45,9 @@ export default{
     mSetPreparing: function (value = null) {
       this.$set(this,'preparing',value)
       return this
+    },
+    mounted: function () {
+      this.isMounted = true
     }
   },
   computed:{
@@ -53,7 +56,6 @@ export default{
   ],
   mounted: function () {
     if(!this.cdPreparing){
-      this.preparing =  true
       this.mSetPreparing(true).mActionInitialize().then((startData = null) => {
         this.mSetPrepared(true)
       }).catch((exceptionData) => {
