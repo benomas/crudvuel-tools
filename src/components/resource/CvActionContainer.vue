@@ -51,6 +51,9 @@ export default{
         return this.cAction.nextLabel || null
       return 'Guardar'
     }
+  },
+  mounted: function () {
+    this.isMounted = true
   }
 }
 </script>

@@ -234,22 +234,7 @@ export default{
         return ""
       return " \""+this.cRowKey+":"+gridRow[this.cRowKey]+"\""
     },
-    nextTick (){
-      return this.$nextTick()
-    },
-    mDinamicBooleanModel (dothProperty,value) {
-      return cvFixDotDepth(this,dothProperty)
-    },
-    mDinamicBooleanSwitch (dothProperty,value = true) {
-      return new Promise((resolve, reject) => {
-        let dinamicModalModel = cvFixDotDepth(this,dothProperty,value)
-        let timeOut = setTimeout(()=>{
-          resolve(dinamicModalModel)
-        }, 200)
-      })
-    },
     init () {
-
     }
   },
   computed:{

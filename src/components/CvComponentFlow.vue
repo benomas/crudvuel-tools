@@ -4,15 +4,12 @@ let vueMirroring = new VueMirroring()
 export default{
   mixins: [
     vueMirroring.fixProperties({
+      'ready'     : {init:false,mode:'D|C'},
       'prepared'  : {init:false,mode:'D|CD|M'},
       'preparing' : {init:false,mode:'D|CD'},
       'row'       : {init:{}},
     }),
   ],
-  data (){
-    return {
-    }
-  },
   methods : {
     mActionInitialize: function () {
       return new Promise((resolve, reject) => {
