@@ -1,6 +1,6 @@
 <template>
   <div class="simple-filters-container">
-    <label for="search">{{cpSimpleFilterSearchLabel}}</label>
+    <label for="search">{{cpSimpleFiltersSearchLabel}}</label>
     <input
       class="simple-filters-input form-control"
       type="text"
@@ -8,13 +8,13 @@
       autocomplete="off"
       v-model="search"
       ref="searchInputRef"
-      :title="cpSimpleFilterSearchMessage"
-      :disabled="cpSimpleFilterDisableFields"
-      :clearable="!cpSimpleFilterDisableFields"
-      @keyup.13="mSimpleFilterSearchGoToFind()"
-      @keyup="mSimpleFilterSearchKeyUp"
-      @focus="mSimpleFilterSearchFocused"
-      @blur="mSimpleFilterSearchBlured"
+      :title="cpSimpleFiltersSearchMessage"
+      :disabled="cpSimpleFiltersDisableFields"
+      :clearable="!cpSimpleFiltersDisableFields"
+      @keyup.13="mSimpleFiltersSearchGoToFind()"
+      @keyup="mSimpleFiltersSearchKeyUp"
+      @focus="mSimpleFiltersSearchFocused"
+      @blur="mSimpleFiltersSearchBlured"
     >
   </div>
 </template>
@@ -27,19 +27,19 @@ export default {
     CvComponentSet,
     CvLocalSimpleFilterTrait,
     new VueMirroring().fixProperties({
-      'simpleFilterSearch'                : {mode: 'D|P|CD|CP|M',init: ''},
-      'simpleFilterSearchInputContainer'  : {mode: 'D|CD|M',init: true},
-      'simpleFilterDisableList'           : {mode: 'D|CD|M',init: false},
-      'simpleFilterDisableFields'         : {mode: 'P|CP',init: false},
-      'simpleFilterSearchLabel'           : {mode: 'P|CP',init: ''},
-      'simpleFilterSearchMessage'         : {mode: 'P|CP',init: ''},
-      'simpleFilterSearchIcon'            : {mode: 'P|CP',init: 'fas fa-search'},
-      'simpleFilterSearchIconColor'       : {mode: 'P|CP',init: 'info'},
-      'simpleFilterFilterLoading'         : {mode: 'P|CP'},
-      'simpleFilterSearchKeyInterruption' : {mode: 'P|CP',init: false},
-      'simpleFilterSearchInterruption'    : {mode: 'D|DP|M',init: null},
-      'simpleFilterKeyInterruptionLimit'  : {mode: 'P|CP',init: 500},
-      'simpleFilterSearchActiveFilter'    : {mode: 'P|CP'}
+      'simpleFiltersSearch'                : {mode: 'D|P|CD|CP|M',init: ''},
+      'simpleFiltersSearchInputContainer'  : {mode: 'D|CD|M',init: true},
+      'simpleFiltersDisableList'           : {mode: 'D|CD|M',init: false},
+      'simpleFiltersDisableFields'         : {mode: 'P|CP',init: false},
+      'simpleFiltersSearchLabel'           : {mode: 'P|CP',init: ''},
+      'simpleFiltersSearchMessage'         : {mode: 'P|CP',init: ''},
+      'simpleFiltersSearchIcon'            : {mode: 'P|CP',init: 'fas fa-search'},
+      'simpleFiltersSearchIconColor'       : {mode: 'P|CP',init: 'info'},
+      'simpleFiltersFilterLoading'         : {mode: 'P|CP'},
+      'simpleFiltersSearchKeyInterruption' : {mode: 'P|CP',init: false},
+      'simpleFiltersSearchInterruption'    : {mode: 'D|DP|M',init: null},
+      'simpleFiltersKeyInterruptionLimit'  : {mode: 'P|CP',init: 500},
+      'simpleFiltersSearchActiveFilter'    : {mode: 'P|CP'}
     })
   ],
   data () {
@@ -51,10 +51,10 @@ export default {
   props:[
   ],
   methods:{
-    mSimpleFilterSearchGoToFind:function(){
-      if(this.cpSimpleFilterDisableFields)
+    mSimpleFiltersSearchGoToFind:function(){
+      if(this.cpSimpleFiltersDisableFields)
         return false;
-      this.$emit('cv-event-filter-go-to-find', this.cdSimpleFilterSearch, 'cv-simple-paginator');
+      this.$emit('cv-event-filter-go-to-find', this.cdSimpleFiltersSearch, 'cv-simple-paginator');
     },
     /**
      * auto launch get service after a limit time without press a new key
@@ -63,28 +63,28 @@ export default {
      * @date   2017-07-02
      * @return void
      */
-    mSimpleFilterSearchStart:function(key = null){
+    mSimpleFiltersSearchStart:function(key = null){
       this.$nextTick().then(() => {
         this.$emit('cv-search-key-up', key)
-        if(this.cpSimpleFilterKeyInterruptionLimit<=0)
+        if(this.cpSimpleFiltersKeyInterruptionLimit<=0)
           return false
         clearTimeout(this.searchInterruption)
         this.mSetSearchInterruption(
           setTimeout(()=>{
             this.mSearchGoToFind()
             clearTimeout(this.searchInterruption)
-          }, this.cpSimpleFilterKeyInterruptionLimit)
+          }, this.cpSimpleFiltersKeyInterruptionLimit)
         )
       })
     }
   },
   computed:{
-    cSimpleFilterSearchInputRef: function() {
+    cSimpleFiltersSearchInputRef: function() {
       return this.$refs.searchInputRef || null
     }
   },
   mounted: function () {
-    this.mSimpleFilterSetSearch(this.cpSimpleFilterSearch || '')
+    this.mSimpleFiltersSetSearch(this.cpSimpleFiltersSearch || '')
   }
 }
 </script>

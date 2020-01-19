@@ -9,12 +9,12 @@
       suffix=""
       v-model="search"
       autocomplete="off"
-      :class="{'active-filter':cpSimpleFilterSearchActiveFilter}"
-      :label="cpSimpleFilterSearchLabel"
-      :readonly="cpSimpleFilterDisableFields"
-      :clearable="!cpSimpleFilterDisableFields"
-      :loading="cpSimpleFilterFilterLoading"
-      :hide-underline="cpSimpleFilterDisableFields"
+      :class="{'active-filter':cpCombinatoryFiltersSearchActiveFilter}"
+      :label="cpCombinatoryFiltersSearchLabel"
+      :readonly="cpCombinatoryFiltersDisableFields"
+      :clearable="!cpCombinatoryFiltersDisableFields"
+      :loading="cpCombinatoryFiltersFilterLoading"
+      :hide-underline="cpCombinatoryFiltersDisableFields"
       @input="mInput"
       @clear="mSearchCleared"
       @keyup.13="mSearchGoToFind()"
@@ -25,7 +25,7 @@
       class="w-100"
     >
       <template v-slot:prepend>
-        <q-icon :name="cpSimpleFilterSearchIcon" :color="cpSimpleFilterSearchIconColor" />
+        <q-icon :name="cpCombinatoryFiltersSearchIcon" :color="cpCombinatoryFiltersSearchIconColor" />
       </template>
     </q-input>
   </div>
@@ -47,7 +47,7 @@ export default {
         this.cInputRef.clear()
     },
     mInput: function() {
-      if (this.cdSimpleFilterSearch === null || this.cdSimpleFilterSearch === '')
+      if (this.cdCombinatoryFiltersSearch === null || this.cdCombinatoryFiltersSearch === '')
         this.mSearchCleared()
     }
   },
@@ -62,7 +62,7 @@ export default {
     },
     cLocalSearchLabel: function () {
       if (this.cGtsm)
-        return this.cpSimpleFilterSearchLabel
+        return this.cpCombinatoryFiltersSearchLabel
       return null
     }
   }

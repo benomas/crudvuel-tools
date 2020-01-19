@@ -1,6 +1,6 @@
 <template>
   <div class="filters-container">
-    <label for="search">{{cpSimpleFilterSearchLabel}}</label>
+    <label for="search">{{cpCombinatoryFiltersSearchLabel}}</label>
     <input
       class="filters-input form-control"
       type="text"
@@ -8,13 +8,13 @@
       autocomplete="off"
       v-model="search"
       ref="searchInputRef"
-      :title="cpSimpleFilterSearchMessage"
-      :disabled="cpSimpleFilterDisableFields"
-      :clearable="!cpSimpleFilterDisableFields"
-      @keyup.13="mSimpleFilterSearchGoToFind()"
-      @keyup="mSimpleFilterSearchKeyUp"
-      @focus="mSimpleFilterSearchFocused"
-      @blur="mSimpleFilterSearchBlured"
+      :title="cpCombinatoryFiltersSearchMessage"
+      :disabled="cpCombinatoryFiltersDisableFields"
+      :clearable="!cpCombinatoryFiltersDisableFields"
+      @keyup.13="mCombinatoryFiltersSearchGoToFind()"
+      @keyup="mCombinatoryFiltersSearchKeyUp"
+      @focus="mCombinatoryFiltersSearchFocused"
+      @blur="mCombinatoryFiltersSearchBlured"
     >
   </div>
 </template>
@@ -27,19 +27,19 @@ export default {
     CvComponentSet,
     CvLocalSimpleFilterTrait,
     new VueMirroring().fixProperties({
-      'simpleFilterSearch'                : {mode: 'D|P|CD|CP|M',init: ''},
-      'simpleFilterSearchInputContainer'  : {mode: 'D|CD|M',init: true},
-      'simpleFilterDisableList'           : {mode: 'D|CD|M',init: false},
-      'simpleFilterDisableFields'         : {mode: 'P|CP',init: false},
-      'simpleFilterSearchLabel'           : {mode: 'P|CP',init: ''},
-      'simpleFilterSearchMessage'         : {mode: 'P|CP',init: ''},
-      'simpleFilterSearchIcon'            : {mode: 'P|CP',init: 'fas fa-search'},
-      'simpleFilterSearchIconColor'       : {mode: 'P|CP',init: 'info'},
-      'simpleFilterFilterLoading'         : {mode: 'P|CP'},
-      'simpleFilterSearchKeyInterruption' : {mode: 'P|CP',init: false},
-      'simpleFilterSearchInterruption'    : {mode: 'D|DP|M',init: null},
-      'simpleFilterKeyInterruptionLimit'  : {mode: 'P|CP',init: 500},
-      'simpleFilterSearchActiveFilter'    : {mode: 'P|CP'}
+      'combinatoryFiltersSearch'                : {mode: 'D|P|CD|CP|M',init: ''},
+      'combinatoryFiltersSearchInputContainer'  : {mode: 'D|CD|M',init: true},
+      'combinatoryFiltersDisableList'           : {mode: 'D|CD|M',init: false},
+      'combinatoryFiltersDisableFields'         : {mode: 'P|CP',init: false},
+      'combinatoryFiltersSearchLabel'           : {mode: 'P|CP',init: ''},
+      'combinatoryFiltersSearchMessage'         : {mode: 'P|CP',init: ''},
+      'combinatoryFiltersSearchIcon'            : {mode: 'P|CP',init: 'fas fa-search'},
+      'combinatoryFiltersSearchIconColor'       : {mode: 'P|CP',init: 'info'},
+      'combinatoryFiltersFilterLoading'         : {mode: 'P|CP'},
+      'combinatoryFiltersSearchKeyInterruption' : {mode: 'P|CP',init: false},
+      'combinatoryFiltersSearchInterruption'    : {mode: 'D|DP|M',init: null},
+      'combinatoryFiltersKeyInterruptionLimit'  : {mode: 'P|CP',init: 500},
+      'combinatoryFiltersSearchActiveFilter'    : {mode: 'P|CP'}
     })
   ],
   data () {
@@ -51,9 +51,9 @@ export default {
   ],
   methods:{
     mSearchGoToFind:function(){
-      if(this.cpSimpleFilterDisableFields)
+      if(this.cpCombinatoryFiltersDisableFields)
         return false;
-      this.$emit('cv-filter-go-to-find', this.cdSimpleFilterSearch, 'cv-combinatory-paginator');
+      this.$emit('cv-filter-go-to-find', this.cdCombinatoryFiltersSearch, 'cv-combinatory-paginator');
     },
     /**
      * auto launch get service after a limit time without press a new key
@@ -65,20 +65,20 @@ export default {
     mSearchStart:function(key = null){
       this.$nextTick().then(() => {
         this.$emit('cv-earch-key-up', key)
-        if(this.cpSimpleFilterKeyInterruptionLimit<=0)
+        if(this.cpCombinatoryFiltersKeyInterruptionLimit<=0)
           return false
         clearTimeout(this.searchKeyInterruption)
         this.searchKeyInterruption = setTimeout(()=>{
           this.mSearchGoToFind()
           clearTimeout(this.searchKeyInterruption)
-        }, this.cpSimpleFilterKeyInterruptionLimit)
+        }, this.cpCombinatoryFiltersKeyInterruptionLimit)
       })
     }
   },
   computed:{
   },
   mounted: function () {
-    this.mSimpleFilterSetSearch(this.cpSearch || '')
+    this.mCombinatoryFiltersSetSearch(this.cpSearch || '')
   }
 }
 </script>
