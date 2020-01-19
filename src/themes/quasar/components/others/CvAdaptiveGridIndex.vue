@@ -1,10 +1,10 @@
 <template>
-  <cv-action-container class="cv-adaptative-grid-index" v-if="cResource && cAction" v-bind="{...defActionProps(), ...bGridBind() }">
+  <cv-action-container class="cv-adaptative-grid-index" v-if="cResource && cpAction" v-bind="{...defActionProps(), ...bGridBind() }">
     <div slot="cv-title-slot" class="row action-label">
       <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
         <label>
           <span class="q-headline txt-secondary">
-            {{cAction.label}}
+            {{cpAction.label}}
           </span>
         </label>
       </div>
@@ -28,7 +28,7 @@
     <div slot="cv-content-slot" class="row action-inner-container w-100">
       <cv-grid
         cv-tag="div"
-        :cv-service="cAction.getService"
+        :cv-service="cpAction.getService"
         :cv-top-paginate="true"
         :cv-bottom-paginate="true"
         :cv-pages-per-view="5"
@@ -154,10 +154,10 @@
                 <q-card dense :class="cCardClass">
                   <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
                   </slot>
-                  <q-card-section :class="cActionCardTitleClass">
+                  <q-card-section :class="cpActionCardTitleClass">
                     {{ $tc('crudvuel.actions') }}
                   </q-card-section>
-                  <q-card-actions :class="cActionCardClass" >
+                  <q-card-actions :class="cpActionCardClass" >
                     <q-btn
                       v-if="hasPermission('show')"
                       icon="fas fa-eye"
@@ -206,31 +206,24 @@
 </template>
 <script>
 import {
-  Dialog,
-  QBtn,
-  QIcon,
-  QCard,
-  QList,
-  QItem,
   QItemLabel,
   QItemSection,
   QSeparator,
   QCardSection
 } from 'quasar'
-import CvNotify from './CvNotify.js'
-import CvIndex   from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
-import CvGrid    from '../grid-components/CvGrid'
-import CvGridMirroring from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
+import CvMultiRowComponentSet from '../sets/CvMultiRowComponentSet'
+//import CvIndex                from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
+import CvGrid                 from '../grid-components/CvGrid'
+import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
+import VueMirroring           from 'crudvuel-tools/src/VueMirroring'
+import {cvGridM}              from '../grid-components/CvGrid'
+let vueMirroring = new VueMirroring()
+let simpleFilterMirror = vueMirroring.bindMirroring(cvGridM.props,'adaptative')
+let cvAgiM = {props:simpleFilterMirror.props}
+export {cvAgiM as cvAgiM}
 export default {
-  mixins     : [CvIndex,CvGridMirroring],
+  mixins     : [CvMultiRowComponentSet,CvGridMirroring,simpleFilterMirror],
   components : {
-    Dialog,
-    QIcon,
-    QBtn,
-    CvGrid,
-    QCard,
-    QList,
-    QItem,
     QItemLabel,
     QItemSection,
     QSeparator,
@@ -268,13 +261,13 @@ export default {
     cCardClass: function () {
       return this.cvCardClass || {'w-100 round-borders':'true'}
     },
-    cActionCardClass: function () {
+    cpActionCardClass: function () {
       return this.cvActionCardClass || {'bg-tertiary-l-90':'true'}
     },
     cCardContainerClass: function () {
       return this.cvCardContainerClass || {'row col-md-12 col-sm-6 col-xs-12 q-pa-sm':true}
     },
-    cActionCardTitleClass: function () {
+    cpActionCardTitleClass: function () {
       return this.cvActionCardTitleClass || {'':true}
     }
   },
@@ -355,7 +348,7 @@ export default {
       gridSystemName = 'grid-system-' + this.cResource.name + '-ref'
     else
       gridSystemName = 'grid-system-ref'
-    this.$set(this.cParentRef.gridRefs,gridSystemName,this)
+    this.$set(this.cpParentRef.gridRefs,gridSystemName,this)
   }
 }
 </script>

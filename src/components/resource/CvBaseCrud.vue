@@ -5,7 +5,7 @@ import CvSynchronizer    from '../../CvSynchronizer'
 import CvErrorWraper     from '../input-components/CvErrorWraper'
 import cvVueSetter       from '../../cvVueSetter'
 import {cvFixDotDepth}   from '../../cvHelper'
-import VueMirroring from '../../VueMirroring'
+import VueMirroring from 'crudvuel-tools/src/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [

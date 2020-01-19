@@ -15,7 +15,7 @@
           v-if="cSimpleFilters"
           :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
           class="q-pb-md"
-          v-bind="mDefMatcherizerProps()"
+          v-bind="mGridBind()"
           :cv-search-label="'Busqueda simple'"
           cv-search-icon="fas fa-search"
           @cv-event-filter-go-to-find="prepareToFind"
@@ -110,6 +110,7 @@
 
 import CvTag                    from '../CvTag'
 import CvPaginate               from './CvPaginate'
+import {cvSfM}                  from './CvSimpleFilters'
 import CvSimpleFilters          from './CvSimpleFilters'
 import CvCombinatoryFilters     from './CvCombinatoryFilters'
 import CvAdvancedFilters        from './CvAdvancedFilters'
@@ -119,8 +120,18 @@ import CvParametrizer           from '../../CvParametrizer'
 import CvFilterSelector         from './CvFilterSelector'
 import CvLocalSimpleFilterTrait from './CvLocalSimpleFilterTrait'
 import CvGridMirroring          from './CvGridMirroring'
+import VueMirroring             from 'crudvuel-tools/src/VueMirroring'
+let vueMirroring = new VueMirroring()
+let simpleFilterMirror = vueMirroring.bindMirroring(cvSfM.props,'grid')
+let cvGridM = {props:simpleFilterMirror.props}
+console.log(simpleFilterMirror)
+export {cvGridM}
 export default {
-  mixins     : [CvLocalSimpleFilterTrait,CvGridMirroring],
+  mixins     : [
+    CvLocalSimpleFilterTrait,
+    CvGridMirroring,
+    simpleFilterMirror
+  ],
   components : {
     CvTag,
     CvPaginate,
@@ -245,7 +256,7 @@ export default {
     cIcon: function () {
       return this.cvIcon
     },
-    cSearchLabel:function(){
+    cpSearchLabel:function(){
       return this.cvSearchLabel
     }
   },

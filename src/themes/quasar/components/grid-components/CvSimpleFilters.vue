@@ -1,17 +1,19 @@
 <template>
   <div class="filters-container w-100">
     <q-input
+      outlined
+      dense
       :helper="cHelper"
       ref="searchInputRef"
       suffix=""
       v-model="search"
       autocomplete="off"
-      :class="{'active-filter':cSearchActiveFilter}"
-      :label="cSearchLabel"
-      :readonly="cDisableFields"
-      :clearable="!cDisableFields"
-      :loading="cFilterLoading"
-      :hide-underline="cDisableFields"
+      :class="{'active-filter':cpSearchActiveFilter}"
+      :label="cpSearchLabel"
+      :readonly="cpDisableFields"
+      :clearable="!cpDisableFields"
+      :loading="cpFilterLoading"
+      :hide-underline="cpDisableFields"
       @input="mInput"
       @keyup.13="mSearchGoToFind()"
       @keyup="mSearchKeyUp"
@@ -21,7 +23,7 @@
       class="w-100"
     >
     <template v-slot:prepend>
-      <q-icon :name="cSearchIcon" :color="cSearchIconColor" />
+      <q-icon :name="cpSearchIcon" :color="cpSearchIconColor" />
     </template>
     </q-input>
   </div>
@@ -58,7 +60,7 @@ export default {
     },
     cLocalSearchLabel: function () {
       if (this.cGtsm)
-        return this.cSearchLabel
+        return this.cpSearchLabel
       return null
     }
   }

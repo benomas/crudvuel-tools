@@ -1,6 +1,6 @@
 <script>
 import CvBaseCrud from './CvBaseCrud'
-import VueMirroring from '../../VueMirroring'
+import VueMirroring from 'crudvuel-tools/src/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default {
   mixins: [
@@ -36,8 +36,8 @@ export default {
         this.cResource.lang.fields.active != null
         ? {active: 1} : {}
       return new Promise((resolve, reject) => {
-        if (this.cActionGetService){
-          this.cActionGetService(this.cKeyValue).then(response => {
+        if (this.cpActionGetService){
+          this.cpActionGetService(this.cKeyValue).then(response => {
             this.row = this.transformResponse(response)
             if (this.cAutoFill) {
               console.log(

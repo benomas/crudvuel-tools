@@ -1,6 +1,6 @@
 <template>
   <div class="simple-filters-container">
-    <label for="search">{{cSearchLabel}}</label>
+    <label for="search">{{cpSearchLabel}}</label>
     <input
       class="simple-filters-input form-control"
       type="text"
@@ -8,9 +8,9 @@
       autocomplete="off"
       v-model="search"
       ref="searchInputRef"
-      :title="cSearchMessage"
-      :disabled="cDisableFields"
-      :clearable="!cDisableFields"
+      :title="cpSearchMessage"
+      :disabled="cpDisableFields"
+      :clearable="!cpDisableFields"
       @keyup.13="mSearchGoToFind()"
       @keyup="mSearchKeyUp"
       @focus="mSearchFocused"
@@ -20,26 +20,45 @@
 </template>
 <script>
 import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
+import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import VueMirroring             from 'crudvuel-tools/src/VueMirroring'
+let vueMirroring = new VueMirroring()
+let selfMirroring = vueMirroring.fixProperties({
+  'search'                : {mode: 'D|P|CD|CP|M',init: ''},
+  'searchInputContainer'  : {mode: 'D|CD|M',init: false},
+  'disableList'           : {mode: 'D|CD|M',init: false},
+  'disableFields'         : {mode: 'P|CP',init: false},
+  'searchLabel'           : {mode: 'P|CP',init: ''},
+  'searchMessage'         : {mode: 'P|CP',init: ''},
+  'searchIcon'            : {mode: 'P|CP',init: 'fas fa-search'},
+  'searchIconColor'       : {mode: 'P|CP',init: 'info'},
+  'filterLoading'         : {mode: 'P|CP'},
+  'searchKeyInterruption' : {mode: 'P|CP',init: false},
+  'searchInterruption'    : {mode: 'D|DP|M',init: null},
+  'keyInterruptionLimit'  : {mode: 'P|CP',init: 500},
+  'searchActiveFilter'    : {mode: 'P|CP'}
+})
+let cvSfM = {props:selfMirroring.props}
+export {cvSfM}
 export default {
-  mixins: [CvLocalSimpleFilterTrait],
+  mixins: [
+    CvComponentSet,
+    CvLocalSimpleFilterTrait,
+    selfMirroring
+  ],
   data () {
     return {
-      searchKeyInterruption : null,
       searchInputContainer  : true,
       staticSearchLabel     : 'Busqueda simple'
     }
   },
   props:[
-    'cvSearchActiveFilter',
-    'cvDisableFields',
-    'cvSearchKeyInterruption',
-    'cvsearch'
   ],
   methods:{
     mSearchGoToFind:function(){
-      if(this.cDisableFields)
+      if(this.cpDisableFields)
         return false;
-      this.$emit('cv-event-filter-go-to-find', this.search, 'cv-simple-paginator');
+      this.$emit('cv-event-filter-go-to-find', this.cdSearch, 'cv-simple-paginator');
     },
     /**
      * auto launch get service after a limit time without press a new key
@@ -51,38 +70,25 @@ export default {
     mSearchStart:function(key = null){
       this.$nextTick().then(() => {
         this.$emit('cv-search-key-up', key)
-        if(this.cKeyInterruptionLimit<=0)
+        if(this.cpKeyInterruptionLimit<=0)
           return false
-        clearTimeout(this.searchKeyInterruption)
-        this.searchKeyInterruption = setTimeout(()=>{
-          this.mSearchGoToFind()
-          clearTimeout(this.searchKeyInterruption)
-        }, this.cKeyInterruptionLimit)
+        clearTimeout(this.searchInterruption)
+        this.mSetSearchInterruption(
+          setTimeout(()=>{
+            this.mSearchGoToFind()
+            clearTimeout(this.searchInterruption)
+          }, this.cpKeyInterruptionLimit)
+        )
       })
     }
   },
   computed:{
-    cDisableFields:function(){
-      return this.cvDisableFields || false
-    },
-    csearch:function(){
-      return this.cvsearch || "";
-    },
-    cKeyInterruptionLimit:function(){
-      return this.cvKeyInterruptionLimit || 500;
-    },
-    cSearchKeyInterruption:function(){
-      return this.cvSearchKeyInterruption || false
-    },
     cSearchInputRef: function() {
       return this.$refs.searchInputRef || null
-    },
-    cSearchActiveFilter: function () {
-      return this.cvSearchActiveFilter
     }
   },
   mounted: function () {
-    this.search = this.csearch || ''
+    this.mSetSearch(this.cpSearch || '')
   }
 }
 </script>

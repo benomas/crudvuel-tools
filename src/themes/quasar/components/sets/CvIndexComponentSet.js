@@ -1,38 +1,23 @@
-<script>
-//import CvIndex  from '../../../../components/resource/CvIndex'
-import CvIndex          from 'crudvuel-tools/src/components/sets/CvIndexComponentSet'
-import CvOrderIcons      from '../grid-components/CvOrderIcons'
-import CvThs             from '../grid-components/CvThs'
-import CvActionContainer from './CvActionContainer'
-import {
-  Dialog,
-  QBtn,
-  QCard,
-  QIcon,
-  QItem,
-  QItemLabel,
-  QSeparator,
-  QItemSection,
-  QList,
-  QTooltip
-} from 'quasar'
-export default {
-  extends    : CvIndex,
-  components : {
-    CvActionContainer,
-    CvOrderIcons,
-    CvThs,
-    Dialog,
-    QBtn,
-    QCard,
-    QIcon,
-    QItem,
-    QItemLabel,
-    QSeparator,
-    QItemSection,
-    QList,
-    QTooltip
+//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+//let vueMirroring = new VueMirroring()
+import CvIndexComponentSet       from '../../../../components/sets/CvIndexComponentSet'
+import CvMultiRowComponentSet from './CvMultiRowComponentSet'
+import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
+export default{
+  mixins: [
+    CvIndexComponentSet,
+    CvGridMirroring,
+    CvMultiRowComponentSet
+  ],
+  data () {
+    return {
+        mainGridData : null,
+        gridRef      : null,
+        gridRefs     : {}
+    }
   },
+  props: [
+  ],
   computed: {
     cvGridComponentSwitch: function () {
       return this.isMobile ? 'CvFlexiGridIndex' : 'CvTableGridIndex'
@@ -54,20 +39,25 @@ export default {
       return null
     }
   },
-  methods: {
+  methods: {/*
     fLang: function (field) {
       let word = 'crudvuel.resources.' + this.cResource.name + '.fields.' + field
       return  this.$tc(word)
-    },
+    },*/
     defActionProps: function () {
       return {
         'cv-parent-ref'       : this.cSelfRef,
         'cv-resource'         : this.resource,
-        'cv-action'           : this.cAction,
+        'cv-action'           : this.cpAction,
         'cv-ready'            : this.cReady,
         'cv-show-own-spinner' : false
       }
     }
+  },
+  created: function () {
+    this.gridRef = this.cGridRef
+  },
+  mounted:function(){
+    this.mainGridData = this.$refs[this.gridRef] || null
   }
 }
-</script>

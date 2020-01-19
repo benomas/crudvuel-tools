@@ -18,7 +18,7 @@ export default{
     },
     hasActionPermission (action) {
       if (typeof action === 'undefined')
-        action = this.cAction || null
+        action = this.cpAction || null
       if (!action)
         return true
       return !this.cUnauthorizedInteractions ||
@@ -27,7 +27,7 @@ export default{
     },
     hasPermission: function (action,resource = null,excludes = null) {
       resource = resource || this.cResource
-      excludes = excludes || this.cExcludeActions
+      excludes = excludes || this.cpExcludeActions
       return excludes.indexOf(action,excludes) < 0 &&
         this.mResorceAction(action,resource) &&
         this.hasActionPermission(resource.actions[action])

@@ -9,10 +9,10 @@
         v-model="search"
         autocomplete="off"
         :class="{'active-filter':cSearchActiveFilter}"
-        :label="cSearchLabel"
+        :label="cpSearchLabel"
         :readonly="cDisableFields"
         :clearable="!cDisableFields"
-        :loading="cFilterLoading"
+        :loading="cpFilterLoading"
         :hide-underline="cDisableFields"
         @input="mInput"
         @clear="mSearchCleared"
@@ -24,7 +24,7 @@
         class="w-100"
       />
         <template v-slot:prepend>
-          <q-icon :name="cSearchIcon" :color="cSearchIconColor" />
+          <q-icon :name="cpSearchIcon" :color="cSearchIconColor" />
         </template>
       </q-input>
     </q-field>
@@ -62,7 +62,7 @@ export default {
     },
     cLocalSearchLabel: function () {
       if (this.cGtsm)
-        return this.cSearchLabel
+        return this.cpSearchLabel
       return null
     }
   }

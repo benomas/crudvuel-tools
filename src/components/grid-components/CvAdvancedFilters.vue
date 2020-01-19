@@ -9,6 +9,8 @@
   </span>
 </template>
 <script>
+import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+let vueMirroring = new VueMirroring()
 export default {
   data () {
     return {

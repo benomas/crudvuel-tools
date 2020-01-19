@@ -1,24 +1,5 @@
-import {camelCase,split} from 'lodash'
+import {camelCase,split,kebabCase,replace} from 'lodash'
 export default class VueMirroring {
-
-  fixProperty (property = null) {
-    return {
-      data () {
-        return {
-          [property]: null
-        }
-      },
-      props: [camelCase('cv '+property)],
-      computed: {
-        [camelCase('c '+property)]:function () {
-          return this[camelCase('cv '+property)]
-        },
-        [camelCase('cd '+property)]:function () {
-          return this[property]
-        }
-      }
-    }
-  }
   /**
   * Mirroring property list
   * property has next structure {'property':{'init':initializationValue,'mode':'D|P|C|E|CD'}}
@@ -27,6 +8,7 @@ export default class VueMirroring {
   * C(omputed)
   * E(miter)
   * C(omputed)D(ata)
+  * C(omputed)P(roperty)
   * '*' everything
   * undefined everything
   * @return vue structure
@@ -38,7 +20,7 @@ export default class VueMirroring {
     let methods  = {}
     let cModes
     for (const [property, configuration] of Object.entries(properties)) {
-      cModes = {'D':false,'P':false,'C':false,'E':false,'CD':false,'M':false}
+      cModes = {'D':false,'P':false,'C':false,'E':false,'CD':false,'CP':false,'M':false}
       let init,mode,modes
       if (configuration.init === undefined)
         init = null
@@ -58,11 +40,11 @@ export default class VueMirroring {
         data[property]=init
       if(mode === '*' || cModes['P'])
         props.push(camelCase('cv ' + property))
-      if(mode === '*' || cModes['C']){
+      if(mode === '*' || cModes['CP']){
         let defaultComputed = null
         if(mode !== '*' && !cModes['D'])
           defaultComputed = init
-        computed[camelCase('c ' + property)] = function() {
+        computed[camelCase('cp ' + property)] = function() {
           let comp = this[camelCase('cv ' + property)]
           return comp != null ? comp : defaultComputed
         }
@@ -85,5 +67,34 @@ export default class VueMirroring {
       computed,
       methods
     }
+  }
+  bindMirroring (childProps = null,parentPrefix = '') {
+    let mirroring = {
+      props    : [],
+      computed : {},
+      methods  : {}
+    }
+    var binding = {}
+    for (let i = 0; i < childProps.length; i++){
+      let property = replace(`--${kebabCase(childProps[i])}`,'--cv-','')
+      let prefixedProperty = camelCase(`${parentPrefix}-${property}`)
+      let cvProperty = camelCase('cv ' + prefixedProperty)
+      let cpProperty = camelCase('cp ' + prefixedProperty)
+      mirroring.props.push(cvProperty)
+      mirroring.computed[cpProperty] = function() {
+        if (this[cvProperty] != null)
+          return this[cvProperty]
+        return null
+      }
+      binding[`cv-${property}`] = cpProperty
+    }
+    mirroring.methods[camelCase(`m ${parentPrefix}Bind`)] = function () {
+      let fixedBinding = {}
+      for (const [childProperty, parentComputed] of Object.entries(binding))
+        fixedBinding[childProperty] = this[parentComputed]
+      console.log(fixedBinding,'asdasd')
+      return fixedBinding
+    }
+    return mirroring
   }
 }

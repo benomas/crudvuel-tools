@@ -31,7 +31,7 @@ export default{
     },
     mActionAccessing: function (action = null,resource=null) {
       if (!action)
-        return this.cAction
+        return this.cpAction
 
       if (typeof action === 'string'){
         if (typeof this.mResourceAccessing(resource).actions[action] !== 'undefined')
@@ -101,10 +101,10 @@ export default{
       return this
     },
     cResource:function(){
-      return (this.cAction && this.cAction.resource)? this.cAction.resource:null
+      return (this.cpAction && this.cpAction.resource)? this.cpAction.resource:null
     },
     cDisableFields:function(){
-      return this.cvDisableFields || (this.cAction && this.cAction.disableFields) || false
+      return this.cvDisableFields || (this.cpAction && this.cpAction.disableFields) || false
     },
     cReady : function () {
       return this.cvReady || false

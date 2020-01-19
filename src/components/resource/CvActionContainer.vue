@@ -1,13 +1,13 @@
 <template>
   <div class="row action-container fix-container">
-    <transition name="component-fade" mode="out-in" v-if="cShowOwnSpinner">
+    <transition name="component-fade" mode="out-in" v-if="cpShowOwnSpinner">
       <cv-spinner v-if="!cReady && cdIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
-    <slot name="cv-title-slot" class="col-lg-12 action-label" v-if="cShowHeader">
+    <slot name="cv-title-slot" class="col-lg-12 action-label" v-if="cpShowHeader">
       <label>
         <h5 class="custom-h">
-          {{cAction.label}}
+          {{cpAction.label}}
         </h5>
       </label>
     </slot>
@@ -19,18 +19,19 @@
   </div>
 </template>
 <script>
-import CvTag     from '../CvTag'
-import CvSpinner from '../grid-components/CvSpinner'
-import VueMirroring from '../../VueMirroring'
-import CvBaseComponent from '../CvBaseComponent'
+import CvTag          from '../CvTag'
+import CvSpinner      from '../grid-components/CvSpinner'
+import CvComponentSet from '../sets/CvComponentSet'
+import VueMirroring   from 'crudvuel-tools/src/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [
-    CvBaseComponent,
+    CvComponentSet,
     vueMirroring.fixProperties({
-      'showOwnSpinner' : {init:true,mode:'P|C'},
+      'showOwnSpinner' : {init:true,mode:'P|CP'},
       'excludeActions' : {init:[],mode:'P|C'},
-      'showHeader'     : {init:true,mode:'P|C'}
+      'showHeader'     : {init:true,mode:'P|CP'},
+      'action'         : {init:true,mode:'P|CP'}
     }),
   ],
   components : {
@@ -39,16 +40,16 @@ export default{
   },
   computed:{
     cGetted:function(){
-      return this.cRows || !this.cAction.getService  || this.cHasRowKeyValue || false
+      return this.cRows || !this.cpAction.getService  || this.cHasRowKeyValue || false
     },
     cBackLabel: function () {
-      if (this.cAction)
-        return this.cAction.backLabel || null
+      if (this.cpAction)
+        return this.cpAction.backLabel || null
       return 'Cancelar'
     },
     cNextLabel: function () {
-      if (this.cAction)
-        return this.cAction.nextLabel || null
+      if (this.cpAction)
+        return this.cpAction.nextLabel || null
       return 'Guardar'
     }
   },

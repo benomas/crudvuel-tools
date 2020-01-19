@@ -1,7 +1,7 @@
 <script>
 import CvBaseComponent from '../CvBaseComponent'
 import CvDefiner from './CvDefiner'
-import VueMirroring from '../../VueMirroring'
+import VueMirroring from 'crudvuel-tools/src/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default {
   mixins: [

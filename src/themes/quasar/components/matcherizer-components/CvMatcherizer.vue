@@ -62,7 +62,7 @@
 </template>
 <script>
 import CvMatcherizer from '../../../../components/matcherizer-components/CvMatcherizer'
-import CvSimpleFilters from '../../../../components/grid-components/CvSimpleFilters'
+import CvSimpleFilters from '../grid-components/CvSimpleFilters'
 import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook} from 'quasar'
 export default {
   extends    : CvMatcherizer,

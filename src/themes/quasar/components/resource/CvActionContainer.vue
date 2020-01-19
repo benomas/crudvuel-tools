@@ -1,14 +1,14 @@
 <template>
   <div :class="cActionClasses">
-    <transition name="component-fade" mode="out-in" v-if="cShowOwnSpinner">
+    <transition name="component-fade" mode="out-in" v-if="cpShowOwnSpinner">
       <cv-spinner v-if="!cReady && cdIsMounted" >
       </cv-spinner>
     </transition>
-    <slot name="cv-title-slot" class="col-lg-12 action-label q-pb-md" v-if="cShowHeader">
+    <slot name="cv-title-slot" class="col-lg-12 action-label q-pb-md" v-if="cpShowHeader">
       <div class="col-xs-10 col-sm-9 col-md-8 q-pb-md">
         <label>
           <span class="q-headline txt-secondary">
-            {{cAction.label}}
+            {{cpAction.label}}
           </span>
         </label>
       </div>

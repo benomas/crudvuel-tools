@@ -1,6 +1,6 @@
 <template>
   <div class="filters-container">
-    <label for="search">{{cSearchLabel}}</label>
+    <label for="search">{{cpSearchLabel}}</label>
     <input
       class="filters-input form-control"
       type="text"
