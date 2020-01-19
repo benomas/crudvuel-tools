@@ -1,33 +1,33 @@
 <template>
   <div class="filters-container w-100">
-    <q-field
-    >
-      <q-input
+    <q-input
+      outlined
+      dense
+      hide-bottom-space
       :helper="cHelper"
-        ref="searchInputRef"
-        suffix=""
-        v-model="search"
-        autocomplete="off"
-        :class="{'active-filter':cSearchActiveFilter}"
-        :label="cpSearchLabel"
-        :readonly="cDisableFields"
-        :clearable="!cDisableFields"
-        :loading="cpFilterLoading"
-        :hide-underline="cDisableFields"
-        @input="mInput"
-        @clear="mSearchCleared"
-        @keyup.13="mSearchGoToFind()"
-        @keyup="mSearchKeyUp"
-        @focus="mSearchFocused"
-        @blur="mSearchBlured"
-        clear-icon='fas fa-times-circle'
-        class="w-100"
-      />
-        <template v-slot:prepend>
-          <q-icon :name="cpSearchIcon" :color="cSearchIconColor" />
-        </template>
-      </q-input>
-    </q-field>
+      ref="searchInputRef"
+      suffix=""
+      v-model="search"
+      autocomplete="off"
+      :class="{'active-filter':cpSimpleFilterSearchActiveFilter}"
+      :label="cpSimpleFilterSearchLabel"
+      :readonly="cpSimpleFilterDisableFields"
+      :clearable="!cpSimpleFilterDisableFields"
+      :loading="cpSimpleFilterFilterLoading"
+      :hide-underline="cpSimpleFilterDisableFields"
+      @input="mInput"
+      @clear="mSearchCleared"
+      @keyup.13="mSearchGoToFind()"
+      @keyup="mSearchKeyUp"
+      @focus="mSearchFocused"
+      @blur="mSearchBlured"
+      clear-icon='fas fa-times-circle'
+      class="w-100"
+    >
+      <template v-slot:prepend>
+        <q-icon :name="cpSimpleFilterSearchIcon" :color="cpSimpleFilterSearchIconColor" />
+      </template>
+    </q-input>
   </div>
 </template>
 <script>
@@ -47,7 +47,7 @@ export default {
         this.cInputRef.clear()
     },
     mInput: function() {
-      if (this.search === null || this.search === '')
+      if (this.cdSimpleFilterSearch === null || this.cdSimpleFilterSearch === '')
         this.mSearchCleared()
     }
   },
@@ -62,7 +62,7 @@ export default {
     },
     cLocalSearchLabel: function () {
       if (this.cGtsm)
-        return this.cpSearchLabel
+        return this.cpSimpleFilterSearchLabel
       return null
     }
   }

@@ -1,5 +1,14 @@
-import {camelCase,split,kebabCase,replace} from 'lodash'
+import {camelCase,split,kebabCase,replace,union,startsWith,slice} from 'lodash'
 export default class VueMirroring {
+  constructor (parentPrefix = null) {
+    this.parentPrefix     = parentPrefix
+    this.components       = {}
+    this.currentComponent = {}
+    this.props            = []
+    this.computed         = {}
+    this.bindings         = {}
+  }
+
   /**
   * Mirroring property list
   * property has next structure {'property':{'init':initializationValue,'mode':'D|P|C|E|CD'}}
@@ -68,33 +77,150 @@ export default class VueMirroring {
       methods
     }
   }
-  bindMirroring (childProps = null,parentPrefix = '') {
+
+  bindsMirroring () {
+    for (const [key, currentComponent] of Object.entries(this.getComponents()))
+      this.setCurrentComponent(currentComponent).bindMirroring().getComponents()[key] = this.getCurrentComponent()
+    let methods = {}
+    methods['mBinding'] = function (index = null) {
+      if (!index || this.bindings == null || this.bindings[index] == null)
+        return {}
+      return this.bindings[index]
+    }
+    return {
+      props    : this.props,
+      computed : this.computed,
+      methods  : methods
+    }
+  }
+
+  bindMirroring () {
     let mirroring = {
       props    : [],
       computed : {},
       methods  : {}
     }
     var binding = {}
-    for (let i = 0; i < childProps.length; i++){
-      let property = replace(`--${kebabCase(childProps[i])}`,'--cv-','')
-      let prefixedProperty = camelCase(`${parentPrefix}-${property}`)
-      let cvProperty = camelCase('cv ' + prefixedProperty)
-      let cpProperty = camelCase('cp ' + prefixedProperty)
-      mirroring.props.push(cvProperty)
-      mirroring.computed[cpProperty] = function() {
-        if (this[cvProperty] != null)
-          return this[cvProperty]
-        return null
+    if(this.getCurrentComponent().props){
+      for (const [position, prop] of Object.entries(this.getCurrentComponent().props)) {
+        if(!startsWith(prop,'cv')){
+          this.getCurrentComponent().props.splice(position, 1)
+          continue
+        }
+        let property = replace(`--${kebabCase(prop)}`,'--cv-','')
+        let posfixedProperty = property
+        if (this.getCurrentComponent().posFix && this.getCurrentComponent().posFix !== '')
+          posfixedProperty += '-' + kebabCase(this.getCurrentComponent().posFix)
+        let prefixedProperty = camelCase(`${this.getParentPrefix()}-${posfixedProperty}`)
+        let cvProperty = camelCase('cv ' + prefixedProperty)
+        let cpProperty = camelCase('cp ' + prefixedProperty)
+        let match = false
+        for (const prop of this.props)
+          if(cvProperty === prop){
+            match = true
+            continue
+          }
+        if(!match)
+          this.props.push(cvProperty)
+        mirroring.props.push(cvProperty)
+        this.computed[cpProperty] = function() {
+          if (this[cvProperty] != null)
+            return this[cvProperty]
+          return null
+        }
+        binding[`cv-${property}`] = cpProperty
       }
-      binding[`cv-${property}`] = cpProperty
     }
-    mirroring.methods[camelCase(`m ${parentPrefix}Bind`)] = function () {
+    let tag = kebabCase(`${this.getCurrentComponent().tag}`)
+    if (this.getCurrentComponent().posFix && this.getCurrentComponent().posFix !== '')
+      tag += '-' + kebabCase(this.getCurrentComponent().posFix)
+    let callBack = function () {
       let fixedBinding = {}
       for (const [childProperty, parentComputed] of Object.entries(binding))
         fixedBinding[childProperty] = this[parentComputed]
-      console.log(fixedBinding,'asdasd')
       return fixedBinding
     }
-    return mirroring
+    this.bindings[tag] = callBack
+    this.getCurrentComponent().props = mirroring.props
+    return this
+  }
+
+  mixinsMirroring () {
+    for (const [key, currentComponent] of Object.entries(this.getComponents())){
+      this.setCurrentComponent(currentComponent)
+        .mixinMirroring(currentComponent.component)
+        .getComponents()[key] = this.getCurrentComponent()
+    }
+    return this
+  }
+
+  mixinMirroring (component = null) {
+    if (!component)
+      return this
+    if (component.props != null){
+      for (const currentProp of component.props){
+        let match = false
+        if (this.getCurrentComponent().props == null)
+          this.getCurrentComponent().props = []
+        for (const prop of this.getCurrentComponent().props){
+          if(currentProp === prop){
+            match = true
+            continue
+          }
+        }
+        if(!match)
+          this.getCurrentComponent().props.push(currentProp)
+      }
+    }
+    if (component.mixins != null)
+      for (let currentComponent of component.mixins)
+        this.mixinMirroring(currentComponent)
+    if (component.extends != null)
+      this.mixinMirroring(component.extends)
+    return this
+  }
+
+  getParentPrefix () {
+    return this.parentPrefix || ''
+  }
+  getProps () {
+    return this.props || []
+  }
+  getComponents () {
+    return this.components || {}
+  }
+  getCurrentComponent () {
+    return this.currentComponent || {}
+  }
+
+  setParentPrefix (parentPrefix = null) {
+    this.parentPrefix = parentPrefix || ''
+    return this
+  }
+  setProps (props = null) {
+    this.props = props || []
+    return this
+  }
+  setComponents (components) {
+    this.components = components || {}
+    return this
+  }
+  setCurrentComponent (currentComponent) {
+    this.currentComponent = currentComponent || {}
+    return this
+  }
+  loadComponents (...components) {
+    let fixedComponents = {}
+    for (let currentComponent of components){
+      let tag = Object.keys(currentComponent)[0]
+      let posFix = currentComponent.posFix != null ? currentComponent.posFix : ''
+      fixedComponents[kebabCase(`${tag} ${posFix}`)]={
+        tag       : tag,
+        component : currentComponent[tag],
+        posFix    : currentComponent.posFix != null ? currentComponent.posFix : '',
+        props     : currentComponent.props != null ? currentComponent.props : []
+      }
+    }
+    return this.setComponents(fixedComponents)
   }
 }

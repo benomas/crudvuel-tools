@@ -215,14 +215,11 @@ import CvMultiRowComponentSet from '../sets/CvMultiRowComponentSet'
 //import CvIndex                from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
 import CvGrid                 from '../grid-components/CvGrid'
 import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
-import VueMirroring           from 'crudvuel-tools/src/VueMirroring'
-import {cvGridM}              from '../grid-components/CvGrid'
-let vueMirroring = new VueMirroring()
-let simpleFilterMirror = vueMirroring.bindMirroring(cvGridM.props,'adaptative')
-let cvAgiM = {props:simpleFilterMirror.props}
-export {cvAgiM as cvAgiM}
 export default {
-  mixins     : [CvMultiRowComponentSet,CvGridMirroring,simpleFilterMirror],
+  mixins     : [
+    CvMultiRowComponentSet,
+    CvGridMirroring
+  ],
   components : {
     QItemLabel,
     QItemSection,

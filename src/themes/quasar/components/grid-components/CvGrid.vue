@@ -8,8 +8,6 @@ import CvSimpleFilters   from './CvSimpleFilters'
 import CvCombinatoryFilters   from './CvCombinatoryFilters'
 import CvFilterSelector   from './CvFilterSelector'
 import CvSpinner         from 'src/customs/crudvuel/themes/quasar/components/grid-components/CvSpinner'
-import {cvGridM} from '../../../../components/grid-components/CvGrid'
-export {cvGridM as cvGridM}
 export default {
   extends    : CvGrid,
   components : {

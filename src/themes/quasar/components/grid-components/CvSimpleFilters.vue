@@ -8,22 +8,22 @@
       suffix=""
       v-model="search"
       autocomplete="off"
-      :class="{'active-filter':cpSearchActiveFilter}"
-      :label="cpSearchLabel"
-      :readonly="cpDisableFields"
-      :clearable="!cpDisableFields"
-      :loading="cpFilterLoading"
-      :hide-underline="cpDisableFields"
+      :class="{'active-filter':cpSimpleFilterSearchActiveFilter}"
+      :label="cpSimpleFilterSearchLabel"
+      :readonly="cpSimpleFilterDisableFields"
+      :clearable="!cpSimpleFilterDisableFields"
+      :loading="cpSimpleFilterFilterLoading"
+      :hide-underline="cpSimpleFilterDisableFields"
       @input="mInput"
-      @keyup.13="mSearchGoToFind()"
-      @keyup="mSearchKeyUp"
-      @focus="mSearchFocused"
-      @blur="mSearchBlured"
+      @keyup.13="mSimpleFilterSearchGoToFind()"
+      @keyup="mSimpleFilterSearchKeyUp"
+      @focus="mSimpleFilterSearchFocused"
+      @blur="mSimpleFilterSearchBlured"
       clear-icon='fas fa-times-circle'
       class="w-100"
     >
     <template v-slot:prepend>
-      <q-icon :name="cpSearchIcon" :color="cpSearchIconColor" />
+      <q-icon :name="cpSimpleFilterSearchIcon" :color="cpSimpleFilterSearchIconColor" />
     </template>
     </q-input>
   </div>
