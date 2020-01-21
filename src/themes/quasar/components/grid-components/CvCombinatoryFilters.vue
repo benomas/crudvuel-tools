@@ -57,8 +57,7 @@ export default {
   computed: {
     cHelper: function () {
       return null
-      // eslint-disable-next-line
-      return this.lodash.toString(this.cvHelper) || "";
+      //return this.lodash.toString(this.cvHelper) || "";
     },
     cLocalSearchLabel: function () {
       if (this.cGtsm)

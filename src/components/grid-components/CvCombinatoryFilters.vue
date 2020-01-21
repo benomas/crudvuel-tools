@@ -47,8 +47,6 @@ export default {
       staticSearchLabel     : 'Busqueda simple'
     }
   },
-  props:[
-  ],
   methods:{
     mSearchGoToFind:function(){
       if(this.cpCombinatoryFiltersDisableFields)
@@ -78,6 +76,7 @@ export default {
   computed:{
   },
   mounted: function () {
+    console.log('asdasd')
     this.mCombinatoryFiltersSetSearch(this.cpSearch || '')
   }
 }

@@ -6,18 +6,18 @@
       <div
         ref="filterReference"
       >
-        <cv-simple-filters
+        <cv-simple-filter
           v-bind="mDefMatcherizerProps()"
           :cv-search-message="cSourceMessage"
           :cv-active-filter="cShowingSelected"
           :cv-disable-fields="cDisableFields"
-          @cv-search-key-up="keyed"
+          @em-simple-filter-go-to-find-emitter="keyed"
           @cv-event-filter-go-to-find="prepareToFindSource"
           @cv-search-focused="focused"
           @cv-search-blured="blured"
           @cv-search-cleared="resetCurrent"
         >
-        </cv-simple-filters>
+        </cv-simple-filter>
       </div>
       <ul
         v-if="cShowList && !cLoading"
@@ -53,12 +53,12 @@
 </template>
 <script>
 import CvParametrizer           from '../../CvParametrizer'
-import CvSimpleFilters          from '../grid-components/CvSimpleFilters'
+import CvSimpleFilter          from '../grid-components/CvSimpleFilter'
 import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 export default {
   mixins     : [CvLocalSimpleFilterTrait],
   components : {
-    CvSimpleFilters
+    CvSimpleFilter
   },
   data () {
     return {

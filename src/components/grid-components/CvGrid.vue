@@ -11,15 +11,15 @@
     <div>
       <cv-filter-selector @cv-filter-selected="mSwitchFilter" :cv-current-filter="cdGridCurrentFilter"></cv-filter-selector>
       <!--<transition name="component-fade" mode="out-in">-->
-        <cv-simple-filters
-          v-if="cSimpleFilters"
+        <cv-simple-filter
+          v-if="cSimpleFilter"
           :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
           class="q-pb-md"
           :cv-search-label="'Busqueda simple'"
           cv-search-icon="fas fa-search"
           @cv-event-filter-go-to-find="prepareToFind"
         >
-        </cv-simple-filters>
+        </cv-simple-filter>
       <!--</transition>-->
       <!--<transition name="component-fade" mode="out-in">-->
         <cv-combinatory-filters
@@ -109,7 +109,7 @@
 
 import CvTag                    from '../CvTag'
 import CvPaginate               from './CvPaginate'
-import CvSimpleFilters          from './CvSimpleFilters'
+import CvSimpleFilter          from './CvSimpleFilter'
 import CvCombinatoryFilters     from './CvCombinatoryFilters'
 import CvAdvancedFilters        from './CvAdvancedFilters'
 import CvExpertFilters          from './CvExpertFilters'
@@ -126,7 +126,7 @@ export default {
   components : {
     CvTag,
     CvPaginate,
-    CvSimpleFilters,
+    CvSimpleFilter,
     CvCombinatoryFilters,
     CvAdvancedFilters,
     CvExpertFilters,
@@ -147,7 +147,7 @@ export default {
       elementsCount          : 0,
       ready                  : false,
       isMounted              : false,
-      showSimpleFilters      : true,
+      showSimpleFilter      : true,
       showCombinatoryFilters : false,
       showAdvancedFilters    : false,
       showExpertFilters      : false,
@@ -168,7 +168,7 @@ export default {
     "cvLimitValues",
     "cvTopPaginate",
     "cvBottomPaginate",
-    "cvSimpleFilters",
+    "cvSimpleFilter",
     "cvCombinatoryFilters",
     "cvAdvancedFilters",
     "cvExpertFilters",
@@ -214,8 +214,8 @@ export default {
     cBottomPaginate:function(){
       return this.cvBottomPaginate || false
     },
-    cSimpleFilters:function(){
-      return this.showSimpleFilters
+    cSimpleFilter:function(){
+      return this.showSimpleFilter
     },
     cCombinatoryFilters:function(){
       return this.showCombinatoryFilters
@@ -255,7 +255,7 @@ export default {
     this.isMounted = true
     if (this.cRows)
       this.$set(this,'rows',this.rows)
-    this.showSimpleFilters      = this.cvSimpleFilters || this.showSimpleFilters
+    this.showSimpleFilter      = this.cvSimpleFilter || this.showSimpleFilter
     this.showCombinatoryFilters = this.cvCombinatoryFilters || this.showCombinatoryFilters
     this.showAdvancedFilters    = this.cvAdvancedFilters || this.showAdvancedFilters
     this.showExpertFilters      = this.cvExpertFilters || this.showExpertFilters
@@ -311,9 +311,10 @@ export default {
       })
       this.refresh()
     },
-    prepareToFind(searchObject = null, searchMode = 'cv-simple-paginator') {
-      if(searchObject == null)
-        searchObject = ''
+    prepareToFind(search = {}) {
+      let searchObject = search.searchObject != null ? search.searchObject : ''
+      let searchMode   = search.searchMode != null ? search.searchMode : 'cv-simple-paginator'
+
       if(this.cvParametrizer.getSearchObject() === searchObject && this.cvParametrizer.getSearchMode() === searchMode)
         return false
       this.cvParametrizer.setSearchObject(searchObject)
@@ -321,6 +322,20 @@ export default {
       this.cvParametrizer.setPage(1)
       this.pageNavNeutral()
       this.refresh()
+    },
+    emGridSimpleFilterGoToFindProcesor(search = {}) {
+      console.log('asdasd')
+      /*
+      let searchObject = search.searchObject != null ? search.searchObject : ''
+      let searchMode   = search.searchMode != null ? search.searchMode : 'cv-simple-paginator'
+
+      if(this.cvParametrizer.getSearchObject() === searchObject && this.cvParametrizer.getSearchMode() === searchMode)
+        return false
+      this.cvParametrizer.setSearchObject(searchObject)
+      this.cvParametrizer.setSearchMode(searchMode)
+      this.cvParametrizer.setPage(1)
+      this.pageNavNeutral()
+      this.refresh()*/
     },
     forceToFind() {
       let searchObject = this.cvParametrizer.getSearchObject()
@@ -467,13 +482,13 @@ export default {
       return defWord || ''
     },
     mSwitchFilter: function (newFilter=null) {
-      this.showSimpleFilters      = false
+      this.showSimpleFilter      = false
       this.showCombinatoryFilters = false
       this.showAdvancedFilters    = false
       this.showExpertFilters      = false
       switch (newFilter){
         case 'simple-filters':
-          this.showSimpleFilters = true
+          this.showSimpleFilter = true
           this.gridCurrentFilter     = newFilter
           this.cvParametrizer.setSearchMode(newFilter)
           break

@@ -9,14 +9,14 @@
           color="positive" class="txt-white">
           {{cFilteredRelated.length}} / {{cLocalRelated.length}}
         </q-chip>
-        <cv-simple-filters
+        <cv-simple-filter
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('relatedSimpleFilterRef')"
-          @cv-search-key-up="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
+          @em-simple-filter-go-to-find-emitter="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
           @cv-event-filter-go-to-find="relatedSimpleFilterFind"
           class="q-pl-sm q-pr-xl"
         >
-        </cv-simple-filters>
+        </cv-simple-filter>
       </div>
       <ul class="list-group">
         <li
@@ -41,14 +41,14 @@
           >
           {{cFilteredSource.length}} / {{cLocalSource.length}}
         </q-chip>
-        <cv-simple-filters
+        <cv-simple-filter
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('sourceSimpleFilterRef')"
-          @cv-search-key-up="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
+          @em-simple-filter-go-to-find-emitter="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
           @cv-event-filter-go-to-find="sourceSimpleFilterFind"
           class="q-pl-sm q-pr-xl"
         >
-        </cv-simple-filters>
+        </cv-simple-filter>
       </div>
       <ul class="list-group">
         <li
@@ -66,13 +66,13 @@
 </template>
 <script>
 import CvRelationator from '../../../../components/input-components/CvRelationator'
-import CvSimpleFilters  from '../grid-components/CvSimpleFilters'
+import CvSimpleFilter  from '../grid-components/CvSimpleFilter'
 import {QIcon,QChip}    from 'quasar'
 export default {
   extends    : CvRelationator,
   components : {
     QIcon,
-    CvSimpleFilters,
+    CvSimpleFilter,
     QChip
   }
 }

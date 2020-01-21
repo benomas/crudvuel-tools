@@ -4,22 +4,22 @@ import VueMirroring             from 'crudvuel-tools/src/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default {
   mixins: [
-    CvComponentSet,
+    CvComponentSet/*,
     vueMirroring.fixProperties({
-      //'search'                : {mode: 'D|P|CD|CP|M',init: ''},
-      //'searchInputContainer'  : {mode: 'D|CD|M',init: false},
-      //'disableList'           : {mode: 'D|CD|M',init: false},
-      //'disableFields'         : {mode: 'P|CP',init: false},
-      //'searchLabel'           : {mode: 'P|CP',init: ''},
-      //'searchMessage'         : {mode: 'P|CP',init: ''},
-      //'searchIcon'            : {mode: 'P|CP',init: 'fas fa-search'},
-      //'searchIconColor'       : {mode: 'P|CP',init: 'info'},
-      //'filterLoading'         : {mode: 'P|CP'},
-      //'searchKeyInterruption' : {mode: 'P|CP',init: false},
-      //'searchInterruption'    : {mode: 'D|DP|M',init: null},
-      //'keyInterruptionLimit'  : {mode: 'P|CP',init: 500},
-      //'searchActiveFilter'    : {mode: 'P|CP'}
-    })
+      'search'                : {mode: 'D|P|CD|CP|M',init: ''},
+      'searchInputContainer'  : {mode: 'D|CD|M',init: false},
+      'disableList'           : {mode: 'D|CD|M',init: false},
+      'disableFields'         : {mode: 'P|CP',init: false},
+      'searchLabel'           : {mode: 'P|CP',init: ''},
+      'searchMessage'         : {mode: 'P|CP',init: ''},
+      'searchIcon'            : {mode: 'P|CP',init: 'fas fa-search'},
+      'searchIconColor'       : {mode: 'P|CP',init: 'info'},
+      'filterLoading'         : {mode: 'P|CP'},
+      'searchKeyInterruption' : {mode: 'P|CP',init: false},
+      'searchInterruption'    : {mode: 'D|DP|M',init: null},
+      'keyInterruptionLimit'  : {mode: 'P|CP',init: 500},
+      'searchActiveFilter'    : {mode: 'P|CP'}
+    })*/
   ],
   data () {
     return {

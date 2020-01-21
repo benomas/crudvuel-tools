@@ -5,14 +5,14 @@
     >
       <div class="t-center">
         {{relatedLabel}}:
-        <cv-simple-filters
+        <cv-simple-filter
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('relatedSimpleFilterRef')"
           @cv-event-filter-go-to-find="relatedSimpleFilterFind"
-          @cv-search-key-up="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
+          @em-simple-filter-go-to-find-emitter="((key)=>{keyed(key,'relatedSimpleFilterRef')})"
           class="q-pl-sm q-pr-xl"
         >
-        </cv-simple-filters>
+        </cv-simple-filter>
       </div>
       <ul class="list-group">
         <li
@@ -31,14 +31,14 @@
     >
       <div class="t-center">
         {{sourceLabel}}
-        <cv-simple-filters
+        <cv-simple-filter
           v-if="!cDisableFields"
           v-bind="mDefMatcherizerProps('sourceSimpleFilterRef')"
-          @cv-search-key-up="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
+          @em-simple-filter-go-to-find-emitter="((key)=>{keyed(key,'sourceSimpleFilterRef')})"
           @cv-event-filter-go-to-find="sourceSimpleFilterFind"
           class="q-pl-sm q-pr-xl"
         >
-        </cv-simple-filters>
+        </cv-simple-filter>
       </div>
       <ul class="list-group">
         <li
@@ -55,12 +55,12 @@
   </div>
 </template>
 <script>
-import CvSimpleFilters          from '../grid-components/CvSimpleFilters'
+import CvSimpleFilter          from '../grid-components/CvSimpleFilter'
 import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 export default {
   mixins     : [CvLocalSimpleFilterTrait],
   components : {
-    CvSimpleFilters
+    CvSimpleFilter
   },
   data:function(){
     return {

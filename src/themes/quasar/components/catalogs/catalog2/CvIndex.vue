@@ -30,7 +30,7 @@
     <template v-if="cEnableSuperFilers" slot="sub-headers-slot" slot-scope="props">
       <tr >
         <td >
-          <cv-simple-filters
+          <cv-simple-filter
             class="w-100"
             :cv-search-label="''"
             cv-search-icon=""
@@ -38,10 +38,10 @@
               superFilter('id',search)
             })"
           >
-          </cv-simple-filters>
+          </cv-simple-filter>
         </td>
         <td >
-          <cv-simple-filters
+          <cv-simple-filter
             class="w-100"
             :cv-search-label="''"
             cv-search-icon=""
@@ -49,10 +49,10 @@
               superFilter('name',search)
             })"
           >
-          </cv-simple-filters>
+          </cv-simple-filter>
         </td>
         <td >
-          <cv-simple-filters
+          <cv-simple-filter
             class="w-100"
             :cv-search-label="''"
             cv-search-icon=""
@@ -60,10 +60,10 @@
               superFilter('slug',search)
             })"
           >
-          </cv-simple-filters>
+          </cv-simple-filter>
         </td>
         <td >
-          <cv-simple-filters
+          <cv-simple-filter
             class="w-100"
             :cv-search-label="''"
             cv-search-icon=""
@@ -71,7 +71,7 @@
               superFilter('description',search)
             })"
           >
-          </cv-simple-filters>
+          </cv-simple-filter>
         </td>
         <td class="t-center">
         </td>

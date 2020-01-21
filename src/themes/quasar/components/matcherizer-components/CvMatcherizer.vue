@@ -6,20 +6,20 @@
       <div
         ref="filterReference"
       >
-        <cv-simple-filters
+        <cv-simple-filter
           v-bind="mDefMatcherizerProps()"
           :cv-search-message="cSourceMessage"
           :cv-active-filter="cShowingSelected"
           :cv-loading="cLoading"
           :cv-helper="cCurrentLabel"
           :cv-disable-fields="cDisableFields"
-          @cv-search-key-up="keyed"
+          @em-simple-filter-go-to-find-emitter="keyed"
           @cv-event-filter-go-to-find="prepareToFindSource"
           @cv-search-focused="focused"
           @cv-search-blured="blured"
           @cv-search-cleared="resetCurrent"
         >
-        </cv-simple-filters>
+        </cv-simple-filter>
       </div>
         <!--TODO fix animation-->
         <q-slide-transition appear>
@@ -62,12 +62,12 @@
 </template>
 <script>
 import CvMatcherizer from '../../../../components/matcherizer-components/CvMatcherizer'
-import CvSimpleFilters from '../grid-components/CvSimpleFilters'
+import CvSimpleFilter from '../grid-components/CvSimpleFilter'
 import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook} from 'quasar'
 export default {
   extends    : CvMatcherizer,
   components : {
-    CvSimpleFilters,
+    CvSimpleFilter,
     QSlideTransition,
     QIcon,
     QSpinner,
