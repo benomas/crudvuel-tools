@@ -73,11 +73,12 @@ export default class VueMirroring {
         methods[camelCase(`em ${fixedProperty} proccesor`)] = function(emitted = null) {
           return new Promise ((resolve, reject) => resolve(emitted))
         }
-        methods[camelCase(`em ${fixedProperty} emitter`)] = function(emitted = null) {
-          this[camelCase(`em ${fixedProperty} proccesor`)](emitted).then((proccesed = null) => {
-            this.$emit(kebabCase(`em ${fixedProperty} event`), proccesed)
-          })
-        }
+        if(methods[camelCase(`em ${fixedProperty} emitter`)] == null)
+          methods[camelCase(`em ${fixedProperty} emitter`)] = function(emitted = null) {
+            this[camelCase(`em ${fixedProperty} proccesor`)](emitted).then((proccesed = null) => {
+              this.$emit(kebabCase(`em ${fixedProperty} event`), proccesed)
+            }).catch(error=>error)
+          }
       }
     }
     return {
@@ -185,11 +186,13 @@ export default class VueMirroring {
           return function(emitted = null) {
             this[newProccesorName](emitted).then((proccesed = null) => {
               this.$emit(newEventName, proccesed)
-            })
+            }).catch(error=>error)
           }
         })(newProccesorName,newEventName)
         if (this.ons[tag] == null)
           this.ons[tag] = {}
+        if(kebabCase(`em ${fixedEmitterName} event`) === 'em-simple-filter-go-to-find-event')
+          console.log(newProccesorName)
         this.ons[tag][kebabCase(`em ${fixedEmitterName} event`)]=(function(newEmitterName){
           return function(context){
             return context[newEmitterName]

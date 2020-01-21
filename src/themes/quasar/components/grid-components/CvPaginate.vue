@@ -86,9 +86,19 @@
   </div>
 </template>
 <script>
-import CvPaginate from '../../../../components/grid-components/CvPaginate'
+import VueMirroring                         from 'crudvuel-tools/src/VueMirroring'
+import CvPaginate                           from '../../../../components/grid-components/CvPaginate'
 import {QTooltip,QIcon,QBtn,QSelect,QField} from 'quasar'
 export default {
+  mixins: [
+    new VueMirroring().fixProperties({
+      'Search'               : {mode: 'D|P|M',init: ''},
+      'Loading'              : {mode: 'P',init: false},
+      'BgColor'              : {mode: 'P',init: 'white'},
+      'ActiveFilter'         : {mode: 'P'},
+      'Start'                : {mode: 'EM'},
+    },'paginate')
+  ],
   extends    : CvPaginate,
   components : {
     QTooltip,

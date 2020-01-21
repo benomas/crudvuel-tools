@@ -44,7 +44,15 @@ export default {
       'ClearIcon'            : {mode: 'P',init: null},
       'Color'                : {mode: 'P',init: 'primary'},
       'BgColor'              : {mode: 'P',init: 'white'},
-      'ActiveFilter'         : {mode: 'P'}
+      'ActiveFilter'         : {mode: 'P'},
+      'Input'                : {mode: 'EM'},
+      'Cleared'              : {mode: 'EM'},
+      'GoToFind'             : {mode: 'EM'},
+      'KeyUp'                : {mode: 'EM'},
+      'Inyected'             : {mode: 'EM'},
+      'Focused'              : {mode: 'EM'},
+      'Blured'               : {mode: 'EM'},
+      'Start'                : {mode: 'EM'},
     },'simpleFilter')
   ],
   data () {

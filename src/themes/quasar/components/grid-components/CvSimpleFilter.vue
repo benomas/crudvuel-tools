@@ -21,6 +21,7 @@
       :hide-underline="cpSimpleFilterDisableFields"
       :loading="cpSimpleFilterLoading"
 
+      @clear="emSimpleFilterClearedEmitter"
       @input="emSimpleFilterInputEmitter"
       @keyup.13="emSimpleFilterGoToFindEmitter"
       @keyup="emSimpleFilterKeyUpEmitter"
@@ -38,18 +39,6 @@ import VueMirroring               from 'crudvuel-tools/src/VueMirroring'
 import CvSimpleFilter            from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
 export default {
-  mixins: [
-    CvSimpleFilter,
-    new VueMirroring().fixProperties({
-      'Input'    : {mode: 'EM'},
-      'Cleared'  : {mode: 'EM'},
-      'GoToFind' : {mode: 'EM'},
-      'KeyUp'    : {mode: 'EM'},
-      'Inyected' : {mode: 'EM'},
-      'Focused'  : {mode: 'EM'},
-      'Blured'   : {mode: 'EM'},
-    },'simpleFilter')
-  ],
   extends    : CvSimpleFilter,
   components : {
     QBtn,
@@ -65,11 +54,11 @@ export default {
     emSimpleFilterInputProccesor: function(emitted = null) {
       return new Promise ((resolve, reject) => {
         if (this.cdSimpleFilterSearch === null || this.cdSimpleFilterSearch === '')
-          this.mSimpleFilterCleared()
+          this.emSimpleFilterClearedEmitter(this.cdSimpleFilterSearch)
         resolve(emitted)
       })
     },
-    emSimpleFilterGoToFindProccesor: function(emitted = null){
+    emSimpleFilterGoToFindProccesor: function(emitted = null) {
       return new Promise ((resolve, reject) => {
         if (this.cpSimpleFilterDisableFields)
           reject()
@@ -79,11 +68,14 @@ export default {
     },
     emSimpleFilterKeyUpProccesor: function (emitted = null) {
       return new Promise ((resolve, reject) => {
+        /*
         if (!this.cdSearchInputContainer)
           return resolve(emitted)
-        if(this.cpDisableFields)
+        */
+        if(this.cpSimpleFilterDisableFields === true)
           return reject()
-        this.emSimpleFilterStartProccesor(emitted).then(proccesed=>resolve(proccesed)).catch(error=>reject())
+        this.emSimpleFilterStartEmitter(emitted)
+        resolve()
       })
     },
     /**
@@ -93,46 +85,49 @@ export default {
      * @date   2017-07-02
      * @return void
      */
-    emSimpleFilterStartProccesor:function(emitted = null){
+    emSimpleFilterStartProccesor: function(emitted = null) {
       return new Promise ((resolve, reject) => {
         this.$nextTick().then(() => {
           if(this.cpSimpleFilterKeyInterruptionLimit<=0)
             return reject()
-          clearTimeout(this.searchInterruption)
-          this.mSetSearchInterruption(
+          resolve()
+          clearTimeout(this.simpleFilterInterruption)
+          this.mSetSimpleFilterInterruption(
             setTimeout(()=>{
-              clearTimeout(this.searchInterruption)
-              this.emSimpleFilterGoToFindProccesor().then(proccesed=>resolve(proccesed)).catch(error=>reject())
+              clearTimeout(this.simpleFilterInterruption)
+              this.emSimpleFilterGoToFindEmitter()
             }, this.cpSimpleFilterKeyInterruptionLimit)
           )
-        })
+        }).catch(()=>reject())
       })
     },
     // trigger focused event through the parent tree
-    emSimpleFilterFocusedProccesor:function (emitted = null) {
+    emSimpleFilterFocusedProccesor: function (emitted = null) {
       return new Promise ((resolve, reject) => {
         if (!this.cdSearchInputContainer)
           return resolve()
         if(this.cpDisableFields)
           return reject()
-        this.emSimpleFilterStartProccesor(this.cdSearch).then(proccesed=>resolve(proccesed)).catch(error=>reject())
+        this.emSimpleFilterStartEmitter(this.cdSearch)
+        resolve(emitted)
       })
     },
-    emSimpleFilterBluredProccesor:function (emitted = null) {
+    emSimpleFilterBluredProccesor: function (emitted = null) {
       return new Promise ((resolve, reject) => {
         if(this.cpDisableFields)
           return reject()
         resolve(this.cdSearch)
       })
     },
-    emSimpleFilterClearedProccesor:function (emitted = null) {
+    emSimpleFilterClearedProccesor: function (emitted = null) {
       return new Promise ((resolve, reject) => {
         if (!this.cdSearchInputContainer)
-          return reject()
+          return reject(emitted)
 
-        this.emSimpleFilterStartProccesor(emitted).then(proccesed=>resolve(proccesed)).catch(error=>reject())
+        this.emSimpleFilterStartEmitter(emitted)
+        resolve(emitted)
       })
-    },/*
+    }/*,
     mSearchClear: function () {
       if (this.cdSearchInputContainer){
         this.$set(this,'search','')
@@ -151,7 +146,7 @@ export default {
         'ref'                        : referenceName
       }
     },
-    prepareToFindSource:function(search){
+    prepareToFindSource: function(search){
       this.processList()
       this.mSetDisableList(false)
       return false
@@ -167,7 +162,7 @@ export default {
         // trigger inyected event through the parent tree
         this.emSimpleFilterInyectedEmitter(this.cdSearch)
         if (reactive)
-          this.emSimpleFilterStartProccesor()
+          this.emSimpleFilterStartEmitter()
         resolve()
       })
     }*/
@@ -193,6 +188,7 @@ export default {
   },
   mounted: function () {
     this.mSetSimpleFilterSearch(this.cpSimpleFilterSearch || '')
+    //console.log(this)
   }
 }
 </script>
