@@ -1,21 +1,21 @@
 <template>
-  <span v-if="cData && cKey">
+  <span >{{cpOrderBy}}--{{cpOrderIconsRowKey}}--{{cpOrderBy != cpOrderIconsRowKey}}
     <slot
       name="orderable-icon"
-      v-if="cData.cvParametrizer.getOrderBy()!=cKey"
+      v-if="cpOrderBy != cpOrderIconsRowKey"
     >
       <q-icon name="fas fa-arrows-alt-v" color="secondary"/>
     </slot>
     <template v-if="1">
       <slot
         name="ascending-icon"
-        v-if="cData.cvParametrizer.getOrderBy()===cKey && cData.cvParametrizer.getAscending()"
+        v-if="cpOrderBy === cpOrderIconsRowKey && cpOrderIconsAscending"
       >
         <q-icon name="fas fa-sort-amount-down-alt"  color="primary"/>
       </slot>
       <slot
         name="descending-icon"
-        v-if="cData.cvParametrizer.getOrderBy()===cKey && !cData.cvParametrizer.getAscending()"
+        v-if="cpOrderBy === cpOrderIconsRowKey && !cpOrderIconsAscending"
       >
         <q-icon name="fas fa-sort-amount-up"  color="positive"/>
       </slot>
@@ -23,12 +23,16 @@
   </span>
 </template>
 <script>
-import CvOrderIcons from '../../../../components/grid-components/CvOrderIcons'
+import CvOrderIcons from 'crudvuel-tools/src/components/grid-components/CvOrderIcons'
 import {QIcon} from 'quasar'
 export default {
   extends    : CvOrderIcons,
   components : {
     QIcon
+  },
+  methods:{
+  },
+  mounted () {
   }
 }
 </script>

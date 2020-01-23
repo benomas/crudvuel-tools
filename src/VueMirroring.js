@@ -4,11 +4,13 @@ export default class VueMirroring {
     this.parentPrefix     = parentPrefix
     this.components       = {}
     this.currentComponent = {}
+    this.data             = {}
     this.props            = []
     this.computed         = {}
     this.bindings         = {}
     this.methods          = {}
     this.ons              = {}
+    this.mode             = 'normal'
   }
 
   /**
@@ -31,8 +33,12 @@ export default class VueMirroring {
     let methods  = {}
     let cModes
     for (const [property, configuration] of Object.entries(properties)) {
-      let fixedProperty=camelCase(`${prefix} ${property}`)
-      cModes = {'D':false,'P':false,'C':false,'E':false,'EM':false,'M':false}
+      let fixedProperty
+      if (configuration.shared == null || configuration.shared === false)
+        fixedProperty=camelCase(`${prefix} ${property}`)
+      else
+        fixedProperty=camelCase(property)
+      cModes = {'D':false,'P':false,'C':false,'E':false,'EM':false,'M':false,'Root':false,'branch':false,'leaf':false}
       let init,mode,modes
       if (configuration.init === undefined)
         init = null
@@ -80,6 +86,73 @@ export default class VueMirroring {
             }).catch(error=>error)
           }
       }
+
+      if(cModes['Root']){
+        data[fixedProperty]                         = init
+        data[camelCase(`initial ${fixedProperty}`)] = true
+        computed[camelCase(`cd ${fixedProperty}`)] = function() {
+          return this[fixedProperty]
+        }
+        methods[camelCase(`m set ${fixedProperty}`)] = function(value = null) {
+          this.$set(this,camelCase(`initial ${fixedProperty}`),false)
+          this[camelCase(`m set ${fixedProperty}`)] = function (value = null) {
+            this.$set(this,fixedProperty,value)
+          }
+          this.$set(this,fixedProperty,value)
+        }
+        props.push(camelCase(`cv ${fixedProperty}`))
+        computed[camelCase(`cp ${fixedProperty}`)] = function() {
+          if (this[camelCase(`initial ${fixedProperty}`)])
+            return this[camelCase(`cd ${fixedProperty}`)]
+          return this[camelCase(`cv ${fixedProperty}`)] || this[camelCase(`cd ${fixedProperty}`)]
+        }
+        methods[camelCase(`em ${fixedProperty} proccesor`)] = function(emitted = null) {
+          console.log([
+            'root emitter called',
+            emitted
+          ])
+          this[camelCase(`m set ${fixedProperty}`)](emitted)
+          return new Promise ((resolve, reject) => reject(emitted))
+        }
+      }
+
+      if(cModes['branch']){
+        props.push(camelCase(`cv ${fixedProperty}`))
+        computed[camelCase(`cp ${fixedProperty}`)] = function() {
+          return this[camelCase(`cv ${fixedProperty}`)]
+        }
+        methods[camelCase(`em ${fixedProperty} proccesor`)] = function(emitted = null) {
+          return new Promise ((resolve, reject) => resolve(emitted))
+        }
+        if(methods[camelCase(`em ${fixedProperty} emitter`)] == null)
+          methods[camelCase(`em ${fixedProperty} emitter`)] = function(emitted = null) {
+            this[camelCase(`em ${fixedProperty} proccesor`)](emitted).then((proccesed = null) => {
+              this.$emit(kebabCase(`em ${fixedProperty} event`), proccesed)
+            }).catch(error=>error)
+          }
+      }
+
+      if(cModes['leaf']){
+        props.push(camelCase(`cv ${fixedProperty}`))
+        computed[camelCase(`cp ${fixedProperty}`)] = function() {
+          return this[camelCase(`cv ${fixedProperty}`)] || init
+        }
+        if(methods[camelCase(`em ${fixedProperty} emitter`)] == null)
+          methods[camelCase(`em ${fixedProperty} emitter`)] = function(emitted = null) {
+            this[camelCase(`em ${fixedProperty} proccesor`)](emitted).then((proccesed = null) => {
+              this.$emit(kebabCase(`em ${fixedProperty} event`), proccesed)
+            }).catch(error=>error)
+          }
+        methods[camelCase(`em ${fixedProperty} proccesor`)] = function(emitted = null) {
+          return new Promise ((resolve, reject) => resolve(emitted))
+        }
+        if(methods[camelCase(`em ${fixedProperty} emitter`)] == null)
+          methods[camelCase(`em ${fixedProperty} emitter`)] = function(emitted = null) {
+            this[camelCase(`em ${fixedProperty} proccesor`)](emitted).then((proccesed = null) => {
+              this.$emit(kebabCase(`em ${fixedProperty} event`), proccesed)
+            }).catch(error=>error)
+          }
+      }
     }
     return {
       data () {
@@ -113,11 +186,14 @@ export default class VueMirroring {
         return events
       }
     })(this.ons)
-
+    let nData = this.data
     return {
+      data () {
+        return nData
+      },
       props    : this.props,
       computed : this.computed,
-      methods  : this.methods
+      methods  : this.methods,
     }
   }
 
@@ -129,6 +205,7 @@ export default class VueMirroring {
     }
     var binding = {}
     let tag = kebabCase(`${this.getCurrentComponent().tag}`)
+    let simpleTag = replace(`--${tag}`,'--cv-','')
     if (this.getCurrentComponent().posFix && this.getCurrentComponent().posFix !== '')
       tag += '-' + kebabCase(this.getCurrentComponent().posFix)
     if(this.getCurrentComponent().props){
@@ -138,12 +215,18 @@ export default class VueMirroring {
           continue
         }
         let property = replace(`--${kebabCase(prop)}`,'--cv-','')
-        let posfixedProperty = property
-        if (this.getCurrentComponent().posFix && this.getCurrentComponent().posFix !== '')
-          posfixedProperty += '-' + kebabCase(this.getCurrentComponent().posFix)
-        let prefixedProperty = camelCase(`${this.getParentPrefix()}-${posfixedProperty}`)
-        let cvProperty = camelCase('cv ' + prefixedProperty)
-        let cpProperty = camelCase('cp ' + prefixedProperty)
+        let posfixedProperty = camelCase(property)
+        let prefixedProperty = camelCase(property)
+        if(startsWith(property,simpleTag)){
+          if (this.getCurrentComponent().posFix && this.getCurrentComponent().posFix !== '')
+            posfixedProperty += '-' + kebabCase(this.getCurrentComponent().posFix)
+          prefixedProperty = camelCase(`${this.getParentPrefix()}-${posfixedProperty}`)
+        }
+
+        let cvProperty       = camelCase('cv ' + prefixedProperty)
+        let clProperty       = camelCase('cl ' + prefixedProperty)
+        let cpProperty       = camelCase('cp ' + prefixedProperty)
+        let cdProperty       = camelCase('cd ' + prefixedProperty)
         let match = false
         for (const prop of this.props)
           if(cvProperty === prop){
@@ -153,10 +236,37 @@ export default class VueMirroring {
         if(!match)
           this.props.push(cvProperty)
         mirroring.props.push(cvProperty)
-        this.computed[cpProperty] = function() {
-          if (this[cvProperty] != null)
-            return this[cvProperty]
-          return null
+        if(!this.isRoot()){
+          this.computed[cpProperty] = function() {
+            if (this[cvProperty] != null)
+              return this[cvProperty]
+            if (this[clProperty] != null)
+              return this[clProperty]
+            return null
+          }
+        }else{
+          this.data[prefixedProperty]                         = null
+          this.data[camelCase(`initial ${prefixedProperty}`)] = true
+          this.computed[cdProperty] = function() {
+            return this[prefixedProperty]
+          }
+          this.methods[camelCase(`m set ${prefixedProperty}`)] = function(value = null) {
+            this.$set(this,camelCase(`initial ${prefixedProperty}`),false)
+            this[camelCase(`m set ${prefixedProperty}`)] = function (value = null) {
+              this.$set(this,prefixedProperty,value)
+            }
+            this.$set(this,prefixedProperty,value)
+          }
+          this.computed[cpProperty] = function() {
+            if (this[camelCase(`initial ${prefixedProperty}`)])
+              return this[cdProperty]
+            return this[cvProperty] || this[cdProperty]
+          }
+          this.methods[camelCase(`em ${prefixedProperty} proccesor`)] = function(emitted = null) {
+            this[camelCase(`m set ${prefixedProperty}`)](emitted)
+            return new Promise ((resolve, reject) => reject(emitted))
+          }
+
         }
         binding[`cv-${property}`] = cpProperty
       }
@@ -176,8 +286,8 @@ export default class VueMirroring {
         let prefixedEmitterName = camelCase(`${this.getParentPrefix()}-${fixedEmitterName}`)
 
         let newProccesorName = camelCase(`em ${prefixedEmitterName} Proccesor`)
-        let newEmitterName  = camelCase(`em ${prefixedEmitterName} Emitter`)
-        let newEventName    = kebabCase(`em ${prefixedEmitterName} event`)
+        let newEmitterName   = camelCase(`em ${prefixedEmitterName} Emitter`)
+        let newEventName     = kebabCase(`em ${prefixedEmitterName} event`)
 
         this.methods[newProccesorName] = function(emitted = null) {
           return new Promise ((resolve, reject) => resolve(emitted))
@@ -191,8 +301,6 @@ export default class VueMirroring {
         })(newProccesorName,newEventName)
         if (this.ons[tag] == null)
           this.ons[tag] = {}
-        if(kebabCase(`em ${fixedEmitterName} event`) === 'em-simple-filter-go-to-find-event')
-          console.log(newProccesorName)
         this.ons[tag][kebabCase(`em ${fixedEmitterName} event`)]=(function(newEmitterName){
           return function(context){
             return context[newEmitterName]
@@ -200,14 +308,22 @@ export default class VueMirroring {
         })(newEmitterName)
       }
     }
-    this.bindings[tag] = (function(binding){
+    this.bindings[tag] = (function(binding,tag,posFix){
       return function (context) {
         let fixedBinding = {}
+        if( tag === 'cv-order-iconsa')
+          console.log([
+            tag,
+            posFix,
+            binding
+          ])
         for (const [childProperty, parentComputed] of Object.entries(binding))
           fixedBinding[childProperty] = context[parentComputed]
+
+        fixedBinding['ref'] = camelCase(`${tag} ${posFix} ref`)
         return fixedBinding
       }
-    })(binding)
+    })(binding,tag,this.getCurrentComponent().posFix)
 
     this.getCurrentComponent().props = mirroring.props
     return this
@@ -278,11 +394,15 @@ export default class VueMirroring {
   getCurrentComponent () {
     return this.currentComponent || {}
   }
+  getMode () {
+    return this.mode || 'normal'
+  }
 
   setParentPrefix (parentPrefix = null) {
     this.parentPrefix = parentPrefix || ''
     return this
   }
+
   setProps (props = null) {
     this.props = props || []
     return this
@@ -294,6 +414,25 @@ export default class VueMirroring {
   setCurrentComponent (currentComponent) {
     this.currentComponent = currentComponent || {}
     return this
+  }
+  setMode (mode) {
+    this.mode = mode || 'normal'
+    return this
+  }
+  enableRootMode(){
+    return this.setMode('root')
+  }
+  isRoot(){
+    return this.getMode() === 'root'
+  }
+  fixedComponentTag (component = null){
+    if (!component || component.__file == null)
+      return ''
+
+    const found = [...component.__file.matchAll(/^.*?(Cv|cv|cV)(\w+)\.(js|vue)$/g)]
+    if (found[0] == null || found[0][2] == null)
+      return ''
+    return kebabCase(found[0][2])
   }
   loadComponents (...components) {
     let fixedComponents = {}

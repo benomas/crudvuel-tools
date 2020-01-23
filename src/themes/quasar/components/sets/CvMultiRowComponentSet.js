@@ -19,6 +19,9 @@ export default{
   props: [
   ],
   computed: {
+    cRowKey: function () {
+      return 'id'
+    }
   },
   methods: {
   }
