@@ -2,20 +2,20 @@
   <span>
     <slot
       name="orderable-icon"
-      v-if="cpOrderBy != cpOrderIconsRowKey"
+      v-if="cpDinGenOrderBy != cdStaGenRowKey"
     >
       <span>ord</span>
     </slot>
     <template v-if="1">
       <slot
         name="ascending-icon"
-        v-if="cpOrderBy === cpOrderIconsRowKey && cpOrderIconsAscending"
+        v-if="cpDinGenOrderBy === cdStaGenRowKey && cpDinGenAscending"
       >
         <span>asc</span>
       </slot>
       <slot
         name="descending-icon"
-        v-if="cpOrderBy === cpOrderIconsRowKey && !cpOrderIconsAscending"
+        v-if="cpDinGenOrderBy === cdStaGenRowKey && !cpDinGenAscending"
       >
         <span>des</span>
       </slot>
@@ -28,10 +28,10 @@ let vueMirroring = new VueMirroring('OrderIcons')
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      'RowKey'    : {mode: 'branch',init: 'id'},
-      'OrderBy'   : {mode: 'P',shared:true},
-      'Ascending' : {mode: 'branch',init: true},
-    },'OrderIcons')
+      '[P]staGenRowKey'    : 'id',
+      '[P]dinGenOrderBy'   : 'id',
+      '[P]dinGenAscending' : true,
+    })
   ],
   props:[
   ],

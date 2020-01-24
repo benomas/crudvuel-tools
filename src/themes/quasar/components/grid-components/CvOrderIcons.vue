@@ -1,21 +1,21 @@
 <template>
-  <span >{{cpOrderBy}}--{{cpOrderIconsRowKey}}--{{cpOrderBy != cpOrderIconsRowKey}}
+  <span >{{cpDinGenOrderBy}}--{{cdStaGenRowKey}}--{{cpDinGenOrderBy != cdStaGenRowKey}}
     <slot
       name="orderable-icon"
-      v-if="cpOrderBy != cpOrderIconsRowKey"
+      v-if="cpDinGenOrderBy != cdStaGenRowKey"
     >
       <q-icon name="fas fa-arrows-alt-v" color="secondary"/>
     </slot>
     <template v-if="1">
       <slot
         name="ascending-icon"
-        v-if="cpOrderBy === cpOrderIconsRowKey && cpOrderIconsAscending"
+        v-if="cpDinGenOrderBy === cdStaGenRowKey && cpDinGenAscending"
       >
         <q-icon name="fas fa-sort-amount-down-alt"  color="primary"/>
       </slot>
       <slot
         name="descending-icon"
-        v-if="cpOrderBy === cpOrderIconsRowKey && !cpOrderIconsAscending"
+        v-if="cpDinGenOrderBy === cdStaGenRowKey && !cpDinGenAscending"
       >
         <q-icon name="fas fa-sort-amount-up"  color="positive"/>
       </slot>

@@ -31,7 +31,7 @@
       Numero de Registros por Página :
       <select   class="form-control" v-model="this.paginateLimitSelected" @change='changeLimitPerPage(paginateLimitSelected)'>
         <option
-            v-for="limitValue in limitValues"
+            v-for="limitValue in cdStaCompLimitValues"
         >
             {{limitValue}}
         </option>
@@ -48,21 +48,21 @@ export default {
   mixins: [
     CvComponentSet,
     new VueMirroring().fixProperties({
-      'Info'               : {mode: 'D|M',init: {}},
-      'LimitSelected'      : {mode: 'D|M',init: null},
-      'goTo'               : {mode: 'D|M',init: false},
-      'JumpedPage'         : {mode: 'D|M',init: 0},
-      'PageAnimationIn'    : {mode: 'D|M',init: 'animated fadeIn'},
-      'PageAnimationOut'   : {mode: 'D|M',init: 'animated fadeIn'},
-      'OldCarrusel'        : {mode: 'D|M',init: []},
-      'Position'           : {mode: 'P',init: 'top'},
-      'CurrentPage'        : {mode: 'P',init: 1},
-      'LimitValues'        : {mode: 'P',init: [10,20,50,100,200]},
-      'TotalQueryElements' : {mode: 'P'},
-      'TotalPageElements'  : {mode: 'P'},
-      'Limit'              : {mode: 'P'},
-      'PagesPerView'       : {mode: 'P'},
-      'SetPage'            : {mode: 'EM'},
+      '[P]staCompLimitValues' : [10,20,50,100,200],
+      'Info'                  : {mode: 'D|M',init: {}},
+      'LimitSelected'         : {mode: 'D|M',init: null},
+      'goTo'                  : {mode: 'D|M',init: false},
+      'JumpedPage'            : {mode: 'D|M',init: 0},
+      'PageAnimationIn'       : {mode: 'D|M',init: 'animated fadeIn'},
+      'PageAnimationOut'      : {mode: 'D|M',init: 'animated fadeIn'},
+      'OldCarrusel'           : {mode: 'D|M',init: []},
+      'Position'              : {mode: 'P',init: 'top'},
+      'CurrentPage'           : {mode: 'P',init: 1},
+      'TotalQueryElements'    : {mode: 'P'},
+      'TotalPageElements'     : {mode: 'P'},
+      'Limit'                 : {mode: 'P'},
+      'PagesPerView'          : {mode: 'P'},
+      'SetPage'               : {mode: 'EM'},
     },'paginate')
   ],
   data () {

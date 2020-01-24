@@ -110,9 +110,9 @@ export default {
   computed: {
     cKeyedLimitValuesArray: function () {
       let arrayLimitValues = []
-      if (this.limitValues && this.limitValues.length) {
-        for (let i = 0; i < this.limitValues.length; i++)
-          arrayLimitValues.push({label: this.limitValues[i].toString(),value: this.limitValues[i].toString()})
+      if (this.cdStaCompLimitValues && this.cdStaCompLimitValues.length) {
+        for (let i = 0; i < this.cdStaCompLimitValues.length; i++)
+          arrayLimitValues.push({label: this.cdStaCompLimitValues[i].toString(),value: this.cdStaCompLimitValues[i].toString()})
       }
       return arrayLimitValues
     },
