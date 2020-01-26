@@ -44,7 +44,14 @@ export default class VueMirroring {
     let nData = this.data
     return {
       data () {
-        return nData
+        let data = {}
+        for (const [dataItem, dataValue] of Object.entries(nData)){
+          if (dataValue != null)
+            data[dataItem] = this[dataValue]
+          else
+            data[dataItem] = null
+        }
+        return data
       },
       props    : this.props,
       computed : this.computed,
@@ -61,7 +68,7 @@ export default class VueMirroring {
       splitedProperty[0] !== 'cv'
     )
       return false
-    return this.vueMirroring.vueAutoDefiner.validPropertySegments(splitedProperty)
+    return this.getVueAutoDefiner().validPropertySegments(splitedProperty)
   }
 
   validEmitter (splitedEmitter = []) {
@@ -74,19 +81,19 @@ export default class VueMirroring {
       splitedEmitter[splitedEmitter.length-1] !== 'emitter'
     )
       return false
-    return this.vueMirroring.vueAutoDefiner.validEmitterSegments(splitedEmitter)
+    return this.getVueAutoDefiner().validEmitterSegments(splitedEmitter)
   }
 
   fixPropertyName (splitedProperty = []) {
-    return this.vueMirroring.vueAutoDefiner.fixPropertyName(splitedProperty)
+    return this.getVueAutoDefiner().fixPropertyName(splitedProperty)
   }
 
   fixEmitterName (splitedEmitter = []) {
-    return this.vueMirroring.vueAutoDefiner.fixEmitterName(splitedEmitter)
+    return this.getVueAutoDefiner().fixEmitterName(splitedEmitter)
   }
 
   complementName (splited,from = 3) {
-    return this.vueMirroring.vueAutoDefiner.complementName(splited,1)
+    return this.getVueAutoDefiner().complementName(splited,1)
   }
 
   bindMirroring () {
@@ -102,15 +109,22 @@ export default class VueMirroring {
         }
 
         let property = this.fixPropertyName(splitedProperty,this.getCurrentComponent().posFix,this.getParentPrefix())
-
+        /*
         console.log([
           this.getParentPrefix(),
           prop,
           property
-        ])
+        ])*/
         let cvProperty       = camelCase('cv ' + property)
         let clProperty       = camelCase('cl ' + property)
         let cpProperty       = camelCase('cp ' + property)
+        let cdProperty       = camelCase('cd ' + property)
+
+        if(this.switchModeRequired(splitedProperty)){
+          if (this.getCurrentComponent().data[property] == null)
+            this.data[property] = cpProperty
+        }
+
         let match = false
         for (const prop of this.props)
           if(cvProperty === prop){
@@ -127,7 +141,12 @@ export default class VueMirroring {
             return this[clProperty]
           return null
         }
-        binding[kebabCase(prop)] = cpProperty
+        if(this.switchModeRequired(splitedProperty)){
+          binding[kebabCase(prop)] = cdProperty
+        }
+        else{
+          binding[kebabCase(prop)] = cpProperty
+        }
       }
     }
     let methodNames = Object.keys(this.getCurrentComponent().methods)
@@ -294,11 +313,20 @@ export default class VueMirroring {
       fixedComponents[kebabCase(`${tag} ${posFix}`)]={
         tag       : tag,
         component : currentComponent[tag],
-        posFix    : currentComponent.posFix != null ? currentComponent.posFix : '',
-        props     : currentComponent.props != null ? currentComponent.props   : [],
-        methods   : currentComponent.methods != null ? currentComponent.methods   : {}
+        posFix    : currentComponent.posFix != null ? currentComponent.posFix   : '',
+        props     : currentComponent.props != null ? currentComponent.props     : [],
+        data      : currentComponent.data != null ? currentComponent.data       : {},
+        methods   : currentComponent.methods != null ? currentComponent.methods : {}
       }
     }
     return this.setComponents(fixedComponents)
+  }
+
+  getVueAutoDefiner (){
+    return this.vueMirroring.vueAutoDefiner
+  }
+
+  switchModeRequired(splited){
+    return this.isRoot() && splited[1] === 'din'
   }
 }

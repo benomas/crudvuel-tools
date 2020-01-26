@@ -285,7 +285,10 @@ export default class VueAutoDefiner {
   }
 
   fixPropertyName (splitedProperty = []) {
-    switch(splitedProperty[2]){
+    let scope = splitedProperty[2]
+    if(this.getVueComponentConnector().switchModeRequired(splitedProperty))
+      scope = 'sta'
+    switch(scope){
       case 'com':
         return camelCase(`${splitedProperty[1]} comf ${this.getCurrentComponent().tag} ${this.complementName(splitedProperty)} `)
       case 'comf':
@@ -293,7 +296,7 @@ export default class VueAutoDefiner {
       case 'ins':
         return camelCase(`${splitedProperty[1]} ins ${this.getVueComponentConnector().getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedProperty)}`)
     }
-    return camelCase(`${splitedProperty[1]} ${splitedProperty[2]} ${this.complementName(splitedProperty)}`)
+    return camelCase(`${splitedProperty[1]} ${scope} ${this.complementName(splitedProperty)}`)
   }
 
   validEmitterSegments (splitedEmitter = []) {
@@ -301,7 +304,10 @@ export default class VueAutoDefiner {
   }
 
   fixEmitterName (splitedEmitter = []) {
-    switch(splitedEmitter[2]){
+    let scope = splitedEmitter[2]
+    if(this.getVueComponentConnector().switchModeRequired(splitedEmitter))
+      scope = 'sta'
+    switch(scope){
       case 'com':
         return camelCase(`${splitedEmitter[1]} comf ${this.getCurrentComponent().tag} ${this.complementName(splitedEmitter)} `)
       case 'comf':
@@ -309,7 +315,7 @@ export default class VueAutoDefiner {
       case 'ins':
         return camelCase(`${splitedEmitter[1]} ins ${this.getVueComponentConnector().getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedEmitter)}`)
     }
-    return camelCase(`${splitedEmitter[1]} ${splitedEmitter[2]} ${this.complementName(splitedEmitter)}`)
+    return camelCase(`${splitedEmitter[1]} ${scope} ${this.complementName(splitedEmitter)}`)
   }
 
   getVueComponentConnector (){
