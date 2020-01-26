@@ -46,6 +46,7 @@ export default class VueMirroring {
       data () {
         let data = {}
         for (const [dataItem, dataValue] of Object.entries(nData)){
+          console.log(dataItem,dataValue)
           if (dataValue != null)
             data[dataItem] = this[dataValue]
           else
@@ -142,6 +143,8 @@ export default class VueMirroring {
           return null
         }
         if(this.switchModeRequired(splitedProperty)){
+          //console.log(kebabCase(replace(prop,'cvDin','cvSta')))
+          //binding[kebabCase(replace(prop,'cvDin','cvSta'))] = cdProperty
           binding[kebabCase(prop)] = cdProperty
         }
         else{
