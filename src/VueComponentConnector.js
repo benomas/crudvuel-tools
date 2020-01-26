@@ -1,7 +1,8 @@
 import {camelCase,kebabCase,replace,startsWith,endsWith,split} from 'lodash'
 
 export default class VueMirroring {
-  constructor (parentPrefix = null) {
+  constructor (vueMirroring = null,parentPrefix = null) {
+    this.vueMirroring     = vueMirroring
     this.parentPrefix     = parentPrefix
     this.components       = {}
     this.currentComponent = {}
@@ -12,11 +13,6 @@ export default class VueMirroring {
     this.methods          = {}
     this.ons              = {}
     this.mode             = 'normal'
-  }
-
-  inyectAutoDefiner (autoDefiner = null) {
-    this.autoDefiner = autoDefiner
-    return this
   }
 
   bindsMirroring () {
@@ -65,7 +61,7 @@ export default class VueMirroring {
       splitedProperty[0] !== 'cv'
     )
       return false
-    return this.autoDefiner.validPropertySegments(splitedProperty)
+    return this.vueMirroring.vueAutoDefiner.validPropertySegments(splitedProperty)
   }
 
   validEmitter (splitedEmitter = []) {
@@ -78,29 +74,25 @@ export default class VueMirroring {
       splitedEmitter[splitedEmitter.length-1] !== 'emitter'
     )
       return false
-    return this.autoDefiner.validEmitterSegments(splitedEmitter)
+    return this.vueMirroring.vueAutoDefiner.validEmitterSegments(splitedEmitter)
   }
 
   fixPropertyName (splitedProperty = []) {
-    return this.autoDefiner.fixPropertyName(splitedProperty)
+    return this.vueMirroring.vueAutoDefiner.fixPropertyName(splitedProperty)
   }
 
   fixEmitterName (splitedEmitter = []) {
-    return this.autoDefiner.fixEmitterName(splitedEmitter)
+    return this.vueMirroring.vueAutoDefiner.fixEmitterName(splitedEmitter)
   }
 
   complementName (splited,from = 3) {
-    return this.autoDefiner.complementName(splited,1)
+    return this.vueMirroring.vueAutoDefiner.complementName(splited,1)
   }
 
   bindMirroring () {
-    let mirroring = {
-      props    : [],
-      computed : {},
-      methods  : {}
-    }
+    let localProps = []
     var binding = {}
-    let tag = kebabCase(`${this.getCurrentComponent().tag}`)
+    let tag = kebabCase(`${this.getCurrentComponent().tag} ${this.getCurrentComponent().posFix}`)
     if(this.getCurrentComponent().props){
       for (const [position, prop] of Object.entries(this.getCurrentComponent().props)) {
         let splitedProperty = split(kebabCase(prop),'-')
@@ -108,12 +100,17 @@ export default class VueMirroring {
           this.getCurrentComponent().props.splice(position, 1)
           continue
         }
-        let property = this.fixPropertyName(splitedProperty)
 
+        let property = this.fixPropertyName(splitedProperty,this.getCurrentComponent().posFix,this.getParentPrefix())
+
+        console.log([
+          this.getParentPrefix(),
+          prop,
+          property
+        ])
         let cvProperty       = camelCase('cv ' + property)
         let clProperty       = camelCase('cl ' + property)
         let cpProperty       = camelCase('cp ' + property)
-        let cdProperty       = camelCase('cd ' + property)
         let match = false
         for (const prop of this.props)
           if(cvProperty === prop){
@@ -122,7 +119,7 @@ export default class VueMirroring {
           }
         if(!match)
           this.props.push(cvProperty)
-        mirroring.props.push(cvProperty)
+        localProps.push(cvProperty)
         this.computed[cpProperty] = function() {
           if (this[cvProperty] != null)
             return this[cvProperty]
@@ -130,7 +127,7 @@ export default class VueMirroring {
             return this[clProperty]
           return null
         }
-        binding[kebabCase(`cv-${property}`)] = cpProperty
+        binding[kebabCase(prop)] = cpProperty
       }
     }
     let methodNames = Object.keys(this.getCurrentComponent().methods)
@@ -179,7 +176,7 @@ export default class VueMirroring {
       }
     })(binding,tag,this.getCurrentComponent().posFix)
 
-    this.getCurrentComponent().props = mirroring.props
+    this.getCurrentComponent().props = localProps
     return this
   }
 

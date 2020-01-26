@@ -1,6 +1,7 @@
 import {camelCase,split,kebabCase,lowerCase} from 'lodash'
 export default class VueAutoDefiner {
-  constructor () {
+  constructor (vueMirroring = null) {
+    this.vueMirroring     = vueMirroring
     this.autoProps        = []
     this.autoComputed     = {}
     this.autoData         = {}
@@ -8,13 +9,8 @@ export default class VueAutoDefiner {
     this.autoMounters     = []
     this.autoMounted      = {}
     this.resetAutoDefs()
-    this.validScopes      = {gen:true,com:true,comf:true,ins:true,insf:true}//comf component fixed
+    this.validScopes      = {gen:true,com:true,comf:true,comr:true,ins:true,insf:true,insr:true}//comf component fixed
     this.validModes       = {sta:true,din:true}
-  }
-
-  inyectComponentConnector (componentConnector = null) {
-    this.componentConnector = componentConnector
-    return this
   }
 
   noTypes () {
@@ -291,13 +287,11 @@ export default class VueAutoDefiner {
   fixPropertyName (splitedProperty = []) {
     switch(splitedProperty[2]){
       case 'com':
-        return camelCase(`${splitedProperty[1]} ${splitedProperty[2]}f ${this.componentConnector.getCurrentComponent().tag} ${this.complementName(splitedProperty)}`)
+        return camelCase(`${splitedProperty[1]} comf ${this.getCurrentComponent().tag} ${this.complementName(splitedProperty)} `)
       case 'comf':
-        return camelCase(`${splitedProperty[1]} ${splitedProperty[2]} ${this.complementName(splitedProperty)}`)
+        return camelCase(`${splitedProperty[1]} comf ${this.complementName(splitedProperty)} `)
       case 'ins':
-        return camelCase(`${splitedProperty[1]} ${splitedProperty[2]}f ${this.componentConnector.getParentPrefix()} ${this.componentConnector.getCurrentComponent().tag} ${this.complementName(splitedProperty)}`)
-      case 'insf':
-        return camelCase(`${splitedProperty[1]} ${splitedProperty[2]} ${this.componentConnector.getParentPrefix()} ${this.complementName(splitedProperty)}`)
+        return camelCase(`${splitedProperty[1]} ins ${this.getVueComponentConnector().getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedProperty)}`)
     }
     return camelCase(`${splitedProperty[1]} ${splitedProperty[2]} ${this.complementName(splitedProperty)}`)
   }
@@ -309,14 +303,20 @@ export default class VueAutoDefiner {
   fixEmitterName (splitedEmitter = []) {
     switch(splitedEmitter[2]){
       case 'com':
-        return camelCase(`${splitedEmitter[1]} ${splitedEmitter[2]}f ${this.componentConnector.getCurrentComponent().tag} ${this.complementName(splitedEmitter)}`)
+        return camelCase(`${splitedEmitter[1]} comf ${this.getCurrentComponent().tag} ${this.complementName(splitedEmitter)} `)
       case 'comf':
-        return camelCase(`${splitedEmitter[1]} ${splitedEmitter[2]} ${this.complementName(splitedEmitter)}`)
+        return camelCase(`${splitedEmitter[1]} comf ${this.complementName(splitedEmitter)} `)
       case 'ins':
-        return camelCase(`${splitedEmitter[1]} ${splitedEmitter[2]}f ${this.componentConnector.getParentPrefix()} ${this.componentConnector.getCurrentComponent().tag} ${this.complementName(splitedEmitter)}`)
-      case 'insf':
-        return camelCase(`${splitedEmitter[1]} ${splitedEmitter[2]} ${this.componentConnector.getParentPrefix()} ${this.complementName(splitedEmitter)}`)
+        return camelCase(`${splitedEmitter[1]} ins ${this.getVueComponentConnector().getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedEmitter)}`)
     }
     return camelCase(`${splitedEmitter[1]} ${splitedEmitter[2]} ${this.complementName(splitedEmitter)}`)
+  }
+
+  getVueComponentConnector (){
+    return this.vueMirroring.vueComponentConnector
+  }
+
+  getCurrentComponent (){
+    return this.getVueComponentConnector().getCurrentComponent()
   }
 }

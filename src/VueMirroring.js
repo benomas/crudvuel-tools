@@ -3,9 +3,8 @@ import VueComponentConnector  from './VueComponentConnector'
 
 export default class VueMirroring {
   constructor (parentPrefix = null) {
-    this.vueAutoDefiner        = new VueAutoDefiner()
-    this.vueComponentConnector = new VueComponentConnector(parentPrefix).inyectAutoDefiner(this.vueAutoDefiner)
-    this.vueAutoDefiner.inyectComponentConnector(this.vueComponentConnector)
+    this.vueAutoDefiner        = new VueAutoDefiner(this)
+    this.vueComponentConnector = new VueComponentConnector(this,parentPrefix)
   }
 
   fixProperties (properties = null) {
@@ -27,6 +26,7 @@ export default class VueMirroring {
 
   inspector (context){
     console.log({
+      component : this.vueComponentConnector.getParentPrefix(),
       computed : context._computedWatchers,
       data     : context._data,
       pros     : context._props,
