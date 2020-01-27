@@ -19,11 +19,6 @@ export default class VueMirroring {
     return this.vueComponentConnector.binding()
   }
 
-  root () {
-    this.vueComponentConnector.enableRootMode()
-    return this
-  }
-
   inspector (context){
     console.log({
       component : this.vueComponentConnector.getParentPrefix(),

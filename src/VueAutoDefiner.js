@@ -43,16 +43,18 @@ export default class VueAutoDefiner {
   }
 
   getAutos () {
-    let cData = this.autoData
+    let currentData = this.autoData
+    let parentPrefix  = this.getParentPrefix()
     return {
       data () {
-        return cData
+        let data = {}
+        for (const [dataItem, dataValue] of Object.entries(currentData))
+          data[dataItem] = dataValue(this)
+        return data
       },
       props    : this.autoProps,
       computed : this.autoComputed,
-      methods  : this.autoMethods,
-      mounters : this.autoMounters,
-      mounted  : this.autoMounted
+      methods  : this.autoMethods
     }
   }
   getAutoDefDataInit (){
@@ -144,14 +146,33 @@ export default class VueAutoDefiner {
     return camelCase(`${prefix} ${this.getAutoDefName()}`)
   }
   calAutoPropName(prefix = '') {
-    return camelCase(`${prefix} ${this.getAutoDefMode()} ${this.getAutoDefScope()} ${this.getAutoDefName()}`)
+    let mode = this.getAutoDefMode() || ''
+    let scope = this.getAutoDefScope() || ''
+    return camelCase(`${prefix} ${mode} ${scope} ${this.getAutoDefName()}`)
+  }
+  calAutoDataName(prefix = '') {
+    return camelCase(`${prefix} ${this.getAutoDefName()}`)
   }
 /**
  * add data
  */
   addAutoData(){
-    if (this.hasAutoData())
-      this.autoData[this.calAutoPropName()] = this.getAutoDefDataInit()
+    if (this.hasAutoData()){
+      let dataName = this.calAutoDataName()
+      if(this.hasAutoProp()){
+        let prop = this.calAutoPropName('cv')
+        let prefix = this.getParentPrefix()
+        let nam = this.calAutoDataName()
+        this.autoData[dataName] = function(context) {
+          return context[prop]
+        }
+      }else{
+        let def = this.getAutoDefDataInit()
+        this.autoData[dataName] = function(){
+          return def
+        }
+      }
+    }
     return this
   }
 /**
@@ -166,9 +187,9 @@ export default class VueAutoDefiner {
  * add computed
  */
   addAutoComputed(){
-    let name = this.calAutoPropName()
+    let name = this.calAutoDataName()
     if (this.hasAutoData()) {
-      this.autoComputed[this.calAutoPropName('cd')] = function() {
+      this.autoComputed[this.calAutoDataName('cd')] = function() {
         return this[name]
       }
     }
@@ -187,8 +208,8 @@ export default class VueAutoDefiner {
  */
   addAutoMethod(){
     if (this.hasAutoData()) {
-      let name = this.calAutoPropName()
-      this.autoMethods[this.calAutoPropName('m set')] = function(value = null) {
+      let name = this.calAutoDataName()
+      this.autoMethods[this.calAutoDataName('m set')] = function(value = null) {
         this.$set(this,name,value)
         return this
       }
@@ -219,8 +240,8 @@ export default class VueAutoDefiner {
  */
   addAutoMounter(){
     if (this.hasAutoProp() && this.getAutoDefMode() === 'sta') {
-      let propName = this.calAutoPropName('cp')
-      let dataName = this.calAutoPropName('m set')
+      let propName = this.calAutoDataName('cp')
+      let dataName = this.calAutoDataName('m set')
       this.autoMounters.push(function (context) {
         context[dataName](context[propName])
       })
@@ -266,11 +287,10 @@ export default class VueAutoDefiner {
   * @return vue structure
   */
   fixProperties (properties = null) {
-    for (const [property, def] of Object.entries(properties)) {
+    for (const [property, def] of Object.entries(properties))
       if (this.definitionSplitter(property).setAutoDefInit(def).complementDefinition().validateDefinition())
-        this.addAutoData().addAutoProp().addAutoComputed().addAutoMethod().addAutoEmitter().addAutoMounter()
-    }
-    return this.addAutoMounted().getAutos()
+        this.addAutoData().addAutoProp().addAutoComputed().addAutoMethod().addAutoEmitter()
+    return this.getAutos()
   }
 
   validPropertySegments (splitedProperty = []) {
@@ -300,6 +320,20 @@ export default class VueAutoDefiner {
     return camelCase(`${mode} ${scope} ${this.complementName(splitedProperty)}`)
   }
 
+  fixDataName (splitedProperty = []) {
+    let scope = splitedProperty[2]
+    let mode  = splitedProperty[1]
+    switch(scope){
+      case 'com':
+        return camelCase(`${this.getCurrentComponent().tag} ${this.complementName(splitedProperty)} `)
+      case 'comf':
+        return camelCase(`${this.complementName(splitedProperty)} `)
+      case 'ins':
+        return camelCase(`${this.getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedProperty)}`)
+    }
+    return camelCase(`${this.complementName(splitedProperty)}`)
+  }
+
   validEmitterSegments (splitedEmitter = []) {
     return this.validModes[splitedEmitter[1]] != null && this.validScopes[splitedEmitter[2]] != null
   }
@@ -315,7 +349,7 @@ export default class VueAutoDefiner {
       case 'comf':
         return camelCase(`${mode} comf ${this.complementName(splitedEmitter)} `)
       case 'ins':
-        return camelCase(`${mode} ins ${this.getVueComponentConnector().getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedEmitter)}`)
+        return camelCase(`${mode} ins ${this.getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedEmitter)}`)
     }
     return camelCase(`${mode} ${scope} ${this.complementName(splitedEmitter)}`)
   }
@@ -326,5 +360,8 @@ export default class VueAutoDefiner {
 
   getCurrentComponent (){
     return this.getVueComponentConnector().getCurrentComponent()
+  }
+  getParentPrefix () {
+    return this.getVueComponentConnector().getParentPrefix()
   }
 }
