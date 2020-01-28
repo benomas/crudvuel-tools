@@ -109,7 +109,7 @@
 
 import CvTag                    from '../CvTag'
 import CvPaginate               from './CvPaginate'
-import CvSimpleFilter          from './CvSimpleFilter'
+import CvSimpleFilter           from './CvSimpleFilter'
 import CvCombinatoryFilters     from './CvCombinatoryFilters'
 import CvAdvancedFilters        from './CvAdvancedFilters'
 import CvExpertFilters          from './CvExpertFilters'

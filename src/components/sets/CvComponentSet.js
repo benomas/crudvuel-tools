@@ -1,25 +1,45 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth} from 'crudvuel-tools/src/cvHelper'
+import {map} from 'lodash'
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('ComponentSet')
 export default {
   mixins: [
     vueMirroring.fixProperties({
       '[D]selfReady'       : false,
-      '[P]staGenParentRef' : null,
       '[D]childrenReady'   : true,
       '[D]isMounted'       : false,
+      '[P]staGenParentRef' : null
     })
   ],
+  data () {
+    return {
+      customBindings:[
+        {
+          'cv-sta-gen-parent-ref':'cSelfRef'
+        }
+      ]
+    }
+  },
   computed: {
-    cSelfRef: function () {
+    cSelfRef () {
       return this
     },
-    cReady: function () {
+    cReady () {
       return this.cdSelfReady && this.cdChildrenReady
     }
   },
   methods: {
-    mActionInitialize: function () {
+    mCustomBingins (index) {
+      return {
+        ...(this.mBinding != null) ? this.mBinding(index) : {},
+        ...Object.assign({}, ...map(this.customBindings,  collection  =>  {
+          for (const [prop, value] of Object.entries(collection))
+            collection[prop] = this[value]
+          return collection
+        }))
+      }
+    },
+    mActionInitialize () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
           setTimeout(() => {
@@ -28,7 +48,7 @@ export default {
         })
       })
     },
-    mFailInitializeNotification: function () {
+    mFailInitializeNotification () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
           console.log('action fail')
@@ -36,12 +56,12 @@ export default {
         })
       })
     },
-    mSetParentReady: function () {
+    mSetParentReady () {
       if (this.cpStaGenParentRef)
         this.cpStaGenParentRef.mSetReady()
       return this
     },
-    mSetParentUnReady: function () {
+    mSetParentUnReady () {
       if (this.cpStaGenParentRef)
         this.cpStaGenParentRef.mSetUnReady()
       return this
@@ -49,14 +69,14 @@ export default {
     transformResponse (response) {
       return response.data.data || response.data
     },
-    mFinish: function () {
+    mFinish () {
       return this
     },
-    mSetSelfReady: function () {
+    mSetSelfReady () {
       this.$set(this,'selfReady',true)
       return this
     },
-    mSetSelfUnReady: function () {
+    mSetSelfUnReady () {
       this.$set(this,'selfReady',false)
       return this
     },
@@ -65,7 +85,7 @@ export default {
     cvF,
     cvFixDotDepth
   },
-  mounted: function () {
+  mounted () {
     this.mSetIsMounted(true)
     this.mActionInitialize().then((startData = null) => {
       this.mSetSelfReady()

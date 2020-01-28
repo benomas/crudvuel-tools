@@ -67,21 +67,21 @@ export default {
     cReady: function () {
       return this.cvReady || null
     },
-    cpAction: function () {
+    cpStaGenAction: function () {
       return this.cvAction || null
     },
     cBackLabel: function () {
       if (this.cvBackLabel)
         return this.cvBackLabel
-      if (this.cpAction)
-        return this.cpAction.backLabel || null
+      if (this.cpStaGenAction)
+        return this.cpStaGenAction.backLabel || null
       return 'Cancelar'
     },
     cNextLabel: function () {
       if (this.cvNextLabel != null)
         return this.cvNextLabel
-      if (this.cpAction)
-        return this.cpAction.nextLabel || null
+      if (this.cpStaGenAction)
+        return this.cpStaGenAction.nextLabel || null
       return 'Guardar'
     },
     cBackLabelRef: function () {

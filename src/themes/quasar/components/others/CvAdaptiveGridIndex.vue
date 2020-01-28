@@ -1,10 +1,10 @@
 <template>
-  <cv-action-container class="cv-adaptative-grid-index" v-if="cResource && cpAction" v-bind="{...defActionProps(), ...bGridBind() }">
+  <cv-action-container class="cv-adaptative-grid-index" v-if="cResource && cpStaGenAction" v-bind="{...defActionProps(), ...bGridBind() }">
     <div slot="cv-title-slot" class="row action-label">
       <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
         <label>
           <span class="q-headline txt-secondary">
-            {{cpAction.label}}
+            {{cpStaGenAction.label}}
           </span>
         </label>
       </div>
@@ -28,7 +28,7 @@
     <div slot="cv-content-slot" class="row action-inner-container w-100">
       <cv-grid
         cv-tag="div"
-        :cv-service="cpAction.getService"
+        :cv-service="cpStaGenAction.getService"
         :cv-top-paginate="true"
         :cv-bottom-paginate="true"
         :cv-pages-per-view="5"

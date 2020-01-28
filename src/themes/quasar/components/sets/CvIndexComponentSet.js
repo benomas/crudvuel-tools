@@ -48,7 +48,7 @@ export default{
       return {
         'cv-parent-ref'       : this.cSelfRef,
         'cv-resource'         : this.resource,
-        'cv-action'           : this.cpAction,
+        'cv-action'           : this.cpStaGenAction,
         'cv-ready'            : this.cReady,
         'cv-show-own-spinner' : false
       }

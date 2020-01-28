@@ -33,7 +33,7 @@ export default{
       this.cpActionSetService(this.cKeyValue,this.cdRow).then(response => {
         this.mSetRow(this.transformResponse(response))
           .mSetSelfReady()
-          .mSuccessNotification(this.cpAction.getSetSuccessMessage() + this.actionKeyMessage(this.cdRow))
+          .mSuccessNotification(this.cpStaGenAction.getSetSuccessMessage() + this.actionKeyMessage(this.cdRow))
           .mFinish()
       }).catch(this.setError)
     },

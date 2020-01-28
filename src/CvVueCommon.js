@@ -103,9 +103,9 @@ export default class CvVueCommon{
             this.cResource == null ||
             this.cResource.lang == null ||
             this.cResource.lang.fields ==  null ||
-            !this.cpAction ||
-            !this.cpAction.name ||
-            this.cpAction.name !== 'create'
+            !this.cpStaGenAction ||
+            !this.cpStaGenAction.name ||
+            this.cpStaGenAction.name !== 'create'
 
           )
             return false

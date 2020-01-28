@@ -1,10 +1,10 @@
 <template>
-  <cv-action-container class="cv-flex-grid-index" v-if="cResource && cpAction" v-bind="defActionProps()">
+  <cv-action-container class="cv-flex-grid-index" v-if="cResource && cpStaGenAction" v-bind="defActionProps()">
   <!-- cv-grid-customization-->
     <div slot="cv-content-slot" class="row action-inner-container">
       <cv-grid
         cv-tag="div"
-        :cv-service="cpAction.getService"
+        :cv-service="cpStaGenAction.getService"
         :cv-top-paginate="true"
         :cv-bottom-paginate="true"
         :cv-pages-per-view="7"

@@ -13,29 +13,29 @@ export default{
   ],
   computed: {
     cDisableFields: function () {
-      return (this.cpAction && this.cpAction.disableFields) || false
+      return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
     cResource: function () {
       return (this.cpStaGenAction && this.cpStaGenAction.resource) ? this.cpStaGenAction.resource : null
     },
     cBackLabel: function () {
-      if (this.cpAction)
-        return this.cpAction.backLabel || null
+      if (this.cpStaGenAction)
+        return this.cpStaGenAction.backLabel || null
       return 'Cancelar'
     },
     cNextLabel: function () {
-      if (this.cpAction)
-        return this.cpAction.nextLabel || null
+      if (this.cpStaGenAction)
+        return this.cpStaGenAction.nextLabel || null
       return 'Guardar'
     },
     cpActionGetService: function () {
-      return this.cpAction.getService || new Promise((resolve, reject) => {
+      return this.cpStaGenAction.getService || new Promise((resolve, reject) => {
         console.log('No get service defined')
         reject(new Error('No get service defined'))
       })
     },
     cpActionSetService: function () {
-      return this.cpAction.setService || new Promise((resolve, reject) => {
+      return this.cpStaGenAction.setService || new Promise((resolve, reject) => {
         console.log('No set service defined')
         reject(new Error('No set service defined'))
       })
@@ -54,8 +54,8 @@ export default{
   methods: {
     mActionAccessing: function (action = null,resource = null) {
       if (!action) {
-        if (typeof this.cpAction !== 'undefined')
-          return this.cpAction
+        if (typeof this.cpStaGenAction !== 'undefined')
+          return this.cpStaGenAction
         return null
       }
       if (typeof action === 'string') {
@@ -172,7 +172,7 @@ export default{
       return true
     },
     mCancelAction () {
-      let cancelMessage = this.cpAction.getSetCancelMessage()
+      let cancelMessage = this.cpStaGenAction.getSetCancelMessage()
       if (cancelMessage)
         this.mCancelNotification(cancelMessage + this.actionKeyMessage(this.cdRow))
       this.mFinish()

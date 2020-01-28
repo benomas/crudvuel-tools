@@ -10,9 +10,9 @@ export default{
   ],
   computed: {
     cGetted: function () {
-      return this.cRows || !this.cpAction.getService  || this.cHasRowKeyValue || false
+      return this.cRows || !this.cpStaGenAction.getService  || this.cHasRowKeyValue || false
     },
-    cpShowHeader: function () {
+    cpDinInsShowHeader: function () {
       if (typeof this.cvShowHeader !== 'undefined')
         return this.cvShowHeader
       return true
@@ -24,12 +24,12 @@ export default{
       return this.$route.params.id  || null
     },
     cShowGetMessages: function () {
-      return (this.cpAction && typeof this.cpAction.cvShowGetMessages !== 'undefined')
-        ? this.cpAction.cvShowGetMessages : false
+      return (this.cpStaGenAction && typeof this.cpStaGenAction.cvShowGetMessages !== 'undefined')
+        ? this.cpStaGenAction.cvShowGetMessages : false
     },
     cShowSetMessages: function () {
-      return (this.cpAction && typeof this.cpAction.cvShowSetMessages !== 'undefined')
-        ? this.cpAction.cvShowSetMessages : true
+      return (this.cpStaGenAction && typeof this.cpStaGenAction.cvShowSetMessages !== 'undefined')
+        ? this.cpStaGenAction.cvShowSetMessages : true
     },
     cHasRowKeyValue: function () {
       return this.cRow && this.cRow[this.cRowKey]

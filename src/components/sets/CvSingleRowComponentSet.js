@@ -29,13 +29,13 @@ export default{
   },
   methods: {
     mFinish: function () {
-      if (this.cpAction.name !== 'index' && typeof this.cResource.actions.index !== 'undefined') {
+      if (this.cpStaGenAction.name !== 'index' && typeof this.cResource.actions.index !== 'undefined') {
         let baseRoute = this.$route.path.split(this.mActionPath('index'))
         this.$router.push(baseRoute[0] + this.mActionPath('index'))
       }
     },
     mFailSetNotification () {
-      let errorMessage = this.cpAction.getSetRrrorMessage()
+      let errorMessage = this.cpStaGenAction.getSetRrrorMessage()
       if (errorMessage)
         this.mCancelNotification(errorMessage + this.actionKeyMessage(this.cdRow))
     },

@@ -8,28 +8,28 @@
       ref="simpleFilterInputRef"
       clear-icon='fas fa-times-circle'
       class="w-100"
-      :label="cpSimpleFilterLabel"
-      :label-color="cpSimpleFilterLabelColor"
-      :hint="cpSimpleFilterHint"
-      :clear-icon="cpSimpleFilterClearIcon"
-      :color="cpSimpleFilterColor"
-      :bg-color="cpSimpleFilterBgColor"
-      :class="{'active-filter':cpSimpleFilterActiveFilter}"
-      :clearable="!cpSimpleFilterDisableFields"
-      :disable="cpSimpleFilterDisableFields"
-      :readonly="cpSimpleFilterDisableFields"
-      :hide-underline="cpSimpleFilterDisableFields"
-      :loading="cpSimpleFilterLoading"
+      :label="cpDinInsLabel"
+      :label-color="cpDinInsLabelColor"
+      :hint="cpDinInsHint"
+      :clear-icon="cpDinInsClearIcon"
+      :color="cpDinInsColor"
+      :bg-color="cpDinInsBgColor"
+      :class="{'active-filter':cpDinInsActiveFilter}"
+      :clearable="!cpDinInsDisableFields"
+      :disable="cpDinInsDisableFields"
+      :readonly="cpDinInsDisableFields"
+      :hide-underline="cpDinInsDisableFields"
+      :loading="cdLoading"
 
-      @clear="emSimpleFilterClearedEmitter"
-      @input="emSimpleFilterInputEmitter"
-      @keyup.13="emSimpleFilterGoToFindEmitter"
-      @keyup="emSimpleFilterKeyUpEmitter"
-      @focus="emSimpleFilterFocusedEmitter"
-      @blur="emSimpleFilterBluredEmitter"
+      @clear="emDinInsClearedEmitter"
+      @input="emDinInsInputEmitter"
+      @keyup.13="emDinInsGoToFindEmitter"
+      @keyup="emDinInsKeyUpEmitter"
+      @focus="emDinInsFocusedEmitter"
+      @blur="emDinInsBluredEmitter"
     >
     <template v-slot:prepend>
-      <q-icon :name="cpSimpleFilterIcon" :color="cpSimpleFilterIconColor" />
+      <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
     </template>
     </q-input>
   </div>
@@ -54,13 +54,13 @@ export default {
     emSimpleFilterInputProccesor: function(emitted = null) {
       return new Promise ((resolve, reject) => {
         if (this.cdSimpleFilterSearch === null || this.cdSimpleFilterSearch === '')
-          this.emSimpleFilterClearedEmitter(this.cdSimpleFilterSearch)
+          this.emDinInsClearedEmitter(this.cdSimpleFilterSearch)
         resolve(emitted)
       })
     },
     emSimpleFilterGoToFindProccesor: function(emitted = null) {
       return new Promise ((resolve, reject) => {
-        if (this.cpSimpleFilterDisableFields)
+        if (this.cpDinInsDisableFields)
           reject()
         else
           resolve({searchObject:this.cdSimpleFilterSearch, searchMode:'cv-simple-paginator'})
@@ -72,7 +72,7 @@ export default {
         if (!this.cdSearchInputContainer)
           return resolve(emitted)
         */
-        if(this.cpSimpleFilterDisableFields === true)
+        if(this.cpDinInsDisableFields === true)
           return reject()
         this.emSimpleFilterStartEmitter(emitted)
         resolve()
@@ -88,7 +88,7 @@ export default {
     emSimpleFilterStartProccesor: function(emitted = null) {
       return new Promise ((resolve, reject) => {
         this.$nextTick().then(() => {
-          if(this.cpSimpleFilterKeyInterruptionLimit<=0)
+          if(this.cpDinInsKeyInterruptionLimit<=0)
             return reject()
           resolve()
           clearTimeout(this.simpleFilterInterruption)
@@ -96,7 +96,7 @@ export default {
             setTimeout(()=>{
               clearTimeout(this.simpleFilterInterruption)
               this.emSimpleFilterGoToFindEmitter()
-            }, this.cpSimpleFilterKeyInterruptionLimit)
+            }, this.cpDinInsKeyInterruptionLimit)
           )
         }).catch(()=>reject())
       })
@@ -187,7 +187,7 @@ export default {
     }*/
   },
   mounted: function () {
-    this.mSetSimpleFilterSearch(this.cpSimpleFilterSearch || '')
+    this.mSetSimpleFilterSearch(this.cpDinInsSearch || '')
     //console.log(this)
   }
 }
