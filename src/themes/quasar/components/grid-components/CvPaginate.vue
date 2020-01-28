@@ -86,7 +86,7 @@
   </div>
 </template>
 <script>
-import VueMirroring                         from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring                         from 'crudvuel-tools/src/mirroring/VueMirroring'
 import CvPaginate                           from '../../../../components/grid-components/CvPaginate'
 import {QTooltip,QIcon,QBtn,QSelect,QField} from 'quasar'
 export default {

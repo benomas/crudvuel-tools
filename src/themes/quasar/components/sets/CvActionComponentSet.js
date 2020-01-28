@@ -1,9 +1,9 @@
-//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 //let vueMirroring = new VueMirroring()
-import CvActionComponentSet   from '../../../../components/sets/CvActionComponentSet'
-import CvComponentSet         from './CvComponentSet'
-import CvNotifyComponentSet   from './CvNotifyComponentSet'
-import CvActionContainer      from '../resource/CvActionContainer'
+import CvActionComponentSet   from 'crudvuel-tools/src/components/sets/CvActionComponentSet'
+import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvNotifyComponentSet   from 'crudvuel-tools/src/themes/quasar/components/sets/CvNotifyComponentSet'
+import CvActionContainer      from 'crudvuel-tools/src/themes/quasar/components/resource/CvActionContainer'
 import {
   Dialog,
   QBtn,

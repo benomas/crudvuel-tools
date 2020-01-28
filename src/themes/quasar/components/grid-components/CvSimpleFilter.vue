@@ -35,7 +35,7 @@
   </div>
 </template>
 <script>
-import VueMirroring               from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring               from 'crudvuel-tools/src/mirroring/VueMirroring'
 import CvSimpleFilter            from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
 export default {

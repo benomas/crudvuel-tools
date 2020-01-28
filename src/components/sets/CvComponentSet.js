@@ -1,13 +1,13 @@
-import {mySubString,myReplace,cvF,cvFixDotDepth} from '../../cvHelper'
-import VueMirroring from 'crudvuel-tools/src/VueMirroring'
-let vueMirroring = new VueMirroring()
+import {mySubString,myReplace,cvF,cvFixDotDepth} from 'crudvuel-tools/src/cvHelper'
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('ComponentSet')
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      'selfReady'     : {init: false,mode: 'D|CD|M'},
-      'parentRef'     : {init: null,mode: 'P|CP'},
-      'childrenReady' : {init: true,mode: 'D|CD'},
-      'isMounted'     : {init: false,mode: 'D|CD|M'}
+      '[D]selfReady'       : false,
+      '[P]staGenParentRef' : null,
+      '[D]childrenReady'   : true,
+      '[D]isMounted'       : false,
     })
   ],
   computed: {
@@ -37,13 +37,13 @@ export default {
       })
     },
     mSetParentReady: function () {
-      if (this.cpParentRef)
-        this.cpParentRef.mSetReady()
+      if (this.cpStaGenParentRef)
+        this.cpStaGenParentRef.mSetReady()
       return this
     },
     mSetParentUnReady: function () {
-      if (this.cpParentRef)
-        this.cpParentRef.mSetUnReady()
+      if (this.cpStaGenParentRef)
+        this.cpStaGenParentRef.mSetUnReady()
       return this
     },
     transformResponse (response) {

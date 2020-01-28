@@ -1,4 +1,4 @@
-import {camelCase,kebabCase,replace,startsWith,endsWith,split} from 'lodash'
+import {camelCase,kebabCase,startsWith,endsWith,split} from 'lodash'
 
 export default class VueMirroring {
   constructor (vueMirroring = null,parentPrefix = null) {
@@ -314,7 +314,11 @@ export default class VueMirroring {
     return this
   }
   isRoot(){
-    return this.getCurrentComponent().root
+    if (this.getCurrentComponent().root === false)
+      return false
+    if (this.getCurrentComponent().root === true)
+      return true
+    return this.vueMirroring.root
   }
   fixedComponentTag (component = null){
     if (!component || component.__file == null)
@@ -334,7 +338,7 @@ export default class VueMirroring {
         tag       : tag,
         component : currentComponent[tag],
         posFix    : currentComponent.posFix != null ? currentComponent.posFix   : '',
-        root      : currentComponent.root != null ? currentComponent.root   : false,
+        root      : currentComponent.root != null ? currentComponent.root       : null,
         props     : currentComponent.props != null ? currentComponent.props     : [],
         data      : currentComponent.data != null ? currentComponent.data       : {},
         methods   : currentComponent.methods != null ? currentComponent.methods : {}

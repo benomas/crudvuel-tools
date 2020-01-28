@@ -1,4 +1,4 @@
-//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 //let vueMirroring = new VueMirroring()
 import CvMultiRowComponentSet from 'crudvuel-tools/src/components/sets/CvMultiRowComponentSet'
 import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'

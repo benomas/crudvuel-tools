@@ -23,7 +23,7 @@
   </span>
 </template>
 <script>
-import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('OrderIcons')
 export default {
   mixins: [

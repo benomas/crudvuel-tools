@@ -21,7 +21,7 @@
 <script>
 import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import VueMirroring             from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
     CvComponentSet,

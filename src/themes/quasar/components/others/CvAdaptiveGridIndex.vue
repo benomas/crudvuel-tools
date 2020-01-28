@@ -211,9 +211,9 @@ import {
   QSeparator,
   QCardSection
 } from 'quasar'
-import CvMultiRowComponentSet from '../sets/CvMultiRowComponentSet'
+import CvMultiRowComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentSet'
 //import CvIndex                from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
-import CvGrid                 from '../grid-components/CvGrid'
+import CvGrid                 from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvGrid'
 import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
 export default {
   mixins     : [
@@ -345,7 +345,7 @@ export default {
       gridSystemName = 'grid-system-' + this.cResource.name + '-ref'
     else
       gridSystemName = 'grid-system-ref'
-    this.$set(this.cpParentRef.gridRefs,gridSystemName,this)
+    this.$set(this.cpStaGenParentRef.gridRefs,gridSystemName,this)
   }
 }
 </script>

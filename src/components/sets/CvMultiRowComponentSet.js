@@ -1,5 +1,5 @@
 import CvActionComponentSet from 'crudvuel-tools/src/components/sets/CvActionComponentSet'
-//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 //let vueMirroring = new VueMirroring()
 export default{
   mixins: [

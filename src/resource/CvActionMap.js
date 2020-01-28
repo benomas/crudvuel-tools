@@ -59,7 +59,7 @@ export default class CvResourceMap extends CvClass {
         name      : this.resource.name + '.' + this.name,
         path      : this.path,
         component : this.component,
-        props     : this.props?this.props:{ cvAction:this},
+        props     : this.props?this.props:{ cvStaGenAction:this},
         meta      : {cvAction:this}
       }
     }

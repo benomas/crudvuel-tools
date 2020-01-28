@@ -42,7 +42,7 @@
   </div>
 </template>
 <script>
-import VueMirroring   from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring   from 'crudvuel-tools/src/mirroring/VueMirroring'
 import CvComponentSet from 'crudvuel-tools/src/components/sets/CvComponentSet'
 export default {
   mixins: [

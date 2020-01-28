@@ -22,7 +22,7 @@
 import CvTag          from '../CvTag'
 import CvSpinner      from '../grid-components/CvSpinner'
 import CvComponentSet from '../sets/CvComponentSet'
-import VueMirroring   from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring   from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [
