@@ -259,8 +259,8 @@ export default {
     this.showCombinatoryFilters = this.cvCombinatoryFilters || this.showCombinatoryFilters
     this.showAdvancedFilters    = this.cvAdvancedFilters || this.showAdvancedFilters
     this.showExpertFilters      = this.cvExpertFilters || this.showExpertFilters
-    this.processSlots()
-    this.refresh()
+    //this.processSlots()
+    //this.refresh()
   },
   created:function(){
     this.cvParametrizer.setPage(this.cPage)

@@ -141,6 +141,13 @@ export default class VueMirroring {
         if(this.switchModeRequired(splitedProperty)){
           let dProperty  = this.fixDataName(splitedProperty)
           let cdProperty = camelCase('cd ' + dProperty)
+          let mSetMethod = camelCase(`m set ${dProperty}`)
+          if (this.getCurrentComponent().methods[mSetMethod] == null){
+            this.methods[mSetMethod] = function(value = null) {
+              this.$set(this,dProperty,value)
+              return this
+            }
+          }
           if (this.getCurrentComponent().data[dProperty] == null)
             this.data[dProperty] = cvProperty
           this.computed[cdProperty] = function() {
@@ -167,12 +174,14 @@ export default class VueMirroring {
         let newProccesorName = camelCase(`em ${emitter} Proccesor`)
         let newEmitterName   = camelCase(`em ${emitter} Emitter`)
         let newEventName     = kebabCase(`em ${emitter} event`)
-        let dataName         = this.complementName(splitedEmitter)
+        let parentPrefix     = this.getParentPrefix()
+        let setterName       = camelCase(`m set ${this.getParentPrefix()} ${this.complementName(splitedEmitter)}`)
         if(this.switchModeRequired(splitedEmitter)){
           this.methods[newProccesorName] = function(emitted = null) {
             return new Promise ((resolve, reject) => {
-              if (this[camelCase(`m set ${dataName}`)] != null)
-                this[camelCase(`m set ${dataName}`)](emitted)
+              console.log([parentPrefix,emitter])
+              if (this[setterName] != null)
+                this[setterName](emitted)
               resolve(emitted)
             })
           }
@@ -192,9 +201,8 @@ export default class VueMirroring {
           })(newEmitterName)
         }
         else{
-          let test = this.getParentPrefix()
           this.methods[newProccesorName] = function(emitted = null) {
-            //console.log([test,newProccesorName])
+            console.log([parentPrefix,newProccesorName])
             return new Promise ((resolve, reject) => resolve(emitted))
           }
           this.methods[newEmitterName] = (function(newProccesorName,newEventName){

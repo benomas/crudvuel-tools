@@ -161,8 +161,6 @@ export default class VueAutoDefiner {
       let dataName = this.calAutoDataName()
       if(this.hasAutoProp()){
         let prop = this.calAutoPropName('cv')
-        let prefix = this.getParentPrefix()
-        let nam = this.calAutoDataName()
         this.autoData[dataName] = function(context) {
           return context[prop]
         }

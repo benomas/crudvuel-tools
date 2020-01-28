@@ -4,7 +4,6 @@
       outlined
       dense
       autocomplete="off"
-      v-model="simpleFilterSearch"
       ref="simpleFilterInputRef"
       clear-icon='fas fa-times-circle'
       class="w-100"
@@ -20,11 +19,10 @@
       :readonly="cpDinInsDisableFields"
       :hide-underline="cpDinInsDisableFields"
       :loading="cdLoading"
-
+      :value="cpDinInsSearch"
       @clear="emDinInsClearedEmitter"
-      @input="emDinInsInputEmitter"
-      @keyup.13="emDinInsGoToFindEmitter"
-      @keyup="emDinInsKeyUpEmitter"
+      @input="emDinInsSearchEmitter"
+      @keyup.13="(()=>emDinInsGoToFindEmitter(cpDinInsSearch))"
       @focus="emDinInsFocusedEmitter"
       @blur="emDinInsBluredEmitter"
     >
@@ -187,7 +185,7 @@ export default {
     }*/
   },
   mounted: function () {
-    this.mSetSimpleFilterSearch(this.cpDinInsSearch || '')
+    //this.mSetSimpleFilterSearch(this.cpDinInsSearch || '')
     //console.log(this)
   }
 }
