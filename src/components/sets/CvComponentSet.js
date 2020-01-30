@@ -5,17 +5,19 @@ let vueMirroring = new VueMirroring('ComponentSet')
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      '[D]selfReady'       : false,
-      '[D]childrenReady'   : true,
-      '[D]isMounted'       : false,
-      '[P]staGenParentRef' : null
+      '[P]dinGenParentReady' : false,
+      '[D]selfReady'         : false,
+      '[D]childrenReady'     : true,
+      '[D]isMounted'         : false,
+      '[P]staGenParentRef'   : null
     })
   ],
   data () {
     return {
       customBindings:[
         {
-          'cv-sta-gen-parent-ref':'cSelfRef'
+          'cv-sta-gen-parent-ref'   : 'cSelfRef',
+          'cv-din-gen-parent-ready' : 'cReady'
         }
       ]
     }
@@ -25,18 +27,20 @@ export default {
       return this
     },
     cReady () {
+      if (this.cdSelfReady == null || this.cdChildrenReady == null)
+        return true
       return this.cdSelfReady && this.cdChildrenReady
     }
   },
   methods: {
     mCustomBingins (index) {
+      let collection = {}
+      for (const customBinding of this.customBindings)
+        for (const [prop, value] of Object.entries(customBinding))
+          collection[prop]=this[value]
       return {
         ...(this.mBinding != null) ? this.mBinding(index) : {},
-        ...Object.assign({}, ...map(this.customBindings,  collection  =>  {
-          for (const [prop, value] of Object.entries(collection))
-            collection[prop] = this[value]
-          return collection
-        }))
+        ...collection
       }
     },
     mActionInitialize () {

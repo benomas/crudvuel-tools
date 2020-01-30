@@ -179,7 +179,7 @@ export default class VueMirroring {
         if(this.switchModeRequired(splitedEmitter)){
           this.methods[newProccesorName] = function(emitted = null) {
             return new Promise ((resolve, reject) => {
-              console.log([parentPrefix,emitter])
+              //console.log([parentPrefix,emitter])
               if (this[setterName] != null)
                 this[setterName](emitted)
               resolve(emitted)
@@ -202,7 +202,7 @@ export default class VueMirroring {
         }
         else{
           this.methods[newProccesorName] = function(emitted = null) {
-            console.log([parentPrefix,newProccesorName])
+            //console.log([parentPrefix,newProccesorName])
             return new Promise ((resolve, reject) => resolve(emitted))
           }
           this.methods[newEmitterName] = (function(newProccesorName,newEventName){
@@ -226,7 +226,7 @@ export default class VueMirroring {
       return function (context) {
         let fixedBinding = {}
         for (const [childProperty, parentComputed] of Object.entries(binding))
-          fixedBinding[childProperty] = context[parentComputed]
+          fixedBinding[`${childProperty}`] = context[parentComputed]
 
         fixedBinding['ref'] = camelCase(`${tag} ${posFix} ref`)
         return fixedBinding

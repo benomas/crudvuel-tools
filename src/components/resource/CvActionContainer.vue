@@ -28,32 +28,34 @@ export default{
   mixins: [
     CvComponentSet,
     vueMirroring.fixProperties({
-      '[P]dinGenShowOwnSpinner' : true,
-      '[P]dinGenExcludeActions' : [],
-      '[P]dinInsShowHeader'     : true,
-      '[P]dinGenAction'         : true
-    }),
+      '[P]dinGenShowOwnSpinner'       : true,
+      '[P]dinGenExcludeActions'       : [],
+      '[P]dinInsShowHeader'           : true,
+      '[P]dinGenAction'               : true,
+      '[P]dinInsActionClasses'        : '',
+      '[P]dinInsActionContentClasses' : ''
+    })
   ],
   components : {
     CvSpinner,
     CvTag
   },
   computed:{
-    cGetted:function(){
+    cGetted () {
       return this.cRows || !this.cpDinGenAction.getService  || this.cHasRowKeyValue || false
     },
-    cBackLabel: function () {
+    cBackLabel () {
       if (this.cpDinGenAction)
         return this.cpDinGenAction.backLabel || null
       return 'Cancelar'
     },
-    cNextLabel: function () {
+    cNextLabel () {
       if (this.cpDinGenAction)
         return this.cpDinGenAction.nextLabel || null
       return 'Guardar'
     }
   },
-  mounted: function () {
+  mounted () {
     this.isMounted = true
   }
 }

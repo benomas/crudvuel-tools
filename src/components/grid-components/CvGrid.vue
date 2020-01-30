@@ -13,11 +13,10 @@
       <!--<transition name="component-fade" mode="out-in">-->
         <cv-simple-filter
           v-if="cSimpleFilter"
-          :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
           class="q-pb-md"
-          :cv-search-label="'Busqueda simple'"
-          cv-search-icon="fas fa-search"
-          @cv-event-filter-go-to-find="prepareToFind"
+          :class="{'mxw-300px':cGtxs,'q-pl-xs q-pr-md':cLtmd}"
+          v-bind="mCustomBingins('cv-simple-filter')"
+          v-on="mOns('cv-simple-filter')"
         >
         </cv-simple-filter>
       <!--</transition>-->

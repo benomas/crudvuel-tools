@@ -25,9 +25,9 @@ export default{
         typeof this.cUnauthorizedInteractions['action'] === 'undefined' ||
         typeof this.cUnauthorizedInteractions['action'][this.lodash.kebabCase(action.resource.name) + '.' + this.lodash.kebabCase(action.name)] === 'undefined'
     },
-    hasPermission: function (action,resource = null,excludes = null) {
+    hasPermission (action,resource = null,excludes = null) {
       resource = resource || this.cResource
-      excludes = excludes || this.cpDinGenExcludeActions
+      excludes = excludes || this.cpDinGenExcludeActions || []
       return excludes.indexOf(action,excludes) < 0 &&
         this.mResorceAction(action,resource) &&
         this.hasActionPermission(resource.actions[action])

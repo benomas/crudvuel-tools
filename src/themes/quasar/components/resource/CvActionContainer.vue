@@ -1,5 +1,5 @@
 <template>
-  <div :class="cActionClasses">
+  <div :class="cpDinInstanceActionClasses">
     <transition name="component-fade" mode="out-in" v-if="cpDinGenShowOwnSpinner">
       <cv-spinner v-if="!cReady && cdIsMounted" >
       </cv-spinner>
@@ -24,9 +24,9 @@
   </div>
 </template>
 <script>
-import CvActionContainer  from '../../../../components/resource/CvActionContainer'
-import CvSpinner          from '../../components/grid-components/CvSpinner'
-import CvTag              from '../CvTag'
+import CvActionContainer  from 'crudvuel-tools/src/components/resource/CvActionContainer'
+import CvSpinner          from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSpinner'
+import CvTag              from 'crudvuel-tools/src/themes/quasar/components/CvTag'
 export default {
   extends    : CvActionContainer,
   components : {
