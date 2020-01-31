@@ -1,31 +1,7 @@
 <template>
-  <cv-action-container class="cv-adaptative-grid-index" v-if="cResource && cpStaGenAction" v-bind="{...defActionProps(), ...bGridBind() }">
-    <div slot="cv-title-slot" class="row action-label">
-      <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
-        <label>
-          <span class="q-headline txt-secondary">
-            {{cpStaGenAction.label}}
-          </span>
-        </label>
-      </div>
-      <div class="col-xs-2 col-sm-3 col-md-4 lt-md">
-        <slot :offset="[18, 30]" name="flexi-extra-actions-header-slot">
-          <div class="f-right">
-            <q-btn
-              v-if="hasPermission('create')"
-              icon="fas fa-plus-circle"
-              @click="$router.push(mActionPath('create'))"
-              color="secondary"
-              round
-              size="sm"
-              :title="mResorceAction('create').label"
-            ></q-btn>
-          </div>
-        </slot>
-      </div>
-    </div>
-  <!-- cv-grid-customization-->
-    <div slot="cv-content-slot" class="row action-inner-container w-100">
+  <div>
+    <!-- cv-grid-customization-->
+    <div class="row action-inner-container w-100">
       <cv-grid
         cv-tag="div"
         :cv-service="cpStaGenAction.getService"
@@ -202,7 +178,7 @@
         </table>
       </cv-grid>
     </div>
-  </cv-action-container>
+  </div>
 </template>
 <script>
 import {
@@ -211,12 +187,14 @@ import {
   QSeparator,
   QCardSection
 } from 'quasar'
+import CvComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
 import CvMultiRowComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentSet'
 //import CvIndex                from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
 import CvGrid                 from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvGrid'
 import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
 export default {
   mixins     : [
+    CvComponentSet,
     CvMultiRowComponentSet,
     CvGridMirroring
   ],

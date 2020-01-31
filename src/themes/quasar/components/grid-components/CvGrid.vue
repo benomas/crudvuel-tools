@@ -8,8 +8,12 @@ import CvSimpleFilter         from 'crudvuel-tools/src/themes/quasar/components/
 import CvCombinatoryFilters   from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvCombinatoryFilters'
 import CvFilterSelector       from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvFilterSelector'
 import CvSpinner              from 'src/customs/crudvuel/themes/quasar/components/grid-components/CvSpinner'
+import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
 export default {
-  extends    : CvGrid,
+  mixins     : [
+    CvComponentSet,
+    CvGrid
+  ],
   components : {
     CvTag,
     CvPaginate,

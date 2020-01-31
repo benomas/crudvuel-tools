@@ -1,16 +1,10 @@
 //import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 //let vueMirroring = new VueMirroring()
-import CvMultiRowComponentSet from 'crudvuel-tools/src/components/sets/CvMultiRowComponentSet'
-import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
 export default{
-  mixins: [
-    CvGridMirroring,
-    CvMultiRowComponentSet
-  ],
   data () {
     return {
-        mainGridData:null,
-        gridRef:null
+      mainGridData:null,
+      gridRef:null
     }
   },
   props: [

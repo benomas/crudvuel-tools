@@ -145,6 +145,9 @@ export default class CvVueCommon{
               this.$set(destination, source.cvColumnMap[mapKeys[i]], null)
           }
         },
+        transformResponse (response) {
+          return response.data.data || response.data
+        },
         mySubString,
         myReplace,
         cvF,

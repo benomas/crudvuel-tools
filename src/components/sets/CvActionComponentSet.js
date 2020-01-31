@@ -1,22 +1,25 @@
-import CvComponentSet       from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import CvNotifyComponentSet from 'crudvuel-tools/src/components/sets/CvNotifyComponentSet'
-import VueMirroring         from 'crudvuel-tools/src/mirroring/VueMirroring'
+import VueMirroring  from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [
-    CvComponentSet,
-    CvNotifyComponentSet,
     vueMirroring.fixProperties({
       '[P]staGenAction'         : null,
       '[P]dinGenExcludeActions' : [],
     })
   ],
+  components : {
+  },
   computed: {
     cDisableFields () {
       return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
     cResource () {
       return (this.cpStaGenAction && this.cpStaGenAction.resource) ? this.cpStaGenAction.resource : null
+    },
+    cKeyName () {
+      if (this.cResource == null || this.cResource.keyName == null)
+        return 'id'
+      return this.cResource.keyName
     },
     cBackLabel () {
       if (this.cpStaGenAction)

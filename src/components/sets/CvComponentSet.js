@@ -1,13 +1,11 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth} from 'crudvuel-tools/src/cvHelper'
-import {map} from 'lodash'
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('ComponentSet')
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      '[P]dinGenParentReady' : false,
-      '[D]selfReady'         : false,
-      '[D]childrenReady'     : true,
+      '[D]ready'             : false,
+      '[P]dinGenParentReady' : true,
       '[D]isMounted'         : false,
       '[P]staGenParentRef'   : null
     })
@@ -17,7 +15,7 @@ export default {
       customBindings:[
         {
           'cv-sta-gen-parent-ref'   : 'cSelfRef',
-          'cv-din-gen-parent-ready' : 'cReady'
+          'cv-din-gen-parent-ready' : 'cdReady'
         }
       ]
     }
@@ -26,10 +24,17 @@ export default {
     cSelfRef () {
       return this
     },
-    cReady () {
-      if (this.cdSelfReady == null || this.cdChildrenReady == null)
-        return true
-      return this.cdSelfReady && this.cdChildrenReady
+    cdReady () {
+      if (this.cpDinGenParentReady == null) {
+        if (this.ready == null)
+          return false
+        return this.ready
+      }
+      if (this.cpDinGenParentReady === false)
+        return false
+      if (this.ready == null)
+        return false
+      return this.ready
     }
   },
   methods: {
@@ -43,12 +48,16 @@ export default {
         ...collection
       }
     },
+    mAddCustomBinding (customBinding = {}) {
+      this.customBindings.push(customBinding)
+    },
     mActionInitialize () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
           setTimeout(() => {
+            this.mSetReady()
             resolve()
-          }, 2000)
+          }, 5)
         })
       })
     },
@@ -76,12 +85,12 @@ export default {
     mFinish () {
       return this
     },
-    mSetSelfReady () {
-      this.$set(this,'selfReady',true)
+    mSetReady () {
+      this.$set(this,'ready',true)
       return this
     },
-    mSetSelfUnReady () {
-      this.$set(this,'selfReady',false)
+    mSetUnReady () {
+      this.$set(this,'ready',false)
       return this
     },
     mySubString,
@@ -92,7 +101,6 @@ export default {
   mounted () {
     this.mSetIsMounted(true)
     this.mActionInitialize().then((startData = null) => {
-      this.mSetSelfReady()
     }).catch((exceptionData) => {
       this.mFailInitializeNotification().then(() => {
         this.mFinish()

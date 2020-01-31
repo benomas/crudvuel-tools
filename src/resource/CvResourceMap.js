@@ -23,6 +23,7 @@ export default class CvResourceMap extends CvClass {
     this.children         = null
     this.nextLabel        = null
     this.backLabel        = null
+    this.keyName          = null
     this.parentRouteAction= null
     this.loadOptions(options);
   }

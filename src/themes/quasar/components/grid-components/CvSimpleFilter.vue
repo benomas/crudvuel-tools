@@ -33,11 +33,15 @@
   </div>
 </template>
 <script>
+import CvComponentSet             from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvSimpleFilter             from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import VueMirroring               from 'crudvuel-tools/src/mirroring/VueMirroring'
-import CvSimpleFilter            from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
 export default {
-  extends    : CvSimpleFilter,
+  mixins: [
+    CvComponentSet,
+    CvSimpleFilter
+  ],
   components : {
     QBtn,
     QField,
