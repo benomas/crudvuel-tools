@@ -102,7 +102,7 @@ const CvParametrizer = function(paginate){
     return this.setParameter("selectQuery",value)
   }
 
-  this.pushFilter=function(property,value){
+  this.pushFilter=function(property,value = ''){
     if( property !==undefined &&  value !==undefined)
       this.params.paginate.filterQuery[property]=value
     return this
