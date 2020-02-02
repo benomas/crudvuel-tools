@@ -113,12 +113,6 @@ export default class VueMirroring {
         }
 
         let property = this.fixPropertyName(splitedProperty,this.getCurrentComponent().posFix,this.getParentPrefix())
-        /*
-        console.log([
-          this.getParentPrefix(),
-          prop,
-          property
-        ])*/
         let cvProperty = camelCase(`cv ${property}`)
         let clProperty = camelCase(`cl ${property}`)
         let cpProperty = camelCase(`cp ${property}`)
@@ -175,7 +169,8 @@ export default class VueMirroring {
         let newEmitterName   = camelCase(`em ${emitter} Emitter`)
         let newEventName     = kebabCase(`em ${emitter} event`)
         let parentPrefix     = this.getParentPrefix()
-        let setterName       = camelCase(`m set ${this.getParentPrefix()} ${this.complementName(splitedEmitter)}`)
+        let setterFix        = splitedEmitter[3] === 'ins' ? this.getParentPrefix() : ''
+        let setterName       = camelCase(`m set ${setterFix} ${this.complementName(splitedEmitter)}`)
         if(this.switchModeRequired(splitedEmitter)){
           this.methods[newProccesorName] = function(emitted = null) {
             return new Promise ((resolve, reject) => {

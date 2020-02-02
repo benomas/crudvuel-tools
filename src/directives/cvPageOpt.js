@@ -1,7 +1,9 @@
 export default {
-  // When the bound element is inserted into the DOM...
-  inserted: function () {
-  },
+  /*
+  inserted () {},
+  update () {},
+  componentUpdated () {},
+  */
   bind (el, binding, vnode) {
     let field   = binding.value
     let context = vnode.context
@@ -18,15 +20,6 @@ export default {
       el.addEventListener('click', () => {
         context.emDinGenSortEmitter(field)
       })
-  },
-  inserted () {
-
-  },
-  update () {
-
-  },
-  componentUpdated (el, binding, vnode) {
-
   },
   unbind (el, binding, vnode) {
     let field  = binding.value
