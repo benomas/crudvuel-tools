@@ -125,9 +125,7 @@ export default {
   },
   computed: {
     cTotalPaginable () {
-      if (this.cpDinComLimitSelected < 1)
-        return 0
-      return Math.ceil(this.cpDinComTotalQueryElements/this.cpDinComLimitSelected);
+      return this.cpDinComLimitSelected < 1 ? 0 : Math.ceil(this.cpDinComTotalQueryElements/this.cpDinComLimitSelected);
     },
     cFixedPagesPerView () {
       if (this.cTotalPaginable < this.cpStaComPagesPerView)
