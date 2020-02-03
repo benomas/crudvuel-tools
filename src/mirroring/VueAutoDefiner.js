@@ -165,7 +165,7 @@ export default class VueAutoDefiner {
           return context[prop]
         }
       }else{
-        let def = this.getAutoDefDataInit()
+        let def = this.getAutoDefInit()
         this.autoData[dataName] = function(){
           return def
         }
@@ -265,6 +265,7 @@ export default class VueAutoDefiner {
       this.getAutoDefTypes()['P']=true
     }else{
       this.setAutoDefPropInit(!this.hasAutoData() ? this.getAutoDefInit() : null)
+      this.setAutoDefPropInit(this.getAutoDefInit())
     }
     return this
   }
@@ -285,9 +286,9 @@ export default class VueAutoDefiner {
   * @return vue structure
   */
   fixProperties (properties = null) {
-    for (const [property, def] of Object.entries(properties))
+    for (const [property, def] of Object.entries(properties)){
       if (this.definitionSplitter(property).setAutoDefInit(def).complementDefinition().validateDefinition())
-        this.addAutoData().addAutoProp().addAutoComputed().addAutoMethod().addAutoEmitter()
+        this.addAutoData().addAutoProp().addAutoComputed().addAutoMethod().addAutoEmitter()}
     return this.getAutos()
   }
 

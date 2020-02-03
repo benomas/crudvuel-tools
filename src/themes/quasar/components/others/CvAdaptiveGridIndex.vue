@@ -1,6 +1,7 @@
 <template>
   <div>
     <!-- cv-grid-customization-->
+    <!--deprecated
     <div class="row action-inner-container w-100">
       <cv-grid
         cv-tag="div"
@@ -178,6 +179,7 @@
         </table>
       </cv-grid>
     </div>
+    -->
   </div>
 </template>
 <script>
@@ -187,23 +189,21 @@ import {
   QSeparator,
   QCardSection
 } from 'quasar'
-import CvComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
 import CvMultiRowComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentSet'
-//import CvIndex                from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
 import CvGrid                 from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvGrid'
-import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
+//import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
 export default {
   mixins     : [
     CvComponentSet,
-    CvMultiRowComponentSet,
-    CvGridMirroring
+    CvMultiRowComponentSet
   ],
   components : {
     QItemLabel,
     QItemSection,
     QSeparator,
     QCardSection
-  },
+  },/*
   data () {
     return {
       temp          : null,
@@ -245,7 +245,7 @@ export default {
     cpActionCardTitleClass: function () {
       return this.cvActionCardTitleClass || {'':true}
     }
-  },
+  },*/
   methods: {
     activateRow: function (gridRow) {
       if (!this.hasPermission('activate'))
@@ -316,7 +316,7 @@ export default {
         this.cancelNotificationMessages = null
       }
     }
-  },
+  }/*,
   created: function () {
     let gridSystemName
     if (this.resource != null && this.cResource.name != null)
@@ -324,6 +324,6 @@ export default {
     else
       gridSystemName = 'grid-system-ref'
     this.$set(this.cpStaGenParentRef.gridRefs,gridSystemName,this)
-  }
+  }*/
 }
 </script>

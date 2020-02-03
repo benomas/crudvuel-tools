@@ -112,7 +112,10 @@ export default {
       '[D|M]pageAnimationIn'        : 'animated fadeIn',
       '[D|M]pageAnimationOut'       : 'animated fadeIn',
       '[D|M]goto'                   : false,
-      '[D|M]jumpedPage'             : false
+      '[D|M]jumpedPage'             : false,
+      '[EM]staComPageNavUp'         : null,
+      '[EM]staComPageNavDown'       : null,
+      '[EM]staComPageNavNeutral'    : null
     })
   ],
   extends    : CvPaginate,
@@ -170,36 +173,42 @@ export default {
       return new Promise ((resolve, reject) => {
         if (this.cpDinComCurrentPage == null ) {
           if (page === 1)
-            this.mPageNavNeutral()
+            this.emStaComPageNavNeutralEmitter()
           else
-            this.mPageNavUp()
+            this.emStaComPageNavUpEmitter()
         }
         else{
           if( page > this.cpDinComCurrentPage)
-            this.mPageNavUp()
+            this.emStaComPageNavUpEmitter()
           if( page < this.cpDinComCurrentPage)
-            this.mPageNavDown()
+            this.emStaComPageNavDownEmitter()
           if( page === this.cpDinComCurrentPage)
-            this.mPageNavNeutral()
+            this.emStaComPageNavNeutralEmitter()
         }
         this.mSetGoto(false)
         resolve(page)
       })
     },
-    mPageNavUp () {
-      this.mSetPageAnimationIn('animated fadeInRight')
-      this.mSetPageAnimationOut('animated fadeInRight')
-      //this.$emit('page-nave-up');
+    emStaComPageNavUpProccesor () {
+      return new Promise ((resolve, reject) => {
+        this.mSetPageAnimationIn('animated fadeInRight')
+        this.mSetPageAnimationOut('animated fadeInRight')
+        resolve()
+      })
     },
-    mPageNavDown () {
-      this.mSetPageAnimationIn('animated fadeInLeft')
-      this.mSetPageAnimationOut('animated fadeInLeft')
-      //this.$emit('page-nave-down');
+    emStaComPageNavDownProccesor () {
+      return new Promise ((resolve, reject) => {
+        this.mSetPageAnimationIn('animated fadeInLeft')
+        this.mSetPageAnimationOut('animated fadeInLeft')
+        resolve()
+      })
     },
-    mPageNavNeutral () {
-      this.mSetPageAnimationIn('animated fadeIn')
-      this.mSetPageAnimationOut('animated fadeIn')
-      //this.$emit('page-nave-neutral');
+    emStaComPageNavNeutralProccesor () {
+      return new Promise ((resolve, reject) => {
+        this.mSetPageAnimationIn('animated fadeIn')
+        this.mSetPageAnimationOut('animated fadeIn')
+        resolve()
+      })
     },
     mJump:function(){
       this.mSetGoto(!this.cdGoto)
