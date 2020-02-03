@@ -25,6 +25,8 @@ export default {
     let field  = binding.value
     let context = vnode.context
     if (context.mIsOrderable(field))
-      el.removeEventListener('click')
+      el.removeEventListener('click',() => {
+        context.emDinGenSortEmitter(field)
+      })
   }
 }

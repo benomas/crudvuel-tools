@@ -1,7 +1,7 @@
 <template>
   <div>
   <!--
-    TODO:Template to be updated
+    TODO:no dependencies template need to be defined
   -->
   </div>
 </template>
@@ -10,7 +10,7 @@
 import CvTag                    from '../CvTag'
 import CvPaginate               from './CvPaginate'
 import CvSimpleFilter           from './CvSimpleFilter'
-import CvCombinatoryFilters     from './CvCombinatoryFilters'
+import CvCombinatoryFilter     from './CvCombinatoryFilter'
 import CvAdvancedFilters        from './CvAdvancedFilters'
 import CvExpertFilters          from './CvExpertFilters'
 import CvSpinner                from './CvSpinner'
@@ -27,7 +27,7 @@ export default {
     CvTag,
     CvPaginate,
     CvSimpleFilter,
-    CvCombinatoryFilters,
+    CvCombinatoryFilter,
     CvAdvancedFilters,
     CvExpertFilters,
     CvSpinner,
@@ -38,23 +38,10 @@ export default {
     }
   },
   props:[
-    "cvTag",
-    "cvGridLang"
   ],
   computed:{
-    cTag:function(){
-      return this.cvTag || "div"
-    },
-    cGridLang: function () {
-      return this.cvGridLang || null
-    }
   },
   methods:{
-    fLang: function(word,defWord) {
-      if(this.cGridLang && this.cGridLang[word])
-        return this.cGridLang[word]
-      return defWord || ''
-    }
   }
 }
 </script>

@@ -4,10 +4,11 @@ let vueMirroring = new VueMirroring('ComponentSet')
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      '[D]ready'             : false,
-      '[P]dinGenParentReady' : true,
-      '[D]isMounted'         : false,
-      '[P]staGenParentRef'   : null
+      '[D]ready'               : false,
+      '[P]dinGenParentReady'   : true,
+      '[D]isMounted'           : false,
+      '[P]staGenParentRef'     : null,
+      '[P]dinComComponentLang' : {}
     })
   ],
   data () {
@@ -99,6 +100,11 @@ export default {
     mSetUnReady () {
       this.$set(this,'ready',false)
       return this
+    },
+    mComLang: function (word,defWord) {
+      if (this.cpDinComComponentLang && this.cpDinComComponentLang[word])
+        return this.cpDinComComponentLang[word]
+      return defWord || ''
     },
     mySubString,
     myReplace,

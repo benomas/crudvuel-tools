@@ -1,10 +1,10 @@
 <template>
-  <div class="simple-filters-container">
+  <div class="combinatory-filters-container">
     <label for="search">{{cpDinInsLabel}}</label>
     <input
-      class="simple-filters-input form-control"
+      class="combinatory-filters-input form-control"
       type="text"
-      name="simpleFilter"
+      name="combinatoryFilter"
       autocomplete="off"
       :value="cpDinInsSearch"
       ref="inputRef"
@@ -27,9 +27,9 @@ import {debounce}               from 'lodash'
 export default {
   mixins: [
     CvComponentSet,
-    new VueMirroring('SimpleFilter').fixProperties({
+    new VueMirroring('CombinatoryFilter').fixProperties({
       '[P]dinInsActiveFilter'         : null,
-      '[P]dinInsLabel'                : 'Busqueda simple',
+      '[P]dinInsLabel'                : 'Busqueda dinamica',
       '[P]dinInsLabelColor'           : '',
       '[P]dinInsHint'                 : '',
       '[P]dinInsClearIcon'            : null,
@@ -37,7 +37,7 @@ export default {
       '[P]dinInsBgColor'              : 'white',
       '[P]dinInsDisableFields'        : false,
       '[P|EM]dinInsSearch'            : '',
-      '[P]dinInsIcon'                 : 'fas fa-search',
+      '[P]dinInsIcon'                 : 'fas fa-search-plus',
       '[P]dinInsIconColor'            : 'info',
       '[P]dinInsKeyInterruptionLimit' : 500,
       '[P]dinInsKeyLoading'           : false,
@@ -63,13 +63,11 @@ export default {
         this.mSetPreventDebounce(true)
       return new Promise ((resolve, reject) => {
         if (this.cdPreventDebounce){
-          console.log('direct')
           this.mSetPreventDebounce(false)
           resolve(emitted)
         }else{
           (debounce(() => {
               if (this.cdLastEmission === emitted){
-                console.log('delayed')
                 return resolve(emitted)
               }else{
                 reject(emitted)

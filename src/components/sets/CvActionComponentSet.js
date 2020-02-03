@@ -105,17 +105,6 @@ export default{
         })
       })
     },
-    defActionProps (action = null,resource = null) {
-      let currentDefActionProps = {
-        'cv-parent-ref' : this.cSelfRef,
-        'cv-action'     : this.mActionAccessing(action,this.mResourceAccessing(resource)),
-        'cv-ready'      : this.cReady
-      }
-
-      if (this.bGridBind !== undefined)
-        currentDefActionProps = {...currentDefActionProps,...this.bGridBind()}
-      return currentDefActionProps
-    },
     defInputProps (field,resource = null) {
       let lResource = this.mResourceAccessing(resource)
       let def =  {

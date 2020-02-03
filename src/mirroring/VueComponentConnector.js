@@ -169,12 +169,12 @@ export default class VueMirroring {
         let newEmitterName   = camelCase(`em ${emitter} Emitter`)
         let newEventName     = kebabCase(`em ${emitter} event`)
         let parentPrefix     = this.getParentPrefix()
-        let setterFix        = splitedEmitter[3] === 'ins' ? this.getParentPrefix() : ''
+        let setterFix        = splitedEmitter[2] === 'ins' ? this.getParentPrefix() : ''
         let setterName       = camelCase(`m set ${setterFix} ${this.complementName(splitedEmitter)}`)
         if(this.switchModeRequired(splitedEmitter)){
           this.methods[newProccesorName] = function(emitted = null) {
             return new Promise ((resolve, reject) => {
-              //console.log([parentPrefix,emitter])
+              //console.log([splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
               if (this[setterName] != null)
                 this[setterName](emitted)
               resolve(emitted)

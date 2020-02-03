@@ -1,5 +1,7 @@
 <template>
-  <div class="cv-paginate row"> <!--
+  <div class="cv-paginate row">
+  <!--
+    TODO:no dependencies template, need to be defined
     <div class="col-xs-12 col-sm-6 pull-left">
       <div class="cv-paginate-buttons form-inline" style="min-height: 25px;">
         <button  type="button" class="btn btn-default" v-on:click="emPaginateSetPageEmitter(1)" v-if="hasLeft()">«</button>

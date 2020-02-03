@@ -28,9 +28,7 @@
                   v-for="position in cPagesViewRange"
                   :key="position"
                   @click="emDinComCurrentPageEmitter(position)"
-                  :color="position===cpDinComCurrentPage?'primary':''"
-                  :class="{'bg-secondary': position===cpDinComCurrentPage,'bg-secondary-l-90':position!==cpDinComCurrentPage}"
-                  class="t-center t-middle"
+                  class="t-center t-middle bg-secondary-l-90 txt-white"
                 >
                   <span class="fs-5">{{position}}</span>
                 </q-btn>
@@ -38,7 +36,7 @@
                   v-else
                   size="sm"
                   :key="position"
-                  class=""
+                  class="bg-secondary txt-white"
                   @click="emDinComCurrentPageEmitter(position)"
                 >
                   {{position}}
@@ -50,25 +48,24 @@
           <span class="mnh-25px" >
             <q-btn
               size="sm"
-              class="w-60px"
+              class="w-60px bg-secondary-l-69 txt-white t-center t-middle "
               @click="mJump()"
               v-if="cPagesViewRange.length < cTotalPaginable"
             >
-              {{!goto?"Ir a":"Ir"}}
+              <span class="fs-5">{{!goto?"Ir a":"Ir"}}</span>
             </q-btn>
-            <q-field
+            <q-input
               v-if="goto"
+              outlined
+              dense
+              hide-bottom-space
+              type="number"
+              v-model.number="jumpedPage"
+              :max="cTotalPaginable"
+              min="1"
+              @keyup.13="mJump()"
               class="w-50px q-mx-sm"
-            >
-              <q-input
-                type="number"
-                v-model.number="jumpedPage"
-                :max="cTotalPaginable"
-                min="1"
-                @keyup.13="mJump()"
-                class=""
-              />
-            </q-field>
+            />
           </span>
         </div>
       </div>
