@@ -13,16 +13,16 @@ export default{
       return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
     cKeyName () {
-      if (this.cResource == null || this.cResource.keyName == null)
+      if (this.cpStaComResource == null || this.cpStaComResource.keyName == null)
         return 'id'
-      return this.cResource.keyName
+      return this.cpStaComResource.keyName
     },
     cHasActiveField () {
       if (
-        this.cResource == null ||
-        this.cResource.lang == null ||
-        this.cResource.lang.fields == null ||
-        this.cResource.lang.fields.active == null
+        this.cpStaComResource == null ||
+        this.cpStaComResource.lang == null ||
+        this.cpStaComResource.lang.fields == null ||
+        this.cpStaComResource.lang.fields.active == null
       )
         return false
       return true
@@ -38,16 +38,16 @@ export default{
     }
   },
   methods: {
-    mAutoFill () {
-      let fields = Object.keys(this.cResource.lang.fields)
+    mAutoFill (row) {
+      let fields = Object.keys(this.cpStaComResource.lang.fields)
       for (let i = 0; i < fields.length; i++)
-        if (this.row[fields[i]] ==  null)
-          this.$set(this.row,fields[i],1)
-      return this
+        if (row[fields[i]] ==  null)
+          row[fields[i]] = 1
+      return row
     },
     mResourceAccessing (resource = null) {
       if (!resource)
-        return this.cResource
+        return this.cpStaComResource
 
       if (typeof resource === 'string') {
         if (this.resources != null && this.resources[resource] != null)
