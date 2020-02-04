@@ -1,11 +1,10 @@
-import CvActionComponentSet from 'crudvuel-tools/src/components/sets/CvActionComponentSet'
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [
-    CvActionComponentSet,
     vueMirroring.fixProperties({
-      'row': {init: {},mode: 'D|CD|M'}
+      '[P]dinGenKeyName'  : 'id',
+      '[P]dinGenKeyValue' : null
     })
   ],
   data () {
@@ -14,20 +13,20 @@ export default{
   props: [
   ],
   computed: {
-    cKeyName: function () {
-      return this.cvKeyName || 'id'
-    },
-    cKeyValue: function () {
+    cdDinGenKeyValue: function () {
+      if (this.cvDinGenKeyValue != null)
+        return this.cvDinGenKeyValue
+
       if (
         this.$route == null ||
         this.$route.params == null ||
-        this.$route.params[this.cKeyName] == null
+        this.$route.params[this.cpDinGenKeyName] == null
       )
         return null
-      return this.$route.params[this.cKeyName]
+      return this.$route.params[this.cpDinGenKeyName]
     }
   },
-  methods: {
+  methods: {/*
     mFinish: function () {
       if (this.cpStaGenAction.name !== 'index' && typeof this.cResource.actions.index !== 'undefined') {
         let baseRoute = this.$route.path.split(this.mActionPath('index'))
@@ -41,7 +40,7 @@ export default{
     },
     mCompleteAction () {
       this.mFinish()
-    }
+    }*/
   },
   created: function () {
   }

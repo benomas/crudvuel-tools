@@ -16,12 +16,10 @@ import CvExpertFilters          from './CvExpertFilters'
 import CvSpinner                from './CvSpinner'
 import CvParametrizer           from '../../CvParametrizer'
 import CvFilterSelector         from './CvFilterSelector'
-import CvGridMirroring          from './CvGridMirroring'
 import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
 export default {
   mixins     : [
-    CvComponentSet,
-    CvGridMirroring
+    CvComponentSet
   ],
   components : {
     CvTag,
