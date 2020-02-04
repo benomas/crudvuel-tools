@@ -16,7 +16,7 @@
           <q-btn @click="emDinComCurrentPageEmitter(1)" v-if="cPagesViewStart > 1" size="sm" class="bg-secondary-l-84 txt-white">«</q-btn>
           <span>
             <span>
-              <q-tooltip  :disable="!cXs && !cSm"  class="fs-5">
+              <q-tooltip  :disable="!cpDinComTotalPageElements || (!cXs && !cSm)"  class="fs-5">
                 {{cPaginateMessage}}
               </q-tooltip>
               <transition-group
@@ -86,7 +86,7 @@
           :options="cpStaComLimitValues" >
         </q-select>
       </div>
-      <div class="row col-xs-12">
+      <div class="row col-xs-12" v-if="cpDinComTotalPageElements">
         <span>{{cPaginateMessage}}</span>
       </div>
     </div>

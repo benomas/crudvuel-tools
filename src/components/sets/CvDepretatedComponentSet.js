@@ -9,40 +9,40 @@ export default{
   props: [
   ],
   computed: {
-    cGetted: function () {
+    cGetted () {
       return this.cRows || !this.cpStaGenAction.getService  || this.cHasRowKeyValue || false
     },
-    cpDinInsShowHeader: function () {
+    cpDinInsShowHeader () {
       if (typeof this.cvShowHeader !== 'undefined')
         return this.cvShowHeader
       return true
     },
-    cRowKey: function () {
+    cRowKey () {
       return this.cvRowKey || 'id'
     },
-    cRowKeyRouteValue: function () {
+    cRowKeyRouteValue () {
       return this.$route.params.id  || null
     },
-    cShowGetMessages: function () {
+    cShowGetMessages () {
       return (this.cpStaGenAction && typeof this.cpStaGenAction.cvShowGetMessages !== 'undefined')
         ? this.cpStaGenAction.cvShowGetMessages : false
     },
-    cShowSetMessages: function () {
+    cShowSetMessages () {
       return (this.cpStaGenAction && typeof this.cpStaGenAction.cvShowSetMessages !== 'undefined')
         ? this.cpStaGenAction.cvShowSetMessages : true
     },
-    cHasRowKeyValue: function () {
+    cHasRowKeyValue () {
       return this.cRow && this.cRow[this.cRowKey]
     },
-    cAutoload: function () {
+    cAutoload () {
       if (typeof this.cvAutoload !== 'undefined')
         return this.cvAutoload
       return true
     },
-    cHasRowIdentifier: function () {
+    cHasRowIdentifier () {
       return this.rowKeyValue || false
     },
-    cIdentText: function () {
+    cIdentText () {
       return this.cHasRowIdentifier ? this.actionKeyMessage(this.row) : ''
     }
   },
@@ -62,7 +62,5 @@ export default{
     someSyncInProgress () {
       return this.cvSynchronizer.someSyncInProgress()
     }
-  },
-  created: function () {
   }
 }

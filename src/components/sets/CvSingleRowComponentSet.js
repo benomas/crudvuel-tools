@@ -13,7 +13,7 @@ export default{
   props: [
   ],
   computed: {
-    cdDinGenKeyValue: function () {
+    cdDinGenKeyValue () {
       if (this.cvDinGenKeyValue != null)
         return this.cvDinGenKeyValue
 
@@ -27,7 +27,7 @@ export default{
     }
   },
   methods: {/*
-    mFinish: function () {
+    mFinish () {
       if (this.cpStaGenAction.name !== 'index' && typeof this.cResource.actions.index !== 'undefined') {
         let baseRoute = this.$route.path.split(this.mActionPath('index'))
         this.$router.push(baseRoute[0] + this.mActionPath('index'))
@@ -41,7 +41,5 @@ export default{
     mCompleteAction () {
       this.mFinish()
     }*/
-  },
-  created: function () {
   }
 }

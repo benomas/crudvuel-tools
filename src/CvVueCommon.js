@@ -91,13 +91,13 @@ export default class CvVueCommon{
         cEnv: function () {
           return cvGlobDep.globals.cvEnv.environmentProperty('ENV_MODE','production') || null
         },
-        cAutofillEnabled: function () {
+        cAutoFillableEnabled: function () {
           return cvGlobDep.globals.cvEnv.environmentProperty('AUTOFILL_ENABLED',false) || null
         },
-        cAutoFill: function () {
+        cAutoFillable: function () {
           if (this.cEnv == null || this.cEnv !== 'dev')
             return false
-          if (this.cAutofillEnabled == null || this.cAutofillEnabled !== true)
+          if (this.cAutoFillableEnabled == null || this.cAutoFillableEnabled !== true)
             return false
           if (
             this.cResource == null ||

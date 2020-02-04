@@ -4,11 +4,12 @@ let vueMirroring = new VueMirroring('ComponentSet')
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      '[D]ready'               : false,
-      '[P]dinGenParentReady'   : true,
-      '[D]isMounted'           : false,
-      '[P]staGenParentRef'     : null,
-      '[P]dinComComponentLang' : {}
+      '[D]ready'                     : false,
+      '[P]dinGenParentReady'         : true,
+      '[D]isMounted'                 : false,
+      '[P]staGenParentRef'           : null,
+      '[P]dinComComponentLang'       : {},
+      '[P]staInsComponentBindingTag' : ''
     })
   ],
   data () {
@@ -44,6 +45,7 @@ export default {
       for (const customBinding of this.customBindings)
         for (const [prop, value] of Object.entries(customBinding))
           collection[prop]=this[value]
+      collection['cv-sta-ins-component-binding-tag']=index
       return {
         ...(this.mBinding != null) ? this.mBinding(index) : {},
         ...collection

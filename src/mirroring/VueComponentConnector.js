@@ -1,4 +1,4 @@
-import {camelCase,kebabCase,startsWith,endsWith,split} from 'lodash'
+import {camelCase,kebabCase,startsWith,endsWith,split,replace} from 'lodash'
 
 export default class VueMirroring {
   constructor (vueMirroring = null,parentPrefix = null) {
@@ -102,8 +102,8 @@ export default class VueMirroring {
 
   bindMirroring () {
     let localProps = []
-    var binding = {}
-    let tag = kebabCase(`${this.getCurrentComponent().tag} ${this.getCurrentComponent().posFix}`)
+    var binding    = {}
+    let cvTag      = this.getCurrentComponent().cvTag
     if(this.getCurrentComponent().props){
       for (const [position, prop] of Object.entries(this.getCurrentComponent().props)) {
         let splitedProperty = split(kebabCase(prop),'-')
@@ -133,9 +133,16 @@ export default class VueMirroring {
           return null
         }
         if(this.switchModeRequired(splitedProperty)){
-          let dProperty  = this.fixDataName(splitedProperty)
-          let cdProperty = camelCase('cd ' + dProperty)
+          let dProperty  = camelCase(`${this.fixDataName(splitedProperty)}`)
+          let cdProperty = camelCase(`cd ${dProperty}`)
           let mSetMethod = camelCase(`m set ${dProperty}`)
+          if (this.getParentPrefix() === 'aIndex')
+            console.log([
+              cvTag,
+              dProperty,
+              cdProperty,
+              mSetMethod
+            ])
           if (this.getCurrentComponent().methods[mSetMethod] == null){
             this.methods[mSetMethod] = function(value = null) {
               this.$set(this,dProperty,value)
@@ -162,19 +169,39 @@ export default class VueMirroring {
           continue
         splitedEmitter.pop()
 
-        let emitter         = this.fixEmitterName(splitedEmitter)
-        let originalEmitter = camelCase(this.complementName(splitedEmitter,1))
-
+        let emitter          = this.fixEmitterName(splitedEmitter)
+        let originalEmitter  = camelCase(this.complementName(splitedEmitter,1))
         let newProccesorName = camelCase(`em ${emitter} Proccesor`)
         let newEmitterName   = camelCase(`em ${emitter} Emitter`)
         let newEventName     = kebabCase(`em ${emitter} event`)
         let parentPrefix     = this.getParentPrefix()
-        let setterFix        = splitedEmitter[2] === 'ins' ? this.getParentPrefix() : ''
-        let setterName       = camelCase(`m set ${setterFix} ${this.complementName(splitedEmitter)}`)
+        let setterFix        = ''
+        let defFix           = ''
+        if (splitedEmitter[2] === 'ins'){
+          setterFix = this.getParentPrefix()
+          defFix    = this.getCurrentComponent().insTag
+        }
+        if (splitedEmitter[2] === 'insf'){
+          setterFix = this.getParentPrefix()
+        }
+
+        let setterName       = camelCase(`m set ${setterFix} ${defFix} ${this.complementName(splitedEmitter)}`)
         if(this.switchModeRequired(splitedEmitter)){
+          if (parentPrefix === 'aIndex' && cvTag === 'cv-adaptive-grid-index')
+            console.log([
+              kebabCase(`em ${originalEmitter} event`),
+              newEmitterName,
+              parentPrefix,
+              splitedEmitter,
+              newProccesorName,
+              setterName,
+              newEmitterName,
+              newEventName,
+              originalEmitter
+            ])
           this.methods[newProccesorName] = function(emitted = null) {
             return new Promise ((resolve, reject) => {
-              //console.log([splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
+              //console.log([newProccesorName,splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
               if (this[setterName] != null)
                 this[setterName](emitted)
               resolve(emitted)
@@ -182,14 +209,15 @@ export default class VueMirroring {
           }
           this.methods[newEmitterName] = (function(newProccesorName,newEventName){
             return function(emitted = null) {
+              //console.log([newProccesorName,splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
               this[newProccesorName](emitted).then((proccesed = null) => {
                 this.$emit(newEventName, proccesed)
               }).catch(error=>error)
             }
           })(newProccesorName,newEventName)
-          if (this.ons[tag] == null)
-            this.ons[tag] = {}
-          this.ons[tag][kebabCase(`em ${originalEmitter} event`)]=(function(newEmitterName){
+          if (this.ons[cvTag] == null)
+            this.ons[cvTag] = {}
+          this.ons[cvTag][kebabCase(`em ${originalEmitter} event`)]=(function(newEmitterName){
             return function(context){
               return context[newEmitterName]
             }
@@ -207,9 +235,9 @@ export default class VueMirroring {
               }).catch(error=>error)
             }
           })(newProccesorName,newEventName)
-          if (this.ons[tag] == null)
-            this.ons[tag] = {}
-          this.ons[tag][kebabCase(`em ${originalEmitter} event`)]=(function(newEmitterName){
+          if (this.ons[cvTag] == null)
+            this.ons[cvTag] = {}
+          this.ons[cvTag][kebabCase(`em ${originalEmitter} event`)]=(function(newEmitterName){
             return function(context){
               return context[newEmitterName]
             }
@@ -217,16 +245,16 @@ export default class VueMirroring {
         }
       }
     }
-    this.bindings[tag] = (function(binding,tag,posFix){
+    this.bindings[cvTag] = (function(binding,cvTag,posFix){
       return function (context) {
         let fixedBinding = {}
         for (const [childProperty, parentComputed] of Object.entries(binding))
           fixedBinding[`${childProperty}`] = context[parentComputed]
 
-        fixedBinding['ref'] = camelCase(`${tag} ${posFix} ref`)
+        fixedBinding['ref'] = camelCase(`${cvTag} ${posFix} ref`)
         return fixedBinding
       }
-    })(binding,tag,this.getCurrentComponent().posFix)
+    })(binding,cvTag,this.getCurrentComponent().posFix)
 
     this.getCurrentComponent().props = localProps
     return this
@@ -335,10 +363,14 @@ export default class VueMirroring {
   loadComponents (...components) {
     let fixedComponents = {}
     for (let currentComponent of components){
-      let tag = Object.keys(currentComponent)[0]
+      let tag    = Object.keys(currentComponent)[0]
       let posFix = currentComponent.posFix != null ? currentComponent.posFix : ''
+      let cvTag  = kebabCase(`${tag} ${posFix}`)
+      let insTag = replace(cvTag,'cv-','')
       fixedComponents[kebabCase(`${tag} ${posFix}`)]={
-        tag       : tag,
+        tag,
+        cvTag,
+        insTag,
         component : currentComponent[tag],
         posFix    : currentComponent.posFix != null ? currentComponent.posFix   : '',
         root      : currentComponent.root != null ? currentComponent.root       : null,

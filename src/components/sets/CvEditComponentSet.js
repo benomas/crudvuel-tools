@@ -1,6 +1,11 @@
-//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-//let vueMirroring = new VueMirroring()
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('Edit')
 export default{
+  mixins: [
+    vueMirroring.fixProperties({
+      '[P]staInsRow' : {}
+    })
+  ],
   data () {
     return {}
   },
@@ -8,7 +13,7 @@ export default{
   ],
   computed: {
   },
-  methods: {
+  methods: {/*
     mActionInitialize: function () {
       return new Promise((resolve, reject) => {
         //reject(new Error('testing'))
@@ -41,8 +46,6 @@ export default{
           resolve()
         })
       })
-    }
-  },
-  created: function () {
+    }*/
   }
 }

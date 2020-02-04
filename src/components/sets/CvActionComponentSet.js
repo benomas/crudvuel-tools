@@ -55,6 +55,13 @@ export default{
     }
   },
   methods: {
+    mAutoFill () {
+      let fields = Object.keys(this.cResource.lang.fields)
+      for (let i = 0; i < fields.length; i++)
+        if (this.row[fields[i]] ==  null)
+          this.$set(this.row,fields[i],1)
+      return this
+    },
     mActionAccessing (action = null,resource = null) {
       if (!action) {
         if (typeof this.cpStaGenAction !== 'undefined')
@@ -176,8 +183,7 @@ export default{
     },
     mCompleteAction () {
       this.mFinish()
+      return this
     }
-  },
-  created () {
   }
 }

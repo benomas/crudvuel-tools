@@ -3,7 +3,7 @@ let vueMirroring = new VueMirroring('MultiRowComponentSet')
 export default{
   mixins: [
     vueMirroring.fixProperties({
-      '[P]dinGenKeyName':'id'
+      '[P]dinGenKeyName' : 'id'
     })
   ],
   data () {
@@ -12,19 +12,7 @@ export default{
   props: [
   ],
   computed: {
-    cKeyValue: function () {
-      if (
-        this.$route == null ||
-        this.$route.params == null ||
-        this.$route.params[this.cKeyName] == null
-      )
-        return null
-      return this.$route.params[this.cKeyName]
-    }
   },
   methods: {
-  },
-  created: function () {
   }
-
 }

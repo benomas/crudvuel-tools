@@ -11,19 +11,19 @@ export default{
   computed: {
   },
   methods: {
-    mSuccessNotification: function (message) {
+    mSuccessNotification (message) {
       alert(message)
       return this
     },
-    mErrorNotification: function (message) {
+    mErrorNotification (message) {
       alert(message)
       return this
     },
-    mCancelNotification: function (message) {
+    mCancelNotification (message) {
       alert(message)
       return this
     },
-    mInfoNotification: function (message) {
+    mInfoNotification (message) {
       alert(message)
       return this
     }
