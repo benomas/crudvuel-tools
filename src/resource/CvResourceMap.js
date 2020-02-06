@@ -5,26 +5,29 @@ export default class CvResourceMap extends CvClass {
 
   constructor(options){
     super(options)
-    this.name             = null
-    this.rowsLabel        = null
-    this.rowLabel         = null
-    this.icon             = null
-    this.path             = null
-    this.crudServices     = null
-    this.actions          = null
-    this.actionsKeys      = null
-    this.routes           = null
-    this.actionRoutes     = null
-    this.getSuccessMessage= null
-    this.getErrorMessage  = null
-    this.setSuccessMessage= null
-    this.setErrorMessage  = null
-    this.setCancelMessage = null
-    this.children         = null
-    this.nextLabel        = null
-    this.backLabel        = null
-    this.keyName          = null
-    this.parentRouteAction= null
+    this.name              = null
+    this.rowsLabel         = null
+    this.rowLabel          = null
+    this.icon              = null
+    this.path              = null
+    this.crudServices      = null
+    this.actions           = null
+    this.actionsKeys       = null
+    this.routes            = null
+    this.actionRoutes      = null
+    this.getSuccessMessage = null
+    this.getErrorMessage   = null
+    this.setSuccessMessage = null
+    this.setErrorMessage   = null
+    this.setCancelMessage  = null
+    this.children          = null
+    this.nextLabel         = null
+    this.backLabel         = null
+    this.keyName           = null
+    this.pluralName        = null
+    this.singularName      = null
+    this.keyName           = null
+    this.parentRouteAction = null
     this.loadOptions(options);
   }
 

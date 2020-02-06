@@ -2,6 +2,8 @@
   <div class="filters-container w-100">
     <q-input
       outlined
+      borderless
+      standout
       dense
       autocomplete="off"
       ref="inputRef"
@@ -10,7 +12,6 @@
       :class="{'active-filter':cpDinInsActiveFilter}"
       :label="cpDinInsLabel"
       :label-color="cpDinInsLabelColor"
-      :hint="cpDinInsHint"
       :clear-icon="cpDinInsClearIcon"
       :color="cpDinInsColor"
       :bg-color="cpDinInsBgColor"
@@ -18,6 +19,7 @@
       :disable="cpDinInsDisableFields"
       :readonly="cpDinInsDisableFields"
       :hide-underline="cpDinInsDisableFields"
+      :hide-bottom-space="true"
       :loading="cpDinInsKeyLoading"
       :value="cpDinInsSearch"
       @clear="emDinInsClearedEmitter"
