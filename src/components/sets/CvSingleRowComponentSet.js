@@ -4,7 +4,9 @@ export default{
   mixins: [
     vueMirroring.fixProperties({
       '[P]dinGenKeyName'  : 'id',
-      '[P]dinGenKeyValue' : null
+      '[P]dinGenKeyValue' : null,
+      '[P]staInsRow'      : {},
+      '[P]staInsErrors'   : {}
     })
   ],
   data () {
@@ -24,22 +26,29 @@ export default{
       )
         return null
       return this.$route.params[this.cpDinGenKeyName]
+    },
+    cFixedErrors () {
+      let errors = {}
+      let subErrors
+      if (this.cdErrors != null) {
+        for (const [field, message] of Object.entries(this.cdErrors)) {
+          let fieldSegments = field.split('.')
+          subErrors = errors
+          for (let i = 0;i < fieldSegments.length;i++){
+            let segment = fieldSegments[i]
+            if (i === fieldSegments.length -1)
+              subErrors[segment] = message
+            else{
+              if (subErrors[segment] === undefined)
+                subErrors[segment] = {}
+              subErrors = subErrors[segment]
+            }
+          }
+        }
+        return errors
+      }
     }
   },
-  methods: {/*
-    mFinish () {
-      if (this.cpStaGenAction.name !== 'index' && typeof this.cResource.actions.index !== 'undefined') {
-        let baseRoute = this.$route.path.split(this.mActionPath('index'))
-        this.$router.push(baseRoute[0] + this.mActionPath('index'))
-      }
-    },
-    mFailSetNotification () {
-      let errorMessage = this.cpStaGenAction.getSetRrrorMessage()
-      if (errorMessage)
-        this.mCancelNotification(errorMessage + this.actionKeyMessage(this.cdRow))
-    },
-    mCompleteAction () {
-      this.mFinish()
-    }*/
+  methods: {
   }
 }

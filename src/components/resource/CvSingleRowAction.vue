@@ -5,30 +5,14 @@ let vueMirroring = new VueMirroring()
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      'keyName'  : {init:'id',mode:'P|C'},
-      'keyValue' : {init:null,mode:'P|C'},
-      'row'      : {init:{},mode:'D|M|P|C|CD'}
     })
   ],
   extends: CvBaseCrud,
   data () {
     return {
-      //rowKey                      : null,
-      //rowKeyValue                 : null,
-      //row                         : null,
-      //rows                        : null,
-      //ready                       : false,
-      //errors                      : {},
-      //hasErrors                   : false,
-      //cvSynchronizer              : new CvSynchronizer(),
-      //successNotificationMessages : null,
-      //errorNotificationMessages   : null,
-      //cancelNotificationMessages  : null,
-      //infoNotificationMessages    : null,
-      //gridRefs                    : {}
     }
   },
-  methods:{
+  methods:{/*
     mActionInitialize: function () {
       this.row = this.cResource != null &&
         this.cResource.lang != null &&
@@ -58,9 +42,9 @@ export default {
         else
           resolve()
       })
-    },
+    },*/
   },
-  computed:{
+  computed:{/*
     cKeyName: function () {
       return this.cvKeyName || 'id'
     },
@@ -72,7 +56,7 @@ export default {
       )
         return null
       return this.$route.params[this.cKeyName]
-    }
+    }*/
   },
   mounted: function () {
   }

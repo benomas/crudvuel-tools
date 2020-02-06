@@ -192,7 +192,6 @@ import {
 import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
 import CvMultiRowComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentSet'
 import CvGrid                 from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvGrid'
-//import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
 export default {
   mixins     : [
     CvComponentSet,
@@ -316,14 +315,6 @@ export default {
         this.cancelNotificationMessages = null
       }
     }
-  }/*,
-  created: function () {
-    let gridSystemName
-    if (this.resource != null && this.cResource.name != null)
-      gridSystemName = 'grid-system-' + this.cResource.name + '-ref'
-    else
-      gridSystemName = 'grid-system-ref'
-    this.$set(this.cpStaGenParentRef.gridRefs,gridSystemName,this)
-  }*/
+  }
 }
 </script>

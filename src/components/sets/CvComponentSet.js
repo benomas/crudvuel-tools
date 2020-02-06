@@ -103,10 +103,10 @@ export default {
       this.$set(this,'ready',false)
       return this
     },
-    mComLang: function (word,defWord) {
+    mComLang: function (word,defWord = '') {
       if (this.cpDinComComponentLang && this.cpDinComComponentLang[word])
         return this.cpDinComComponentLang[word]
-      return defWord || ''
+      return defWord
     },
     mySubString,
     myReplace,

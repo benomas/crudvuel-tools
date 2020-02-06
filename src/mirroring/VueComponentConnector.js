@@ -15,12 +15,26 @@ export default class VueMirroring {
     this.mode             = 'normal'
   }
 
+  preloadBindigs (bindings = {}) {
+    this.bindings = bindings
+    return this
+  }
+
+  preloadOns (ons = {}) {
+    this.ons = ons
+    return this
+  }
+
   bindsMirroring () {
     for (const [key, currentComponent] of Object.entries(this.getComponents()))
       this.setCurrentComponent(currentComponent).bindMirroring().getComponents()[key] = this.getCurrentComponent()
     this.methods['mBinding'] = (function(bindings){
       return function (index = null) {
-        if (!index || bindings == null || bindings[index] == null)
+        if (bindings == null)
+          return {}
+        if (!index)
+          return bindings
+        if (bindings[index] == null)
           return {}
         return bindings[index](this)
       }
@@ -28,6 +42,8 @@ export default class VueMirroring {
 
     this.methods['mOns'] = (function(ons){
       return function (index = null) {
+        if (!index)
+          return ons
         let events = {}
 
         if (index && ons != null && ons[index] != null)

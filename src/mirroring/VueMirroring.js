@@ -34,4 +34,20 @@ export default class VueMirroring {
   getMixingTree (...params) {
     return this.vueDebugger.getMixingTree(...params)
   }
+
+  restoreBindings (...components) {
+    let lastBindings = {}
+    let lastOns      = {}
+    for (let currentComponent of components){
+      if (currentComponent.mixins == null || currentComponent.mixins.length === 0)
+        continue
+      let binded = currentComponent.mixins[currentComponent.mixins.length-1]
+      if (binded.methods.mBinding != null)
+        lastBindings = {...lastBindings,...binded.methods.mBinding()}
+      if (binded.methods.mOns != null)
+        lastOns = {...lastOns,...binded.methods.mOns()}
+    }
+    this.vueComponentConnector.preloadBindigs(lastBindings).preloadOns(lastOns)
+    return this
+  }
 }

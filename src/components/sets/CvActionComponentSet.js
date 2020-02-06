@@ -21,27 +21,21 @@ export default{
         return 'id'
       return this.cResource.keyName
     },
-    cBackLabel () {
-      if (this.cpStaGenAction)
-        return this.cpStaGenAction.backLabel || null
-      return 'Cancelar'
-    },
-    cNextLabel () {
-      if (this.cpStaGenAction)
-        return this.cpStaGenAction.nextLabel || null
-      return 'Guardar'
-    },
     cpActionGetService () {
-      return this.cpStaGenAction.getService || new Promise((resolve, reject) => {
-        console.log('No get service defined')
-        reject(new Error('No get service defined'))
-      })
+      return this.cpStaGenAction.getService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No get service defined')
+          reject(new Error('No get service defined'))
+        })
+      }
     },
     cpActionSetService () {
-      return this.cpStaGenAction.setService || new Promise((resolve, reject) => {
-        console.log('No set service defined')
-        reject(new Error('No set service defined'))
-      })
+      return this.cpStaGenAction.setService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No set service defined')
+          reject(new Error('No set service defined'))
+        })
+      }
     },
     cHasActiveField () {
       if (
@@ -182,8 +176,23 @@ export default{
       return `${this.cRowKey} : ${gridRow[this.cRowKey]}`
     },
     mCompleteAction () {
+      let successMessage = this.cpStaGenAction.setSuccessMessage()
+      if (successMessage)
+        this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
       this.mFinish()
       return this
+    },
+    mFailCompleteAction (response) {
+      let errorMessage = this.cpStaGenAction.getSetErrorMessage() + ' ' + this.serverMessageTransform(response.response.data.message || '')
+      if (errorMessage)
+        this.mErrorNotification(errorMessage + this.actionKeyMessage(this.cdRow))
+      return this
+    },
+    serverMessageTransform (message = ''){
+      let serverLang = this.$tc('crudvuel.labels.serverLang')
+      if (!serverLang || serverLang === '')
+        serverLang = 'Server'
+      return message !== '' ? ` [${serverLang}] : ${message}` : message
     }
   }
 }
