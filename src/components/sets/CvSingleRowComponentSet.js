@@ -50,5 +50,8 @@ export default{
     }
   },
   methods: {
+    showResponse (response) {
+      return response.data.data || response.data
+    }
   }
 }
