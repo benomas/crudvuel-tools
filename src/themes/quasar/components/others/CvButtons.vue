@@ -31,7 +31,7 @@
           {{cNextLabel}}
         </q-tooltip>
         <span v-if="!cXs && cShowNextLabel" class="q-px-md">
-            {{cNextLabel}}
+          {{cNextLabel}}
         </span>
       </q-btn>
     </div>

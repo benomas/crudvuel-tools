@@ -14,11 +14,11 @@ export default class VueAutoDefiner {
   }
 
   noTypes () {
-    return {'D':false,'P':false,'EM':false,'M':false}
+    return {'D':false,'P':false,'EM':false,'M':false,'NN':false}
   }
 
   allTypes () {
-    return {'D':true,'P':true,'EM':false,'M':true}
+    return {'D':true,'P':true,'EM':false,'M':true,'NN':true}
   }
 
   resetAutoDefs(){
@@ -87,6 +87,9 @@ export default class VueAutoDefiner {
   }
   hasAutoEmitter(){
     return this.getAutoDefTypes()['EM']
+  }
+  isNullable(){
+    return !this.getAutoDefTypes()['NN']
   }
   setAutoDefDataInit (autoDefDataInit = null) {
     this.autoDefDataInit = autoDefDataInit
@@ -160,9 +163,13 @@ export default class VueAutoDefiner {
     if (this.hasAutoData()){
       let dataName = this.calAutoDataName()
       if(this.hasAutoProp()){
+        let defaultData = this.getAutoDefPropInit()
         let prop = this.calAutoPropName('cv')
+        let isNullable = this.isNullable()
         this.autoData[dataName] = function(context) {
-          return context[prop]
+          if (isNullable || context[prop] != null)
+            return context[prop]
+          return defaultData
         }
       }else{
         let def = this.getAutoDefInit()

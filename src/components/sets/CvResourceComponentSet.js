@@ -3,7 +3,7 @@ let vueMirroring = new VueMirroring('ResourceComponentSet')
 export default{
   mixins: [
     vueMirroring.fixProperties({
-      '[P]staComResource':null
+      '[P]staInsResource':null
     })
   ],
   components : {
@@ -13,23 +13,23 @@ export default{
       return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
     cKeyName () {
-      if (this.cpStaComResource == null || this.cpStaComResource.keyName == null)
+      if (this.cpStaInsResource == null || this.cpStaInsResource.keyName == null)
         return 'id'
-      return this.cpStaComResource.keyName
+      return this.cpStaInsResource.keyName
     },
     cHasActiveField () {
       if (
-        this.cpStaComResource == null ||
-        this.cpStaComResource.lang == null ||
-        this.cpStaComResource.lang.fields == null ||
-        this.cpStaComResource.lang.fields.active == null
+        this.cpStaInsResource == null ||
+        this.cpStaInsResource.lang == null ||
+        this.cpStaInsResource.lang.fields == null ||
+        this.cpStaInsResource.lang.fields.active == null
       )
         return false
       return true
     },
-    cpStaComResource () {
-      if (this.cvStaComResource)
-        return this.mResourceAccessing(this.cvStaComResource)
+    cpStaInsResource () {
+      if (this.cvStaInsResource)
+        return this.mResourceAccessing(this.cvStaInsResource)
 
       const found = [...this.cpStaInsComponentBindingTag.matchAll(/^cv-(.+)?-skeleton$/gi)]
       if (!found || found[0] == null || found[0][1] == null)
@@ -39,7 +39,7 @@ export default{
   },
   methods: {
     mAutoFill (row) {
-      let fields = Object.keys(this.cpStaComResource.lang.fields)
+      let fields = Object.keys(this.cpStaInsResource.lang.fields)
       for (let i = 0; i < fields.length; i++)
         if (row[fields[i]] ==  null)
           row[fields[i]] = 1
@@ -47,7 +47,7 @@ export default{
     },
     mResourceAccessing (resource = null) {
       if (!resource)
-        return this.cpStaComResource
+        return this.cpStaInsResource
 
       if (typeof resource === 'string') {
         if (this.resources != null && this.resources[resource] != null)

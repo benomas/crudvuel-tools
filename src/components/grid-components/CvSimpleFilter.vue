@@ -45,7 +45,6 @@ export default {
       '[EM]dinInsFocused'             : '',
       '[EM]dinInsKeyUp'               : '',
       '[EM]dinInsCleared'             : '',
-      '[EM]dinInsGoToFind'            : '',
       '[D]lastEmission'               : null,
       '[D]preventDebounce'            : false
     })

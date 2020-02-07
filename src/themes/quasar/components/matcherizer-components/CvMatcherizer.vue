@@ -61,8 +61,8 @@
   </div>
 </template>
 <script>
-import CvMatcherizer from '../../../../components/matcherizer-components/CvMatcherizer'
-import CvSimpleFilter from '../grid-components/CvSimpleFilter'
+import CvMatcherizer  from 'crudvuel-tools/src/components/matcherizer-components/CvMatcherizer'
+import CvSimpleFilter from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
 import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook} from 'quasar'
 export default {
   extends    : CvMatcherizer,
