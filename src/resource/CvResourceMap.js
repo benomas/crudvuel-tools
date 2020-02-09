@@ -1,9 +1,8 @@
-import CvClass    from '../CvClass'
-import CvActionMap from './CvActionMap'
+import CvClass      from 'crudvuel-tools/src/CvClass'
+import CvActionMap  from 'crudvuel-tools/src/resource/CvActionMap'
 
 export default class CvResourceMap extends CvClass {
-
-  constructor(options){
+  constructor (options) {
     super(options)
     this.name              = null
     this.rowsLabel         = null
@@ -28,60 +27,60 @@ export default class CvResourceMap extends CvClass {
     this.singularName      = null
     this.keyName           = null
     this.parentRouteAction = null
-    this.loadOptions(options);
+    this.loadOptions(options)
   }
 
-  addChild(childResource){
+  addChild (childResource) {
       if(!this.children)
-        this.children=[];
-      this.children.push(childResource);
-      if(this.defError(!this.parentRouteAction?"resource needs to have a parentRouteAction where the children route will be append":null))
-        return false;
+        this.children = []
+      this.children.push(childResource)
+      if (this.defError(!this.parentRouteAction ? "resource needs to have a parentRouteAction where the children route will be append" : null))
+        return false
       this.routes[this.parentRouteAction.position].children = childResource.getRoutes()
   }
 
-  addAction(actionOptions){
-      if(!this.actions){
-        this.actions={};
-        this.actionsKeys=[];
-        this.routes=[];
+  addAction (actionOptions) {
+      if (!this.actions) {
+        this.actions     = {}
+        this.actionsKeys = []
+        this.routes      = []
       }
 
-      if( actionOptions && typeof actionOptions.nextLabel==="undefined")
-        actionOptions.nextLabel=this.nextLabel
+      if( actionOptions && actionOptions.nextLabel === undefined)
+        actionOptions.nextLabel = this.nextLabel
 
-      if( actionOptions && typeof actionOptions.backLabel==="undefined")
-        actionOptions.backLabel=this.backLabel
+      if( actionOptions && actionOptions.backLabel === undefined)
+        actionOptions.backLabel = this.backLabel
 
-      if( actionOptions && typeof actionOptions.disableFields==="undefined")
-        actionOptions.disableFields=false
+      if( actionOptions && actionOptions.disableFields === undefined)
+        actionOptions.disableFields = false
 
-      if( actionOptions && typeof actionOptions.type==="undefined")
-        actionOptions.type="row"
+      if( actionOptions && actionOptions.type === undefined)
+        actionOptions.type = "row"
 
-      if( actionOptions && typeof actionOptions.urlParams==="undefined")
-        actionOptions.urlParams=[]
+      if( actionOptions && actionOptions.urlParams === undefined)
+        actionOptions.urlParams = []
 
-      if( actionOptions && typeof actionOptions.parentRoute==="undefined")
-        actionOptions.parentRoute=false
+      if( actionOptions && actionOptions.parentRoute === undefined)
+        actionOptions.parentRoute = false
 
-      let newAction =  new CvActionMap(actionOptions);
-      if(typeof newAction.validAction()){
+      let newAction = new CvActionMap(actionOptions)
+      if(typeof newAction.validAction() !== undefined ) {
         newAction.setRoute()
-        if(newAction.getRoute()){
-          newAction.setPosition(this.routes.length);
-          this.routes.push(newAction.getRoute());
+        if (newAction.getRoute()) {
+          newAction.setPosition(this.routes.length)
+          this.routes.push(newAction.getRoute())
         }
-        this.actions[newAction.name] = newAction;
-        this.actionsKeys.push(newAction.name);
-        if(newAction.isParentRoute)
-          this.parentRouteAction = newAction;
+        this.actions[newAction.name] = newAction
+        this.actionsKeys.push(newAction.name)
+        if (newAction.isParentRoute)
+          this.parentRouteAction = newAction
       }
   }
 
-  setActions(actionsOptions){
+  setActions (actionsOptions) {
     for(let i=0 ; i < actionsOptions.length; i++)
-      this.addAction(actionsOptions[i]);
+      this.addAction(actionsOptions[i])
   }
 
   getRoutes (...excludes) {
@@ -90,27 +89,33 @@ export default class CvResourceMap extends CvClass {
       this.routes
   }
 
-  getGetSuccessMessage(){
-    return this.getSuccessMessage;
+  getGetSuccessMessage () {
+    return this.getSuccessMessage
   }
 
-  getGetErrorMessage(){
-    return this.getErrorMessage;
+  getGetErrorMessage () {
+    return this.getErrorMessage
   }
 
-  getSetSuccessMessage(){
-    return this.setSuccessMessage;
+  getSetSuccessMessage () {
+    return this.setSuccessMessage
   }
 
-  getSetErrorMessage(){
-    return this.setErrorMessage;
+  getSetErrorMessage () {
+    return this.setErrorMessage
   }
 
-  getSetCancelMessage(){
-    return this.setCancelMessage;
+  getSetCancelMessage () {
+    return this.setCancelMessage
   }
 
   getAction (action=null) {
     return action && this.actions[action] != null ? this.actions[action] : action
+  }
+
+  loadService (actionService = null) {
+    if (!actionService || this.crudServices == null || this.crudServices[actionService] == null)
+      return null
+    return (...params) => this.crudServices[actionService](...params)
   }
 }

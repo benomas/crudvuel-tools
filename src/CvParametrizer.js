@@ -64,8 +64,14 @@ const CvParametrizer = function(paginate){
     return this.params
   }
 
-  this.getSerialized = function () {
-    return this.serialize(this.params,false)
+  this.getSerialized = function (param = null) {
+    if (!param)
+      param = this.params
+    return this.serialize(param,false)
+  }
+
+  this.getParams = function () {
+    return this.params
   }
 
   this.setParameter = function (parameter = null,value = null) {
