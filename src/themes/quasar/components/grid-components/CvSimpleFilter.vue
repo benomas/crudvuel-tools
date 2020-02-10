@@ -31,7 +31,9 @@
       @mouseleave="emDinInsMouseLeaveEmitter"
     >
       <template v-slot:prepend>
-        <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
+        <div class="q-mt-sm q-mr-sm" >
+          <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
+        </div>
       </template>
     </q-input>
   </div>
