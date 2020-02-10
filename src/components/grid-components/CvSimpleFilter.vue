@@ -16,6 +16,8 @@
       @keyup="emDinInsKeyUpEmitter"
       @focus="emDinInsFocusedEmitter"
       @blur="emDinInsBluredEmitter"
+      @mouseover="emDinInsMouseOverEmitter"
+      @mouseleave="emDinInsMouseLeaveEmitter"
     >
   </div>
 </template>
@@ -41,10 +43,12 @@ export default {
       '[P]dinInsKeyInterruptionLimit' : 500,
       '[P]dinInsKeyLoading'           : false,
       '[P]dinComHideBottomSpace'      : true,
-      '[EM]dinInsBlured'              : '',
-      '[EM]dinInsFocused'             : '',
-      '[EM]dinInsKeyUp'               : '',
-      '[EM]dinInsCleared'             : '',
+      '[EM]dinInsBlured'              : null,
+      '[EM]dinInsFocused'             : null,
+      '[EM]dinInsKeyUp'               : null,
+      '[EM]dinInsMouseOver'           : null,
+      '[EM]dinInsMouseLeave'          : null,
+      '[EM]dinInsCleared'             : null,
       '[D]lastEmission'               : null,
       '[D]preventDebounce'            : false
     })
@@ -56,27 +60,34 @@ export default {
   props:[
   ],
   methods:{
-    emDinInsSearchProccesor (emitted = null){
-      this.mSetLastEmission(emitted)
-      if (emitted == null || emitted === '')
+    emDinInsSearchProccesor (emitted = null) {
+      let fixedEmitted = emitted != null ? emitted : ''
+      this.mSetLastEmission(fixedEmitted)
+      if (fixedEmitted == null || fixedEmitted === '')
         this.mSetPreventDebounce(true)
       return new Promise ((resolve, reject) => {
         if (this.cdPreventDebounce){
           console.log('direct')
           this.mSetPreventDebounce(false)
-          resolve(emitted)
+          resolve(fixedEmitted)
         }else{
           (debounce(() => {
-              if (this.cdLastEmission === emitted){
+              if (this.cdLastEmission === fixedEmitted){
                 console.log('delayed')
-                return resolve(emitted)
+                return resolve(fixedEmitted)
               }else{
-                reject(emitted)
+                reject(fixedEmitted)
               }
             },
             this.cpDinInsKeyInterruptionLimit
           ))()
         }
+      })
+    },
+    emDinInsFocusedProccesor (emitted = null) {
+      return new Promise ((resolve, reject) => {
+        resolve(emitted)
+        this.emDinInsSearchEmitter(this.cpDinInsSearch)
       })
     },
     emDinInsKeyUpProccesor (keyup) {

@@ -227,8 +227,13 @@ export default class VueAutoDefiner {
   addAutoEmitter(){
     if (this.hasAutoEmitter()) {
       let name = this.calAutoPropName()
+      let setterName = camelCase(`m set ${name}`)
       this.autoMethods[camelCase(`em ${name} proccesor`)] = function(emitted = null) {
-        return new Promise ((resolve, reject) => resolve(emitted))
+        return new Promise ((resolve, reject) => {
+          if (this[setterName] != null)
+            this[setterName](emitted)
+          resolve(emitted)
+        })
       }
       let propName = this.calAutoPropName()
       if(this.autoMethods[camelCase(`em ${propName} emitter`)] == null)

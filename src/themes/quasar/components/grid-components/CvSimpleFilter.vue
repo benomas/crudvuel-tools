@@ -27,6 +27,8 @@
       @keyup="emDinInsKeyUpEmitter"
       @focus="emDinInsFocusedEmitter"
       @blur="emDinInsBluredEmitter"
+      @mouseover="emDinInsMouseOverEmitter"
+      @mouseleave="emDinInsMouseLeaveEmitter"
     >
       <template v-slot:prepend>
         <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
