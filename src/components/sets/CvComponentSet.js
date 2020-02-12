@@ -101,6 +101,16 @@ export default {
         return this.cpDinComComponentLang[word]
       return defWord
     },
+    mDelayer () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick().then(()=>this.$nextTick().then(()=>this.$nextTick().then(()=>{
+          setTimeout(() => {
+            resolve()
+          }, 300)
+          //resolve()
+        })))
+      })
+    },
     mySubString,
     myReplace,
     cvF,

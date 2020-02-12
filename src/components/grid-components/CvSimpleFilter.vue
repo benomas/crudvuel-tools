@@ -98,6 +98,9 @@ export default {
     }
   },
   computed:{
+    cInputRef () {
+      return this.$refs['inputRef']
+    }
   }
 }
 </script>
