@@ -106,8 +106,7 @@ export default {
         this.$nextTick().then(()=>this.$nextTick().then(()=>this.$nextTick().then(()=>{
           setTimeout(() => {
             resolve()
-          }, 300)
-          //resolve()
+          }, 1)
         })))
       })
     },
