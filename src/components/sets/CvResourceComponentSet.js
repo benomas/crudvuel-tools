@@ -3,13 +3,16 @@ let vueMirroring = new VueMirroring('ResourceComponentSet')
 export default{
   mixins: [
     vueMirroring.fixProperties({
-      '[P]staInsResource':null
+      '[P]staInsResource'      : null,
+      '[P]dinGenDisableFields' : null
     })
   ],
   components : {
   },
   computed: {
     cDisableFields () {
+      if (this.cpDinGenDisableFields != null)
+        return this.cpDinGenDisableFields
       return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
     cKeyName () {
