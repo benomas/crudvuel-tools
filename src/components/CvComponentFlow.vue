@@ -11,7 +11,7 @@ export default{
     }),
   ],
   methods : {
-    mActionInitialize: function () {
+    mComponentInitialize: function () {
       return new Promise((resolve, reject) => {
         console.log('initialized')
         this.$nextTick(()=>{
@@ -53,7 +53,7 @@ export default{
   ],
   mounted: function () {
     if(!this.cdPreparing){
-      this.mSetPreparing(true).mActionInitialize().then((startData = null) => {
+      this.mSetPreparing(true).mComponentInitialize().then((startData = null) => {
         this.mSetPrepared(true)
       }).catch((exceptionData) => {
         this.mFailInitializeNotification().then(()=>{

@@ -14,7 +14,7 @@ export default{
   computed: {
   },
   methods: {/*
-    mActionInitialize: function () {
+    mComponentInitialize: function () {
       return new Promise((resolve, reject) => {
         //reject(new Error('testing'))
         if (this.cpActionGetService) {

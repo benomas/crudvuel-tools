@@ -13,7 +13,7 @@ export default {
     }
   },
   methods:{/*
-    mActionInitialize: function () {
+    mComponentInitialize: function () {
       this.row = this.cResource != null &&
         this.cResource.lang != null &&
         this.cResource.lang.fields != null &&

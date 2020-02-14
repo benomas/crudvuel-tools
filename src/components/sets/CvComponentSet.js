@@ -54,7 +54,7 @@ export default {
     mAddCustomBinding (customBinding = {}) {
       this.customBindings.push(customBinding)
     },
-    mActionInitialize () {
+    mComponentInitialize () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
           setTimeout(() => {
@@ -117,7 +117,7 @@ export default {
   },
   mounted () {
     this.mSetIsMounted(true)
-    this.mActionInitialize().then((startData = null) => {
+    this.mComponentInitialize().then((startData = null) => {
     }).catch((exceptionData) => {
       this.mFailInitializeNotification().then(() => {
         this.mFinish()

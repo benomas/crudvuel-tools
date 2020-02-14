@@ -40,6 +40,7 @@ export default {
       '[P|EM]dinInsSearch'            : '',
       '[P]dinInsIcon'                 : 'fas fa-search',
       '[P]dinInsIconColor'            : 'info',
+      '[P]dinInsIconClass'            : '',
       '[P]dinInsKeyInterruptionLimit' : 500,
       '[P]dinInsKeyLoading'           : false,
       '[P]dinComHideBottomSpace'      : true,
