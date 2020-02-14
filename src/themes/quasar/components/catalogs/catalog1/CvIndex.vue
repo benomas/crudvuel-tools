@@ -132,22 +132,14 @@
             <!-- cv-grid-flexi-data-cells-->
             <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
               <q-item>
-                <q-item-section>
-                  <q-item-section label>{{ fLang('id') }}</q-item-section>
-                </q-item-section>
                 <q-item-label>
-                  <q-item-section sublabel class="limit-label">{{props.slotRow.id}}</q-item-section>
-                </q-item-label>
-              </q-item>
-              <q-item>
-                <q-item-label>
-                  <q-item-section label>{{ fLang('name') }}</q-item-section>
+                  <q-item-section label class="f-bold text-subtitle2">{{ fLang('name') }}</q-item-section>
                   <q-item-section sublabel class="limit-label">{{props.slotRow.name}}</q-item-section>
                 </q-item-label>
               </q-item>
               <q-item>
                 <q-item-label>
-                  <q-item-section label>{{ fLang('description') }}</q-item-section>
+                  <q-item-section label class="f-bold text-subtitle2">{{ fLang('description') }}</q-item-section>
                   <q-item-section sublabel class="limit-label">{{props.slotRow.description}}</q-item-section>
                 </q-item-label>
               </q-item>

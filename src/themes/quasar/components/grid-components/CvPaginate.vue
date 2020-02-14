@@ -1,5 +1,5 @@
 <template>
-  <div class="cv-paginate row txt-secondary">
+  <div class="cv-paginate row txt-secondary q-pa-sm">
     <div class="row w-100"><!--
       <div class="row col-xs-12">
         cpStaComLimitValues        : {{cpStaComLimitValues}}<br>
