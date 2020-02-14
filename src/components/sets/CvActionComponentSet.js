@@ -7,12 +7,15 @@ export default{
     vueMirroring.fixProperties({
       '[P]staGenAction'         : null,
       '[P]dinGenExcludeActions' : [],
+      '[P]dinGenDisableFields'  : null,
     })
   ],
   components : {
   },
   computed: {
     cDisableFields () {
+      if (this.cpDinGenDisableFields != null)
+        return this.cpDinGenDisableFields
       return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
     cResource () {

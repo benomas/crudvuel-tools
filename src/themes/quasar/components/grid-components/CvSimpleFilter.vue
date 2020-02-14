@@ -1,7 +1,6 @@
 <template>
   <div class="filters-container w-100">
     <q-input
-      outlined
       borderless
       standout
       dense
@@ -15,6 +14,7 @@
       :clear-icon="cpDinInsClearIcon"
       :color="cpDinInsColor"
       :bg-color="cpDinInsBgColor"
+      :outlined="!cpDinInsDisableFields"
       :clearable="!cpDinInsDisableFields"
       :disable="cpDinInsDisableFields"
       :readonly="cpDinInsDisableFields"
