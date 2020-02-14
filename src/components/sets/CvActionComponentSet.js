@@ -1,5 +1,7 @@
-import VueMirroring  from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring()
+import VueMirroring     from 'crudvuel-tools/src/mirroring/VueMirroring'
+import CvSynchronizer   from 'crudvuel-tools/src/CvSynchronizer'
+let cvSynchronizer = new CvSynchronizer()
+let vueMirroring   = new VueMirroring()
 export default{
   mixins: [
     vueMirroring.fixProperties({
@@ -173,7 +175,7 @@ export default{
     actionKeyMessage (gridRow = null) {
       if (gridRow == null || this.cKeyName == null || gridRow[this.cKeyName] == null)
         return ''
-      return `${this.cRowKey} : ${gridRow[this.cRowKey]}`
+      return ` ${this.cKeyName} : ${gridRow[this.cKeyName]} `
     },
     mCompleteAction () {
       let successMessage = this.cpStaGenAction.setSuccessMessage()
@@ -193,6 +195,24 @@ export default{
       if (!serverLang || serverLang === '')
         serverLang = 'Server'
       return message !== '' ? ` [${serverLang}] : ${message}` : message
+    },
+    mToSync (row,identifier){
+      cvSynchronizer.toSync(row,this.cKeyName,identifier)
+      return this
+    },
+    mSynchronized (row,identifier){
+      cvSynchronizer.synchronized(row,this.cKeyName,identifier)
+      this.emStaGenMsyncEmitter()
+      return this
+    },
+    mIsSynchronizing (row,identifier){
+      return cvSynchronizer.isSynchronizing(row,this.cKeyName,identifier)
+    },
+    mValidIdentifier (identifier){
+      return cvSynchronizer.validIdentifier(identifier)
+    },
+    mSomeSyncInProgress (){
+      return cvSynchronizer.someSyncInProgress()
     }
   }
 }

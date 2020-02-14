@@ -245,76 +245,25 @@ export default {
       return this.cvActionCardTitleClass || {'':true}
     }
   },*/
-  methods: {
-    activateRow: function (gridRow) {
-      if (!this.hasPermission('activate'))
-        return false
-      if (this.isSynchronizing(gridRow))
-        return false
-      this.toSync(gridRow)
-      let mResorceAction = this.mResorceAction('activate')
-      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
-        this.synchronized(gridRow)
-        this.mainGridData.refresh()
-        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
-      }).catch((response) => {
-        this.synchronized(gridRow)
-        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
-      })
-    },
-    deactivateRow: function (gridRow) {
-      if (!this.hasPermission('deactivate'))
-        return false
-      if (this.isSynchronizing(gridRow))
-        return false
-      this.toSync(gridRow)
-      let mResorceAction = this.mResorceAction('deactivate')
-      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
-        this.synchronized(gridRow)
-        this.mainGridData.refresh()
-        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
-      }).catch((response) => {
-        this.synchronized(gridRow)
-        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
-      })
-    },
-    deleteRow (gridRow) {
-      let mResorceAction = this.mResorceAction('delete')
-      this.toSync(gridRow)
-      this.$q.dialog({
-        title   : mResorceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
-        message : mResorceAction.confirmLabel,
-        ok      : mResorceAction.nextLabel,
-        cancel  : mResorceAction.backLabel
-      }).onOk(() => {
-        mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
-          this.synchronized(gridRow)
-          this.mainGridData.refresh()
-          this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
-        }).catch(response => false)
-      }).onCancel(() => {
-        this.synchronized(gridRow)
-        this.collectCancelMessages(mResorceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
-      })
-    },
-    successNotification: function () {
+  methods: {/*
+    mSuccessNotification: function () {
       if (this.successNotificationMessages) {
         CvNotify.createPositive(this.successNotificationMessages)
         this.successNotificationMessages = null
       }
     },
-    errorNotification: function () {
+    mErrorNotification: function () {
       if (this.errorNotificationMessages) {
         CvNotify.createNegative(this.errorNotificationMessages)
         this.errorNotificationMessages = null
       }
     },
-    cancelNotification: function () {
+    mCancelNotification: function () {
       if (this.cancelNotificationMessages) {
         CvNotify.createWarning(this.cancelNotificationMessages)
         this.cancelNotificationMessages = null
       }
-    }
+    }*/
   }
 }
 </script>
