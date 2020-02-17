@@ -10,7 +10,8 @@ export default class CvVueCommon{
           i18n          : app.i18n,
           services      : cvGlobDep.globals.cvComunicator.resources,
           resources     : resources,
-          router        : cRouter
+          router        : cRouter,
+          lodash        : cvGlobDep.globals.lodash
         }
       },
       computed: {
