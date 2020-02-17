@@ -56,7 +56,7 @@ export default {
     else
       this.mSetReady()
 
-    if(this.cAutoFill){
+    if(this.cAutoFillable){
       console.log(
         '%c Autofill function is enabled'+
         '%c every create component now autofill his fields with 1,' +

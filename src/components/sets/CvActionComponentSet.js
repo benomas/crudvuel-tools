@@ -1,46 +1,48 @@
-import CvComponentSet       from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import CvNotifyComponentSet from 'crudvuel-tools/src/components/sets/CvNotifyComponentSet'
-import VueMirroring         from 'crudvuel-tools/src/VueMirroring'
-let vueMirroring = new VueMirroring()
+import VueMirroring     from 'crudvuel-tools/src/mirroring/VueMirroring'
+import CvSynchronizer   from 'crudvuel-tools/src/CvSynchronizer'
+let cvSynchronizer = new CvSynchronizer()
+let vueMirroring   = new VueMirroring()
 export default{
   mixins: [
-    CvComponentSet,
-    CvNotifyComponentSet,
     vueMirroring.fixProperties({
-      'action'         : {init: null,mode: 'P|CP'},
-      'excludeActions' : {init: [],mode: 'P|CP'}
+      '[P]staGenAction'         : null,
+      '[P]dinGenExcludeActions' : [],
+      '[P]dinGenDisableFields'  : null,
     })
   ],
+  components : {
+  },
   computed: {
-    cDisableFields: function () {
-      return (this.cpAction && this.cpAction.disableFields) || false
+    cDisableFields () {
+      if (this.cpDinGenDisableFields != null)
+        return this.cpDinGenDisableFields
+      return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
-    cResource: function () {
-      return (this.cpAction && this.cpAction.resource) ? this.cpAction.resource : null
+    cResource () {
+      return (this.cpStaGenAction && this.cpStaGenAction.resource) ? this.cpStaGenAction.resource : null
     },
-    cBackLabel: function () {
-      if (this.cpAction)
-        return this.cpAction.backLabel || null
-      return 'Cancelar'
+    cKeyName () {
+      if (this.cResource == null || this.cResource.keyName == null)
+        return 'id'
+      return this.cResource.keyName
     },
-    cNextLabel: function () {
-      if (this.cpAction)
-        return this.cpAction.nextLabel || null
-      return 'Guardar'
+    cpActionGetService () {
+      return this.cpStaGenAction.getService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No get service defined')
+          reject(new Error('No get service defined'))
+        })
+      }
     },
-    cpActionGetService: function () {
-      return this.cpAction.getService || new Promise((resolve, reject) => {
-        console.log('No get service defined')
-        reject(new Error('No get service defined'))
-      })
+    cpActionSetService () {
+      return this.cpStaGenAction.setService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No set service defined')
+          reject(new Error('No set service defined'))
+        })
+      }
     },
-    cpActionSetService: function () {
-      return this.cpAction.setService || new Promise((resolve, reject) => {
-        console.log('No set service defined')
-        reject(new Error('No set service defined'))
-      })
-    },
-    cHasActiveField: function () {
+    cHasActiveField () {
       if (
         this.cResource == null ||
         this.cResource.lang == null ||
@@ -52,10 +54,17 @@ export default{
     }
   },
   methods: {
-    mActionAccessing: function (action = null,resource = null) {
+    mAutoFill () {
+      let fields = Object.keys(this.cResource.lang.fields)
+      for (let i = 0; i < fields.length; i++)
+        if (this.row[fields[i]] ==  null)
+          this.$set(this.row,fields[i],1)
+      return this
+    },
+    mActionAccessing (action = null,resource = null) {
       if (!action) {
-        if (typeof this.cpAction !== 'undefined')
-          return this.cpAction
+        if (typeof this.cpStaGenAction !== 'undefined')
+          return this.cpStaGenAction
         return null
       }
       if (typeof action === 'string') {
@@ -65,7 +74,7 @@ export default{
       }
       return action
     },
-    mResourceAccessing: function (resource = null) {
+    mResourceAccessing (resource = null) {
       if (!resource)
         return this.cResource
 
@@ -76,25 +85,25 @@ export default{
       }
       return resource
     },
-    rLang: function (source,resource = null) {
+    rLang (source,resource = null) {
       let lResource = this.mResourceAccessing(resource)
       return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
     },
-    fLang: function (field,resource = null) {
+    fLang (field,resource = null) {
       return this.rLang('fields.' + field,resource)
     },
-    mResorceAction: function (action = null,resource = null) {
+    mResorceAction (action = null,resource = null) {
       return this.mActionAccessing(action,resource)
     },
-    mActionType: function (action = null,resource = null) {
+    mActionType (action = null,resource = null) {
       return this.mResorceAction(action,resource).type || null
     },
-    mActionPath: function (action,row,resource = null) {
+    mActionPath (action,row,resource = null) {
       return this.mResorceAction(action,resource).getFixedPath(row) || null
     },
-    mFinish: function () {
+    mFinish () {
     },
-    mFailInitializeNotification: function () {
+    mFailInitializeNotification () {
       return new Promise((resolve, reject) => {
         console.log('action fail')
         this.$nextTick(() => {
@@ -102,18 +111,7 @@ export default{
         })
       })
     },
-    defActionProps: function (action = null,resource = null) {
-      let currentDefActionProps = {
-        'cv-parent-ref' : this.cSelfRef,
-        'cv-action'     : this.mActionAccessing(action,this.mResourceAccessing(resource)),
-        'cv-ready'      : this.cReady
-      }
-
-      if (this.bGridBind !== undefined)
-        currentDefActionProps = {...currentDefActionProps,...this.bGridBind()}
-      return currentDefActionProps
-    },
-    defInputProps: function (field,resource = null) {
+    defInputProps (field,resource = null) {
       let lResource = this.mResourceAccessing(resource)
       let def =  {
         'float-label'    : lResource ? this.fLang(field,lResource) : null,
@@ -134,7 +132,7 @@ export default{
         def.icon = lResource.fields[field].icon
       return def
     },
-    defErrorInputProps: function (field,resource = null) {
+    defErrorInputProps (field,resource = null) {
       let lResource = this.mResourceAccessing(resource)
       let def =  {
         'error'         : this.cvErr(this.errors,field,'boolean'),
@@ -145,7 +143,7 @@ export default{
         def.icon = lResource.fields[field].icon
       return def
     },
-    defMatcherizerProps: function (resource = null,snakeResource = null) {
+    defMatcherizerProps (resource = null,snakeResource = null) {
       let lResource = this.mResourceAccessing(resource)
       return {
         'cv-source-service'      : lResource.crudServices.index || null,
@@ -168,11 +166,11 @@ export default{
         } : {})
       }
     },
-    validator: function () {
+    validator () {
       return true
     },
     mCancelAction () {
-      let cancelMessage = this.cpAction.getSetCancelMessage()
+      let cancelMessage = this.cpStaGenAction.getSetCancelMessage()
       if (cancelMessage)
         this.mCancelNotification(cancelMessage + this.actionKeyMessage(this.cdRow))
       this.mFinish()
@@ -180,12 +178,54 @@ export default{
     actionKeyMessage (gridRow = null) {
       if (gridRow == null || this.cKeyName == null || gridRow[this.cKeyName] == null)
         return ''
-      return `${this.cRowKey} : ${gridRow[this.cRowKey]}`
+      return ` ${this.cKeyName} : ${gridRow[this.cKeyName]} `
     },
     mCompleteAction () {
+      let successMessage = this.cpStaGenAction.setSuccessMessage()
+      if (successMessage)
+        this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
       this.mFinish()
+      return this
+    },
+    mFailCompleteAction (response) {
+      let errorMessage = this.cpStaGenAction.getSetErrorMessage() + ' ' + this.serverMessageTransform(response.response.data.message || '')
+      if (errorMessage)
+        this.mErrorNotification(errorMessage + this.actionKeyMessage(this.cdRow))
+      return this
+    },
+    serverMessageTransform (message = ''){
+      let serverLang = this.$tc('crudvuel.labels.serverLang')
+      if (!serverLang || serverLang === '')
+        serverLang = 'Server'
+      return message !== '' ? ` [${serverLang}] : ${message}` : message
+    },
+    mToSync (row,identifier){
+      cvSynchronizer.toSync(row,this.cKeyName,identifier)
+      return this
+    },
+    mSynchronized (row,identifier){
+      cvSynchronizer.synchronized(row,this.cKeyName,identifier)
+      this.emStaGenMsyncEmitter()
+      return this
+    },
+    mIsSynchronizing (row,identifier){
+      return cvSynchronizer.isSynchronizing(row,this.cKeyName,identifier)
+    },
+    mValidIdentifier (identifier){
+      return cvSynchronizer.validIdentifier(identifier)
+    },
+    mSomeSyncInProgress (){
+      return cvSynchronizer.someSyncInProgress()
+    },
+    mIndexResponse (response) {
+      if  (response.data.count != null)
+        return {rows:response.data.data,count:response.data.count}
+      if  (response.count != null)
+        return {rows:response.data,count:response.count}
+      return {rows:[],count:0}
+    },
+    mShowResponse (response) {
+      return response.data.data || response.data
     }
-  },
-  created: function () {
   }
 }

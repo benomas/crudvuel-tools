@@ -1,11 +1,12 @@
-import CvActionComponentSet from 'crudvuel-tools/src/components/sets/CvActionComponentSet'
-import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [
-    CvActionComponentSet,
     vueMirroring.fixProperties({
-      'row': {init: {},mode: 'D|CD|M'}
+      '[P]dinGenKeyName'  : 'id',
+      '[P]dinGenKeyValue' : null,
+      '[P]staInsRow'      : {},
+      '[P]staInsErrors'   : {}
     })
   ],
   data () {
@@ -14,35 +15,40 @@ export default{
   props: [
   ],
   computed: {
-    cKeyName: function () {
-      return this.cvKeyName || 'id'
-    },
-    cKeyValue: function () {
+    cdDinGenKeyValue () {
+      if (this.cvDinGenKeyValue != null)
+        return this.cvDinGenKeyValue
+
       if (
         this.$route == null ||
         this.$route.params == null ||
-        this.$route.params[this.cKeyName] == null
+        this.$route.params[this.cpDinGenKeyName] == null
       )
         return null
-      return this.$route.params[this.cKeyName]
+      return this.$route.params[this.cpDinGenKeyName]
+    },
+    cFixedErrors () {
+      let errors = {}
+      let subErrors
+      if (this.cdErrors != null) {
+        for (const [field, message] of Object.entries(this.cdErrors)) {
+          let fieldSegments = field.split('.')
+          subErrors = errors
+          for (let i = 0;i < fieldSegments.length;i++){
+            let segment = fieldSegments[i]
+            if (i === fieldSegments.length -1)
+              subErrors[segment] = message
+            else{
+              if (subErrors[segment] === undefined)
+                subErrors[segment] = {}
+              subErrors = subErrors[segment]
+            }
+          }
+        }
+        return errors
+      }
     }
   },
   methods: {
-    mFinish: function () {
-      if (this.cpAction.name !== 'index' && typeof this.cResource.actions.index !== 'undefined') {
-        let baseRoute = this.$route.path.split(this.mActionPath('index'))
-        this.$router.push(baseRoute[0] + this.mActionPath('index'))
-      }
-    },
-    mFailSetNotification () {
-      let errorMessage = this.cpAction.getSetRrrorMessage()
-      if (errorMessage)
-        this.mCancelNotification(errorMessage + this.actionKeyMessage(this.cdRow))
-    },
-    mCompleteAction () {
-      this.mFinish()
-    }
-  },
-  created: function () {
   }
 }

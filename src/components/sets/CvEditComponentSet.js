@@ -1,9 +1,10 @@
-import CvSingleRowComponentSet from 'crudvuel-tools/src/components/sets/CvSingleRowComponentSet'
-//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
-//let vueMirroring = new VueMirroring()
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('Edit')
 export default{
   mixins: [
-    CvSingleRowComponentSet
+    vueMirroring.fixProperties({
+      '[P]staInsRow' : {}
+    })
   ],
   data () {
     return {}
@@ -12,8 +13,8 @@ export default{
   ],
   computed: {
   },
-  methods: {
-    mActionInitialize: function () {
+  methods: {/*
+    mComponentInitialize: function () {
       return new Promise((resolve, reject) => {
         //reject(new Error('testing'))
         if (this.cpActionGetService) {
@@ -33,7 +34,7 @@ export default{
       this.cpActionSetService(this.cKeyValue,this.cdRow).then(response => {
         this.mSetRow(this.transformResponse(response))
           .mSetSelfReady()
-          .mSuccessNotification(this.cpAction.getSetSuccessMessage() + this.actionKeyMessage(this.cdRow))
+          .mSuccessNotification(this.cpStaGenAction.getSetSuccessMessage() + this.actionKeyMessage(this.cdRow))
           .mFinish()
       }).catch(this.setError)
     },
@@ -45,8 +46,6 @@ export default{
           resolve()
         })
       })
-    }
-  },
-  created: function () {
+    }*/
   }
 }

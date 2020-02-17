@@ -1,34 +1,11 @@
 <template>
-  <cv-action-container class="cv-adaptative-grid-index" v-if="cResource && cpAction" v-bind="{...defActionProps(), ...bGridBind() }">
-    <div slot="cv-title-slot" class="row action-label">
-      <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
-        <label>
-          <span class="q-headline txt-secondary">
-            {{cpAction.label}}
-          </span>
-        </label>
-      </div>
-      <div class="col-xs-2 col-sm-3 col-md-4 lt-md">
-        <slot :offset="[18, 30]" name="flexi-extra-actions-header-slot">
-          <div class="f-right">
-            <q-btn
-              v-if="hasPermission('create')"
-              icon="fas fa-plus-circle"
-              @click="$router.push(mActionPath('create'))"
-              color="secondary"
-              round
-              size="sm"
-              :title="mResorceAction('create').label"
-            ></q-btn>
-          </div>
-        </slot>
-      </div>
-    </div>
-  <!-- cv-grid-customization-->
-    <div slot="cv-content-slot" class="row action-inner-container w-100">
+  <div>
+    <!-- cv-grid-customization-->
+    <!--deprecated
+    <div class="row action-inner-container w-100">
       <cv-grid
         cv-tag="div"
-        :cv-service="cpAction.getService"
+        :cv-service="cpStaGenAction.getService"
         :cv-top-paginate="true"
         :cv-bottom-paginate="true"
         :cv-pages-per-view="5"
@@ -202,7 +179,8 @@
         </table>
       </cv-grid>
     </div>
-  </cv-action-container>
+    -->
+  </div>
 </template>
 <script>
 import {
@@ -211,21 +189,20 @@ import {
   QSeparator,
   QCardSection
 } from 'quasar'
-import CvMultiRowComponentSet from '../sets/CvMultiRowComponentSet'
-//import CvIndex                from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
-import CvGrid                 from '../grid-components/CvGrid'
-import CvGridMirroring        from 'crudvuel-tools/src/components/grid-components/CvGridMirroring'
+import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvMultiRowComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentSet'
+import CvGrid                 from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvGrid'
 export default {
   mixins     : [
-    CvMultiRowComponentSet,
-    CvGridMirroring
+    CvComponentSet,
+    CvMultiRowComponentSet
   ],
   components : {
     QItemLabel,
     QItemSection,
     QSeparator,
     QCardSection
-  },
+  },/*
   data () {
     return {
       temp          : null,
@@ -267,85 +244,26 @@ export default {
     cpActionCardTitleClass: function () {
       return this.cvActionCardTitleClass || {'':true}
     }
-  },
-  methods: {
-    activateRow: function (gridRow) {
-      if (!this.hasPermission('activate'))
-        return false
-      if (this.isSynchronizing(gridRow))
-        return false
-      this.toSync(gridRow)
-      let mResorceAction = this.mResorceAction('activate')
-      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
-        this.synchronized(gridRow)
-        this.mainGridData.refresh()
-        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
-      }).catch((response) => {
-        this.synchronized(gridRow)
-        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
-      })
-    },
-    deactivateRow: function (gridRow) {
-      if (!this.hasPermission('deactivate'))
-        return false
-      if (this.isSynchronizing(gridRow))
-        return false
-      this.toSync(gridRow)
-      let mResorceAction = this.mResorceAction('deactivate')
-      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
-        this.synchronized(gridRow)
-        this.mainGridData.refresh()
-        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
-      }).catch((response) => {
-        this.synchronized(gridRow)
-        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
-      })
-    },
-    deleteRow (gridRow) {
-      let mResorceAction = this.mResorceAction('delete')
-      this.toSync(gridRow)
-      this.$q.dialog({
-        title   : mResorceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
-        message : mResorceAction.confirmLabel,
-        ok      : mResorceAction.nextLabel,
-        cancel  : mResorceAction.backLabel
-      }).onOk(() => {
-        mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
-          this.synchronized(gridRow)
-          this.mainGridData.refresh()
-          this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
-        }).catch(response => false)
-      }).onCancel(() => {
-        this.synchronized(gridRow)
-        this.collectCancelMessages(mResorceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
-      })
-    },
-    successNotification: function () {
+  },*/
+  methods: {/*
+    mSuccessNotification: function () {
       if (this.successNotificationMessages) {
         CvNotify.createPositive(this.successNotificationMessages)
         this.successNotificationMessages = null
       }
     },
-    errorNotification: function () {
+    mErrorNotification: function () {
       if (this.errorNotificationMessages) {
         CvNotify.createNegative(this.errorNotificationMessages)
         this.errorNotificationMessages = null
       }
     },
-    cancelNotification: function () {
+    mCancelNotification: function () {
       if (this.cancelNotificationMessages) {
         CvNotify.createWarning(this.cancelNotificationMessages)
         this.cancelNotificationMessages = null
       }
-    }
-  },
-  created: function () {
-    let gridSystemName
-    if (this.resource != null && this.cResource.name != null)
-      gridSystemName = 'grid-system-' + this.cResource.name + '-ref'
-    else
-      gridSystemName = 'grid-system-ref'
-    this.$set(this.cpParentRef.gridRefs,gridSystemName,this)
+    }*/
   }
 }
 </script>

@@ -1,35 +1,19 @@
 <script>
 import CvBaseCrud from './CvBaseCrud'
-import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      'keyName'  : {init:'id',mode:'P|C'},
-      'keyValue' : {init:null,mode:'P|C'},
-      'row'      : {init:{},mode:'D|M|P|C|CD'}
     })
   ],
   extends: CvBaseCrud,
   data () {
     return {
-      //rowKey                      : null,
-      //rowKeyValue                 : null,
-      //row                         : null,
-      //rows                        : null,
-      //ready                       : false,
-      //errors                      : {},
-      //hasErrors                   : false,
-      //cvSynchronizer              : new CvSynchronizer(),
-      //successNotificationMessages : null,
-      //errorNotificationMessages   : null,
-      //cancelNotificationMessages  : null,
-      //infoNotificationMessages    : null,
-      //gridRefs                    : {}
     }
   },
-  methods:{
-    mActionInitialize: function () {
+  methods:{/*
+    mComponentInitialize: function () {
       this.row = this.cResource != null &&
         this.cResource.lang != null &&
         this.cResource.lang.fields != null &&
@@ -39,7 +23,7 @@ export default {
         if (this.cpActionGetService){
           this.cpActionGetService(this.cKeyValue).then(response => {
             this.row = this.transformResponse(response)
-            if (this.cAutoFill) {
+            if (this.cAutoFillable) {
               console.log(
                 '%c Autofill function is enabled' +
                                 '%c every create component now autofill his fields with 1,' +
@@ -58,9 +42,9 @@ export default {
         else
           resolve()
       })
-    },
+    },*/
   },
-  computed:{
+  computed:{/*
     cKeyName: function () {
       return this.cvKeyName || 'id'
     },
@@ -72,7 +56,7 @@ export default {
       )
         return null
       return this.$route.params[this.cKeyName]
-    }
+    }*/
   },
   mounted: function () {
   }

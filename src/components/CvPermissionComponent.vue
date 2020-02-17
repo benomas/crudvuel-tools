@@ -18,16 +18,16 @@ export default{
     },
     hasActionPermission (action) {
       if (typeof action === 'undefined')
-        action = this.cpAction || null
+        action = this.cpStaGenAction || null
       if (!action)
         return true
       return !this.cUnauthorizedInteractions ||
         typeof this.cUnauthorizedInteractions['action'] === 'undefined' ||
         typeof this.cUnauthorizedInteractions['action'][this.lodash.kebabCase(action.resource.name) + '.' + this.lodash.kebabCase(action.name)] === 'undefined'
     },
-    hasPermission: function (action,resource = null,excludes = null) {
+    hasPermission (action,resource = null,excludes = null) {
       resource = resource || this.cResource
-      excludes = excludes || this.cpExcludeActions
+      excludes = excludes || this.cpDinGenExcludeActions || []
       return excludes.indexOf(action,excludes) < 0 &&
         this.mResorceAction(action,resource) &&
         this.hasActionPermission(resource.actions[action])

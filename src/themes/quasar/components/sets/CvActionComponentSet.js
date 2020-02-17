@@ -1,39 +1,11 @@
-//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 //let vueMirroring = new VueMirroring()
-import CvActionComponentSet   from '../../../../components/sets/CvActionComponentSet'
-import CvComponentSet         from './CvComponentSet'
-import CvNotifyComponentSet   from './CvNotifyComponentSet'
-import CvActionContainer      from '../resource/CvActionContainer'
-import {
-  Dialog,
-  QBtn,
-  QCard,
-  QIcon,
-  QItem,
-  QItemLabel,
-  QSeparator,
-  QItemSection,
-  QList,
-  QTooltip
-} from 'quasar'
+import CvActionComponentSet   from 'crudvuel-tools/src/components/sets/CvActionComponentSet'
 export default{
   mixins: [
-    CvActionComponentSet,
-    CvComponentSet,
-    CvNotifyComponentSet
+    CvActionComponentSet
   ],
   components : {
-    CvActionContainer,
-    Dialog,
-    QBtn,
-    QCard,
-    QIcon,
-    QItem,
-    QItemLabel,
-    QSeparator,
-    QItemSection,
-    QList,
-    QTooltip
   },
   data () {
     return {}

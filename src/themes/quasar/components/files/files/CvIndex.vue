@@ -134,7 +134,7 @@
   </cv-adaptive-grid-index>
 </template>
 <script>
-import CvIndex             from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex.vue'
+import CvIndex             from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
 import CvAdaptiveGridIndex from 'src/customs/crudvuel/themes/quasar/components/others/CvAdaptiveGridIndex.vue'
 import {QIcon}             from 'quasar'
 export default {

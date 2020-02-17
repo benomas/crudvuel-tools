@@ -1,6 +1,6 @@
 {
   "name": "crudvuel-tools",
-  "version": "2.3.37",
+  "version": "2.3.50",
   "description": "Vue plugins, with some integrations to quasar, compatible with crudvuel v0.3",
   "main": "./dist/crudvuel-tools.min.js",
   "scripts": {
@@ -47,8 +47,8 @@
     "webpack-dev-server": "^2.11.5"
   },
   "dependencies": {
-    "node-sass": "^4.11.0",
+    "file-saver": "^2.0.0",
     "lodash": "^4.17.15",
-    "file-saver": "^2.0.0"
+    "node-sass": "^4.13.1"
   }
 }

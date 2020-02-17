@@ -1,59 +1,58 @@
 <template>
   <div class="simple-filters-container">
-    <label for="search">{{cpSimpleFilterLabel}}</label>
+    <label for="search">{{cpDinInsLabel}}</label>
     <input
       class="simple-filters-input form-control"
       type="text"
       name="simpleFilter"
       autocomplete="off"
-      v-model="simpleFilter"
-      ref="searchInputRef"
-      :title="cpSimpleFilterMessage"
-      :disabled="cpSimpleFilterDisableFields"
-      :clearable="!cpSimpleFilterDisableFields"
-      @keyup.13="mSimpleFilterGoToFind()"
-      @keyup="mSimpleFilterKeyUp"
-      @focus="mSimpleFilterFocused"
-      @blur="mSimpleFilterBlured"
+      :value="cpDinInsSearch"
+      ref="inputRef"
+      :title="cpDinInsHint"
+      :disabled="cpDinInsDisableFields"
+      :clearable="!cpDinInsDisableFields"
+      @input="emDinInsSearchEmitter"
+      @keyup.13="(()=>mSetPreventDebounce(true).emDinInsSearchEmitter(cpDinInsSearch))"
+      @keyup="emDinInsKeyUpEmitter"
+      @focus="emDinInsFocusedEmitter"
+      @blur="emDinInsBluredEmitter"
+      @mouseover="emDinInsMouseOverEmitter"
+      @mouseleave="emDinInsMouseLeaveEmitter"
     >
   </div>
 </template>
 <script>
-import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
 import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import VueMirroring             from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
+import {debounce}               from 'lodash'
+
 export default {
   mixins: [
     CvComponentSet,
-    CvLocalSimpleFilterTrait,
-    new VueMirroring().fixProperties({
-      'Search'               : {mode: 'D|P|M',init: ''},
-      'SearchInputContainer' : {mode: 'D|M',init: true},
-      'DisableList'          : {mode: 'D|M',init: false},
-      'Interruption'         : {mode: 'D|M',init: null},
-      'Loading'              : {mode: 'P',init: false},
-      'DisableFields'        : {mode: 'P',init: false},
-      'Label'                : {mode: 'P',init: ''},
-      'LabelColor'           : {mode: 'P',init: ''},
-      'Message'              : {mode: 'P',init: ''},
-      'Icon'                 : {mode: 'P',init: 'fas fa-search'},
-      'IconColor'            : {mode: 'P',init: 'info'},
-      'KeyInterruption'      : {mode: 'P',init: false},
-      'KeyInterruptionLimit' : {mode: 'P',init: 500},
-      'Hint'                 : {mode: 'P',init: ''},
-      'ClearIcon'            : {mode: 'P',init: null},
-      'Color'                : {mode: 'P',init: 'primary'},
-      'BgColor'              : {mode: 'P',init: 'white'},
-      'ActiveFilter'         : {mode: 'P'},
-      'Input'                : {mode: 'EM'},
-      'Cleared'              : {mode: 'EM'},
-      'GoToFind'             : {mode: 'EM'},
-      'KeyUp'                : {mode: 'EM'},
-      'Inyected'             : {mode: 'EM'},
-      'Focused'              : {mode: 'EM'},
-      'Blured'               : {mode: 'EM'},
-      'Start'                : {mode: 'EM'},
-    },'simpleFilter')
+    new VueMirroring('SimpleFilter').fixProperties({
+      '[P]dinInsActiveFilter'         : null,
+      '[P]dinInsLabel'                : 'Busqueda simple',
+      '[P]dinInsLabelColor'           : '',
+      '[P]dinInsClearIcon'            : null,
+      '[P]dinInsColor'                : 'primary',
+      '[P]dinInsBgColor'              : 'white',
+      '[P]dinInsDisableFields'        : false,
+      '[P|EM]dinInsSearch'            : '',
+      '[P]dinInsIcon'                 : 'fas fa-search',
+      '[P]dinInsIconColor'            : 'info',
+      '[P]dinInsIconClass'            : '',
+      '[P]dinInsKeyInterruptionLimit' : 500,
+      '[P]dinInsKeyLoading'           : false,
+      '[P]dinComHideBottomSpace'      : true,
+      '[EM]dinInsBlured'              : null,
+      '[EM]dinInsFocused'             : null,
+      '[EM]dinInsKeyUp'               : null,
+      '[EM]dinInsMouseOver'           : null,
+      '[EM]dinInsMouseLeave'          : null,
+      '[EM]dinInsCleared'             : null,
+      '[D]lastEmission'               : null,
+      '[D]preventDebounce'            : false
+    })
   ],
   data () {
     return {
@@ -62,8 +61,48 @@ export default {
   props:[
   ],
   methods:{
+    emDinInsSearchProccesor (emitted = null) {
+      let fixedEmitted = emitted != null ? emitted : ''
+      this.mSetLastEmission(fixedEmitted)
+      if (fixedEmitted == null || fixedEmitted === '')
+        this.mSetPreventDebounce(true)
+      return new Promise ((resolve, reject) => {
+        if (this.cdPreventDebounce){
+          console.log('direct')
+          this.mSetPreventDebounce(false)
+          resolve(fixedEmitted)
+        }else{
+          (debounce(() => {
+              if (this.cdLastEmission === fixedEmitted){
+                console.log('delayed')
+                return resolve(fixedEmitted)
+              }else{
+                reject(fixedEmitted)
+              }
+            },
+            this.cpDinInsKeyInterruptionLimit
+          ))()
+        }
+      })
+    },
+    emDinInsFocusedProccesor (emitted = null) {
+      return new Promise ((resolve, reject) => {
+        resolve(emitted)
+        this.emDinInsSearchEmitter(this.cpDinInsSearch)
+      })
+    },
+    emDinInsKeyUpProccesor (keyup) {
+      if ([13,27,46].includes(keyup.keyCode))
+        this.mSetPreventDebounce(true).emDinInsSearchEmitter(keyup.keyCode === 13 ? this.cdLastEmission : '')
+
+      return new Promise ((resolve, reject) => resolve())
+    }
   },
   computed:{
+    cInputRef () {
+      return this.$refs['inputRef']
+    }
   }
 }
 </script>
+

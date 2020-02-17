@@ -69,7 +69,7 @@ export default {
         this.row   = xhr.response.data
         this.ready = true
         if (this.cShowSetMessages)
-          this.collectSuccessMessages(this.cpAction.getSetSuccessMessage() + this.cIdentText)
+          this.collectSuccessMessages(this.cpStaGenAction.getSetSuccessMessage() + this.cIdentText)
         resolve(xhr)
       })
     },
@@ -113,7 +113,7 @@ export default {
       }
 
       if (this.cShowSetMessages)
-        this.collectErrorMessages(this.cpAction.getSetErrorMessage() + this.cIdentText)
+        this.collectErrorMessages(this.cpStaGenAction.getSetErrorMessage() + this.cIdentText)
       this.errorRedirect()
     },
     validator: function () {

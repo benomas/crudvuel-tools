@@ -3,6 +3,7 @@ import {Notify} from 'quasar'
 let actions = [
   {
     icon    : 'fas fa-times-circle',
+    color   : 'white',
     handler : () => {
     }
   }
@@ -12,7 +13,7 @@ export default {
   createPositive: function (message) {
     Notify.create({
       message,
-      type     : 'positive',
+      color     : 'positive',
       position : 'bottom-right',
       icon     : 'fas fa-check-circle',
       actions
@@ -21,7 +22,7 @@ export default {
   createNegative: function (message) {
     Notify.create({
       message,
-      type     : 'negative',
+      color     : 'negative',
       position : 'bottom-right',
       icon     : 'fas fa-exclamation-triangle',
       actions
@@ -30,7 +31,7 @@ export default {
   createWarning: function (message) {
     Notify.create({
       message,
-      type     : 'warning',
+      color     : 'warning',
       position : 'bottom-right',
       icon     : 'fas fa-exclamation',
       actions
@@ -39,7 +40,7 @@ export default {
   createInfo: function (message) {
     Notify.create({
       message,
-      type     : 'info',
+      color     : 'info',
       position : 'bottom-right',
       icon     : 'fas fa-info-circle',
       actions

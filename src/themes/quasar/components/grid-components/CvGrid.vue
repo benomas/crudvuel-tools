@@ -1,22 +1,26 @@
 <script>
-import CvGrid from '../../../../components/grid-components/CvGrid'
-import CvTag             from '../CvTag'
-import CvPaginate        from './CvPaginate'
-import CvAdvancedFilters from './CvAdvancedFilters'
-import CvExpertFilters   from './CvExpertFilters'
-import CvSimpleFilter   from './CvSimpleFilter'
-import CvCombinatoryFilters   from './CvCombinatoryFilters'
-import CvFilterSelector   from './CvFilterSelector'
-import CvSpinner         from 'src/customs/crudvuel/themes/quasar/components/grid-components/CvSpinner'
+import CvGrid                 from 'crudvuel-tools/src/components/grid-components/CvGrid'
+import CvTag                  from 'crudvuel-tools/src/themes/quasar/components/CvTag'
+import CvPaginate             from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvPaginate'
+import CvAdvancedFilters      from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvAdvancedFilters'
+import CvExpertFilters        from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvExpertFilters'
+import CvSimpleFilter         from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
+import CvCombinatoryFilter    from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvCombinatoryFilter'
+import CvFilterSelector       from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvFilterSelector'
+import CvSpinner              from 'src/customs/crudvuel/themes/quasar/components/grid-components/CvSpinner'
+import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
 export default {
-  extends    : CvGrid,
+  mixins     : [
+    CvComponentSet,
+    CvGrid
+  ],
   components : {
     CvTag,
     CvPaginate,
     CvAdvancedFilters,
     CvExpertFilters,
     CvSimpleFilter,
-    CvCombinatoryFilters,
+    CvCombinatoryFilter,
     CvSpinner,
     CvFilterSelector
   }

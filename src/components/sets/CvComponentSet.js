@@ -1,34 +1,70 @@
-import {mySubString,myReplace,cvF,cvFixDotDepth} from '../../cvHelper'
-import VueMirroring from 'crudvuel-tools/src/VueMirroring'
-let vueMirroring = new VueMirroring()
+import {mySubString,myReplace,cvF,cvFixDotDepth} from 'crudvuel-tools/src/cvHelper'
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('ComponentSet')
 export default {
   mixins: [
     vueMirroring.fixProperties({
-      'selfReady'     : {init: false,mode: 'D|CD|M'},
-      'parentRef'     : {init: null,mode: 'P|CP'},
-      'childrenReady' : {init: true,mode: 'D|CD'},
-      'isMounted'     : {init: false,mode: 'D|CD|M'}
+      '[D]ready'                     : false,
+      '[P]dinGenParentReady'         : true,
+      '[D]isMounted'                 : false,
+      '[P]staGenParentRef'           : null,
+      '[P]dinComComponentLang'       : {},
+      '[P]staInsComponentBindingTag' : ''
     })
   ],
+  data () {
+    return {
+      customBindings:[
+        {
+          'cv-sta-gen-parent-ref'   : 'cSelfRef',
+          'cv-din-gen-parent-ready' : 'cdReady'
+        }
+      ]
+    }
+  },
   computed: {
-    cSelfRef: function () {
+    cSelfRef () {
       return this
     },
-    cReady: function () {
-      return this.cdSelfReady && this.cdChildrenReady
+    cdReady () {
+      if (this.cpDinGenParentReady == null) {
+        if (this.ready == null)
+          return false
+        return this.ready
+      }
+      if (this.cpDinGenParentReady === false)
+        return false
+      if (this.ready == null)
+        return false
+      return this.ready
     }
   },
   methods: {
-    mActionInitialize: function () {
+    mCustomBingins (index) {
+      let collection = {}
+      for (const customBinding of this.customBindings)
+        for (const [prop, value] of Object.entries(customBinding))
+          collection[prop]=this[value]
+      collection['cv-sta-ins-component-binding-tag']=index
+      return {
+        ...(this.mBinding != null) ? this.mBinding(index) : {},
+        ...collection
+      }
+    },
+    mAddCustomBinding (customBinding = {}) {
+      this.customBindings.push(customBinding)
+    },
+    mComponentInitialize () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
           setTimeout(() => {
+            this.mSetReady()
             resolve()
-          }, 2000)
+          }, 5)
         })
       })
     },
-    mFailInitializeNotification: function () {
+    mFailInitializeNotification () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
           console.log('action fail')
@@ -36,39 +72,52 @@ export default {
         })
       })
     },
-    mSetParentReady: function () {
-      if (this.cpParentRef)
-        this.cpParentRef.mSetReady()
+    mSetParentReady () {
+      if (this.cpStaGenParentRef)
+        this.cpStaGenParentRef.mSetReady()
       return this
     },
-    mSetParentUnReady: function () {
-      if (this.cpParentRef)
-        this.cpParentRef.mSetUnReady()
+    mSetParentUnReady () {
+      if (this.cpStaGenParentRef)
+        this.cpStaGenParentRef.mSetUnReady()
       return this
     },
     transformResponse (response) {
       return response.data.data || response.data
     },
-    mFinish: function () {
+    mFinish () {
       return this
     },
-    mSetSelfReady: function () {
-      this.$set(this,'selfReady',true)
+    mSetReady () {
+      this.$set(this,'ready',true)
       return this
     },
-    mSetSelfUnReady: function () {
-      this.$set(this,'selfReady',false)
+    mSetUnReady () {
+      this.$set(this,'ready',false)
       return this
+    },
+    mComLang: function (word,defWord = '') {
+      if (this.cpDinComComponentLang && this.cpDinComComponentLang[word])
+        return this.cpDinComComponentLang[word]
+      return defWord
+    },
+    mDelayer () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick().then(()=>this.$nextTick().then(()=>this.$nextTick().then(()=>{
+          setTimeout(() => {
+            resolve()
+          }, 1)
+        })))
+      })
     },
     mySubString,
     myReplace,
     cvF,
     cvFixDotDepth
   },
-  mounted: function () {
+  mounted () {
     this.mSetIsMounted(true)
-    this.mActionInitialize().then((startData = null) => {
-      this.mSetSelfReady()
+    this.mComponentInitialize().then((startData = null) => {
     }).catch((exceptionData) => {
       this.mFailInitializeNotification().then(() => {
         this.mFinish()

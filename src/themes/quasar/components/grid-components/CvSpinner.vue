@@ -2,7 +2,6 @@
   <div class="cv-spinner absolute-center" >
     <div
       class="animation-container"
-      v-if="cdIsMounted"
     >
       <slot>
         <vue-simple-spinner
@@ -20,11 +19,15 @@
   </div>
 </template>
 <script>
-import CvSpinner from '../../../../components/grid-components/CvSpinner'
+import CvSpinner        from 'crudvuel-tools/src/components/grid-components/CvSpinner'
 import VueSimpleSpinner from 'vue-simple-spinner'
 import { colors }       from 'quasar'
+import CvComponentSet   from 'crudvuel-tools/src/components/sets/CvComponentSet'
 export default {
-  extends    : CvSpinner,
+  mixins: [
+    CvComponentSet,
+    CvSpinner
+  ],
   components : {
     VueSimpleSpinner
   },

@@ -6,38 +6,41 @@ export default class CvClass {
   }
 
 	defError(message){
-		if(typeof message!=="undefined" && message){
-			console.log("Config error,"+message);
-			return true;
+		if (message !== undefined && message) {
+			console.log(`Config error, ${message}`)
+			return true
 		}
 	};
 
-	setProperty(property,opts,defaultValue){
-		if(typeof property==="undefined" || typeof this[property] ==="undefined")
-			return false;
+	setProperty (property,opts,defaultValue) {
+		if( property === undefined || this[property]  === undefined)
+			return this
 
-		if(typeof opts!=="undefined" && typeof opts[property]!=="undefined")
-			this[property] = opts[property];
-		else{
-			if(typeof defaultValue==="undefined")
-				this[property] = defaultValue;
-		}
+		if (opts !== undefined && opts[property ]!== undefined) {
+			this[property] = opts[property]
+      return this
+    }
+    if (defaultValue === undefined)
+      this[property] = defaultValue
+    return this
 	};
 
 	getProperty(property){
-		if(typeof property==="undefined" || typeof this[property] ==="undefined")
+		if(property === undefined || this[property] === undefined)
 			return null;
 		return this[property];
 	};
 
 	loadOptions(options){
+    //console.log(options)
 		let opts =  options
-		if(typeof options ==="function")
-			opts = options();
-		if(typeof options ==="object"){
-      let optionsKeys = Object.keys(options);
+		if(typeof options === 'function')
+			opts = options()
+		if(typeof options === 'object' ) {
+      let optionsKeys = Object.keys(options)
       for(let i=0;i<optionsKeys.length;i++)
         this.setProperty(optionsKeys[i],options)
-		}
+    }
+    return this
 	}
 };

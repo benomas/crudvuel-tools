@@ -64,63 +64,73 @@ const CvParametrizer = function(paginate){
     return this.params
   }
 
-  this.getSerialized = function () {
-    return this.serialize(this.params,false)
+  this.getSerialized = function (param = null) {
+    if (!param)
+      param = this.params
+    return this.serialize(param,false)
+  }
+
+  this.getParams = function () {
+    return this.params
   }
 
   this.setParameter = function (parameter = null,value = null) {
     if (this.params.paginate[parameter] !== undefined)
       this.params.paginate[parameter]=value
+    return this
   }
 
   this.setPage = function (value = null) {
-    this.setParameter("page",value)
+    return this.setParameter("page",value)
   }
 
   this.setByColumn = function (value = null) {
-    this.setParameter("byColumn",value)
+    return this.setParameter("byColumn",value)
   }
 
   this.setLimit = function (value = null) {
-    this.setParameter("limit",value)
+    return this.setParameter("limit",value)
   }
 
   this.setOrderBy = function (value = null) {
-    this.setParameter("orderBy",value)
+    return this.setParameter("orderBy",value)
   }
 
   this.setAscending = function (value = null) {
-    this.setParameter("ascending",value)
+    return this.setParameter("ascending",value)
   }
 
   this.setFilterQuery = function (value = {}) {
-    this.setParameter("filterQuery",value)
+    return this.setParameter("filterQuery",value)
   }
 
   this.setSelectQuery = function (value = []) {
-    this.setParameter("selectQuery",value)
+    return this.setParameter("selectQuery",value)
   }
 
-  this.pushFilter=function(property,value){
+  this.pushFilter=function(property,value = ''){
     if( property !==undefined &&  value !==undefined)
       this.params.paginate.filterQuery[property]=value
+    return this
   }
 
   this.pushSelect = function (value = null) {
     this.params.paginate.selectQuery.push(value)
+    return this
   }
 
   this.setSearchMode = function (value = null) {
-    this.setParameter("searchMode",value)
+    return this.setParameter("searchMode",value)
   }
 
   this.setSearchObject = function (value = null) {
-    this.setParameter("searchObject",value)
+    return this.setParameter("searchObject",value)
   }
 
   this.setPaginate = function (paginate) {
     if( paginate !==undefined)
-    this.params.paginate = paginate
+      this.params.paginate = paginate
+    return this
   }
 
   this.serialize=cvSerialize

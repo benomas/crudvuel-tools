@@ -1,91 +1,115 @@
-import FileSaver from 'file-saver'
-import { date }  from 'quasar'
-export default function(cvComunicator,resourceName){
-  this.cvComunicator  = cvComunicator
-  this.resourceName   = resourceName
-  this.resourcePrefix = '/'
-  this.row            = {}
-  this.rows           = []
-  this.errors         = {}
-  this.status         = 0
-  this.statusText     = ''
-
-  this.getRelBaseUrl =  function (){
-    return 'api' + this.resourcePrefix + this.resourceName
+import FileSaver      from 'file-saver'
+import CvSerializer   from 'crudvuel-tools/src/CvSerializer'
+import { date }       from 'quasar'
+export default class CvCrudService {
+  constructor (cvComunicator,resourceName) {
+    this.cvComunicator  = cvComunicator
+    this.resourceName   = resourceName
+    this.resourcePrefix = '/'
+    this.row            = {}
+    this.rows           = []
+    this.errors         = {}
+    this.status         = 0
+    this.statusText     = ''
+    this.cvComunicator.pushDinamicCrudServices(this)
+  }
+  getRelBaseUrl () {
+    return `api${this.resourcePrefix}${this.resourceName}`
   }
 
-  this.getAbsBaseUrl = function () {
-    return this.cvComunicator.defaultConfig.baseURL + '/' + this.getRelBaseUrl()
+  getAbsBaseUrl () {
+    return `${this.cvComunicator.defaultConfig.baseURL}/${this.getRelBaseUrl()}`
   }
 
-  this.fixRowUrl = (posfix=null,id,params,url,qString) => {
+  fixQueryString (qString = null) {
+    let fixedQString
+    if (qString && typeof qString === 'object')
+      fixedQString = new CvSerializer(qString).getSerialized(qString)
+    else
+      fixedQString = qString
+    return fixedQString? '?' + fixedQString: ''
+  }
+
+  fixRowUrl (posfix=null,id,params = null,url = null,qString = null) {
     return [
-      (url || this.getRelBaseUrl() + (posfix || '/' + id)) + (qString? '?' + qString: ''),
+      (url || this.getRelBaseUrl() + (posfix || '/' + id)) + this.fixQueryString(qString),
       params || {}
     ]
   }
 
-  this.fixRowsUrl = (posfix=null,params,url,qString) => {
+  fixRowsUrl (posfix=null,params = null,url = null,qString = null) {
     return [
-      (url || this.getRelBaseUrl() + (posfix || '')) + (qString? '?' + qString: ''),
+      (url || this.getRelBaseUrl() + (posfix || '')) + this.fixQueryString(qString),
       params || {}
     ]
   }
 
-  this.fHeaders = (params) => {
+  fHeaders (params) {
     let newParams = params || {}
     newParams.responseType = 'blob'
     return newParams
   }
 
-  this.setResourcePrefix= function(resourcePrefix){
+  setResourcePrefix (resourcePrefix) {
     this.resourcePrefix = resourcePrefix || '/'
   }
 
-  this.mapRowsResponse = function(response){
+  mapRowsResponse (response) {
     this.rows = response.data.data || response.data || []
     this.mapStatusRequest(response)
   }
 
-  this.mapRowResponse = function(response){
+  mapRowResponse (response) {
     this.row = response.data.data || response.data || {}
     this.mapStatusRequest(response)
   }
 
-  this.mapErrors = function(response){
+  mapErrors (response) {
     this.errors = response.response.data.errors || {}
     this.mapStatusRequest(response.response)
   }
 
-  this.mapStatusRequest = function(response){
+  mapStatusRequest (response) {
     this.status     = response.status || 0
     this.statusText = response.statusText || ''
   }
   //spected params: id,params,url,qString
-  this.show = (...params) => this.cvComunicator.axios.get(...this.fixRowUrl(null,...params))
+  show (...params) {
+    return this.cvComunicator.axios.get(...this.fixRowUrl(null,...params))
+  }
 
   //spected params: params,url,qString
-  this.index = (...params) => this.cvComunicator.axios.get(...this.fixRowsUrl(null,...params))
+  index (...params) {
+    return this.cvComunicator.axios.get(...this.fixRowsUrl(null,...params))
+  }
 
   //spected params: params,url,qString
-  this.store = (...params) => this.cvComunicator.axios.post(...this.fixRowsUrl(null,...params))
+  store (...params) {
+    return this.cvComunicator.axios.post(...this.fixRowsUrl(null,...params))
+  }
 
   //spected params: id,params,url,qString
-  this.update = (...params) => this.cvComunicator.axios.put(...this.fixRowUrl(null,...params))
+  update (...params) {
+    return this.cvComunicator.axios.put(...this.fixRowUrl(null,...params))
+  }
 
   //spected params: id,params,url,qString
-  this.destroy = (...params) => this.cvComunicator.axios.delete(...this.fixRowUrl(null,...params))
+  destroy (...params) {
+    return this.cvComunicator.axios.delete(...this.fixRowUrl(null,...params))
+  }
 
   //spected params: id,params,url,qString
-  this.activate = (...params) =>
-    this.cvComunicator.axios.put(...this.fixRowUrl('/'+params[0]+'/activate',...params))
+  activate (...params) {
+    return this.cvComunicator.axios.put(...this.fixRowUrl('/'+params[0]+'/activate',...params))
+  }
 
   //spected params: id,params,url,qString
-  this.deactivate = (...params) =>
-    this.cvComunicator.axios.put(...this.fixRowUrl('/'+params[0]+'/deactivate'))
+  deactivate (...params) {
+    return this.cvComunicator.axios.put(...this.fixRowUrl('/'+params[0]+'/deactivate'))
+  }
 
-  this.exporting = (id, params = null,url = null,qString = null) =>
-    new Promise((resolve, reject) => {
+  exporting (id, params = null,url = null,qString = null) {
+    return new Promise((resolve, reject) => {
       this.cvComunicator.axios.get(...this.fixRowsUrl('/'+id+'/exporting',this.fHeaders(params),url,qString)).then(response => {
           let suggestedFileName = ''
           let fileName          = ''
@@ -101,9 +125,10 @@ export default function(cvComunicator,resourceName){
           reject(response)
         })
     })
+  }
 
-  this.exportings = (params = null,url = null,qString = null) =>
-    new Promise((resolve, reject) => {
+  exportings (params = null,url = null,qString = null) {
+    return new Promise((resolve, reject) => {
       this.cvComunicator.axios.get(...this.fixRowsUrl('/exporting',this.fHeaders(params),url,qString)).then(response => {
           let suggestedFileName = ''
           let fileName          = ''
@@ -119,11 +144,11 @@ export default function(cvComunicator,resourceName){
           reject(response)
         })
     })
+  }
 
-  this.moduleExport = (params,url,qString) => {
+  moduleExport (params,url,qString) {
     let newParams = params || {}
     newParams.responseType = 'blob'
     return this.cvComunicator.axios.get((url || this.getRelBaseUrl() + '/module-export') + (qString ? '?' + qString : ''),newParams)
   }
-  this.cvComunicator.pushDinamicCrudServices(this)
 }

@@ -1,11 +1,9 @@
-//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 //let vueMirroring = new VueMirroring()
-import CvSingleRowComponentSet  from '../../../../components/sets/CvSingleRowComponentSet'
-import CvActionComponentSet     from './CvActionComponentSet'
+import CvSingleRowComponentSet  from 'crudvuel-tools/src/components/sets/CvSingleRowComponentSet'
 export default{
   mixins: [
-    CvSingleRowComponentSet,
-    CvActionComponentSet
+    CvSingleRowComponentSet
   ],
   data () {
     return {}
@@ -13,7 +11,6 @@ export default{
   props: [
   ],
   computed: {
-
   },
   methods: {
 

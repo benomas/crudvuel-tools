@@ -91,21 +91,21 @@ export default class CvVueCommon{
         cEnv: function () {
           return cvGlobDep.globals.cvEnv.environmentProperty('ENV_MODE','production') || null
         },
-        cAutofillEnabled: function () {
+        cAutoFillableEnabled: function () {
           return cvGlobDep.globals.cvEnv.environmentProperty('AUTOFILL_ENABLED',false) || null
         },
-        cAutoFill: function () {
+        cAutoFillable: function () {
           if (this.cEnv == null || this.cEnv !== 'dev')
             return false
-          if (this.cAutofillEnabled == null || this.cAutofillEnabled !== true)
+          if (this.cAutoFillableEnabled == null || this.cAutoFillableEnabled !== true)
             return false
           if (
             this.cResource == null ||
             this.cResource.lang == null ||
             this.cResource.lang.fields ==  null ||
-            !this.cpAction ||
-            !this.cpAction.name ||
-            this.cpAction.name !== 'create'
+            !this.cpStaGenAction ||
+            !this.cpStaGenAction.name ||
+            this.cpStaGenAction.name !== 'create'
 
           )
             return false
@@ -144,6 +144,9 @@ export default class CvVueCommon{
             else
               this.$set(destination, source.cvColumnMap[mapKeys[i]], null)
           }
+        },
+        transformResponse (response) {
+          return response.data.data || response.data
         },
         mySubString,
         myReplace,

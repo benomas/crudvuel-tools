@@ -1,4 +1,4 @@
-//import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 //let vueMirroring = new VueMirroring()
 export default{
   mixins: [
@@ -9,40 +9,40 @@ export default{
   props: [
   ],
   computed: {
-    cGetted: function () {
-      return this.cRows || !this.cpAction.getService  || this.cHasRowKeyValue || false
+    cGetted () {
+      return this.cRows || !this.cpStaGenAction.getService  || this.cHasRowKeyValue || false
     },
-    cpShowHeader: function () {
+    cpDinInsShowHeader () {
       if (typeof this.cvShowHeader !== 'undefined')
         return this.cvShowHeader
       return true
     },
-    cRowKey: function () {
+    cRowKey () {
       return this.cvRowKey || 'id'
     },
-    cRowKeyRouteValue: function () {
+    cRowKeyRouteValue () {
       return this.$route.params.id  || null
     },
-    cShowGetMessages: function () {
-      return (this.cpAction && typeof this.cpAction.cvShowGetMessages !== 'undefined')
-        ? this.cpAction.cvShowGetMessages : false
+    cShowGetMessages () {
+      return (this.cpStaGenAction && typeof this.cpStaGenAction.cvShowGetMessages !== 'undefined')
+        ? this.cpStaGenAction.cvShowGetMessages : false
     },
-    cShowSetMessages: function () {
-      return (this.cpAction && typeof this.cpAction.cvShowSetMessages !== 'undefined')
-        ? this.cpAction.cvShowSetMessages : true
+    cShowSetMessages () {
+      return (this.cpStaGenAction && typeof this.cpStaGenAction.cvShowSetMessages !== 'undefined')
+        ? this.cpStaGenAction.cvShowSetMessages : true
     },
-    cHasRowKeyValue: function () {
+    cHasRowKeyValue () {
       return this.cRow && this.cRow[this.cRowKey]
     },
-    cAutoload: function () {
+    cAutoload () {
       if (typeof this.cvAutoload !== 'undefined')
         return this.cvAutoload
       return true
     },
-    cHasRowIdentifier: function () {
+    cHasRowIdentifier () {
       return this.rowKeyValue || false
     },
-    cIdentText: function () {
+    cIdentText () {
       return this.cHasRowIdentifier ? this.actionKeyMessage(this.row) : ''
     }
   },
@@ -62,7 +62,5 @@ export default{
     someSyncInProgress () {
       return this.cvSynchronizer.someSyncInProgress()
     }
-  },
-  created: function () {
   }
 }

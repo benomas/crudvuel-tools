@@ -5,7 +5,7 @@ import CvSynchronizer    from '../../CvSynchronizer'
 import CvErrorWraper     from '../input-components/CvErrorWraper'
 import cvVueSetter       from '../../cvVueSetter'
 import {cvFixDotDepth}   from '../../cvHelper'
-import VueMirroring from 'crudvuel-tools/src/VueMirroring'
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
 export default{
   mixins: [
@@ -312,7 +312,7 @@ export default{
       {active: 1}:{}
     // Call to init, this function helps to init props for components, example: toggle and checkboxes or whatever you want to pre-init
     this.init()
-    if(this.cAutoFill){
+    if(this.cAutoFillable){
       let fields = Object.keys(this.cResource.lang.fields)
       for (let i=0; i<fields.length; i++){
         if (this.row[fields[i]] ==  null)
