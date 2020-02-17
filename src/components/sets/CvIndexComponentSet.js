@@ -15,12 +15,5 @@ export default{
   computed: {
   },
   methods: {
-    indexResponse (response) {
-      if  (response.data.count != null)
-        return {rows:response.data.data,count:response.data.count}
-      if  (response.count != null)
-        return {rows:response.data,count:response.count}
-      return {rows:[],count:0}
-    }
   }
 }

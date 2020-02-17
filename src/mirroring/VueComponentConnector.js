@@ -381,7 +381,8 @@ export default class VueMirroring {
     for (let currentComponent of components){
       let tag    = Object.keys(currentComponent)[0]
       let posFix = currentComponent.posFix != null ? currentComponent.posFix : ''
-      let cvTag  = kebabCase(`${tag} ${posFix}`)
+      //let cvTag  = kebabCase(`${tag} ${posFix}`)
+      let cvTag  = kebabCase(`${tag}`)
       let insTag = replace(cvTag,'cv-','')
       fixedComponents[kebabCase(`${tag} ${posFix}`)]={
         tag,

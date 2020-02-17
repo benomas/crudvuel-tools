@@ -216,6 +216,16 @@ export default{
     },
     mSomeSyncInProgress (){
       return cvSynchronizer.someSyncInProgress()
+    },
+    mIndexResponse (response) {
+      if  (response.data.count != null)
+        return {rows:response.data.data,count:response.data.count}
+      if  (response.count != null)
+        return {rows:response.data,count:response.count}
+      return {rows:[],count:0}
+    },
+    mShowResponse (response) {
+      return response.data.data || response.data
     }
   }
 }
