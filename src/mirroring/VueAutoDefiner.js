@@ -326,9 +326,9 @@ export default class VueAutoDefiner {
       case 'comf':
         return camelCase(`${mode} comf ${this.complementName(splitedProperty)} `)
       case 'ins':
-        return camelCase(`${mode} insf ${this.getVueComponentConnector().getParentPrefix()} ${this.getCurrentComponent().insTag} ${this.getCurrentComponent().posFix} ${this.complementName(splitedProperty)}`)
+        return camelCase(`${mode} insf ${this.getVueComponentConnector().getParentPrefix()} ${this.getCurrentComponent().insTag} ${this.complementName(splitedProperty)}`)
       case 'insf':
-        return camelCase(`${mode} insf ${this.getVueComponentConnector().getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedProperty)}`)
+        return camelCase(`${mode} insf ${this.getVueComponentConnector().getParentPrefix()} ${this.complementName(splitedProperty)}`)
     }
     return camelCase(`${mode} ${scope} ${this.complementName(splitedProperty)}`)
   }
@@ -342,9 +342,9 @@ export default class VueAutoDefiner {
       case 'comf':
         return camelCase(`${this.complementName(splitedProperty)} `)
       case 'ins':
-        return camelCase(`${this.getParentPrefix()} ${this.getCurrentComponent().insTag} ${this.getCurrentComponent().posFix} ${this.complementName(splitedProperty)}`)
+        return camelCase(`${this.getParentPrefix()} ${this.getCurrentComponent().insTag} ${this.complementName(splitedProperty)}`)
       case 'insf':
-        return camelCase(`${this.getParentPrefix()} ${this.getCurrentComponent().posFix} ${this.complementName(splitedProperty)}`)
+        return camelCase(`${this.getParentPrefix()} ${this.complementName(splitedProperty)}`)
     }
     return camelCase(`${this.complementName(splitedProperty)}`)
   }
@@ -364,9 +364,9 @@ export default class VueAutoDefiner {
       case 'comf':
         return camelCase(`${mode} comf ${this.complementName(splitedEmitter)} `)
       case 'ins':
-        return camelCase(`${mode} insf ${this.getParentPrefix()} ${this.getCurrentComponent().insTag} ${this.getCurrentComponent().posFix} ${this.complementName(splitedEmitter)}`)
+        return camelCase(`${mode} insf ${this.getParentPrefix()} ${this.getCurrentComponent().insTag} ${this.complementName(splitedEmitter)}`)
       case 'insf':
-        return camelCase(`${mode} insf ${this.getParentPrefix()}  ${this.getCurrentComponent().posFix} ${this.complementName(splitedEmitter)}`)
+        return camelCase(`${mode} insf ${this.getParentPrefix()} ${this.complementName(splitedEmitter)}`)
     }
     return camelCase(`${mode} ${scope} ${this.complementName(splitedEmitter)}`)
   }

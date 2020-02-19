@@ -128,7 +128,7 @@ export default class VueMirroring {
           continue
         }
 
-        let property = this.fixPropertyName(splitedProperty,this.getCurrentComponent().posFix,this.getParentPrefix())
+        let property = this.fixPropertyName(splitedProperty)
         let cvProperty = camelCase(`cv ${property}`)
         let clProperty = camelCase(`cl ${property}`)
         let cpProperty = camelCase(`cp ${property}`)
@@ -152,13 +152,6 @@ export default class VueMirroring {
           let dProperty  = camelCase(`${this.fixDataName(splitedProperty)}`)
           let cdProperty = camelCase(`cd ${dProperty}`)
           let mSetMethod = camelCase(`m set ${dProperty}`)
-          if (this.getParentPrefix() === 'aIndex')
-            console.log([
-              cvTag,
-              dProperty,
-              cdProperty,
-              mSetMethod
-            ])
           if (this.getCurrentComponent().methods[mSetMethod] == null){
             this.methods[mSetMethod] = function(value = null) {
               this.$set(this,dProperty,value)
@@ -267,7 +260,7 @@ export default class VueMirroring {
         for (const [childProperty, parentComputed] of Object.entries(binding))
           fixedBinding[`${childProperty}`] = context[parentComputed]
 
-        fixedBinding['ref'] = camelCase(`${cvTag} ${posFix} ref`)
+        fixedBinding['ref'] = camelCase(`${cvTag} ref`)
         return fixedBinding
       }
     })(binding,cvTag,this.getCurrentComponent().posFix)
@@ -381,10 +374,10 @@ export default class VueMirroring {
     for (let currentComponent of components){
       let tag    = Object.keys(currentComponent)[0]
       let posFix = currentComponent.posFix != null ? currentComponent.posFix : ''
-      //let cvTag  = kebabCase(`${tag} ${posFix}`)
-      let cvTag  = kebabCase(`${tag}`)
+      let cvTag  = kebabCase(`${tag} ${posFix}`)
+      //let cvTag  = kebabCase(`${tag}`)
       let insTag = replace(cvTag,'cv-','')
-      fixedComponents[kebabCase(`${tag} ${posFix}`)]={
+      fixedComponents[kebabCase(`${cvTag}`)]={
         tag,
         cvTag,
         insTag,
