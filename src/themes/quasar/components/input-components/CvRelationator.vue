@@ -1,6 +1,6 @@
 <template>
   <div class="row cv-relator-container">
-    <div class="col-xs-12 col-sm-6 related-items q-pa-sm">
+    <div :class="cpDinInsRelatedContainerClass">
       <hr class="lt-sm border-quaternary">
       <div class="t-center">
         <span class="txt-secondary f-weight-400 q-mr-xs">{{cSourceLabel}}:</span>
@@ -43,7 +43,7 @@
         </li>
       </ul>
     </div>
-    <div class="col-xs-12 col-sm-6 related-items q-pa-sm">
+    <div :class="cpDinInsRelatedSourceClass">
       <hr class="lt-sm border-quaternary">
       <div class="t-center">
         <span class="txt-secondary f-weight-400 q-mr-xs">{{cRelatedLabel}}:</span>
@@ -161,8 +161,10 @@ export default {
         else
           return a.cv_search.toString().localeCompare(b.cv_search.toString())
       },
-      '[D|M]currentDraggedItem'      : null,
-      '[D|M]draggedItemOver'         : null
+      '[P]dinInsRelatedContainerClass' : 'col-xs-12 col-sm-6 related-items q-pa-sm',
+      '[P]dinInsRelatedSourceClass'    : 'col-xs-12 col-sm-6 related-items q-pa-sm',
+      '[D|M]currentDraggedItem'        : null,
+      '[D|M]draggedItemOver'           : null
     }),
     vueMirroring.assimilate(
       {CvSimpleFilter,root: true,posFix:'source'},
@@ -223,7 +225,6 @@ export default {
     }
   },
   mounted: function () {
-    console.log('sss')
   },
   methods: {
     mItemExist (item1,array,props) {
@@ -252,7 +253,7 @@ export default {
             this.emDinInsRelatedAttachEmitter([])
             this.emDinInsRelatedDetachEmitter([])
             this.emDinInsSourceEmitter(this.mIndexResponse(response).rows)
-            this.cpDinInsRelatedService(null,null,this.cpDinInsRelatedPaginate)
+            this.cpDinInsRelatedService(this.cpDinInsRelatedPaginate)
               .then(response => {
                 this.emDinInsRelatedEmitter(this.mIndexResponse(response).rows)
                 this.emDinInsInitialRelatedEmitter(this.mIndexResponse(response).rows.slice())
