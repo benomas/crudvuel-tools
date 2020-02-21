@@ -66,6 +66,30 @@ export default{
     },
     mfLang (field,resource = null) {
       return this.mrLang('fields.' + field,resource)
+    },
+    mIndexResponse (response) {
+      if  (response.data.count != null)
+        return {rows:response.data.data,count:response.data.count}
+      if  (response.count != null)
+        return {rows:response.data,count:response.count}
+      return {rows:[],count:0}
+    },
+    mShowResponse (response) {
+      return response.data.data || response.data
+    },
+    mSolveAsIndexResponse(rows=[]) {
+      if (rows == null)
+        return {data:[],count:0}
+      return {data:rows,count:rows.length}
+    },
+    mErrorResponse (response) {
+      if (
+        response != null && response.response != null  &&
+        response.response.data != null  &&
+        response.response.data.errors != null
+      )
+        return response.response.data.errors
+      return null
     }
   }
 }

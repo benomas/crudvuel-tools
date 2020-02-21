@@ -19,6 +19,10 @@ export default {
           'cv-sta-gen-parent-ref'   : 'cSelfRef',
           'cv-din-gen-parent-ready' : 'cdReady'
         }
+      ],
+      customOns:[
+        {
+        }
       ]
     }
   },
@@ -40,19 +44,42 @@ export default {
     }
   },
   methods: {
-    mCustomBingins (index) {
+    mCustomBingins (index,localBindings = {}) {
       let collection = {}
       for (const customBinding of this.customBindings)
         for (const [prop, value] of Object.entries(customBinding))
           collection[prop]=this[value]
       collection['cv-sta-ins-component-binding-tag']=index
-      return {
+      let customBindings = {
         ...(this.mBinding != null) ? this.mBinding(index) : {},
         ...collection
       }
+      for (const [key, value] of Object.entries(localBindings)) {
+        if (customBingins[key] == null)
+          customBingins[key] = value
+      }
+      return customBindings
     },
     mAddCustomBinding (customBinding = {}) {
       this.customBindings.push(customBinding)
+    },
+    mCustomOns (index,localOns = {}) {
+      let events = {}
+      for (const customOn of this.customOns)
+        for (const [prop, value] of Object.entries(customOn))
+          events[prop]=this[value]
+      let customOns = {
+        ...(this.mOns != null) ? this.mOns(index) : {},
+        ...events
+      }
+      for (const [key, value] of Object.entries(localOns)) {
+        if (customOns[key] == null)
+          customOns[key] = value
+      }
+      return customOns
+    },
+    mAddCustomOn (customBinding = {}) {
+      this.customOns.push(customBinding)
     },
     mComponentInitialize () {
       return new Promise((resolve, reject) => {

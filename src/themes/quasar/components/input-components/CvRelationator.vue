@@ -14,7 +14,7 @@
         <cv-simple-filter
           class="w-100"
           v-bind="mCustomBingins('cv-simple-filter-source')"
-          v-on="mOns('cv-simple-filter-source')"
+          v-on="mCustomOns('cv-simple-filter-source')"
           :cv-din-ins-disable-fields="cpDinGenDisableFields"
         >
         </cv-simple-filter>
@@ -55,7 +55,7 @@
         <cv-simple-filter
           class="w-100"
           v-bind="mCustomBingins('cv-simple-filter-related')"
-          v-on="mOns('cv-simple-filter-related')"
+          v-on="mCustomOns('cv-simple-filter-related')"
           :cv-din-ins-disable-fields="cpDinGenDisableFields"
         >
         </cv-simple-filter>
@@ -77,7 +77,7 @@
           :ref="'cv-related-item-' + row[cKeyName]"
           @dragstart="((e)=>mOnDragStart(e,row,'related',_uid))"
         >
-          <q-badge class="q-mr-sm q-mt-xs text-subtitle2" color="positive" floating>{{row.order}}</q-badge>
+          <q-badge v-if="cpDinInsHasOrder" class="q-mr-sm q-mt-xs text-subtitle2" color="positive" floating>{{row.order}}</q-badge>
           <q-icon v-if="!cDisableFields" name="fas fa-minus-square" :class="{'f-left':cGtxs,'f-right':cLtsm}" @click="mRemoveRelated(row)"/>
           <slot name="cv-related-item" :slot-row="row">
             <span>{{cpDinInsLabelCallBack(row)}}</span>
@@ -92,7 +92,7 @@ import CvComponentSet         from 'crudvuel-tools/src/components/sets/CvCompone
 import CvResourceComponentSet from 'crudvuel-tools/src/components/sets/CvResourceComponentSet'
 import CvSimpleFilter         from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
 import {mySubString}          from 'crudvuel-tools/src/cvHelper'
-import {differenceBy,concat,indexOf,parseInt}    from 'lodash'
+import {concat,indexOf,parseInt}    from 'lodash'
 import {QIcon,QChip,QBadge}   from 'quasar'
 import VueMirroring           from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Relationator')
@@ -101,19 +101,63 @@ export default {
     CvComponentSet,
     CvResourceComponentSet,
     vueMirroring.fixProperties({
-      '[P]dinInsSource'              : [],
-      '[P]dinInsSourceLoaded'        : [],
+      '[P]dinInsHasOrder'            : false,
+      '[P]dinInsRelatedKeyValue'     : null,
+      '[P|EM]dinInsSource'           : [],
       '[P|EM]dinInsRelated'          : [],
-      '[P]dinOriginalInsRelated'     : [],
+      '[P|EM]dinInsInitialRelated'   : [],
+      '[P|EM]dinInsRelatedAttach'     : {},
+      '[P|EM]dinInsRelatedDetach'    : {},
+      '[P]dinInsSourceResource'      : null,
+      '[P]dinInsRelatedResource'     : null,
+      '[P]dinInsSourceService'       : function (paginate = {}) {
+        if (this.cvDinInsSourceResource != null){
+          let indexService = this.cvDinInsSourceResource.loadService('index')
+          if (!indexService)
+            return null
+          return indexService(null,null,paginate)
+        }
+        return null
+      },
+      '[P]dinInsRelatedService'      : function (paginate = {}) {
+        if (this.cvDinInsSourceResource != null){
+          let relatedIndexService = this.cvDinInsSourceResource.loadService('relatedIndex')
+          if (!relatedIndexService)
+            return null
+          return relatedIndexService(this.cpDinInsRelatedResource.pluralName,this.cpDinInsRelatedKeyValue,paginate)
+        }
+        return null
+      },
+      '[P]dinInsSourcePaginate'      : {
+        paginate: {
+          selectQuery  : ['id','cv_search'],
+          byColumn     : 0,
+          orderBy      : 'id',
+          ascending    : 1,
+          searchMode   : 'cv-simple-paginator',
+          searchObject : ''
+        }
+      },
+      '[P]dinInsRelatedPaginate'     : {
+        paginate: {
+          selectQuery  : ['id','cv_search'],
+          byColumn     : 0,
+          orderBy      : 'id',
+          ascending    : 1,
+          searchMode   : 'cv-simple-paginator',
+          searchObject : ''
+        }
+      },
       '[P]dinInsLabelCallBack'       : (row) => row.cv_search,
       '[P]dinInsValueCallBack'       : (row) => row.cv_search,
       '[P]dinInsSourceSortCallBack'  : (a,b) => a.cv_search.toString().localeCompare(b.cv_search.toString()),
       '[P]dinInsRelatedSortCallBack' : (a,b) => {
-        if (a.order != null)
+        if (a.order != null){
           return parseInt(a.order) > parseInt(b.order) ?
             1 :
             parseInt(a.order) < parseInt(b.order) ?
               -1:0
+        }
         else
           return a.cv_search.toString().localeCompare(b.cv_search.toString())
       },
@@ -130,6 +174,14 @@ export default {
     QIcon,
     QChip,
     QBadge
+  },
+  watch: {
+    cpDinInsRelated: function (val) {
+      this.emDinInsRelatedAttachEmitter(this.cRelatedAttach)
+      this.mDelayer().then(()=>{
+        this.emDinInsRelatedDetachEmitter(this.cRelatedDetach)
+      })
+    }
   },
   data: function () {
     return {
@@ -151,24 +203,83 @@ export default {
       return 'Disponibles'
     },
     cAvailableSource () {
-      return differenceBy(this.cpDinInsSource,this.cpDinInsRelated,this.cKeyName)
+      return this.mDifference(this.cpDinInsSource,this.cpDinInsRelated,this.cKeyName)
     },
     cFilteredAvailableSource () {
       return this.mProcessList(this.cAvailableSource,this.cdRelationatorSimpleFilterSourceSearch).sort(this.cpDinInsSourceSortCallBack)
     },
     cFilteredAvailableRelated () {
       return this.mProcessList(this.cpDinInsRelated,this.cdRelationatorSimpleFilterRelatedSearch).sort(this.cpDinInsRelatedSortCallBack)
+    },
+    cRelatedAttach () {
+      if (this.cpDinInsHasOrder === true)
+        return this.mDifference(this.cpDinInsRelated,this.cpDinInsInitialRelated,this.cKeyName,'order')
+      return this.mDifference(this.cpDinInsRelated,this.cpDinInsInitialRelated,this.cKeyName)
+    },
+    cRelatedDetach () {
+      if (this.cpDinInsHasOrder)
+        return this.mDifference(this.cpDinInsInitialRelated,this.cpDinInsRelated,this.cKeyName,'order')
+      return this.mDifference(this.cpDinInsInitialRelated,this.cpDinInsRelated,this.cKeyName)
     }
   },
   mounted: function () {
-    console.log(this)
+    console.log('sss')
   },
   methods: {
+    mItemExist (item1,array,props) {
+      for (const item2 of array){
+        let equal = true
+        for (const prop of props){
+          equal = equal && item1[prop].toString() === item2[prop].toString()
+        }
+        if (equal)
+          return true
+      }
+      return false
+    },
+    mDifference (array1,array2,...props) {
+      let differences = []
+      for (const item1 of array1) {
+        if (!this.mItemExist(item1,array2,props))
+          differences.push(item1)
+      }
+      return differences
+    },
+    mComponentInitialize () {
+      return new Promise((resolve, reject) => {
+        this.cpDinInsSourceService(this.cpDinInsSourcePaginate)
+          .then(response => {
+            this.emDinInsRelatedAttachEmitter([])
+            this.emDinInsRelatedDetachEmitter([])
+            this.emDinInsSourceEmitter(this.mIndexResponse(response).rows)
+            this.cpDinInsRelatedService(null,null,this.cpDinInsRelatedPaginate)
+              .then(response => {
+                this.emDinInsRelatedEmitter(this.mIndexResponse(response).rows)
+                this.emDinInsInitialRelatedEmitter(this.mIndexResponse(response).rows.slice())
+                resolve()
+                this.mSetReady()
+              })
+              .catch(response => {
+                this.emDinInsRelatedEmitter([])
+                this.emDinInsInitialRelatedEmitter([])
+                reject()
+                this.mSetReady()
+              })
+          })
+          .catch(response => {
+            this.emDinInsSourceEmitter([])
+            reject(response)
+            this.mSetReady()
+          })
+      })
+    },
     mAddRelated: function (row,position=null) {
       if (this.cDisableFields)
         return false
-      if (position == null)
-        this.emDinInsRelatedEmitter(concat(this.cpDinInsRelated,{...row,...{order:this.cpDinInsRelated.length + 1}}).sort(this.cpDinInsRelatedSortCallBack))
+      if (position == null){
+        let newRow = {...row,...{order:this.cpDinInsRelated.length + 1}}
+        this.emDinInsRelatedEmitter(concat(this.cpDinInsRelated,newRow).sort(this.cpDinInsRelatedSortCallBack))
+      }
       else{
         let newRelated = []
         for (let i = 0 ;i < this.cpDinInsRelated.length + 1; i++) {
@@ -177,14 +288,14 @@ export default {
             continue
           }
           if (i + 1 === position) {
-            newRelated.push({...row,...{order:i+1}})
+            let newRow = {...row,...{order:i+1}}
+            newRelated.push(newRow)
             continue
           }
           newRelated.push({...this.cpDinInsRelated[i-1],...{order:i+2}})
         }
         this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
       }
-
       return this
     },
     mRemoveRelated: function (row) {
@@ -192,9 +303,20 @@ export default {
         return false
       let newRelated = []
       let i = 1
-      for (const related of this.cpDinInsRelated)
-        if (row[this.cKeyName] !== related[this.cKeyName])
-          newRelated.push({...related,...{order:i++}})
+      if (this.cpDinInsHasOrder){
+        for (const related of this.cpDinInsRelated){
+          if (row.order > related.order)
+            newRelated.push(related)
+          else{
+            if (row.order < related.order)
+              newRelated.push({...related,...{order:related.order - 1}})
+          }
+        }
+      }else{
+        for (const related of this.cpDinInsRelated)
+          if (row[this.cKeyName] !== related[this.cKeyName])
+            newRelated.push({...related,...{order:i++}})
+      }
       this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
       return this
     },
