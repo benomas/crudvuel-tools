@@ -21,23 +21,27 @@
 <script>
 import CvSpinner        from 'crudvuel-tools/src/components/grid-components/CvSpinner'
 import VueSimpleSpinner from 'vue-simple-spinner'
-import { colors }       from 'quasar'
 import CvComponentSet   from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import { colors }       from 'quasar'
 export default {
   mixins: [
     CvComponentSet,
     CvSpinner
   ],
+
   components : {
     VueSimpleSpinner
   },
+
   computed: {
     cBgColor: function () {
       return colors.getBrand('primary')
     },
+
     cFgLineColor: function () {
-      return colors.getBrand('tertiary')
+      return colors.getBrand('secondary')
     },
+
     cFgColor: function () {
       return colors.getBrand('black')
     }

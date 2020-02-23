@@ -1,6 +1,10 @@
 <script>
-import CvAdvancedFilters from '../../../../components/grid-components/CvAdvancedFilters'
+import CvComponentSet    from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvAdvancedFilters from 'crudvuel-tools/src/components/grid-components/CvAdvancedFilters'
 export default {
-  extends: CvAdvancedFilters
+  mixins: [
+    CvAdvancedFilters,
+    CvComponentSet
+  ]
 }
 </script>

@@ -1,33 +1,36 @@
-export default function(){
-  //new version strategy to mach with crudvel package
-	this.environmentProperty=(property,defaultValue)=>{
+
+export default class CvComunicator {
+
+  environmentProperty (property,defaultValue) {
 		return process.env[property] || defaultValue
-	};
+	}
 
-	this.url=()=>{
-		return this.environmentProperty("URL","/");
-	};
-	this.apiUrl=()=>{
-		return this.environmentProperty("API_URL","/");
-	};
+	url() {
+		return this.environmentProperty("URL","/")
+  }
 
-	this.isPassportEnabled=()=>{
-		return this.environmentProperty("PASSPORT",false);
-	};
+	apiUrl() {
+		return this.environmentProperty("API_URL","/")
+	}
 
-	this.apiClient=()=>{
-		return this.environmentProperty("API_CLIENT",2);
-	};
+	isPassportEnabled() {
+		return this.environmentProperty("PASSPORT",false)
+	}
 
-	this.apiSecret=()=>{
-		return this.environmentProperty("API_SECRET","devdevdevdevdevdevdevdevdevdevdevdevdevd");
-	};
+	apiClient() {
+		return this.environmentProperty("API_CLIENT",2)
+	}
 
-  this.ajaxTimeout=()=>{
-    return this.environmentProperty("AJAX_TIMEUOT","60000");
-  };
+	apiSecret() {
+		return this.environmentProperty("API_SECRET","devdevdevdevdevdevdevdevdevdevdevdevdevd")
+	}
 
-  this.ajaxMaxContentLenght=()=>{
-    return this.environmentProperty("AJAX_MAX_CONTENT_LENGHT","20000");
-  };
-};
+  ajaxTimeout() {
+    return this.environmentProperty("AJAX_TIMEUOT","60000")
+  }
+
+  ajaxMaxContentLenght() {
+    return this.environmentProperty("AJAX_MAX_CONTENT_LENGHT","20000")
+  }
+
+}

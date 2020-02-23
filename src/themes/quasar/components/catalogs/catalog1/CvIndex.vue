@@ -2,7 +2,7 @@
   <div class="q-pa-md cv-index">
     <cv-action-container
       v-if="cpStaGenAction"
-      v-bind="mCustomBingins('cv-action-container')"
+      v-bind="mCustomBindins('cv-action-container')"
       v-on="mCustomOns('cv-action-container')">
       <div slot="cv-title-slot" class="row action-label">
         <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
@@ -16,7 +16,7 @@
       <div slot="cv-content-slot">
         <div>
           <cv-adaptive-grid-index
-            v-bind="mCustomBingins('cv-adaptive-grid-index')"
+            v-bind="mCustomBindins('cv-adaptive-grid-index')"
             v-on="mCustomOns('cv-adaptive-grid-index')"
             :cv-sta-comf-cv-paginate-limit-values="[ 8, 20, 50, 100, 200 ]"
             :cv-sta-comf-cv-paginate-pages-per-view="5"
@@ -26,22 +26,22 @@
                 <!-- cv-grid-customization-->
               <th v-cv-page-opt="'id'" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-15" >
                 {{ fLang('id') }}
-                <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBingins('cv-order-icons')">
+                <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
               <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-15">
                 {{ fLang('name') }}
-                <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBingins('cv-order-icons')">
+                <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
               <th v-cv-page-opt="'description'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-15">
                 {{ fLang('description') }}
-                <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBingins('cv-order-icons')">
+                <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
               <th v-cv-page-opt="'active'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-10" ref="headers">
                 {{ fLang('active') }}
-                <cv-order-icons cv-sta-ins-row-field="active" v-bind="mCustomBingins('cv-order-icons')">
+                <cv-order-icons cv-sta-ins-row-field="active" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
             </template>
@@ -49,7 +49,7 @@
               <tr>
                 <td>
                   <cv-simple-field-filter
-                    v-bind="mCustomBingins('cv-simple-field-filter')"
+                    v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
                     :cv-din-ins-field="'id'"
                   >
@@ -57,7 +57,7 @@
                 </td>
                 <td>
                   <cv-simple-field-filter
-                    v-bind="mCustomBingins('cv-simple-field-filter')"
+                    v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
                     :cv-din-ins-field="'name'"
                   >
@@ -65,7 +65,7 @@
                 </td>
                 <td>
                   <cv-simple-field-filter
-                    v-bind="mCustomBingins('cv-simple-field-filter')"
+                    v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
                     :cv-din-ins-field="'description'"
                   >
@@ -87,42 +87,42 @@
             </template>
             <template v-if="1" slot="flexi-grind-headers-slot" slot-scope="props">
               <div v-cv-page-opt="'id'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
-                <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBingins('cv-order-icons')">
+                <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
                 {{ fLang('id') }}
               </div>
               <div class="col-xs-12">
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
-                  v-bind="mCustomBingins('cv-simple-field-filter')"
+                  v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
                   :cv-din-ins-field="'id'"
                 >
                 </cv-simple-field-filter>
               </div>
               <div v-cv-page-opt="'name'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
-                <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBingins('cv-order-icons')">
+                <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
                 {{ fLang('name') }}
               </div>
               <div class="col-xs-12">
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
-                  v-bind="mCustomBingins('cv-simple-field-filter')"
+                  v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
                   :cv-din-ins-field="'name'"
                 >
                 </cv-simple-field-filter>
               </div>
               <div v-cv-page-opt="'description'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
-                <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBingins('cv-order-icons')">
+                <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
                 {{ fLang('description') }}
               </div>
               <div class="col-xs-12">
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
-                  v-bind="mCustomBingins('cv-simple-field-filter')"
+                  v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
                   :cv-din-ins-field="'description'"
                 >

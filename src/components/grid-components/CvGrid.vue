@@ -7,20 +7,52 @@
 </template>
 <script>
 
-import CvTag                    from '../CvTag'
-import CvPaginate               from './CvPaginate'
-import CvSimpleFilter           from './CvSimpleFilter'
-import CvCombinatoryFilter     from './CvCombinatoryFilter'
-import CvAdvancedFilters        from './CvAdvancedFilters'
-import CvExpertFilters          from './CvExpertFilters'
-import CvSpinner                from './CvSpinner'
-import CvParametrizer           from '../../CvParametrizer'
-import CvFilterSelector         from './CvFilterSelector'
+import CvTag                    from 'crudvuel-tools/src/components/CvTag'
+import CvPaginate               from 'crudvuel-tools/src/components/grid-components/CvPaginate'
+import CvSimpleFilter           from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
+import CvCombinatoryFilter      from 'crudvuel-tools/src/components/grid-components/CvCombinatoryFilter'
+import CvAdvancedFilters        from 'crudvuel-tools/src/components/grid-components/CvAdvancedFilters'
+import CvExpertFilters          from 'crudvuel-tools/src/components/grid-components/CvExpertFilters'
+import CvSpinner                from 'crudvuel-tools/src/components/grid-components/CvSpinner'
+import CvFilterSelector         from 'crudvuel-tools/src/components/grid-components/CvFilterSelector'
 import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('Grid')
 export default {
-  mixins     : [
-    CvComponentSet
+  mixins: [
+    CvComponentSet,
+    vueMirroring.fixProperties({
+      '[P]dinInsGridTag'              : 'div',
+      '[P]dinInsRows'                 : [],
+      '[P]dinInsShowTopPagination'    : true,
+      '[P]dinInsShowBottomPagination' : true,
+      '[P]staInsMinHeight'            : '300px',
+      '[P]dinComGridLang'             : {},
+      '[EM]dinGenMsync'               : null
+    }),
+    vueMirroring.assimilate(
+      {CvPaginate, posFix: 'top'},
+      {CvPaginate, posFix: 'bottom'},
+      {CvSimpleFilter},
+      {CvCombinatoryFilter},
+      {CvFilterSelector}
+    )
   ],
+
+  computed: {
+    cShowSimpleFilter () {
+      if (this.cpDinInsfGridFilterSelectorCurrentFilter == null)
+        return true
+      return this.cpDinInsfGridFilterSelectorCurrentFilter === 'cv-simple-paginator'
+    },
+
+    cShowCombinatoryFilters () {
+      if (this.cpDinInsfGridFilterSelectorCurrentFilter == null)
+        return false
+      return this.cpDinInsfGridFilterSelectorCurrentFilter === 'cv-combinatory-paginator'
+    }
+  },
+
   components : {
     CvTag,
     CvPaginate,
@@ -31,15 +63,18 @@ export default {
     CvSpinner,
     CvFilterSelector
   },
-  data () {
-    return {
+
+  methods: {
+    //reset search when switch filter mode
+    emDinInsfGridFilterSelectorCurrentFilterProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        resolve(emitted)
+        this.$nextTick().then(() => {
+          this.emDinInsfGridCombinatoryFilterSearchEmitter('')
+          this.emDinInsfGridSimpleFilterSearchEmitter('')
+        })
+      })
     }
-  },
-  props:[
-  ],
-  computed:{
-  },
-  methods:{
   }
 }
 </script>

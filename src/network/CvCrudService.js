@@ -1,7 +1,8 @@
 import FileSaver      from 'file-saver'
 import CvSerializer   from 'crudvuel-tools/src/CvSerializer'
-import { date }       from 'quasar'
+
 export default class CvCrudService {
+
   constructor (cvComunicator,resourceName) {
     this.cvComunicator  = cvComunicator
     this.resourceName   = resourceName
@@ -11,10 +12,12 @@ export default class CvCrudService {
     this.errors         = {}
     this.status         = 0
     this.statusText     = ''
+    this.FileSaver      = FileSaver
     this.cvComunicator.pushDinamicCrudServices(this)
   }
-  getRelBaseUrl () {
-    return `api${this.resourcePrefix}${this.resourceName}`
+
+  getRelBaseUrl (additionalSegment = null) {
+    return `api${additionalSegment || ''}${this.resourcePrefix }${this.resourceName}`
   }
 
   getAbsBaseUrl () {
@@ -52,27 +55,33 @@ export default class CvCrudService {
 
   setResourcePrefix (resourcePrefix) {
     this.resourcePrefix = resourcePrefix || '/'
+    return this
   }
 
   mapRowsResponse (response) {
     this.rows = response.data.data || response.data || []
     this.mapStatusRequest(response)
+    return this
   }
 
   mapRowResponse (response) {
     this.row = response.data.data || response.data || {}
     this.mapStatusRequest(response)
+    return this
   }
 
   mapErrors (response) {
     this.errors = response.response.data.errors || {}
     this.mapStatusRequest(response.response)
+    return this
   }
 
   mapStatusRequest (response) {
     this.status     = response.status || 0
     this.statusText = response.statusText || ''
+    return this
   }
+
   //spected params: id,params,url,qString
   show (...params) {
     return this.cvComunicator.axios.get(...this.fixRowUrl(null,...params))
@@ -84,7 +93,7 @@ export default class CvCrudService {
   }
 
   relatedIndex (relatedResource, relatedKey,qString) {
-    return this.cvComunicator.axios.get( `${this.getRelBaseUrl()}/related-to/${relatedResource}/${relatedKey}${this.fixQueryString(qString)}`)
+    return this.cvComunicator.axios.get(`${this.getRelBaseUrl()}/related-to/${relatedResource}/${relatedKey}${this.fixQueryString(qString)}`)
   }
 
   //spected params: params,url,qString
@@ -104,17 +113,19 @@ export default class CvCrudService {
 
   //spected params: id,params,url,qString
   activate (...params) {
-    return this.cvComunicator.axios.put(...this.fixRowUrl('/'+params[0]+'/activate',...params))
+    return this.cvComunicator.axios.put(...this.fixRowUrl(`/${params[0]}/activate`,...params))
   }
 
   //spected params: id,params,url,qString
   deactivate (...params) {
-    return this.cvComunicator.axios.put(...this.fixRowUrl('/'+params[0]+'/deactivate'))
+    return this.cvComunicator.axios.put(...this.fixRowUrl(`/${params[0]}/deactivate`,...params))
   }
 
-  exporting (id, params = null,url = null,qString = null) {
+  exporting (id, params = null,url = null,qString = null, date = null) {
+    if (date == null)
+      return console.log('date formated is required')
     return new Promise((resolve, reject) => {
-      this.cvComunicator.axios.get(...this.fixRowsUrl('/'+id+'/exporting',this.fHeaders(params),url,qString)).then(response => {
+      this.cvComunicator.axios.get(...this.fixRowsUrl(`/${id}/exporting`,this.fHeaders(params),url,qString)).then(response => {
           let suggestedFileName = ''
           let fileName          = ''
           if(response.headers['content-disposition'] != null)
@@ -123,7 +134,7 @@ export default class CvCrudService {
             fileName = suggestedFileName[1]
           else
             fileName = date.formatDate(Date.now(), 'YYYY-MM-DDTHH:mm:ss.SSSZ') + 'export.xlsx'
-          FileSaver.saveAs(response.data, fileName)
+          this.FileSaver.saveAs(response.data, fileName)
           resolve(response)
         }).catch((response) => {
           reject(response)
@@ -131,7 +142,9 @@ export default class CvCrudService {
     })
   }
 
-  exportings (params = null,url = null,qString = null) {
+  exportings (params = null,url = null,qString = null, date = null) {
+    if (date == null)
+      return console.log('date formated is required')
     return new Promise((resolve, reject) => {
       this.cvComunicator.axios.get(...this.fixRowsUrl('/exporting',this.fHeaders(params),url,qString)).then(response => {
           let suggestedFileName = ''
@@ -142,7 +155,7 @@ export default class CvCrudService {
             fileName = suggestedFileName[1]
           else
             fileName = date.formatDate(Date.now(), 'YYYY-MM-DDTHH:mm:ss.SSSZ') + 'export.xlsx'
-          FileSaver.saveAs(response.data, fileName)
+          this.FileSaver.saveAs(response.data, fileName)
           resolve(response)
         }).catch((response) => {
           reject(response)
@@ -150,9 +163,17 @@ export default class CvCrudService {
     })
   }
 
-  moduleExport (params,url,qString) {
-    let newParams = params || {}
-    newParams.responseType = 'blob'
-    return this.cvComunicator.axios.get((url || this.getRelBaseUrl() + '/module-export') + (qString ? '?' + qString : ''),newParams)
+  publicIndex (params = null,url = null,qString = null)  {
+    return this.cvComunicator.axios.get(
+      (url || this.getRelBaseUrl('public')) + this.fixQueryString(qString),
+      params || {}
+    )
+  }
+
+  publicShow (id,params = null,url = null,qString = null) {
+    return this.cvComunicator.axios.get(
+      (url || `${this.getRelBaseUrl('public')}/${id}`) + this.fixQueryString(qString),
+      params || {}
+    )
   }
 }

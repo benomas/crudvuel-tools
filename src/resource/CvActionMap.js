@@ -1,6 +1,7 @@
 import CvClass from '../CvClass'
 
 export default class CvResourceMap extends CvClass {
+
   constructor (options) {
     super()
     this.name              = null,
@@ -53,7 +54,7 @@ export default class CvResourceMap extends CvClass {
   }
 
   setRoute () {
-    if(this.path !== undefined && this.component !== undefined && this.component) {
+    if (this.path !== undefined && this.component !== undefined && this.component) {
       this.actionRoute = {
         name      : `${this.resource.name}.${this.name}`,
         path      : this.path,
@@ -68,21 +69,21 @@ export default class CvResourceMap extends CvClass {
     return this.actionRoute
   }
 
-  getFixedParams(data){
+  getFixedParams (data) {
     if (data === undefined || ! data)
       return null
 
     let fixedParams = {}
     let fixed=false
-    for(let i=0 ;i<this.urlParams.length; i++)
-      if(data[this.urlParams[i]]!==undefined) {
+    for (let i=0 ;i<this.urlParams.length; i++)
+      if (data[this.urlParams[i]]!==undefined) {
         fixedParams[this.urlParams[i]] = data[this.urlParams[i]]
         fixed = true
       }
     return fixed ? fixedParams : null
   }
 
-  getFixedPath(data = null) {
+  getFixedPath (data = null) {
     if (!data)
       return this.path
 
@@ -94,7 +95,7 @@ export default class CvResourceMap extends CvClass {
     let urlParams = Object.keys(fixedParams)
 
     let fixedPath = this.path
-    for (let i=0;i< urlParams.length;i++)
+    for (let i=0; i< urlParams.length; i++)
       fixedPath = fixedPath.replace(":"+urlParams[i],fixedParams[urlParams[i]])
     return fixedPath
   }

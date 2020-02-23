@@ -13,6 +13,7 @@
       >
         <span>asc</span>
       </slot>
+
       <slot
         name="descending-icon"
         v-if="cpDinGenOrderBy === cpStaInsRowField && !cpDinGenAscending"
@@ -23,19 +24,19 @@
   </span>
 </template>
 <script>
-import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring('OrderIcons')
+import CvComponentSet   from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import VueMirroring     from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
-    vueMirroring.fixProperties({
-      '[P]staInsRowField'  : 'id',
-      '[P]dinGenOrderBy'   : 'id',
-      '[P]dinGenAscending' : true
+    CvComponentSet,
+    new VueMirroring('OrderIcons').fixProperties({
+      '[P]staInsRowField'        : 'id',
+      '[P]dinGenOrderBy'         : 'id',
+      '[P]dinGenAscending'       : true,
+      '[P]staComAccendingColor'  : 'primary',
+      '[P]staComDeccendingColor' : 'positive',
+      '[P]staComUnSortColor'     : 'secondary'
     })
-  ],
-  props:[
-  ],
-  computed:{
-  }
+  ]
 }
 </script>

@@ -35,26 +35,17 @@
 <script>
 import CvComponentSet             from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
 import CvCombinatoryFilter        from 'crudvuel-tools/src/components/grid-components/CvCombinatoryFilter'
-import VueMirroring               from 'crudvuel-tools/src/mirroring/VueMirroring'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
 export default {
   mixins: [
-    CvComponentSet,
-    CvCombinatoryFilter
+    CvCombinatoryFilter,
+    CvComponentSet
   ],
   components : {
     QBtn,
     QField,
     QIcon,
     QInput
-  },
-  methods: {
-  },
-  props: [
-  ],
-  computed: {
-  },
-  mounted: function () {
   }
 }
 </script>

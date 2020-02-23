@@ -50,12 +50,7 @@ export default {
       '[D]preventDebounce'            : false
     })
   ],
-  data () {
-    return {
-    }
-  },
-  props:[
-  ],
+
   methods:{
     emDinInsSearchProccesor (emitted = null){
       this.mSetLastEmission(emitted)
@@ -78,14 +73,13 @@ export default {
         }
       })
     },
+
     emDinInsKeyUpProccesor (keyup) {
       if ([13,27,46].includes(keyup.keyCode))
         this.mSetPreventDebounce(true).emDinInsSearchEmitter(keyup.keyCode === 13 ? this.cdLastEmission : '')
 
       return new Promise ((resolve, reject) => resolve())
     }
-  },
-  computed:{
   }
 }
 </script>

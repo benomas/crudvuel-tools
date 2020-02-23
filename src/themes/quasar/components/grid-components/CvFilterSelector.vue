@@ -17,22 +17,13 @@
   </div>
 </template>
 <script>
+import CvFilterSelector from 'crudvuel-tools/src/components/grid-components/CvFilterSelector'
+import CvComponentSet   from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
 import {QIcon,QField,QInput,QBtn,QBtnToggle} from 'quasar'
-import CvFilterSelector         from 'crudvuel-tools/src/components/grid-components/CvFilterSelector'
-import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring('FilterSelector')
 export default {
   mixins: [
     CvFilterSelector,
-    CvComponentSet,
-    vueMirroring.fixProperties({
-      '[P|EM]dinInsCurrentFilter'       : 'cv-simple-paginator',
-      '[P]staComSimpleFilterLabel'      : '',
-      '[P]staComSimpleFilterIcon'       : 'fas fa-search',
-      '[P]staComCombinayoryFilterLabel' : '',
-      '[P]staComCombinayoryFilterIcon'  : 'fas fa-search-plus'
-    }),
+    CvComponentSet
   ],
   components : {
     QBtn,

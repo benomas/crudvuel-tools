@@ -13,6 +13,7 @@
       >
         <q-icon name="fas fa-sort-amount-down-alt"  color="primary"/>
       </slot>
+
       <slot
         name="descending-icon"
         v-if="cpDinGenOrderBy === cpStaInsRowField && !cpDinGenAscending"
@@ -23,25 +24,16 @@
   </span>
 </template>
 <script>
-import CvOrderIcons from 'crudvuel-tools/src/components/grid-components/CvOrderIcons'
-import {QIcon} from 'quasar'
-import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring('OrderIcons')
+import CvOrderIcons   from 'crudvuel-tools/src/components/grid-components/CvOrderIcons'
+import CvComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import {QIcon}        from 'quasar'
 export default {
   mixins: [
     CvOrderIcons,
-    vueMirroring.fixProperties({
-      '[P]staComAccendingColor'  : 'primary',
-      '[P]staComDeccendingColor' : 'positive',
-      '[P]staComUnSortColor'     : 'secondary'
-    })
+    CvComponentSet
   ],
   components : {
     QIcon
-  },
-  methods:{
-  },
-  mounted () {
   }
 }
 </script>

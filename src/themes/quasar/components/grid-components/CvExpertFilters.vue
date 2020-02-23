@@ -1,6 +1,10 @@
 <script>
-import CvExpertFilters from '../../../../components/grid-components/CvExpertFilters'
+import CvComponentSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvExpertFilters from 'crudvuel-tools/src/components/grid-components/CvExpertFilters'
 export default {
-  extends: CvExpertFilters
+  mixins: [
+    CvExpertFilters,
+    CvComponentSet
+  ]
 }
 </script>

@@ -1,76 +1,77 @@
-import cvDinDep from '../cvDinDep'
-import CvEnv    from '../CvEnv'
+import cvDinDep from 'crudvuel-tools/src/cvDinDep'
+import CvEnv    from 'crudvuel-tools/src/CvEnv'
 
-export default function(globals){
+export default class CvPassport {
 
-  this.cvDinDep = cvDinDep;
-  this.cvEnv = this.cvDinDep("CvEnv",globals) || new CvEnv();
-  this.enabled = this.cvEnv.isPassportEnabled();
-
-  this.loadTokens = ()=>{
-    if(!this.enabled)
-      return ;
-    this.accessToken  = JSON.parse(localStorage.getItem("accessToken") || 'null');
-    this.refreshToken = JSON.parse(localStorage.getItem("refreshToken") || 'null');
-  };
-
-  this.setAccessToken = function(accessToken){
-    if(!this.enabled)
-      return ;
-    this.accessToken = typeof accessToken!=="undefined"?"Bearer "+accessToken:null;
-    if(this.accessToken)
-      localStorage.setItem("accessToken", JSON.stringify(this.accessToken));
-    else
-      localStorage.removeItem("accessToken");
-  };
-
-  this.destroyAutentication = function () {
-    this.setAccessToken()
-    this.setRefreshToken()
+  constructor (globals = null) {
+    this.cvDinDep = cvDinDep
+    this.cvEnv    = this.cvDinDep('CvEnv',globals) || new CvEnv()
+    this.enabled  = this.cvEnv.isPassportEnabled()
+    this.loadTokens()
   }
 
-  this.setRefreshToken=function(refreshToken){
-    if(!this.enabled)
-      return ;
-    this.refreshToken=typeof refreshToken!=="undefined"?"Bearer "+refreshToken:null;
-    if(this.refreshToken)
-      localStorage.setItem("refreshToken", JSON.stringify(this.refreshToken));
+  loadTokens () {
+    if (!this.enabled)
+      return this
+    this.accessToken  = JSON.parse(localStorage.getItem('accessToken') || 'null')
+    this.refreshToken = JSON.parse(localStorage.getItem('refreshToken') || 'null')
+    return this
+  }
+
+  setAccessToken (accessToken = null) {
+    if (!this.enabled)
+      return this
+    this.accessToken = accessToken != null ? `Bearer ${accessToken}` : null
+    if (this.accessToken)
+      localStorage.setItem('accessToken', JSON.stringify(this.accessToken))
     else
-      localStorage.removeItem("refreshToken");
-  };
+      localStorage.removeItem('accessToken')
+    return this
+  }
 
-  this.autenticated=function(){
-    if(!this.enabled)
-      return true;
-    this.loadTokens();
-    return this.accessToken!==null;
-  };
+  destroyAutentication () {
+    this.setAccessToken().setRefreshToken()
+  }
 
-  this.injectHeaders=function(headers){
-    if(!this.enabled)
-      return headers;
-    headers["Authorization"]=this.accessToken;
-    return headers;
-  };
+  setRefreshToken (refreshToken = null) {
+    if (!this.enabled)
+      return this
+    this.refreshToken = refreshToken != null ? `Bearer ${refreshToken}` : null
+    if (this.refreshToken)
+      localStorage.setItem('refreshToken', JSON.stringify(this.refreshToken))
+    else
+      localStorage.removeItem('refreshToken')
+    return this
+  }
 
-  this.reactToResponse=function(response){
-    if(!this.enabled)
-      return ;
-    if(typeof response!=="undefined" && typeof response.response!=="undefined" && typeof response.response.status!=="undefined" && response.response.status===401){
-      this.setAccessToken()
-      this.setRefreshToken()
-      return false;
-    }
-    if(response != null && response.data != null && response.data.token_type != null && response.data.token_type==='Bearer'){
-      if(response.data.access_token != null)
+  autenticated () {
+    if (!this.enabled)
+      return true
+    this.loadTokens()
+    return this.accessToken != null
+  }
+
+  injectHeaders (headers = null) {
+    if (!this.enabled)
+      return headers
+    return {...headers,...{Authorization:this.accessToken}}
+  }
+
+  reactToResponse (response = null) {
+    if (!this.enabled)
+      return this
+    if (response != null && response.response != null && response.response.status != null && response.response.status === 401)
+      return this.setAccessToken().setRefreshToken()
+    if (response != null && response.data != null && response.data.token_type != null && response.data.token_type==='Bearer') {
+      if (response.data.access_token != null)
         this.setAccessToken(response.data.access_token)
       else
         this.setAccessToken()
-      if(response.data.refresh_token != null)
+      if (response.data.refresh_token != null)
         this.setRefreshToken(response.data.refresh_token)
       else
         this.setRefreshToken()
     }
-  };
-  this.loadTokens();
-};
+    return this
+  }
+}

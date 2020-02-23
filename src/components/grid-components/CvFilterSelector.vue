@@ -6,7 +6,18 @@
   </div>
 </template>
 <script>
+import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
-//TODO:no dependencies component need to be defined
+  mixins: [
+    CvComponentSet,
+    new VueMirroring('FilterSelector').fixProperties({
+      '[P|EM]dinInsCurrentFilter'       : 'cv-simple-paginator',
+      '[P]staComSimpleFilterLabel'      : '',
+      '[P]staComSimpleFilterIcon'       : 'fas fa-search',
+      '[P]staComCombinayoryFilterLabel' : '',
+      '[P]staComCombinayoryFilterIcon'  : 'fas fa-search-plus'
+    }),
+  ]
 }
 </script>

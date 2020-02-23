@@ -13,7 +13,7 @@
         </q-chip>
         <cv-simple-filter
           class="w-100"
-          v-bind="mCustomBingins('cv-simple-filter-source')"
+          v-bind="mCustomBindins('cv-simple-filter-source')"
           v-on="mCustomOns('cv-simple-filter-source')"
           :cv-din-ins-disable-fields="cpDinGenDisableFields"
         >
@@ -54,7 +54,7 @@
         </q-chip>
         <cv-simple-filter
           class="w-100"
-          v-bind="mCustomBingins('cv-simple-filter-related')"
+          v-bind="mCustomBindins('cv-simple-filter-related')"
           v-on="mCustomOns('cv-simple-filter-related')"
           :cv-din-ins-disable-fields="cpDinGenDisableFields"
         >

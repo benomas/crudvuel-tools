@@ -53,14 +53,6 @@ export default {
     QField,
     QIcon,
     QInput
-  },
-  methods: {
-  },
-  props: [
-  ],
-  computed: {
-  },
-  mounted: function () {
   }
 }
 </script>
