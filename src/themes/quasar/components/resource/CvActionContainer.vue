@@ -4,6 +4,7 @@
       <cv-spinner v-if="!cReady && cdIsMounted" >
       </cv-spinner>
     </transition>
+
     <slot name="cv-title-slot" class="col-lg-12 action-label q-pb-md" v-if="cpDinInsShowHeader">
       <div class="col-xs-10 col-sm-9 col-md-8 q-pb-md">
         <label>
@@ -13,11 +14,13 @@
         </label>
       </div>
     </slot>
+
     <div :class="cActionContentClasses">
       <slot name="cv-content-slot"
       >
       </slot>
     </div>
+
     <slot name="cv-test"
     >
     </slot>
@@ -29,13 +32,16 @@ import CvSpinner          from 'crudvuel-tools/src/themes/quasar/components/grid
 import CvTag              from 'crudvuel-tools/src/themes/quasar/components/CvTag'
 export default {
   extends    : CvActionContainer,
+
   components : {
     CvSpinner,CvTag
   },
+
   props: [
     'cvActionClasses',
     'cvActionContentClasses'
   ],
+
   computed: {
     cActionContentClasses: function () {
       return this.cvActionContentClasses || ('row action-content w-100 ' + (this.cLtsm ? '' : 'rounded-borders q-pa-md shadow-2'))

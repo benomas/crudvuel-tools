@@ -4,6 +4,7 @@
       <cv-spinner v-if="!cReady && cdIsMounted" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
+
     <slot name="cv-title-slot" class="col-lg-12 action-label" v-if="cpDinInsShowHeader">
       <label>
         <h5 class="custom-h">
@@ -11,6 +12,7 @@
         </h5>
       </label>
     </slot>
+
     <div class="row action-content">
       <slot name="cv-content-slot"
       >
@@ -24,7 +26,8 @@ import CvSpinner      from '../grid-components/CvSpinner'
 import CvComponentSet from '../sets/CvComponentSet'
 import VueMirroring   from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
-export default{
+
+export default {
   mixins: [
     CvComponentSet,
     vueMirroring.fixProperties({
@@ -36,19 +39,23 @@ export default{
       '[P]dinInsActionContentClasses' : ''
     })
   ],
+
   components : {
     CvSpinner,
     CvTag
   },
+
   computed:{
     cGetted () {
       return this.cRows || !this.cpDinGenAction.getService  || this.cHasRowKeyValue || false
     },
+
     cBackLabel () {
       if (this.cpDinGenAction)
         return this.cpDinGenAction.backLabel || null
       return 'Cancelar'
     },
+
     cNextLabel () {
       if (this.cpDinGenAction)
         return this.cpDinGenAction.nextLabel || null
