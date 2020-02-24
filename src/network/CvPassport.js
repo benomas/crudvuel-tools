@@ -2,7 +2,6 @@ import cvDinDep from 'crudvuel-tools/src/cvDinDep'
 import CvEnv    from 'crudvuel-tools/src/CvEnv'
 
 export default class CvPassport {
-
   constructor (globals = null) {
     this.cvDinDep = cvDinDep
     this.cvEnv    = this.cvDinDep('CvEnv',globals) || new CvEnv()

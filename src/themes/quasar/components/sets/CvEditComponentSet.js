@@ -1,19 +1,10 @@
-//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-//let vueMirroring = new VueMirroring()
+//Integration set, dont touch this file
 import CvEditComponentSet       from 'crudvuel-tools/src/components/sets/CvEditComponentSet'
-export default{
+import CvEditComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvEditComponentExtraSet'
+
+export default {
   mixins: [
-    CvEditComponentSet
-  ],
-  data () {
-    return {}
-  },
-  props: [
-  ],
-  computed: {
-
-  },
-  methods: {
-
-  }
+    CvEditComponentSet,
+    CvEditComponentExtraSet
+  ]
 }

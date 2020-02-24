@@ -1,5 +1,5 @@
 //use this function to extend other javascript clases, it is not necesary into the vue context
-export default function(source,propertys){
+export default function(source,propertys) {
   if(typeof source==="undefined")
     return null
 	if(typeof source !=="function" || typeof propertys!=="object")

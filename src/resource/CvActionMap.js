@@ -1,7 +1,6 @@
-import CvClass from '../CvClass'
+import CvClass from 'crudvuel-tools/src/CvClass'
 
 export default class CvResourceMap extends CvClass {
-
   constructor (options) {
     super()
     this.name              = null,

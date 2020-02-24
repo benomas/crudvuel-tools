@@ -88,14 +88,14 @@ import CvSimpleFilter         from 'crudvuel-tools/src/themes/quasar/components/
 import CvCombinatoryFilter    from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvCombinatoryFilter'
 import CvFilterSelector       from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvFilterSelector'
 import CvSpinner              from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSpinner'
-import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvComponentExtraSet    from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import VueMirroring           from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Grid')
+
 export default {
   mixins: [
     CvGrid,
-    CvComponentSet,
-    vueMirroring.restoreBindins(CvGrid).fixProperties({}),
+    CvComponentExtraSet,
     vueMirroring.assimilate(
       //{CvTag},
       //{CvAdvancedFilters},
@@ -108,6 +108,7 @@ export default {
       //{CvSpinner}
     )
   ],
+
   components: {
     CvTag,
     CvPaginate,

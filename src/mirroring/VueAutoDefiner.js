@@ -1,4 +1,5 @@
 import {camelCase,split,kebabCase,lowerCase} from 'lodash'
+
 export default class VueAutoDefiner {
   constructor (vueMirroring = null) {
     this.vueMirroring     = vueMirroring
@@ -57,24 +58,31 @@ export default class VueAutoDefiner {
       methods  : this.autoMethods
     }
   }
+
   getAutoDefDataInit (){
     return this.autoDefDataInit
   }
+
   getAutoDefPropInit (){
     return this.autoDefPropInit
   }
+
   getAutoDefTypes () {
     return this.autoDefTypes
   }
+
   getAutoDefMode () {
     return this.autoDefMode
   }
+
   getAutoDefScope () {
     return this.autoDefScope
   }
+
   getAutoDefName () {
     return this.autoDefName
   }
+
   getAutoDefInit () {
     return this.autoDefInit
   }
@@ -82,43 +90,54 @@ export default class VueAutoDefiner {
   hasAutoData(){
     return this.getAutoDefTypes()['D']
   }
+
   hasAutoProp(){
     return this.getAutoDefTypes()['P']
   }
+
   hasAutoEmitter(){
     return this.getAutoDefTypes()['EM']
   }
+
   isNullable(){
     return !this.getAutoDefTypes()['NN']
   }
+
   setAutoDefDataInit (autoDefDataInit = null) {
     this.autoDefDataInit = autoDefDataInit
     return this
   }
+
   setAutoDefPropInit (autoDefPropInit = null) {
     this.autoDefPropInit = autoDefPropInit
     return this
   }
+
   setAutoDefTypes (autoDefTypes = null) {
     this.autoDefTypes = autoDefTypes
     return this
   }
+
   setAutoDefMode (autoDefMode = '') {
     this.autoDefMode = lowerCase(autoDefMode)
     return this
   }
+
   setAutoDefScope (autoDefScope = '') {
     this.autoDefScope = lowerCase(autoDefScope)
     return this
   }
+
   setAutoDefName (autoDefName = null) {
     this.autoDefName = camelCase(autoDefName)
     return this
   }
+
   setAutoDefInit (autoDefInit = null) {
     this.autoDefInit = autoDefInit
     return this
   }
+
   loadAutoDefTypes (source) {
     let cTypes = (source[2] == null || source[2] === '') ? ['D']:split(source[2],'|')
     let types = this.noTypes()
@@ -127,16 +146,19 @@ export default class VueAutoDefiner {
         types[type] = true
     return this.resetAutoDefs().setAutoDefTypes(types)
   }
+
   loadAutoDefMode (source){
     if(source[3] == null)
       return this
     return this.setAutoDefMode(source[3])
   }
+
   loadAutoDefScope (source){
     if(source[4] == null)
       return this
     return this.setAutoDefScope(source[4])
   }
+
   definitionSplitter(definition = null){
     if (!definition)
       return this
@@ -145,14 +167,17 @@ export default class VueAutoDefiner {
       return this
     return this.loadAutoDefTypes(found[0]).loadAutoDefMode(found[0]).loadAutoDefScope(found[0]).setAutoDefName(found[0][5])
   }
+
   preCamel (prefix = '') {
     return camelCase(`${prefix} ${this.getAutoDefName()}`)
   }
+
   calAutoPropName(prefix = '') {
     let mode = this.getAutoDefMode() || ''
     let scope = this.getAutoDefScope() || ''
     return camelCase(`${prefix} ${mode} ${scope} ${this.getAutoDefName()}`)
   }
+
   calAutoDataName(prefix = '') {
     return camelCase(`${prefix} ${this.getAutoDefName()}`)
   }
@@ -270,6 +295,7 @@ export default class VueAutoDefiner {
     })(this.autoMounters)
     return this
   }
+
   complementDefinition () {
     if(this.getAutoDefMode() === 'sta'){
       this.setAutoDefPropInit(this.getAutoDefInit())
@@ -281,6 +307,7 @@ export default class VueAutoDefiner {
     }
     return this
   }
+
   validateDefinition () {
     if (!this.getAutoDefName())
       return false

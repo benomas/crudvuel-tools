@@ -18,11 +18,14 @@ export default class VueDebugger {
   makeMixingTree (component) {
     if (component && component.__file != null)
       this.tree.push(component.__file)
+
     if(component.mixins)
       for (let currentComponent of component.mixins)
         this.makeMixingTree(currentComponent)
+
     if(component.extends)
       this.makeMixingTree(component.extends)
+
     return this
   }
 

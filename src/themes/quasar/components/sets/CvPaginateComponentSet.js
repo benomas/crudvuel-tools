@@ -1,19 +1,10 @@
-//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-//let vueMirroring = new VueMirroring()
-import CvPaginateComponentSet  from 'crudvuel-tools/src/components/sets/CvPaginateComponentSet'
-export default{
+//Integration set, dont touch this file
+import CvPaginateComponentSet       from 'crudvuel-tools/src/components/sets/CvPaginateComponentSet'
+import CvPaginateComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvPaginateComponentExtraSet'
+
+export default {
   mixins: [
-    CvPaginateComponentSet
-  ],
-  data () {
-    return {}
-  },
-  props: [
-  ],
-  computed: {
-
-  },
-  methods: {
-
-  }
+    CvPaginateComponentSet,
+    CvPaginateComponentExtraSet
+  ]
 }

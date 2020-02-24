@@ -1,5 +1,5 @@
 import cvSerialize   from './cvSerialize'
-const CvParametrizer = function(paginate){
+const CvParametrizer = function(paginate) {
   this.params = {
     paginate     :{
       selectQuery   : [],

@@ -1,19 +1,15 @@
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring()
-export default{
+
+export default {
   mixins: [
-    vueMirroring.fixProperties({
+    new VueMirroring().fixProperties({
       '[P]dinGenKeyName'  : 'id',
       '[P]dinGenKeyValue' : null,
       '[P]staInsRow'      : {},
       '[P]staInsErrors'   : {}
     })
   ],
-  data () {
-    return {}
-  },
-  props: [
-  ],
+
   computed: {
     cdDinGenKeyValue () {
       if (this.cvDinGenKeyValue != null)
@@ -27,6 +23,7 @@ export default{
         return null
       return this.$route.params[this.cpDinGenKeyName]
     },
+
     cFixedErrors () {
       let errors = {}
       let subErrors
@@ -48,7 +45,5 @@ export default{
         return errors
       }
     }
-  },
-  methods: {
   }
 }

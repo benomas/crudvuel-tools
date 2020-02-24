@@ -13,6 +13,7 @@ import {mySubString}              from 'crudvuel-tools/src/cvHelper'
 import {concat,indexOf,parseInt}  from 'lodash'
 import VueMirroring               from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Relationator')
+
 export default {
   mixins: [
     CvComponentSet,

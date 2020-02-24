@@ -1,19 +1,10 @@
-//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-//let vueMirroring = new VueMirroring()
-import CvMultiRowComponentSet   from 'crudvuel-tools/src/components/sets/CvMultiRowComponentSet'
-export default{
+//Integration set, dont touch this file
+import CvMultiRowComponentSet       from 'crudvuel-tools/src/components/sets/CvMultiRowComponentSet'
+import CvMultiRowComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentExtraSet'
+
+export default {
   mixins: [
-    CvMultiRowComponentSet
-  ],
-  components : {
-  },
-  data () {
-    return {}
-  },
-  props: [
-  ],
-  computed: {
-  },
-  methods: {
-  }
+    CvMultiRowComponentSet,
+    CvMultiRowComponentExtraSet
+  ]
 }

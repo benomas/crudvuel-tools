@@ -1,18 +1,9 @@
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring('MultiRowComponentSet')
-export default{
+
+export default {
   mixins: [
-    vueMirroring.fixProperties({
+    new VueMirroring('MultiRowComponentSet').fixProperties({
       '[P]dinGenKeyName' : 'id'
     })
-  ],
-  data () {
-    return {}
-  },
-  props: [
-  ],
-  computed: {
-  },
-  methods: {
-  }
+  ]
 }

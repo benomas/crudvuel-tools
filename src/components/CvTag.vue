@@ -6,6 +6,7 @@ export default {
       this.$slots.default // array of children
     );
   },
+
   props:[
     "tag"
   ]

@@ -1,8 +1,8 @@
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring()
-export default{
+
+export default {
   mixins: [
-    vueMirroring.fixProperties({
+    new VueMirroring().fixProperties({
       '[P|NN]staInsPagSelectQuery'  :  [],
       '[P|NN]staInsPagPage'         :  1,
       '[P|NN]staInsPagByColumn'     :  0,
@@ -14,11 +14,7 @@ export default{
       '[P|NN]staInsPagSearchObject' :  ''
     })
   ],
-  data () {
-    return {}
-  },
-  props: [
-  ],
+
   computed: {
     cPaginator (){
       return {
@@ -35,7 +31,5 @@ export default{
         }
       }
     }
-  },
-  methods: {
   }
 }

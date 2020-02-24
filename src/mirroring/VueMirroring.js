@@ -38,12 +38,15 @@ export default class VueMirroring {
   restoreBindins (...components) {
     let lastBindins = {}
     let lastOns      = {}
+
     for (let currentComponent of components){
       if (currentComponent.mixins == null || currentComponent.mixins.length === 0)
         continue
+
       let binded = currentComponent.mixins[currentComponent.mixins.length-1]
       if (binded.methods.mBinding != null)
         lastBindins = {...lastBindins,...binded.methods.mBinding()}
+
       if (binded.methods.mOns != null)
         lastOns = {...lastOns,...binded.methods.mOns()}
     }

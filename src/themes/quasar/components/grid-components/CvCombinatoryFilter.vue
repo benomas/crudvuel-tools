@@ -33,14 +33,16 @@
   </div>
 </template>
 <script>
-import CvComponentSet             from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvComponentExtraSet        from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvCombinatoryFilter        from 'crudvuel-tools/src/components/grid-components/CvCombinatoryFilter'
 import {QIcon,QField,QInput,QBtn} from 'quasar'
+
 export default {
   mixins: [
     CvCombinatoryFilter,
-    CvComponentSet
+    CvComponentExtraSet
   ],
+
   components : {
     QBtn,
     QField,

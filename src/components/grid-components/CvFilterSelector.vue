@@ -8,6 +8,7 @@
 <script>
 import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
 import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
+
 export default {
   mixins: [
     CvComponentSet,

@@ -87,14 +87,16 @@
   </div>
 </template>
 <script>
-import CvComponentSet                       from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import CvComponentExtraSet                  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvPaginate                           from 'crudvuel-tools/src/components/grid-components/CvPaginate'
 import {QTooltip,QIcon,QBtn,QSelect,QField} from 'quasar'
+
 export default {
   mixins: [
     CvPaginate,
-    CvComponentSet
+    CvComponentExtraSet
   ],
+
   components : {
     QTooltip,
     QIcon,

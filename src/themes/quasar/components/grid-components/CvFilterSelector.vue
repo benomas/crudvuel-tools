@@ -17,14 +17,16 @@
   </div>
 </template>
 <script>
-import CvFilterSelector from 'crudvuel-tools/src/components/grid-components/CvFilterSelector'
-import CvComponentSet   from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvFilterSelector     from 'crudvuel-tools/src/components/grid-components/CvFilterSelector'
+import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import {QIcon,QField,QInput,QBtn,QBtnToggle} from 'quasar'
+
 export default {
   mixins: [
     CvFilterSelector,
-    CvComponentSet
+    CvComponentExtraSet
   ],
+
   components : {
     QBtn,
     QField,

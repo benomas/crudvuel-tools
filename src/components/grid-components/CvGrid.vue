@@ -18,6 +18,7 @@ import CvFilterSelector         from 'crudvuel-tools/src/components/grid-compone
 import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
 import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Grid')
+
 export default {
   mixins: [
     CvComponentSet,

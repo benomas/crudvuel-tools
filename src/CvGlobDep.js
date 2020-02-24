@@ -1,5 +1,5 @@
 //Global Dinamic dependencies
-export default function(){
+export default function() {
 	this.globals={};
 
 	this.upperFirstLetter=function(string) {

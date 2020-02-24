@@ -2,7 +2,6 @@ import FileSaver      from 'file-saver'
 import CvSerializer   from 'crudvuel-tools/src/CvSerializer'
 
 export default class CvCrudService {
-
   constructor (cvComunicator,resourceName) {
     this.cvComunicator  = cvComunicator
     this.resourceName   = resourceName

@@ -5,7 +5,6 @@ import CvCrudService from 'crudvuel-tools/src/network/CvCrudService'
 import cvSerialize   from 'crudvuel-tools/src/cvSerialize'
 
 export default class CvComunicator {
-
   constructor (router,globals) {
     this.globals       = globals
     this.cvDinDep      = cvDinDep

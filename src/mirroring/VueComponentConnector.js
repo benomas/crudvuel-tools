@@ -123,6 +123,7 @@ export default class VueMirroring {
     if(this.getCurrentComponent().props){
       for (const [position, prop] of Object.entries(this.getCurrentComponent().props)) {
         let splitedProperty = split(kebabCase(prop),'-')
+
         if(!this.validProperty(splitedProperty)){
           this.getCurrentComponent().props.splice(position, 1)
           continue
@@ -133,14 +134,17 @@ export default class VueMirroring {
         let clProperty = camelCase(`cl ${property}`)
         let cpProperty = camelCase(`cp ${property}`)
         let match = false
+
         for (const prop of this.props)
           if(cvProperty === prop){
             match = true
             continue
           }
+
         if(!match)
           this.props.push(cvProperty)
-        localProps.push(cvProperty)
+
+          localProps.push(cvProperty)
         this.computed[cpProperty] = function() {
           if (this[cvProperty] != null)
             return this[cvProperty]
@@ -148,21 +152,26 @@ export default class VueMirroring {
             return this[clProperty]
           return null
         }
+
         if(this.switchModeRequired(splitedProperty)){
           let dProperty  = camelCase(`${this.fixDataName(splitedProperty)}`)
           let cdProperty = camelCase(`cd ${dProperty}`)
           let mSetMethod = camelCase(`m set ${dProperty}`)
+
           if (this.getCurrentComponent().methods[mSetMethod] == null){
             this.methods[mSetMethod] = function(value = null) {
               this.$set(this,dProperty,value)
               return this
             }
           }
+
           if (this.getCurrentComponent().data[dProperty] == null)
             this.data[dProperty] = cvProperty
+
           this.computed[cdProperty] = function() {
             return this[dProperty]
           }
+
           binding[kebabCase(prop)] = cdProperty
         }
         else{
@@ -170,6 +179,7 @@ export default class VueMirroring {
         }
       }
     }
+
     let methodNames = Object.keys(this.getCurrentComponent().methods)
     if(methodNames.length){
       for (const [currentMethod, currentCallBack] of Object.entries(this.getCurrentComponent().methods)){
@@ -186,10 +196,12 @@ export default class VueMirroring {
         let parentPrefix     = this.getParentPrefix()
         let setterFix        = ''
         let defFix           = ''
+
         if (splitedEmitter[2] === 'ins'){
           setterFix = this.getParentPrefix()
           defFix    = this.getCurrentComponent().insTag
         }
+
         if (splitedEmitter[2] === 'insf'){
           setterFix = this.getParentPrefix()
         }
@@ -208,6 +220,7 @@ export default class VueMirroring {
               newEventName,
               originalEmitter
             ])
+
           this.methods[newProccesorName] = function(emitted = null) {
             return new Promise ((resolve, reject) => {
               //console.log([newProccesorName,splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
@@ -216,6 +229,7 @@ export default class VueMirroring {
               resolve(emitted)
             })
           }
+
           this.methods[newEmitterName] = (function(newProccesorName,newEventName){
             return function(emitted = null) {
               //console.log([newProccesorName,splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
@@ -224,8 +238,10 @@ export default class VueMirroring {
               }).catch(error=>error)
             }
           })(newProccesorName,newEventName)
+
           if (this.ons[cvTag] == null)
             this.ons[cvTag] = {}
+
           this.ons[cvTag][kebabCase(`em ${originalEmitter} event`)]=(function(newEmitterName){
             return function(context){
               return context[newEmitterName]
@@ -237,6 +253,7 @@ export default class VueMirroring {
             //console.log([parentPrefix,newProccesorName])
             return new Promise ((resolve, reject) => resolve(emitted))
           }
+
           this.methods[newEmitterName] = (function(newProccesorName,newEventName){
             return function(emitted = null) {
               this[newProccesorName](emitted).then((proccesed = null) => {
@@ -244,8 +261,10 @@ export default class VueMirroring {
               }).catch(error=>error)
             }
           })(newProccesorName,newEventName)
+
           if (this.ons[cvTag] == null)
             this.ons[cvTag] = {}
+
           this.ons[cvTag][kebabCase(`em ${originalEmitter} event`)]=(function(newEmitterName){
             return function(context){
               return context[newEmitterName]
@@ -286,17 +305,20 @@ export default class VueMirroring {
         let match = false
         if (this.getCurrentComponent().props == null)
           this.getCurrentComponent().props = []
+
         for (const prop of this.getCurrentComponent().props){
           if(currentProp === prop){
             match = true
             break
           }
         }
+
         if(!match){
           this.getCurrentComponent().props.push(currentProp)
         }
       }
     }
+
     if (component.methods != null){
       for (const [currentMethod, currentCallBack] of Object.entries(component.methods)){
         if(!startsWith(currentMethod,'em') || !endsWith(currentMethod,'Emitter'))
@@ -305,6 +327,7 @@ export default class VueMirroring {
         let match = false
         if (this.getCurrentComponent().methods == null)
           this.getCurrentComponent().methods = {}
+
           for (const [method, callBack] of Object.entries(this.getCurrentComponent().methods)){
             if(currentMethod === method){
               match = true
@@ -315,11 +338,14 @@ export default class VueMirroring {
           this.getCurrentComponent().methods[currentMethod] = currentCallBack
       }
     }
+
     if (component.mixins != null)
       for (let currentComponent of component.mixins)
         this.mixinMirroring(currentComponent)
+
     if (component.extends != null)
       this.mixinMirroring(component.extends)
+
     return this
   }
 
@@ -356,8 +382,10 @@ export default class VueMirroring {
   isRoot(){
     if (this.getCurrentComponent().root === false)
       return false
+
     if (this.getCurrentComponent().root === true)
       return true
+
     return this.vueMirroring.root
   }
   fixedComponentTag (component = null){
@@ -367,6 +395,7 @@ export default class VueMirroring {
     const found = [...component.__file.matchAll(/^.*?(Cv|cv|cV)(\w+)\.(js|vue)$/g)]
     if (found[0] == null || found[0][2] == null)
       return ''
+
     return kebabCase(found[0][2])
   }
   loadComponents (...components) {

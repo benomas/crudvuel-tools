@@ -1,36 +1,10 @@
-//import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-//let vueMirroring = new VueMirroring()
-import CvNotifyComponentSet from 'crudvuel-tools/src/components/sets/CvNotifyComponentSet'
-import CvNotify             from 'crudvuel-tools/src/themes/quasar/components/others/CvNotify'
+//Integration set, dont touch this file
+import CvNotifyComponentSet       from 'crudvuel-tools/src/components/sets/CvNotifyComponentSet'
+import CvNotifyComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvNotifyComponentExtraSet'
 
-export default{
+export default {
   mixins: [
-    CvNotifyComponentSet
-  ],
-  data () {
-    return {}
-  },
-  props: [
-  ],
-  computed: {
-
-  },
-  methods: {
-    mSuccessNotification (message) {
-      CvNotify.createPositive(message)
-      return this
-    },
-    mErrorNotification (message) {
-      CvNotify.createNegative(message)
-      return this
-    },
-    mCancelNotification (message) {
-      CvNotify.createWarning(message)
-      return this
-    },
-    mInfoNotification (message) {
-      CvNotify.createInfo(message)
-      return this
-    }
-  }
+    CvNotifyComponentSet,
+    CvNotifyComponentExtraSet
+  ]
 }

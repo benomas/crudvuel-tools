@@ -7,7 +7,7 @@ import cvVueSetter       from '../../cvVueSetter'
 import {cvFixDotDepth}   from '../../cvHelper'
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
-export default{
+export default {
   mixins: [
     vueMirroring.fixProperties({
       'ready': {init:false,mode:'D|CD'}

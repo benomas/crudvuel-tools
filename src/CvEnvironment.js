@@ -1,25 +1,26 @@
-export default function(){
+export default function() {
 	this.environmentProperty=(property,defaultValue)=>{
 		if(typeof process==="undefined" || typeof process.env==="undefined" || typeof process.env.NODE_ENV==="undefined")
-			return defaultValue;
+			return defaultValue
 
 		if(process.env.NODE_ENV==="development" && typeof process.env[property]!=="undefined")
-			return process.env[property];
+			return process.env[property]
 
 		if(process.env.NODE_ENV==="production" && typeof process.env[property]!=="undefined")
-			return process.env[property];
+			return process.env[property]
 		else
-			return defaultValue;
-	};
+			return defaultValue
+	}
 
 	this.url=()=>{
-		return this.environmentProperty("URL","/");
-	};
+		return this.environmentProperty("URL","/")
+  }
+
 	this.apiUrl=()=>{
-		return this.environmentProperty("API_URL","/");
-	};
+		return this.environmentProperty("API_URL","/")
+	}
 
 	this.isPassportEnabled=()=>{
-		return this.environmentProperty("PASSPORT",false);
-	};
-};
+		return this.environmentProperty("PASSPORT",false)
+	}
+}

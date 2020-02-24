@@ -6,13 +6,14 @@
   </cv-simple-filter>
 </template>
 <script>
-import CvSimpleFilter  from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
-import CvComponentSet  from 'src/customs/crudvuel/themes/quasar/components/sets/CvComponentSet'
-import VueMirroring    from 'crudvuel/mirroring/VueMirroring'
+import CvSimpleFilter       from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
+import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
+import VueMirroring         from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('SimpleFieldFilter').enableRoot()
+
 export default {
   mixins: [
-    CvComponentSet,
+    CvComponentExtraSet,
     vueMirroring.fixProperties({
       '[P]dinInsField'   : 'id',
       '[P|D]dinInsLabel' : 'Busqueda'
@@ -21,6 +22,7 @@ export default {
       {CvSimpleFilter}
     )
   ],
+
   computed: {
     cdSimpleFieldFilterSimpleFilterLabel () {
       if (this.cvStaInsfSimpleFieldFilterSimpleFilterLabel == null)
@@ -28,9 +30,11 @@ export default {
       return this.cvStaInsfSimpleFieldFilterSimpleFilterLabel
     }
   },
+
   components: {
     CvSimpleFilter
   },
+
   methods: {
     emStaInsfSimpleFieldFilterSimpleFilterSearchProccesor (emitted) {
       return new Promise((resolve, reject) => {

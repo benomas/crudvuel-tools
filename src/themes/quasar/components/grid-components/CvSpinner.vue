@@ -19,13 +19,14 @@
   </div>
 </template>
 <script>
-import CvSpinner        from 'crudvuel-tools/src/components/grid-components/CvSpinner'
-import VueSimpleSpinner from 'vue-simple-spinner'
-import CvComponentSet   from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import { colors }       from 'quasar'
+import CvSpinner            from 'crudvuel-tools/src/components/grid-components/CvSpinner'
+import VueSimpleSpinner     from 'vue-simple-spinner'
+import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
+import { colors }           from 'quasar'
+
 export default {
   mixins: [
-    CvComponentSet,
+    CvComponentExtraSet,
     CvSpinner
   ],
 

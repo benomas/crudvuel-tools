@@ -24,14 +24,15 @@
   </span>
 </template>
 <script>
-import CvOrderIcons   from 'crudvuel-tools/src/components/grid-components/CvOrderIcons'
-import CvComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
-import {QIcon}        from 'quasar'
+import CvOrderIcons         from 'crudvuel-tools/src/components/grid-components/CvOrderIcons'
+import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
+import {QIcon}              from 'quasar'
 export default {
   mixins: [
     CvOrderIcons,
-    CvComponentSet
+    CvComponentExtraSet
   ],
+
   components : {
     QIcon
   }

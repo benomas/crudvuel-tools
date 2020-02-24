@@ -1,18 +1,11 @@
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-let vueMirroring = new VueMirroring('Edit')
-export default{
+export default {
   mixins: [
-    vueMirroring.fixProperties({
+    VueMirroring('Edit').fixProperties({
       '[P]staInsRow' : {}
     })
   ],
-  data () {
-    return {}
-  },
-  props: [
-  ],
-  computed: {
-  },
+
   methods: {/*
     mComponentInitialize: function () {
       return new Promise((resolve, reject) => {

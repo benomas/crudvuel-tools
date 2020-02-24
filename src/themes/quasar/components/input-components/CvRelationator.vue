@@ -96,6 +96,7 @@ import {concat,indexOf,parseInt}    from 'lodash'
 import {QIcon,QChip,QBadge}   from 'quasar'
 import VueMirroring           from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Relationator')
+
 export default {
   mixins: [
     CvComponentSet,
@@ -171,12 +172,14 @@ export default {
       {CvSimpleFilter,root: true,posFix:'related'}
     )
   ],
+
   components: {
     CvSimpleFilter,
     QIcon,
     QChip,
     QBadge
   },
+
   watch: {
     cpDinInsRelated: function (val) {
       this.emDinInsRelatedAttachEmitter(this.cRelatedAttach)
@@ -185,12 +188,7 @@ export default {
       })
     }
   },
-  data: function () {
-    return {
-    }
-  },
-  props: [
-  ],
+
   computed: {
     cRelatedLabel () {
       let trans = this.mComLang('relatedLabel')
@@ -198,34 +196,39 @@ export default {
         return trans
       return 'Asignados'
     },
+
     cSourceLabel () {
       let trans = this.mComLang('sourceLabel')
       if (trans !== '')
         return trans
       return 'Disponibles'
     },
+
     cAvailableSource () {
       return this.mDifference(this.cpDinInsSource,this.cpDinInsRelated,this.cKeyName)
     },
+
     cFilteredAvailableSource () {
       return this.mProcessList(this.cAvailableSource,this.cdRelationatorSimpleFilterSourceSearch).sort(this.cpDinInsSourceSortCallBack)
     },
+
     cFilteredAvailableRelated () {
       return this.mProcessList(this.cpDinInsRelated,this.cdRelationatorSimpleFilterRelatedSearch).sort(this.cpDinInsRelatedSortCallBack)
     },
+
     cRelatedAttach () {
       if (this.cpDinInsHasOrder === true)
         return this.mDifference(this.cpDinInsRelated,this.cpDinInsInitialRelated,this.cKeyName,'order')
       return this.mDifference(this.cpDinInsRelated,this.cpDinInsInitialRelated,this.cKeyName)
     },
+
     cRelatedDetach () {
       if (this.cpDinInsHasOrder)
         return this.mDifference(this.cpDinInsInitialRelated,this.cpDinInsRelated,this.cKeyName,'order')
       return this.mDifference(this.cpDinInsInitialRelated,this.cpDinInsRelated,this.cKeyName)
     }
   },
-  mounted: function () {
-  },
+
   methods: {
     mItemExist (item1,array,props) {
       for (const item2 of array){
@@ -238,6 +241,7 @@ export default {
       }
       return false
     },
+
     mDifference (array1,array2,...props) {
       let differences = []
       for (const item1 of array1) {
@@ -246,6 +250,7 @@ export default {
       }
       return differences
     },
+
     mComponentInitialize () {
       return new Promise((resolve, reject) => {
         this.cpDinInsSourceService(this.cpDinInsSourcePaginate)
@@ -274,6 +279,7 @@ export default {
           })
       })
     },
+
     mAddRelated: function (row,position=null) {
       if (this.cDisableFields)
         return false
@@ -299,6 +305,7 @@ export default {
       }
       return this
     },
+
     mRemoveRelated: function (row) {
       if (this.cDisableFields)
         return false
@@ -321,6 +328,7 @@ export default {
       this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
       return this
     },
+
     mSwitchRelated: function (from,to) {
       if (this.cDisableFields)
         return false
@@ -342,6 +350,7 @@ export default {
       this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
       return this
     },
+
     mDinamicIndex: function (position = 0,row = null,index = null) {
       if (index)
         return index
@@ -349,6 +358,7 @@ export default {
         return position.toString() + '-' + row[this.cKeyName].toString()
       return null
     },
+
     mProcessList: function (items = [],search = '') {
       let lSearch = search != null ? search : ''
       let filterItems = []
@@ -360,18 +370,23 @@ export default {
       }
       return filterItems
     },
+
     // store the id of the draggable element
     mOnDragStart (e,row = null,from = 'source',uid) {
       e.dataTransfer.dropEffect = 'move'
       this.mSetCurrentDraggedItem({row,from,uid})
     },
+
     mOnDragEnter (e) {
     },
+
     mOnDragLeave (e) {
     },
+
     mOnDragOver (e) {
       e.preventDefault()
     },
+
     mOnDrop (e) {
       e.preventDefault()
       if (!this.cdCurrentDraggedItem)
@@ -397,6 +412,7 @@ export default {
         }
       }
     },
+
     mFindTargetOrFail (el) {
       if (el.classList == null) {
         if (el.parentElement != null)
@@ -449,6 +465,7 @@ export default {
 
       return null
     },
+
     mFindItemByKey (key,items) {
       for (const item of items) {
         if (item[this.cKeyName].toString() === key.toString())

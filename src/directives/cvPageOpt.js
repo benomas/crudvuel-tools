@@ -7,6 +7,7 @@ export default {
   bind (el, binding, vnode) {
     let field   = binding.value
     let context = vnode.context
+
     for (const elClass of el.classList){
       if (elClass === 'cv-selectable')
         context.selectables[field] = true
@@ -21,9 +22,11 @@ export default {
         context.emDinGenSortEmitter(field)
       })
   },
+
   unbind (el, binding, vnode) {
     let field  = binding.value
     let context = vnode.context
+
     if (context.mIsOrderable(field))
       el.removeEventListener('click',() => {
         context.emDinGenSortEmitter(field)
