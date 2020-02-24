@@ -1,23 +1,25 @@
 <template>
-  <div class="cv-matcherizer-container">
+  <div class="cv-matcherizer-container w-100">
     <div
       class="list-items"
     >
       <div
         ref="filterReference"
       >
+      <!--
+        {{cdSearchFocus}}--
+        {{cShowList}}--
+        {{cdListOn}}--
+        {{cdSearchContinue}}--
+        {{cdSearchOn}}--
+        {{cdCurrentItem}}---->
         <cv-simple-filter
-          v-bind="mDefMatcherizerProps()"
-          :cv-search-message="cSourceMessage"
-          :cv-active-filter="cShowingSelected"
-          :cv-loading="cLoading"
-          :cv-helper="cCurrentLabel"
-          :cv-disable-fields="cDisableFields"
-          @em-simple-filter-go-to-find-emitter="keyed"
-          @cv-event-filter-go-to-find="prepareToFindSource"
-          @cv-search-focused="focused"
-          @cv-search-blured="blured"
-          @cv-search-cleared="resetCurrent"
+          class="w-100"
+          v-bind="mCustomBindins('cv-simple-filter')"
+          v-on="mCustomOns('cv-simple-filter')"
+          ref="simpleFilteRef"
+          :cv-din-ins-icon-class="'q-mt-sm q-mr-sm'"
+          :cv-din-ins-disable-fields="cpDinGenDisableFields"
         >
         </cv-simple-filter>
       </div>
@@ -25,35 +27,41 @@
         <q-slide-transition appear>
           <div>
             <ul
-              v-if="cShowList && !cLoading"
-              @mouseover="listIn"
-              @mouseleave="listOut"
+              v-if="cShowList"
+              @mouseover="(()=>emListOnEmitter(true))"
+              @mouseleave="emListLeaveEmitter"
               class="list-group"
-              :class="{'b-none':!cListOfItems || !cShowList}"
-              :style="{'width':cContainerWidth}"
+              :class="{'b-none':!cdSourceRows}"
+              :style="{'width':cdListWidth}"
             >
-                <li
-                    class="list-group-item"
-                    v-for="(row, rowKey) in cListOfItems"
-                    @click="add(rowKey,row)"
-                    :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue,'current-cursor-item':currentItem===rowKey}"
-                    :key="mValueCallBack(cListOfItems,row) + '|' + rowKey"
-                    v-html="showPatter(mLabelCallBack(cListOfItems,row),mValueCallBack(cListOfItems,row)===cCurrentValue)"
-                >
-                </li>
-                <li
-                  v-if="cLoading"
-                  class="list-group-item more-data-message"
-                >
-                  <q-spinner-facebook :size="18" class="q-mx-md txt-secondary-l-30"/>
-                  <span class="txt-secondary-l-30">Cargando...</span>
-                </li>
-                <li
-                  v-if="sourceCount && sourceCount > cListOfItemsLimit"
-                  class="list-group-item more-data-message"
-                >
-                  <span class="txt-secondary-l-30">{{cMoreDataMessage}}</span>
-                </li>
+              <li
+                class="list-group-item"
+                v-for="(row, rowKey) in cSourceRows"
+                @click="mSelect(rowKey,row)"
+                :class="{'single-selected':mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue,'current-cursor-item':cdCurrentItem===rowKey}"
+                :key="mValueCallBack(cSourceRows,row) + '|' + rowKey"
+                v-html="mShowPatter(mLabelCallBack(cSourceRows,row),mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue)"
+              >
+              </li>
+              <li
+                v-if="cpDinInsLoading"
+                class="list-group-item more-data-message"
+              >
+                <q-spinner-facebook :size="18" class="q-mx-md txt-secondary-l-30"/>
+                <span class="txt-secondary-l-30">{{cLoadingLabel}}...</span>
+              </li>
+              <li
+                v-if="cdSourceCount && cdSourceCount > cpDinInsListOfItemsLimit"
+                class="list-group-item more-data-message"
+              >
+                <span class="txt-secondary-l-30">{{cMoreDataLabel}}</span>
+              </li>
+              <li
+                v-if="cSourceRowsCount === 0"
+                class="list-group-item more-data-message"
+              >
+                <span class="txt-negative-l-30">{{cNoDataLabel}}</span>
+              </li>
             </ul>
           </div>
         </q-slide-transition >
@@ -61,35 +69,80 @@
   </div>
 </template>
 <script>
-import CvMatcherizer  from 'crudvuel-tools/src/components/matcherizer-components/CvMatcherizer'
-import CvSimpleFilter from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
+import CvMatcherizer                from 'crudvuel-tools/src/components/matcherizer-components/CvMatcherizer'
+import CvComponentExtraSet          from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
+import CvResourceComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvResourceComponentExtraSet'
+import CvPaginateComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvPaginateComponentExtraSet'
+import CvSimpleFilter               from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
+import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
 import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook} from 'quasar'
+let vueMirroring = new VueMirroring('Matcherizer')
 export default {
-  extends    : CvMatcherizer,
-  components : {
+  mixins: [
+    CvMatcherizer,
+    CvComponentExtraSet,
+    CvResourceComponentExtraSet,
+    CvPaginateComponentExtraSet,
+    vueMirroring.assimilate(
+      {CvSimpleFilter,root: true}
+    )
+  ],
+
+  components: {
     CvSimpleFilter,
     QSlideTransition,
     QIcon,
     QSpinner,
     QSpinnerFacebook
   },
-  props: [
-    'cvHelper'
-  ],
-  computed: {
-    cLimit: function () {
-      return this.cvLimit || 50
-    },
-    cSearchIconColor: function () {
-      return this.cvSearchIconColor || (this.cShowingSelected ? 'positive' : '')
-    },
-    cHelper: function () {
-      return this.cvHelper || ''
-    }
-  },
+
   methods: {
-    currentSelectedItemMark: function () {
-      return '<i class="f-right fa fa-check text-positive"></i>'
+    emStaInsfMatcherizerSimpleFilterSearchProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        if ((emitted == null || emitted === '') && this.cdStaInsfMatcherizerSimpleFilterSearch != null && this.cdStaInsfMatcherizerSimpleFilterSearch !== '')
+          this.emDinGenResetEmitter()
+        this.mSetMatcherizerSimpleFilterSearch(emitted).mSetPagSearchObject(emitted).mRefreshSource()
+        resolve(emitted)
+      })
+    },
+
+    emStaInsfMatcherizerSimpleFilterClearedProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.emDinGenResetEmitter()
+        reject(emitted)
+      })
+    },
+
+    // event navigation control
+    emStaInsfMatcherizerSimpleFilterFocusedProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetSearchFocus(true).mFixListWidth().emDinInsLoadingEmitter(true)
+        this.emSearchContinueEmitter(true)
+        resolve(emitted)
+      })
+    },
+
+    emStaInsfMatcherizerSimpleFilterBluredProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetSearchFocus(false)
+        if (!this.cdListOn)
+          this.emSearchContinueEmitter(false)
+        resolve(emitted)
+      })
+    },
+
+    emStaInsfMatcherizerSimpleFilterMouseOverProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.emSearchOnEmitter(true)
+        resolve(emitted)
+      })
+    },
+
+    emStaInsfMatcherizerSimpleFilterMouseLeaveProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.emSearchOnEmitter(false)
+        resolve(emitted)
+      })
     }
   }
 }

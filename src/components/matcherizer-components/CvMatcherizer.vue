@@ -1,571 +1,350 @@
 <template>
-  <div class="cv-matcherizer-container">
-    <div
-      class="list-items"
-    >
-      <div
-        ref="filterReference"
-      >
-        <cv-simple-filter
-          v-bind="mDefMatcherizerProps()"
-          :cv-search-message="cSourceMessage"
-          :cv-active-filter="cShowingSelected"
-          :cv-disable-fields="cDisableFields"
-          @em-simple-filter-go-to-find-emitter="keyed"
-          @cv-event-filter-go-to-find="prepareToFindSource"
-          @cv-search-focused="focused"
-          @cv-search-blured="blured"
-          @cv-search-cleared="resetCurrent"
-        >
-        </cv-simple-filter>
-      </div>
-      <ul
-        v-if="cShowList && !cLoading"
-        @mouseover="listIn"
-        @mouseleave="listOut"
-        class="list-group"
-        :style="{'width':cContainerWidth}"
-      >
-        <li
-            class="list-group-item"
-            v-for="(row, rowKey) in cListOfItems"
-            v-on:click="add(rowKey,row)"
-            :class="{'single-selected':mValueCallBack(cListOfItems,row)===cCurrentValue,'current-cursor-item':currentItem===rowKey}"
-            :key="mValueCallBack(cListOfItems,row)"
-            v-html="showPatter(mLabelCallBack(cListOfItems,row))"
-        >
-        </li>
-        <li
-          v-if="cLoading"
-          class="list-group-item more-data-message"
-        >
-          Cargando...
-        </li>
-        <li
-          v-if="sourceCount && sourceCount > cListOfItemsLimit"
-          class="list-group-item more-data-message"
-        >
-          {{cMoreDataMessage}}
-        </li>
-      </ul>
-    </div>
+  <div >
+  <!--
+    TODO:no dependencies template need to be defined
+  -->
   </div>
 </template>
 <script>
-import CvParametrizer           from '../../CvParametrizer'
-import CvSimpleFilter          from '../grid-components/CvSimpleFilter'
-import CvLocalSimpleFilterTrait from '../grid-components/CvLocalSimpleFilterTrait'
+import CvComponentSet         from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import CvResourceComponentSet from 'crudvuel-tools/src/components/sets/CvResourceComponentSet'
+import CvPaginateComponentSet from 'crudvuel-tools/src/components/sets/CvPaginateComponentSet'
+import CvSimpleFilter         from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
+import VueMirroring           from 'crudvuel/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('Matcherizer')
 export default {
-  mixins     : [CvLocalSimpleFilterTrait],
-  components : {
+  mixins: [
+    CvComponentSet,
+    CvResourceComponentSet,
+    CvPaginateComponentSet,
+    vueMirroring.fixProperties({
+      '[P|NN]staInsPagSelectQuery'     : ['id','cv_search'],
+      '[P|NN]staInsPagFilterQuery'     : {'cv_search': ''},
+      '[P|NN]staInsPagOrderBy'         : 'cv_search',
+      '[P|NN]staInsPagLimit'           : 50,
+      '[P|M]dinInsCurrentValue'        : null,
+      '[P]dinInsCurrentLabel'          : '',
+      '[P]dinInsListOfItemsLimit'      : 20,
+      '[P]dinInsValueCallBack'         : null,
+      '[P|NN]staInsPaglastFilterQuery' : null,
+      '[P|EM]staInsCurrentItem'        : null,
+      '[P]dinGenDisableFields'         : null,
+      '[D|M]sourceRows'                : [],
+      '[D|M]sourceCount'               : null,
+      '[D|M]sourcePageCount'           : null,
+      '[D|M]listWidth'                 : '200px',
+      '[D|M]lastSearch'                : null,
+      //-----------
+      '[D|EM]searchFocus'              : false,
+      '[D|EM]searchContinue'           : false,
+      '[D|EM]searchOn'                 : false,
+      '[D|EM]listOn'                   : false,
+      '[D|EM]listLeave'                : false,
+      //unconfirmed
+      '[P]dinInsLabelCallBack'         : null,
+      '[P]dinInsSourceService'         : null,
+      '[P]staInsLocalData'             : null,
+      '[P]dinInsKeyLoading'            : false,
+      '[P|EM]dinInsLoading'            : false,
+      '[P|EM]dinInsDataLoaded'         : false,
+      '[P|EM]dinInsDataLoadedFail'     : false,
+      '[EM]dinGenReset'                : null
+    }),
+    vueMirroring.assimilate(
+      {CvSimpleFilter,root: true}
+    )
+  ],
+
+  components: {
     CvSimpleFilter
   },
-  data () {
-    return {
-      sourceParametrizer : new CvParametrizer(),
-      sourceCount        : 0,
-      sourcePageCount    : null,
-      searchObject      : '',
-      sourceData         : [],
-      localData          : [],
-      currentValue       : null,
-      currentLabel       : null,
-      preselected        : false,
-      focus              : true,
-      bluring            : false,
-      listOver           : false,
-      listWidth          :'200px',
-      loading            : false,
-      disableList        : false,
-      listOfItems        : null,
-      absolueRemoteData  : false,
-      currentItem        : null,
-      itemAdded          : false
-    }
-  },
-  props:[
-    'cvCurrentValue',
-    'cvCurrentLabel',
-    'cvSourceLabel',
-    'cvSourceMessage',
-    'cvLabelCallBack',// anonimousFuntion
-    'cvValueCallBack',
-    'cvListOfItemsLimit',
-    'cvEnableAdd',
-    'cvEnableRemove',
-    'cvAddCallBack',
-    'cvRemoveCallBack',
-    'cvLocalLimit',
-    'cvLoading',
-    'cvSelectQuery',
-    'cvPage',
-    'cvByColumn',
-    'cvLimit',
-    'cvOrderBy',
-    'cvAscending',
-    'cvFilterQuery',
-    'cvSourceService',
-    'cvLocalData',
-    'cvKeyInterruptionLimit',
-    'cvMoreDataMessage',
-    'cvDestination'
-  ],
-  methods:{
-    //sourceData
-    emitSuccessMutationSource:function(response){
-      return new Promise ((resolve, reject) => {
-        this.loaded()
-        this.sourceData      = response.data.data
-        this.sourceCount     = response.data.count
-        this.sourcePageCount = response.data.data.length
-        this.processList().then(() => {
-          this.$emit('success-source-mutation', this.$data)
-          resolve()
-        }).catch(reject)
-      })
-    },
-    emitErrorMutationSource:function(response){
-      return new Promise ((resolve, reject) => {
-        this.loaded()
-        this.processList().then(() => {
-          this.$emit('error-source-mutation', this.$data)
-          resolve()
-        }).catch(reject)
-      })
-    },
-    emitInitialMutationSource:function(){
-      this.loaded()
-      this.$emit('initial-source-mutation', this.$data)
-    },
-    refreshPaginateSource:function(event){
-      return new Promise ((resolve, reject) => {
-        this.sourceParametrizer.setPage(event.page)
-        this.sourceParametrizer.setLimit(event.limit)
-        this.refreshSource().then(resolve).catch(reject)
-      })
-    },
-    prepareToFindSource:function(search){
-      return new Promise ((resolve, reject) => {
-        this.searchObject = search
-        if (this.itemAdded) {
-          this.$set(this,'itemAdded',false)
-          resolve()
-        }else{
-          if (!this.requireNewRemoteSearch())
-            this.processList().then(() => {
-              this.$set(this,'disableList',false)
-              resolve()
-            }).catch(reject)
-          else{
-            this.saveSearchState()
-            this.$set(this,'disableList',false)
-            this.$nextTick().then(() => {
-              this.toLoad()
-              this.refreshSource().then(resolve).catch(reject)
-            }).catch(reject)
-          }
-        }
-      })
-    },
-    refreshSource:function(){
-      return new Promise ((resolve, reject) => {
-        this.cSourceService(null,null,this.sourceParametrizer.getSerialized())
-          .then(response => this.emitSuccessMutationSource(response).then(resolve).catch(reject))
-          .catch(response => this.emitErrorMutationSource(response).then(resolve).catch(reject))
-      })
-    },
-    //others
-    mLabelCallBack:function(rows,row){
-      if(typeof this.cvLabelCallBack ==='undefined')
-        return row.cv_search || ''
 
-      return typeof this.cvLabelCallBack ==='function'?
-        this.cvLabelCallBack(rows,row):this.cvLabelCallBack
-    },
-    mValueCallBack:function(rows,row){
-      if(typeof this.cvValueCallBack ==='undefined')
-        return row.id || ''
-
-      return typeof this.cvValueCallBack ==='function'?
-        this.cvValueCallBack(rows,row):this.cvValueCallBack
-    },
-    mAddCallBack:function(rows,row){
-      if (typeof this.cvAddCallBack ==='function')
-        this.cvAddCallBack(rows,row)
-    },
-    mRemoveCallBack:function(rows,row){
-      if (typeof this.cvRemoveCallBack ==='function')
-        this.cvRemoveCallBack(rows,row)
-    },
-    add:function(rowKey,row){
-      return new Promise ((resolve, reject) => {
-        this.$set(this,'disableList',true)
-        this.$set(this,'itemAdded',true)
-        this.setCurrent(this.cListOfItems,row).then(() => this.listOut().then(resolve).catch(reject)).catch(reject)
-      })
-    },
-    setSearch: function (label = null, reactive = true) {
-      return new Promise ((resolve, reject) => {
-        if(this.cSimpleFilterRef){
-          if (label===null)
-            label = this.currentLabel
-          this.cSimpleFilterRef.mSimpleFilterInyectSearch(label,reactive).then(() => {
-            resolve()
-          })
-        }
-        else
-          resolve()
-      })
-    },
-    setCurrent:function(rows,row){
-      return new Promise ((resolve, reject) => {
-        if(this.cDisableFields)
-          resolve()
-        else{
-          this.currentLabel = this.mLabelCallBack(rows,row)
-          this.currentValue = this.mValueCallBack(rows,row)
-          this.refresh().then(() => {
-            this.focus = false
-            if(this.cParentRef)
-              this.cParentRef.mVueSetter({cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
-            this.$emit('cv-single-selected', {cvColumnMap:this.cColumnMap,row,destination:this.cDestination})
-            resolve()
-          }).catch(reject)
-        }
-      })
-    },
-    resetCurrent:function(clearBuffer = false){
-      return new Promise ((resolve, reject) => {
-        if (this.clearBuffer)
-          this.sourcePageCount = true
-        this.preselected  = false
-        this.currentLabel = ''
-        this.currentValue = null
-        this.listOut().then(
-          () => this.refresh().then(() => {
-            if(this.cParentRef)
-              this.cParentRef.mVueSetter({cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
-            this.$emit('cv-reset', {cvColumnMap:this.cColumnMap,row:null,destination:this.cDestination})
-          }).catch(reject)
-        ).catch(reject)
-      })
-    },
-    refresh:function(){
-      return new Promise (
-        (resolve, reject) => this.setSearch().then(
-          () => this.prepareToFindSource(this.currentLabel).then(resolve).catch(reject)).catch(reject)
-        )
-    },
-    focused: function() {
-      return new Promise ((resolve, reject) => {
-        if (this.cDisableFields)
-          resolve()
-        else {
-          this.$set(this,'currentItem',null)
-          this.$set(this,'focus',true)
-          if (this.cSimpleFilterRef) {
-            this.setSearch(this.cSearchObject).then(() => {
-              this.fixListWidth()
-              this.mSearchFocused()
-              resolve()
-            }).catch(reject)
-          }
-          else {
-            this.fixListWidth()
-            this.mSearchFocused()
-            resolve()
-          }
-        }
-      })
-    },
-    blured:function(){
-      return new Promise ((resolve, reject) => {
-        this.$set(this,'focus',false)
-        if(this.currentLabel && this.currentLabel !== '')
-          this.setSearch(this.cSearchObject)
-        this.mSearchBlured()
-        this.$nextTick().then(() => {
-          this.listOut()
-        })
-      })
-    },
-    keyed:function(key){
-      if (typeof key === 'undefined' || !key || typeof key.keyCode === 'undefined')
+  computed: {
+    cRequireNewRemoteSearch: function () {
+      //when matcherizer has receiving static localData, then is not necesary to make a remote data call
+      if (this.cdDinInsLocalData)
         return false
-      this.preselected = false
-      this.mSearchKeyUp(key)
-      switch(key.keyCode){
-        case 38:
-          if(this.currentItem !== null && this.currentItem > 0)
-            this.currentItem--
-          break
-        case 40:
-          if(this.currentItem === null && this.cListOfItems.length){
-            this.currentItem = 0
-            break
-          }
-          if (this.currentItem !== null && this.currentItem<this.cListOfItems.length-1)
-            this.currentItem++
-          break
-        case 13:
-          if(this.currentItem !== null && this.currentItem >= 0 && this.currentItem<this.cListOfItems.length)
-            this.add(this.currentItem,this.cListOfItems[this.currentItem])
-          break
-        case 27:
-          if(this.cSimpleFilterRef)
-            this.cSimpleFilterRef.mSearchClear()
-          break
-        default: this.currentItem = null
-          break
-      }
-    },
-    listIn:function(){
-      return new Promise ((resolve, reject) => {
-        this.$set(this,'listOver',true)
-        this.$emit('cv-list-out', this.cSearchObject)
-        resolve()
-      })
-    },
-    listOut:function(){
-      return new Promise ((resolve, reject) => {
-        setTimeout(()=>{
-          this.$emit('cv-list-out', this.cSearchObject)
-          this.$set(this,'listOver',false)
-          resolve()
-        }, 200)
-      })
-    },
-    fixListWidth:function(){
-      if( typeof this.$refs.filterReference!=='undefined' &&
-          typeof this.$refs.filterReference.offsetWidth!=='undefined'
-          )
-        this.listWidth = this.$refs.filterReference.offsetWidth +'px'
-      else
-        this.listWidth = '200px'
-    },
-    toLoad:function(){
-      this.loading = true
-      this.$emit('cv-toLoad');
-    },
-    loaded:function(){
-      this.loading = false
-      this.$emit('cv-loaded');
-    },
-    saveSearchState:function(){
-      this.sourceParametrizer.setPage(this.cPage)
-      this.sourceParametrizer.setByColumn(this.cByColumn)
-      this.sourceParametrizer.setLimit(this.cLimit)
-      this.sourceParametrizer.setOrderBy(this.cOrderBy)
-      this.sourceParametrizer.setAscending(this.cAscending)
-      this.sourceParametrizer.setFilterQuery(this.cFilterQuery)
-      this.sourceParametrizer.setSelectQuery(this.cSelectQuery)
-      this.sourceParametrizer.setSearchObject(this.cSearchObject)
-    },
-    processList: function () {
-      return new Promise ((resolve, reject) => {
-        var listOfItems = []
-        let data = this.cSourceListOfItems
-        if (data != null)
-          for (let i = 0; i < data.length; i++){
-            if(listOfItems.length === this.cListOfItemsLimit)
-              break
 
-            let currentItemLabel = this.mLabelCallBack(data,data[i])
-
-            if(this.mySubString(currentItemLabel,this.searchObject))
-              listOfItems.push(data[i])
-          }
-        this.$set(this,'listOfItems',listOfItems)
-        this.$nextTick().then(() => {
-          resolve(listOfItems)
-        })
-      })
-    },
-    showPatter:function(label,isCurrent){
-      let located = this.myReplace(label,this.searchObject,'<span class="matcherizer-item">$1</span>')
-      if(isCurrent)
-        located += this.currentSelectedItemMark()
-      return located
-    },
-    currentSelectedItemMark: function () {
-      return '<span class="f-right">*</span>'
-    },
-    requireNewRemoteSearch:function(){
-      //when matcherizer has receiving static cvLocalData, then is not necesary to make a remote data call
-      if (this.cLocalData)
-        return false
-      let lastSearch = this.sourceParametrizer.getSearchObject()
-      let staticPropertys = [
-        'Page',
-        'ByColumn',
-        'Limit',
-        'OrderBy',
-        'Ascending',
-        'FilterQuery',
-        'SelectQuery'
-      ]
-
-      if(this.sourcePageCount===null)
+      if (this.cdLastSearch == null || this.cdPaglastFilterQuery == null)
         return true
 
-      this.absolueRemoteData = false
-      if (lastSearch==='' && this.sourcePageCount!==null && this.sourcePageCount < this.cLimit)
-          this.absolueRemoteData = true
+      if (this.cdPaglastFilterQuery !== this.cdPagFilterQuery)
+        return true
 
-      for (let i = 0; i < staticPropertys.length; i++){
-        let property=staticPropertys[i]
-        if( typeof this.sourceParametrizer['get'+property] !=='function' || JSON.stringify(this.sourceParametrizer['get'+property]())  !== JSON.stringify(this['c'+property])){
+      /*
+      this.absolueRemoteData = false
+      if (lastSearch === '' && this.sourcePageCount !== null && this.sourcePageCount < this.cdLimit)
+        this.absolueRemoteData = true
+
+      for (let i = 0; i < staticPropertys.length; i++) {
+        let property = staticPropertys[i]
+        if (typeof this.sourceParametrizer['get' + property] !== 'function' || JSON.stringify(this.sourceParametrizer['get' + property]())  !== JSON.stringify(this['c' + property])) {
           this.absolueRemoteData = false
           return true
         }
       }
 
-      if(lastSearch===this.searchObject)
+      if (lastSearch === this.cdPagSearchObject)
         return false
 
       //When the page is full, that means that there is more remote data compatible with the current searsh, other wise, no is necesary to make another remote data call
-      if(this.sourcePageCount === this.cLimit)
+      if (this.sourcePageCount === this.cdLimit)
         return true
 
-      if(this.mySubString(this.searchObject,lastSearch))
+      if (this.mySubString(this.cdPagSearchObject,lastSearch))
         return false
 
-      if(this.absolueRemoteData)
+      if (this.absolueRemoteData)
         return false
-
+      */
       return true
     },
-    mClearData: function () {
-      this.$set(this,'sourceCount', 0)
-      this.$set(this,'sourcePageCount', null)
-      this.$set(this,'searchObject', '')
-      this.$set(this,'sourceData', [])
-      this.$set(this,'localData', [])
-      this.$set(this,'currentValue', null)
-      this.$set(this,'currentLabel', null)
-      this.$set(this,'listOfItems', null)
-      this.$set(this,'absolueRemoteData', false)
+
+    cSourceRows () {
+      let limitedSourceRows = []
+      for (let i = 0; i < this.cpDinInsListOfItemsLimit; i++) {
+        if (i >= this.cdSourceRows.length)
+          return limitedSourceRows
+        limitedSourceRows.push(this.cdSourceRows[i])
+      }
+      return limitedSourceRows
+    },
+
+    cSourceRowsCount () {
+      return this.cSourceRows.length
+    },
+
+    cpDinInsSourceService () {
+      if (this.cvDinInsSourceService != null)
+        return this.cvDinInsSourceService
+      if (
+        this.cpStaInsResource != null &&
+        this.cpStaInsResource.actions != null &&
+        this.cpStaInsResource.actions.index != null &&
+        this.cpStaInsResource.actions.index.getService != null
+      )
+        return this.cpStaInsResource.actions.index.getService
+      return this.mLocalService()
+    },
+
+    cMoreDataLabel () {
+      let trans = this.mComLang('moreDat')
+      if (trans !== '')
+        return trans
+      return '*Mas resultados disponibles mediante busqueda'
+    },
+
+    cNoDataLabel () {
+      let trans = this.mComLang('noData')
+      if (trans !== '')
+        return trans
+      return '*Sin resultados disponibles'
+    },
+
+    cLoadingLabel () {
+      let trans = this.mComLang('loadingLabel')
+      if (trans !== '')
+        return trans
+      return 'Cargando'
+    },
+
+    cShowList () {
+      return this.cdSearchContinue
+    },
+
+    cCurrentSelectedItemMark: function () {
+      return '<i class="f-right fa fa-check text-positive"></i>'
+    },
+
+    cInputRef () {
+      return this.$refs['simpleFilteRef'].cInputRef
+    },
+
+    cMatcherizerChild () {
+      return this.cvMatcherizerChild
     }
   },
-  computed:{
-    cCurrentValue:function(){
-      return this.currentValue || this.cvCurrentValue || null
+
+  methods: {
+    mLocalService () {
+      //TODO: complement this implementation
+      return new Promise((resolve, reject) => {
+        if (this.cdDinInsLocalData != null)
+          resolve(this.cdDinInsLocalData)
+        else
+          resolve([])
+      })
     },
-    cCurrentLabel:function(){
-      return this.currentLabel || this.cvCurrentLabel || null
+
+    emStaInsfMatcherizerSimpleFilterSearchProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        if ((emitted == null || emitted === '') && this.cdStaInsfMatcherizerSimpleFilterSearch != null && this.cdStaInsfMatcherizerSimpleFilterSearch !== '')
+          this.emDinGenResetEmitter()
+        this.mSetMatcherizerSimpleFilterSearch(emitted).mSetPagSearchObject(emitted).mRefreshSource()
+        resolve(emitted)
+      })
     },
-    cSelectQuery:function(){
-      if(typeof this.cvSelectQuery ==='undefined')
-        return [];
-      return Object.keys(this.cvSelectQuery)
+
+    emStaInsfMatcherizerSimpleFilterClearedProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.emDinGenResetEmitter()
+        reject(emitted)
+      })
     },
-    cPage:function(){
-      return this.cvPage || 1
+
+    mComponentInitialize () {
+      //console.log(this)
+      this.mSetMatcherizerSimpleFilterLabel(this.cpStaInsResource.rowLabel)
+      this.mSetMatcherizerSimpleFilterIcon(this.cpStaInsResource.icon)
+      return new Promise((resolve, reject) => {
+        this.mDelayer().then(() => {
+          this.mSetReady()
+          this.mSetMatcherizerSimpleFilterSearch(this.cpStaInsfMatcherizerSimpleFilterSearch)
+          resolve()
+        })
+      })
     },
-    cByColumn:function(){
-      return this.cvByColumn || 0
+
+    mRefreshSource () {
+      if (this.cRequireNewRemoteSearch)
+        return this.cpDinInsSourceService(null,null,this.cPaginator)
+          .then(response => {
+            this.emDinInsDataLoadedEmitter(response)
+            this.emDinInsLoadingEmitter(false)
+          })
+          .catch(response => {
+            this.emDinInsDataLoadedFailEmitter(response)
+            this.emDinInsLoadingEmitter(false)
+          })
     },
-    cLimit:function(){
-      return this.cvLimit || null
+
+    emDinInsDataLoadedProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        let transformedResponse = this.mTransformResponse(emitted)
+        this.mSetSourceRows(transformedResponse.rows)
+        this.mSetSourceCount(transformedResponse.count)
+        this.mSetSourcePageCount(transformedResponse.pageCount)
+        this.mSetPaglastFilterQuery({...this.cdPagFilterQuery})
+        this.mSetLastSearch(this.cdPagSearchObject)
+        resolve(this.mTransformResponse(emitted))
+      })
     },
-    cOrderBy:function(){
-      return this.cvOrderBy || 'cv_search'
+
+    mTransformResponse (response) {
+      if  (response.data.count != null)
+        return {rows: response.data.data,count: response.data.count, pageCount: response.data.data.length}
+      if  (response.count != null)
+        return {rows: response.data,count: response.count, pageCount: response.data.length}
+      return {rows: [],count: 0, pageCount: 0}
     },
-    cAscending:function(){
-      return this.cvAscending || 1
+
+    mFixListWidth () {
+      if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null)
+        this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
+      else
+        this.mSetListWidth('200px')
+      return this
     },
-    cFilterQuery:function(){
-      return this.cvFilterQuery || {'cv_search':''}
+
+    mValueCallBack (rows,row) {
+      if (this.cpDinInsValueCallBack == null)
+        return row.id || ''
+
+      return typeof this.cpDinInsValueCallBack === 'function'
+        ? this.cpDinInsValueCallBack(rows,row) : this.cpDinInsValueCallBack
     },
-    cSearchObject:function(){
-      return this.searchObject || ''
+
+    mShowPatter (label,isCurrent) {
+      let located = this.myReplace(label,this.cdPagSearchObject,'<span class="matcherizer-item">$1</span>')
+      if (isCurrent)
+        located += this.cCurrentSelectedItemMark()
+      return located
     },
-    cSourceService:function(){
-      return this.cvSourceService || null
+
+    mLabelCallBack (rows,row) {
+      if (typeof this.cvLabelCallBack === 'undefined')
+        return row.cv_search || ''
+
+      return typeof this.cvLabelCallBack === 'function'
+        ? this.cvLabelCallBack(rows,row) : this.cvLabelCallBack
     },
-    cEnableAdd:function(){
-      return this.cvEnableAdd || true
+
+    mSelect (rowKey,row) {
+      this.mSetMatcherizerSimpleFilterSearch(this.mLabelCallBack(this.cSourceRows,row))
+      this.emStaInsCurrentItemEmitter(row)
+      this.mDelayer().then(() => {
+        this.emSearchContinueEmitter(false)
+      })
     },
-    cEnableRemove:function(){
-      return this.cvEnableRemove || true
+
+    emStaInsCurrentItemProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        let fixedEmitted = {row: emitted}
+        if (this.cpStaInsResource != null && this.cpStaInsResource.singularName != null)
+          fixedEmitted['resource'] = this.cpStaInsResource.singularName
+        else {
+          fixedEmitted['resource'] = 'anonymous'
+        }
+        resolve(fixedEmitted)
+      })
     },
-    cSourceLabel:function(){
-      return this.cvSourceLabel || 'Disponibles'
+
+    // event navigation control
+    emStaInsfMatcherizerSimpleFilterFocusedProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetSearchFocus(true).mFixListWidth().emDinInsLoadingEmitter(true)
+        this.emSearchContinueEmitter(true)
+        resolve(emitted)
+      })
     },
-    cSourceMessage:function(){
-      return this.cvSourceMessage || 'Buscar en disponibles'
+
+    emStaInsfMatcherizerSimpleFilterBluredProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetSearchFocus(false)
+        if (!this.cdListOn)
+          this.emSearchContinueEmitter(false)
+        resolve(emitted)
+      })
     },
-    cColumnMap:function(){
-      return this.cvSelectQuery || false
+
+    emSearchContinueProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetSearchContinue(emitted)
+        resolve(emitted)
+      })
     },
-    cShowList:function(){
-      if (this.cDisableFields)
-        return false
-      if (this.cDisableList)
-        return false
-      return this.cFocus || this.cListOver
+
+    emStaInsfMatcherizerSimpleFilterMouseOverProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.emSearchOnEmitter(true)
+        resolve(emitted)
+      })
     },
-    cContainerWidth:function(){
-      return this.listWidth;
+
+    emStaInsfMatcherizerSimpleFilterMouseLeaveProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.emSearchOnEmitter(false)
+        resolve(emitted)
+      })
     },
-    cShowingSelected:function(){
-      return (this.cCurrentLabel && this.cCurrentLabel!=='' && this.cSearchObject === this.cCurrentLabel) || this.cPreselected
+
+    emListLeaveProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetListOn(false)
+        this.mDelayer().then(() => {
+          if (!this.cdSearchFocus && !this.cdSearchOn)
+            this.emSearchContinueEmitter(false)
+          resolve()
+        })
+        resolve(emitted)
+      })
     },
-    cLoading:function(){
-      return this.cvLoading || this.loading || false
-    },
-    cDisableList:function(){
-      return this.disableList || false
-    },
-    cListOfItemsLimit:function(){
-      let cvListOfItemsLimit = this.cvListOfItemsLimit || 10
-      return cvListOfItemsLimit > this.cLimit? this.cLimit:cvListOfItemsLimit
-    },
-    cLastSearchFail(){
-      return this.sourcePageCount===0
-    },
-    cLocalData(){
-      return this.cvLocalData || null
-    },
-    cSourceListOfItems:function(){
-      return this.cLocalData || this.sourceData
-    },
-    cListOfItems:function(){
-      return this.listOfItems
-    },
-    cKeyInterruptionLimit:function(){
-      return this.cvKeyInterruptionLimit
-    },
-    cAbsolueRemoteData: function (){
-      return this.absolueRemoteData || false
-    },
-    cMoreDataMessage:function(){
-      return this.cvMoreDataMessage || '*Mas resultados disponibles mediante busqueda'
-    },
-    cDestination: function () {
-      return this.cvDestination || 'row'
-    },
-    cFocus:function(){
-      return this.focus
-    },
-    cListOver:function(){
-      return this.listOver
-    },
-    cPreselected: function () {
-      return this.preselected
+
+    emDinGenResetProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        resolve(emitted)
+      })
     }
-  },
-  mounted:function(){
-    this.currenValue   = this.cvCurrentValue
-    this.currentLabel  = this.cvCurrentLabel
-    this.searchObject = this.currentLabel
-    if (this.currentLabel && this.currentLabel !== ''){
-      this.preselected =  true
-      this.setSearch(null,false)
-    }
-  },
-  created:function(){
-    this.saveSearchState()
   }
 }
 </script>

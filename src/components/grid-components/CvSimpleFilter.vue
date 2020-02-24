@@ -33,7 +33,7 @@ export default {
       '[P]dinInsActiveFilter'         : null,
       '[P]dinInsLabel'                : 'Busqueda simple',
       '[P]dinInsLabelColor'           : '',
-      '[P]dinInsClearIcon'            : null,
+      '[P]dinInsClearIcon'            : 'fas fa-times-circle',
       '[P]dinInsColor'                : 'primary',
       '[P]dinInsBgColor'              : 'white',
       '[P]dinInsDisableFields'        : false,
@@ -59,17 +59,17 @@ export default {
     emDinInsSearchProccesor (emitted = null) {
       let fixedEmitted = emitted != null ? emitted : ''
       this.mSetLastEmission(fixedEmitted)
+
       if (fixedEmitted == null || fixedEmitted === '')
         this.mSetPreventDebounce(true)
+
       return new Promise ((resolve, reject) => {
         if (this.cdPreventDebounce){
-          console.log('direct')
           this.mSetPreventDebounce(false)
           resolve(fixedEmitted)
         }else{
           (debounce(() => {
               if (this.cdLastEmission === fixedEmitted){
-                console.log('delayed')
                 return resolve(fixedEmitted)
               }else{
                 reject(fixedEmitted)
