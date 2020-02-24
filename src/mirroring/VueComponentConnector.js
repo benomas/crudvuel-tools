@@ -301,20 +301,40 @@ export default class VueMirroring {
     if (!component)
       return this
     if (component.props != null){
-      for (const currentProp of component.props){
-        let match = false
-        if (this.getCurrentComponent().props == null)
-          this.getCurrentComponent().props = []
+      if (Array.isArray(component.props)){
+        for (const currentProp of component.props){
+          let match = false
+          if (this.getCurrentComponent().props == null)
+            this.getCurrentComponent().props = []
 
-        for (const prop of this.getCurrentComponent().props){
-          if(currentProp === prop){
-            match = true
-            break
+          for (const prop of this.getCurrentComponent().props){
+            if(currentProp === prop){
+              match = true
+              break
+            }
+          }
+
+          if(!match){
+            this.getCurrentComponent().props.push(currentProp)
           }
         }
+      }
+      else{
+        for (const [currentProp, index] of Object.entries(component.props)){
+          let match = false
+          if (this.getCurrentComponent().props == null)
+            this.getCurrentComponent().props = []
 
-        if(!match){
-          this.getCurrentComponent().props.push(currentProp)
+          for (const prop of this.getCurrentComponent().props){
+            if(currentProp === prop){
+              match = true
+              break
+            }
+          }
+
+          if(!match){
+            this.getCurrentComponent().props.push(currentProp)
+          }
         }
       }
     }

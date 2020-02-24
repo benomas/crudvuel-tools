@@ -17,9 +17,11 @@ export default {
       {CvActionContainer}
     )
   ],
+
   components: {
     CvActionContainer
   },
+
   methods: {
     mComponentInitialize () {
       if (this.cHasActiveField)
@@ -31,12 +33,14 @@ export default {
         resolve()
       })
     },
+
     emStaGenBackProccesor (emitted) {
       return new Promise((resolve, reject) => {
         resolve(emitted)
         this.mCancelAction()
       })
     },
+
     emStaGenNextProccesor (emitted) {
       this.mSetUnReady()
       return new Promise((resolve, reject) => {
@@ -56,15 +60,18 @@ export default {
         })
       })
     },
+
     mCompleteAction () {
       this.mFinish()
       return this
     },
+
     mFinish () {
       let baseRoute = this.$route.path.split(this.mActionPath('index'))
       this.$router.push(baseRoute[0] + this.mActionPath('index'))
     }
   },
+
   created () {
     this.mAddCustomBinding({
       'cv-din-gen-action' : 'cdAction',
