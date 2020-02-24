@@ -12,6 +12,7 @@ import CvPaginateComponentSet from 'crudvuel-tools/src/components/sets/CvPaginat
 import CvSimpleFilter         from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import VueMirroring           from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Matcherizer')
+
 export default {
   mixins: [
     CvComponentSet,

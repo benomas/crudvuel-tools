@@ -77,6 +77,7 @@ import CvSimpleFilter               from 'crudvuel-tools/src/themes/quasar/compo
 import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
 import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook} from 'quasar'
 let vueMirroring = new VueMirroring('Matcherizer')
+
 export default {
   mixins: [
     CvMatcherizer,

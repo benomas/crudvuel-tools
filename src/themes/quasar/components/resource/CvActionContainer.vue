@@ -1,10 +1,9 @@
 <template>
-  <div :class="cpDinInstanceActionClasses">
-    <transition name="component-fade" mode="out-in" v-if="cpDinGenShowOwnSpinner">
-      <cv-spinner v-if="!cReady && cdIsMounted" >
+  <div :class="cpDinInsActionClasses" class="q-pa-sm">
+    <transition name="component-fade" mode="out-in" >
+      <cv-spinner v-if="!cdReady" >
       </cv-spinner>
     </transition>
-
     <slot name="cv-title-slot" class="col-lg-12 action-label q-pb-md" v-if="cpDinInsShowHeader">
       <div class="col-xs-10 col-sm-9 col-md-8 q-pb-md">
         <label>
@@ -14,41 +13,30 @@
         </label>
       </div>
     </slot>
-
-    <div :class="cActionContentClasses">
+    <div :class="{...cpDinInsActionContentClasses,...{'q-pa-md':cGtmd}}" class="shadow-2">
       <slot name="cv-content-slot"
       >
       </slot>
     </div>
-
-    <slot name="cv-test"
-    >
-    </slot>
   </div>
 </template>
 <script>
-import CvActionContainer  from 'crudvuel-tools/src/components/resource/CvActionContainer'
-import CvSpinner          from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSpinner'
-import CvTag              from 'crudvuel-tools/src/themes/quasar/components/CvTag'
+import CvActionContainer    from 'crudvuel-tools/src/components/resource/CvActionContainer'
+import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
+import CvSpinner            from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSpinner'
+import VueMirroring         from 'crudvuel/mirroring/VueMirroring'
+
 export default {
-  extends    : CvActionContainer,
-
-  components : {
-    CvSpinner,CvTag
-  },
-
-  props: [
-    'cvActionClasses',
-    'cvActionContentClasses'
+  mixins: [
+    CvActionContainer,
+    CvComponentExtraSet,
+    new VueMirroring('ActionContainer').assimilate(
+      {CvSpinner}
+    )
   ],
 
-  computed: {
-    cActionContentClasses: function () {
-      return this.cvActionContentClasses || ('row action-content w-100 ' + (this.cLtsm ? '' : 'rounded-borders q-pa-md shadow-2'))
-    },
-    cActionClasses: function () {
-      return this.cvActionClasses || ('row action-container fix-container ' + (this.cLtsm ? 'q-pa-md' : 'q-pa-lg'))
-    }
+  components : {
+    CvSpinner
   }
 }
 </script>

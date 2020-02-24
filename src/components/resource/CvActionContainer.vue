@@ -21,9 +21,8 @@
   </div>
 </template>
 <script>
-import CvTag          from '../CvTag'
-import CvSpinner      from '../grid-components/CvSpinner'
-import CvComponentSet from '../sets/CvComponentSet'
+import CvSpinner      from 'crudvuel-tools/src/components/grid-components/CvSpinner'
+import CvComponentSet from 'crudvuel-tools/src/components/sets/CvComponentSet'
 import VueMirroring   from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring()
 
@@ -41,29 +40,7 @@ export default {
   ],
 
   components : {
-    CvSpinner,
-    CvTag
-  },
-
-  computed:{
-    cGetted () {
-      return this.cRows || !this.cpDinGenAction.getService  || this.cHasRowKeyValue || false
-    },
-
-    cBackLabel () {
-      if (this.cpDinGenAction)
-        return this.cpDinGenAction.backLabel || null
-      return 'Cancelar'
-    },
-
-    cNextLabel () {
-      if (this.cpDinGenAction)
-        return this.cpDinGenAction.nextLabel || null
-      return 'Guardar'
-    }
-  },
-  mounted () {
-    this.isMounted = true
+    CvSpinner
   }
 }
 </script>
