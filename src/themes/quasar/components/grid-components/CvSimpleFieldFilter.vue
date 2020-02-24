@@ -1,35 +1,25 @@
 <template>
   <cv-simple-filter
-    v-bind="mCustomBindins('cv-simple-filter')"
+    v-bind="mCustomBindins('cv-simple-filter',cCvSimpleFilterLocalBindin)"
     v-on="mCustomOns('cv-simple-filter')"
   >
   </cv-simple-filter>
 </template>
 <script>
-import CvSimpleFilter       from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
+import CvSimpleFieldFilter  from 'crudvuel-tools/src/components/grid-components/CvSimpleFieldFilter'
 import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
+import CvSimpleFilter       from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
 import VueMirroring         from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('SimpleFieldFilter').enableRoot()
 
 export default {
   mixins: [
+    CvSimpleFieldFilter,
     CvComponentExtraSet,
-    vueMirroring.fixProperties({
-      '[P]dinInsField'   : 'id',
-      '[P|D]dinInsLabel' : 'Busqueda'
-    }),
     vueMirroring.assimilate(
       {CvSimpleFilter}
     )
   ],
-
-  computed: {
-    cdSimpleFieldFilterSimpleFilterLabel () {
-      if (this.cvStaInsfSimpleFieldFilterSimpleFilterLabel == null)
-        return ''
-      return this.cvStaInsfSimpleFieldFilterSimpleFilterLabel
-    }
-  },
 
   components: {
     CvSimpleFilter

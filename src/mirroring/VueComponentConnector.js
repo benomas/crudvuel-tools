@@ -352,12 +352,15 @@ export default class VueMirroring {
   getParentPrefix () {
     return this.parentPrefix || ''
   }
+
   getProps () {
     return this.props || []
   }
+
   getComponents () {
     return this.components || {}
   }
+
   getCurrentComponent () {
     return this.currentComponent || {}
   }
@@ -371,14 +374,17 @@ export default class VueMirroring {
     this.props = props || []
     return this
   }
+
   setComponents (components) {
     this.components = components || {}
     return this
   }
+
   setCurrentComponent (currentComponent) {
     this.currentComponent = currentComponent || {}
     return this
   }
+
   isRoot(){
     if (this.getCurrentComponent().root === false)
       return false
@@ -388,6 +394,7 @@ export default class VueMirroring {
 
     return this.vueMirroring.root
   }
+
   fixedComponentTag (component = null){
     if (!component || component.__file == null)
       return ''
@@ -398,6 +405,7 @@ export default class VueMirroring {
 
     return kebabCase(found[0][2])
   }
+
   loadComponents (...components) {
     let fixedComponents = {}
     for (let currentComponent of components){

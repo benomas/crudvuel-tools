@@ -7,8 +7,8 @@
         <vue-simple-spinner
           v-bind:line-size="9"
           v-bind:speed="1.0"
-          :size="cXs?70:cSm?75:cMd?80:cLg?90:90"
-          :message="$tc('loading')"
+          :size="cXs?cpDinInsXsSize:cSm?cpDinInsSmSize:cMd?cpDinInsMdSize:cLg?cpDinInsLgSize:cpDinInsXlSize"
+          :message="cLoadingLabel"
           :text-fg-color="cFgColor"
           :line-fg-color="cFgLineColor"
           :line-bg-color="cBgColor"
@@ -22,12 +22,13 @@
 import CvSpinner            from 'crudvuel-tools/src/components/grid-components/CvSpinner'
 import VueSimpleSpinner     from 'vue-simple-spinner'
 import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
-import { colors }           from 'quasar'
+import VueMirroring         from 'crudvuel-tools/src/mirroring/VueMirroring'
+import {colors}             from 'quasar'
 
 export default {
   mixins: [
-    CvComponentExtraSet,
-    CvSpinner
+    CvSpinner,
+    CvComponentExtraSet
   ],
 
   components : {

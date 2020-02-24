@@ -46,8 +46,8 @@ import {QIcon,QField,QInput,QBtn} from 'quasar'
 
 export default {
   mixins: [
-    CvComponentExtraSet,
-    CvSimpleFilter
+    CvSimpleFilter,
+    CvComponentExtraSet
   ],
 
   components : {

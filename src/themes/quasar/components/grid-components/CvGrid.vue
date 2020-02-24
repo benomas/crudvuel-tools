@@ -118,6 +118,19 @@ export default {
     CvCombinatoryFilter,
     CvFilterSelector,
     CvSpinner
+  },
+
+  methods: {
+    //reset search when switch filter mode
+    emDinInsfGridFilterSelectorCurrentFilterProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        resolve(emitted)
+        this.$nextTick().then(() => {
+          this.emDinInsfGridCombinatoryFilterSearchEmitter('')
+          this.emDinInsfGridSimpleFilterSearchEmitter('')
+        })
+      })
+    }
   }
 }
 </script>

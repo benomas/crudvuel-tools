@@ -405,6 +405,7 @@ export default class VueAutoDefiner {
   getCurrentComponent (){
     return this.getVueComponentConnector().getCurrentComponent()
   }
+
   getParentPrefix () {
     return this.getVueComponentConnector().getParentPrefix()
   }

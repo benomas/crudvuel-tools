@@ -2,26 +2,38 @@
   <div class="cv-spinner" :style="{'width': cFixedWidth,'height': cFixedHeight}">
     <div
       class="animation-container"
-      v-if="cdIsMounted"
+      v-if="cdReady"
       :style="{
         'width'       :cAnimationFixedWidth,
         'height'      :cAnimationFixedHeight,
         'margin-left' :cFixedAnimationMarginLeft,
         'margin-top'  :cFixedAnimationMarginTop
-      }"
-    >
+      }">
       <slot>
-        <img class="animation-img" src="../../assets/spinner.gif">
+        <img class="animation-img" src="crudvuel-tools/src/assets/spinner.gif">
       </slot>
     </div>
   </div>
 </template>
 <script>
 import CvComponentSet from 'crudvuel-tools/src/components/sets/CvComponentSet'
+import VueMirroring   from 'crudvuel-tools/src/mirroring/VueMirroring'
 
 export default {
   mixins: [
-    CvComponentSet
+    CvComponentSet,
+    new VueMirroring('Spinner').fixProperties({
+      '[P]dinInsScale'    : 0.20,
+      '[P]dinInsHeight'   : null,
+      '[P]dinInsWidth'    : null,
+      '[P]dinInsLineSize' : 9,
+      '[P]dinInsSpeed'    : 1.0,
+      '[P]dinInsXsSize'   : 70,
+      '[P]dinInsSmSize'   : 75,
+      '[P]dinInsMdSize'   : 80,
+      '[P]dinInsLgSize'   : 90,
+      '[P]dinInsXlSize'   : 90,
+    })
   ],
 
   data () {
@@ -31,16 +43,15 @@ export default {
   },
 
   props:[
-    'cvTag',
-    'cvWidth',
-    'cvHeight',
     'cvTarget',
-    'cvScale',
   ],
 
   computed:{
-    cTag: function () {
-      return this.cvTag || ''
+    cLoadingLabel () {
+      let trans = this.mComLang('loading')
+      if (trans !== '')
+        return trans
+      return 'Cargando'
     },
 
     cTarget: function () {
@@ -51,8 +62,8 @@ export default {
     },
 
     cWidth: function () {
-      if(this.cvWidth)
-        return this.cvWidth
+      if(this.cpDinInsWidth)
+        return this.cpDinInsWidth
       if(this.cTarget && this.cTarget.offsetWidth)
         return this.cTarget.offsetWidth
       return null
@@ -65,8 +76,8 @@ export default {
     },
 
     cHeight: function () {
-      if(this.cvHeight)
-        return this.cvHeight
+      if(this.cpDinInsHeight)
+        return this.cpDinInsHeight
       if(this.cTarget && this.cTarget.offsetHeight)
         return this.cTarget.offsetHeight
       return null
@@ -79,7 +90,7 @@ export default {
     },
 
     cAnimationWidth: function () {
-      return this.$el.offsetWidth * this.cScale
+      return this.$el.offsetWidth * this.cpDinInsScale
     },
 
     cAnimationFixedWidth: function () {
@@ -89,7 +100,7 @@ export default {
     },
 
     cAnimationHeight: function () {
-      return this.$el.offsetHeight * this.cScale
+      return this.$el.offsetHeight * this.cpDinInsScale
     },
 
     cAnimationFixedHeight: function () {
@@ -120,23 +131,7 @@ export default {
       if(!this.cAnimationMarginTop)
         return null
       return this.cAnimationMarginTop + 'px'
-    },
-
-    cScale: function () {
-      return this.cvScale || 0.20
-    },
-
-    cSelfRef :  function () {
-      return this
-    },
-
-    cdIsMounted: function () {
-      return this.isMounted || false
     }
-  },
-
-  mounted: function () {
-    this.isMounted=true
   }
 }
 </script>

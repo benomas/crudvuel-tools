@@ -51,7 +51,6 @@ export default {
   methods: {
     mCustomBindins (index,localBindins = {}) {
       let collection = {}
-
       for (const customBinding of this.customBindins)
         for (const [prop, value] of Object.entries(customBinding))
           collection[prop]=this[value]
