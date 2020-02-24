@@ -54,10 +54,10 @@
   </cv-action-container>
 </template>
 <script>
-import CvBaseCrud     from 'src/customs/crudvuel/themes/quasar/components/resource/CvBaseCrud'
+//import CvBaseCrud     from 'src/customs/crudvuel/themes/quasar/components/resource/CvBaseCrud'
 import CvMatcherizer     from 'src/customs/crudvuel/themes/quasar/components/matcherizer-components/CvMatcherizer'
 export default {
-  extends    : CvBaseCrud,
+  //extends    : CvBaseCrud,
   components : {
     CvMatcherizer
   },

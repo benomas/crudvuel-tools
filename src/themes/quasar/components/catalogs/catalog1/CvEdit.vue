@@ -1,6 +1,6 @@
 <script>
-import CvCreate  from './CvCreate.vue'
-import CvEdit       from 'src/customs/crudvuel/themes/quasar/components/resource/CvEdit'
+import CvCreate  from 'crudvuel-tools/src/themes/quasar/components/catalogs/catalog1/CvCreate'
+import CvEdit    from 'src/customs/crudvuel/themes/quasar/components/resource/CvEdit'
 export default {
   mixins: [
     CvCreate,

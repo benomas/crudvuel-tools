@@ -100,7 +100,7 @@
   </cv-action-container>
 </template>
 <script>
-import CvBaseCrud       from 'src/customs/crudvuel/themes/quasar/components/resource/CvBaseCrud'
+//import CvBaseCrud       from 'src/customs/crudvuel/themes/quasar/components/resource/CvBaseCrud'
 import CvMatcherizer    from 'src/customs/crudvuel/themes/quasar/components/matcherizer-components/CvMatcherizer'
 import QUploader        from 'src/customs/crudvuel/themes/quasar/components/others/QUploader'
 import CvFileManager    from 'src/customs/crudvuel/themes/quasar/components/others/CvFileManager'
@@ -108,7 +108,10 @@ import {QTooltip}       from 'quasar'
 import CvMultiFileMenu  from 'src/customs/crudvuel/themes/quasar/components/others/CvMultiFileMenu'
 import CvSingleFileMenu from 'src/customs/crudvuel/themes/quasar/components/others/CvSingleFileMenu'
 export default {
-  mixins: [CvBaseCrud,CvFileManager],
+  mixins: [
+    //CvBaseCrud,
+    CvFileManager
+  ],
   data    : function () {
     return {
       errorCount: 0

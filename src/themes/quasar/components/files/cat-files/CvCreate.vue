@@ -1,79 +1,57 @@
 <template>
-  <cv-action-container v-if="cResource && cAction" v-bind="defActionProps()">
-    <div slot="cv-content-slot" class="row w-100">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('name')">
-          <q-input v-bind="defInputProps('name')" v-model.trim="row.name"/>
-        </q-field>
+  <div class="q-pa-md cv-create">
+    <cv-action-container
+      v-if="cpStaGenAction"
+      v-bind="mCustomBindins('cv-action-container')"
+      v-on="mCustomOns('cv-action-container')">
+      <div slot="cv-title-slot" class="row action-label">
+        <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
+          <label>
+            <span class="q-headline txt-secondary f-bold">
+              {{cpStaGenAction.label}}
+            </span>
+          </label>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('slug')">
-          <q-input v-bind="defInputProps('slug')" v-model.trim="row.slug"/>
-        </q-field>
+      <div slot="cv-content-slot">
+        <div class="row w-100">
+          <cv-cat-files-skeleton
+            v-bind="mCustomBindins('cv-cat-files-skeleton')"
+            v-on="mCustomOns('cv-cat-files-skeleton')"
+            :cv-segment="''"
+            >
+          </cv-cat-files-skeleton>
+          <div class="col-xs-12 h-50px">
+          <!-- Code -->
+          </div>
+          <div class="col-xs-12">
+            <cv-action-buttons
+              v-bind="mCustomBindins('cv-action-buttons')"
+              v-on="mCustomOns('cv-action-buttons')"
+              >
+            </cv-action-buttons>
+          </div>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4 q-pa-md">
-        <q-field v-bind="defErrorInputProps('types')">
-          <q-input v-bind="defInputProps('types')" v-model.trim="row.types"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 q-pa-md">
-        <q-field v-bind="defErrorInputProps('max_size')">
-          <q-input v-bind="defInputProps('max_size')" v-model.trim="row.max_size"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 q-pa-md">
-        <q-field v-bind="defErrorInputProps('min_size')">
-          <q-input v-bind="defInputProps('min_size')" v-model.trim="row.min_size"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-2 q-pa-md">
-        <q-field v-bind="defErrorInputProps('group')">
-          <q-input v-bind="defInputProps('group')" v-model.trim="row.group"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 col-sm-4 col-lg-2 q-pa-md m-auto">
-        <q-field v-bind="defErrorInputProps('required')">
-          <cv-toggle v-bind="defInputProps('required')" v-model="row.required" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 col-sm-4 col-lg-2 q-pa-md m-auto">
-        <q-field v-bind="defErrorInputProps('multiple')">
-          <cv-toggle v-bind="defInputProps('multiple')" v-model="row.multiple" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 col-sm-4 col-lg-2 q-pa-md m-auto">
-        <q-field v-bind="defErrorInputProps('active')">
-          <cv-toggle v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 q-pa-md">
-        <q-field v-bind="defErrorInputProps('resource')">
-          <q-input v-bind="defInputProps('resource')" v-model.trim="row.resource"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 q-pa-md">
-        <q-field v-bind="defErrorInputProps('description')">
-          <q-input v-bind="defInputProps('description')" v-model="row.description" type="textarea" :max-height="100" :min-rows="7"/>
-        </q-field>
-      </div>
-      <div class="col-xs-12 h-50px">
-      <!-- Code -->
-      </div>
-      <div class="col-xs-12">
-        <cv-buttons :cv-ready="ready" @cv-back="cancelAction()" @cv-next="setService()" :cv-action="cAction">
-        </cv-buttons>
-      </div>
-    </div>
-  </cv-action-container>
+    </cv-action-container>
+  </div>
 </template>
 <script>
-import CvBaseCrud    from 'src/customs/crudvuel/themes/quasar/components/resource/CvBaseCrud'
+import CvCreate                 from 'src/customs/crudvuel/themes/quasar/components/resource/CvCreate'
+import CvCatFilesSkeleton       from 'crudvuel-tools/src/themes/quasar/components/files/cat-files/CvCatFilesSkeleton'
+import CvSkeletonController     from 'src/customs/crudvuel/themes/quasar/components/resource/CvSkeletonController'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('Create').enableRoot()
 export default {
-  extends : CvBaseCrud,
-  methods : {
-    validator: function () {
-      return true
-    }
+  mixins: [
+    CvCreate,
+    vueMirroring.restoreBindins(CvCreate).assimilate(
+      {CvCatFilesSkeleton}
+    ),
+    CvSkeletonController
+  ],
+  components: {
+    CvCatFilesSkeleton
   }
 }
 </script>

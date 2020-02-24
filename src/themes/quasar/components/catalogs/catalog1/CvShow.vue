@@ -1,6 +1,10 @@
 <script>
-import CvRowAction from './CvCreate'
+import CvEdit  from 'crudvuel-tools/src/themes/quasar/components/catalogs/catalog1/CvEdit'
+import CvShow  from 'src/customs/crudvuel/themes/quasar/components/resource/CvShow'
 export default {
-  extends: CvRowAction
+  mixins: [
+    CvEdit,
+    CvShow
+  ]
 }
 </script>

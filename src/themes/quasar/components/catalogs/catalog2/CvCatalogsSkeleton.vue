@@ -1,0 +1,41 @@
+<template>
+  <div class="row w-100">
+    <div class="col-xs-12 col-sm-6 col-md-5 q-pa-md  q-pa-md">
+      <q-input
+        v-bind="mInputBinding('name')"
+        v-on="mInputOnsBinding('name')"/>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-5 q-pa-md  q-pa-md">
+      <q-input
+        v-bind="mInputBinding('slug')"
+        v-on="mInputOnsBinding('slug')"/>
+    </div>
+    <div class="col-xs-12 col-sm-2 col-md-2 q-pa-md m-auto">
+      <q-field borderless v-bind="mErrorBinding('active')">
+        <q-toggle
+          v-bind="mToogleBinding('active')"
+          v-on="mToogleOnsBinding('active')"/>
+      </q-field>
+    </div>
+    <div class="col-xs-12 col-sm-9 col-md-12 q-pa-md">
+      <q-input
+        v-bind="mInputBinding('description')"
+        v-on="mInputOnsBinding('description')"
+        type="textarea"
+        :max-height="100"
+        :min-rows="7"
+      />
+    </div>
+  </div>
+</template>
+<script>
+import CvSkeleton               from 'src/customs/crudvuel/themes/quasar/components/resource/CvSkeleton'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
+let vueMirroring = new VueMirroring('OwnersSkeleton')
+export default {
+  mixins: [
+    vueMirroring.fixProperties({}),
+    CvSkeleton
+  ]
+}
+</script>

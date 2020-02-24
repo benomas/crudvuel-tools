@@ -29,12 +29,12 @@
                 <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-15">
+              <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
                 {{ fLang('name') }}
                 <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'description'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-15">
+              <th v-cv-page-opt="'description'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
                 {{ fLang('description') }}
                 <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>

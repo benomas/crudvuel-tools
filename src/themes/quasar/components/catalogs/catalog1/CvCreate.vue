@@ -50,17 +50,9 @@ export default {
     ),
     CvSkeletonController
   ],
+
   components: {
     CvCatalogsSkeleton
-  },
-  directives: {
-  },
-  computed: {
-  },
-  methods: {
-  },
-  mounted: function () {
-    //console.log(this)
   }
 }
 </script>

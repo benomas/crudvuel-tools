@@ -1,142 +1,171 @@
 <template>
-  <cv-adaptive-grid-index v-if="cResource && cAction" v-bind="defActionProps()" v-on="bGridOn()">
-    <!-- cv-grid-customization-->
-    <template v-if="1" slot="headers-slot" slot-scope="props">
-        <!-- cv-grid-customization-->
-        <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" >
-          {{ fLang('id') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
-        </th>
-        <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
-          {{ fLang('name') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="name"></cv-order-icons>
-        </th>
-        <th cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
-          {{ fLang('slug') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="slug"></cv-order-icons>
-        </th>
-        <th cv-key="description" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
-          {{ fLang('description') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="description"></cv-order-icons>
-        </th>
-        <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
-          {{ fLang('active') }}
-          <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
-        </th>
-    </template>
-    <!-- cv-grid-extra-headers-->
-    <template v-if="1" slot="extra-actions-header-slot" slot-scope="props">
-    </template>
-    <template v-if="cEnableSuperFilers" slot="sub-headers-slot" slot-scope="props">
-      <tr >
-        <td >
-          <cv-simple-filter
-            class="w-100"
-            :cv-search-label="''"
-            cv-search-icon=""
-            @cv-event-filter-go-to-find="((search)=>{
-              superFilter('id',search)
-            })"
-          >
-          </cv-simple-filter>
-        </td>
-        <td >
-          <cv-simple-filter
-            class="w-100"
-            :cv-search-label="''"
-            cv-search-icon=""
-            @cv-event-filter-go-to-find="((search)=>{
-              superFilter('name',search)
-            })"
-          >
-          </cv-simple-filter>
-        </td>
-        <td >
-          <cv-simple-filter
-            class="w-100"
-            :cv-search-label="''"
-            cv-search-icon=""
-            @cv-event-filter-go-to-find="((search)=>{
-              superFilter('slug',search)
-            })"
-          >
-          </cv-simple-filter>
-        </td>
-        <td >
-          <cv-simple-filter
-            class="w-100"
-            :cv-search-label="''"
-            cv-search-icon=""
-            @cv-event-filter-go-to-find="((search)=>{
-              superFilter('description',search)
-            })"
-          >
-          </cv-simple-filter>
-        </td>
-        <td class="t-center">
-        </td>
-        <td class="t-center">
-        </td>
-      </tr>
-    </template>
-    <!-- cv-grid-data-cells-->
-    <template v-if="1" slot="table-properties-slot" slot-scope="props">
-      <td >
-        {{props.slotRow.id}}
-      </td>
-      <td>
-        {{props.slotRow.name}}
-      </td>
-      <td>
-        {{props.slotRow.slug}}
-      </td>
-      <td>
-        {{props.slotRow.description}}
-      </td>
-    </template>
-    <!-- cv-grid-extra-actions-->
-    <template v-if="1" slot="table-extra-actions-slot" slot-scope="props">
-    </template>
-    <!-- cv-grid-flexi-data-cells-->
-    <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
-      <q-item>
-        <q-item-section>
-          <q-item-section label>{{ fLang('id') }}</q-item-section>
-        </q-item-section>
-        <q-item-label>
-          <q-item-section sublabel class="limit-label">{{props.slotRow.id}}</q-item-section>
-        </q-item-label>
-      </q-item>
-      <q-item>
-        <q-item-label>
-          <q-item-section label>{{ fLang('name') }}</q-item-section>
-          <q-item-section sublabel class="limit-label">{{props.slotRow.name}}</q-item-section>
-        </q-item-label>
-      </q-item>
-      <q-item>
-        <q-item-label>
-          <q-item-section label>{{ fLang('slug') }}</q-item-section>
-          <q-item-section sublabel class="limit-label">{{props.slotRow.slug}}</q-item-section>
-        </q-item-label>
-      </q-item>
-      <q-item>
-        <q-item-label>
-          <q-item-section label>{{ fLang('description') }}</q-item-section>
-          <q-item-section sublabel class="limit-label h-60px">{{props.slotRow.description}}</q-item-section>
-        </q-item-label>
-      </q-item>
-    </template>
-    <!-- cv-grid-flexi-extra-actions-->
-    <template v-if="1" slot="flexi-extra-actions-slot" slot-scope="props">
-    </template>
-  </cv-adaptive-grid-index>
+  <div class="q-pa-md cv-index">
+    <cv-action-container
+      v-if="cpStaGenAction"
+      v-bind="mCustomBindins('cv-action-container')"
+      v-on="mCustomOns('cv-action-container')">
+      <div slot="cv-title-slot" class="row action-label">
+        <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
+          <label>
+            <span class="q-headline txt-secondary f-bold">
+              {{cpStaGenAction.label}}
+            </span>
+          </label>
+        </div>
+      </div>
+      <div slot="cv-content-slot">
+        <div>
+          <cv-adaptive-grid-index
+            v-bind="mCustomBindins('cv-adaptive-grid-index')"
+            v-on="mCustomOns('cv-adaptive-grid-index')"
+            :cv-sta-comf-cv-paginate-limit-values="[ 8, 20, 50, 100, 200 ]"
+            :cv-sta-comf-cv-paginate-pages-per-view="5"
+            :cv-din-insf-adaptive-grid-index-grid-show-top-pagination="false"
+            >
+            <template v-if="1" slot="headers-slot" slot-scope="props">
+                <!-- cv-grid-customization-->
+              <th v-cv-page-opt="'id'" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-15" >
+                {{ fLang('id') }}
+                <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+              </th>
+              <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
+                {{ fLang('name') }}
+                <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+              </th>
+              <th v-cv-page-opt="'slug'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
+                {{ fLang('slug') }}
+                <cv-order-icons cv-sta-ins-row-field="slug" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+              </th>
+              <th v-cv-page-opt="'active'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-10" ref="headers">
+                {{ fLang('active') }}
+                <cv-order-icons cv-sta-ins-row-field="active" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+              </th>
+            </template>
+            <template v-if="cEnableSimpleFieldFilter" slot="sub-headers-slot" slot-scope="props">
+              <tr>
+                <td>
+                  <cv-simple-field-filter
+                    v-bind="mCustomBindins('cv-simple-field-filter')"
+                    v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-din-ins-field="'id'"
+                  >
+                  </cv-simple-field-filter>
+                </td>
+                <td>
+                  <cv-simple-field-filter
+                    v-bind="mCustomBindins('cv-simple-field-filter')"
+                    v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-din-ins-field="'name'"
+                  >
+                  </cv-simple-field-filter>
+                </td>
+                <td>
+                  <cv-simple-field-filter
+                    v-bind="mCustomBindins('cv-simple-field-filter')"
+                    v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-din-ins-field="'slug'"
+                  >
+                  </cv-simple-field-filter>
+                </td>
+                <td class="t-center">
+                </td>
+                <td class="t-center">
+                </td>
+              </tr>
+            </template>
+            <template v-if="1" slot="table-properties-slot" slot-scope="props">
+              <td>{{props.slotRow.id}}</td>
+              <td>{{props.slotRow.name}}</td>
+              <td>{{props.slotRow.slug}}</td>
+            </template>
+            <!-- cv-grid-extra-actions-->
+            <template v-if="1" slot="table-extra-actions-slot" slot-scope="props">
+            </template>
+            <template v-if="1" slot="flexi-grind-headers-slot" slot-scope="props">
+              <div v-cv-page-opt="'id'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+                {{ fLang('id') }}
+              </div>
+              <div class="col-xs-12">
+                <cv-simple-field-filter
+                  v-if="cEnableSimpleFieldFilter"
+                  v-bind="mCustomBindins('cv-simple-field-filter')"
+                  v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-din-ins-field="'id'"
+                >
+                </cv-simple-field-filter>
+              </div>
+              <div v-cv-page-opt="'name'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+                {{ fLang('name') }}
+              </div>
+              <div class="col-xs-12">
+                <cv-simple-field-filter
+                  v-if="cEnableSimpleFieldFilter"
+                  v-bind="mCustomBindins('cv-simple-field-filter')"
+                  v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-din-ins-field="'name'"
+                >
+                </cv-simple-field-filter>
+              </div>
+              <div v-cv-page-opt="'slug'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                <cv-order-icons cv-sta-ins-row-field="slug" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+                {{ fLang('slug') }}
+              </div>
+              <div class="col-xs-12">
+                <cv-simple-field-filter
+                  v-if="cEnableSimpleFieldFilter"
+                  v-bind="mCustomBindins('cv-simple-field-filter')"
+                  v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-din-ins-field="'slug'"
+                >
+                </cv-simple-field-filter>
+              </div>
+            </template>
+            <!-- cv-grid-flexi-data-cells-->
+            <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
+              <q-item>
+                <q-item-label>
+                  <q-item-section label class="f-bold text-subtitle2">{{ fLang('name') }}</q-item-section>
+                  <q-item-section sublabel class="limit-label">{{props.slotRow.name}}</q-item-section>
+                </q-item-label>
+              </q-item>
+              <q-item>
+                <q-item-label>
+                  <q-item-section label class="f-bold text-subtitle2">{{ fLang('slug') }}</q-item-section>
+                  <q-item-section sublabel class="limit-label">{{props.slotRow.slug}}</q-item-section>
+                </q-item-label>
+              </q-item>
+            </template>
+            <!-- cv-grid-flexi-extra-actions-->
+            <template v-if="1" slot="flexi-extra-actions-slot" slot-scope="props">
+            </template>
+          </cv-adaptive-grid-index>
+        </div>
+      </div>
+    </cv-action-container>
+  </div>
 </template>
 <script>
-import CvIndex             from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
-import CvAdaptiveGridIndex from 'src/customs/crudvuel/themes/quasar/components/others/CvAdaptiveGridIndex'
-import {QIcon}             from 'quasar'
+import CvIndex            from 'src/customs/crudvuel/themes/quasar/components/resource/CvIndex'
+import cvPageOpt          from 'crudvuel-tools/src/directives/cvPageOpt'
+import {QIcon,QSkeleton}  from 'quasar'
 export default {
-  extends    : CvIndex,
-  components : {CvAdaptiveGridIndex,QIcon}
+  mixins: [
+    CvIndex
+  ],
+
+  components : { QIcon,QSkeleton },
+
+  directives : {
+    cvPageOpt: cvPageOpt
+  }
 }
 </script>
