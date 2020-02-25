@@ -3,7 +3,7 @@
     <slot>
     </slot>
     <span class="cv-error-message" v-if="cError">
-        {{ cError[0] }}
+      {{ cError[0] }}
     </span>
   </cv-tag>
 </template>

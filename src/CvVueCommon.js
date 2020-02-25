@@ -29,8 +29,22 @@ export default class CvVueCommon {
           return this.$q.screen.width || 0
         },
 
-        cWindowsHeigth: function () {
-          return this.$q.screen.width.heigth || 0
+        cWindowsHeight: function () {
+          return this.$q.screen.height || 0
+        },
+
+        cActionContentHeightFix: function () {
+          if (this.cWindowsHeight < 200)
+            return 'auto'
+
+          return ( this.cWindowsHeight - 265) + 'px'
+        },
+
+        cActionContentHeightFixNoButtons: function () {
+          if (this.cWindowsHeight < 200)
+            return 'auto'
+
+          return ( this.cWindowsHeight - 220) + 'px'
         },
 
         cGtxs: function () {

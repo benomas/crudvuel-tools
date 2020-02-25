@@ -93,13 +93,13 @@ export default {
       return resource
     },
 
-    rLang (source,resource = null) {
+    mrLang (source,resource = null) {
       let lResource = this.mResourceAccessing(resource)
       return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
     },
 
-    fLang (field,resource = null) {
-      return this.rLang('fields.' + field,resource)
+    mfLang (field,resource = null) {
+      return this.mrLang('fields.' + field,resource)
     },
 
     mResorceAction (action = null,resource = null) {

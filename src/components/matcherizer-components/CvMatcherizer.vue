@@ -194,9 +194,14 @@ export default {
     },
 
     mComponentInitialize () {
-      //console.log(this)
-      this.mSetMatcherizerSimpleFilterLabel(this.cpStaInsResource.rowLabel)
-      this.mSetMatcherizerSimpleFilterIcon(this.cpStaInsResource.icon)
+      if (this.cvStaInsfMatcherizerSimpleFilterLabel != null && this.cvStaInsfMatcherizerSimpleFilterLabel !== undefined)
+        this.mSetMatcherizerSimpleFilterLabel(this.cvStaInsfMatcherizerSimpleFilterLabel)
+      else
+        this.mSetMatcherizerSimpleFilterLabel(this.cpStaInsResource.rowLabel)
+      if (this.cvStaInsfMatcherizerSimpleFilterIcon != null && this.cvStaInsfMatcherizerSimpleFilterIcon !== undefined)
+        this.mSetMatcherizerSimpleFilterLabel(this.cvStaInsfMatcherizerSimpleFilterIcon)
+      else
+        this.mSetMatcherizerSimpleFilterIcon(this.cpStaInsResource.icon)
       return new Promise((resolve, reject) => {
         this.mDelayer().then(() => {
           this.mSetReady()
