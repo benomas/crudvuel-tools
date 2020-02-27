@@ -232,10 +232,15 @@ export default class VueMirroring {
 
           this.methods[newEmitterName] = (function(newProccesorName,newEventName){
             return function(emitted = null) {
-              //console.log([newProccesorName,splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
-              this[newProccesorName](emitted).then((proccesed = null) => {
-                this.$emit(newEventName, proccesed)
-              }).catch(error=>error)
+              //return new Promise ((resolver,reject) => {
+                //console.log([newProccesorName,splitedEmitter,parentPrefix,emitter,setterName,this[setterName]])
+                this[newProccesorName](emitted).then((proccesed = null) => {
+                  this.$emit(newEventName, proccesed)
+                  //resolver(emitted)
+                }).catch(error => {
+                  //reject(error)
+                })
+              //})
             }
           })(newProccesorName,newEventName)
 

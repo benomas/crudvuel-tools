@@ -7,7 +7,7 @@ export default {
     new VueMirroring().fixProperties({
       '[P]staGenAction'         : null,
       '[P]dinGenExcludeActions' : [],
-      '[P]dinGenDisableFields'  : null,
+      '[P]dinGenDisableFields'  : null
     })
   ],
 
@@ -65,10 +65,16 @@ export default {
         this.$set(this,'row',{})
       if (this.cResource.filler != null)
         this.$set(this,'row',{...this.cResource.filler()})
-      else
+      else{
         for (let i = 0; i < fields.length; i++)
           if (this.row[fields[i]] ==  null)
             this.$set(this.row,fields[i],1)
+      }
+      return this
+    },
+
+    mClearRow () {
+      this.$set(this,'row',{})
       return this
     },
 

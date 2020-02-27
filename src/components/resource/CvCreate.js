@@ -24,11 +24,9 @@ export default {
 
   methods: {
     mComponentInitialize () {
-      if (this.cHasActiveField)
+      if (this.cHasActiveField && this.row == null)
         this.mSetRow({active: 1})
       return new Promise((resolve, reject) => {
-        if (this.cAutoFillable)
-          this.mAutoFill(this.row)
         this.mSetReady()
         resolve()
       })

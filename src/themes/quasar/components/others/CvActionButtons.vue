@@ -33,7 +33,20 @@
         </span>
       </q-btn>
     </div>
-    <div v-if="cAutoFillable" class="" :offset="[18, 30]">
+    <div v-if="cClereable" class="float-right" :offset="[30, 90]">
+      <q-btn
+        small
+        class="q-ma-md"
+        icon="fas fa-fill"
+        color="warning"
+        @click="emStaGenAutoResetEmitter"
+        :disabled="!cdReady">
+        <span v-if="!cXs" class="q-px-md">
+          {{cResetLabel}}
+        </span>
+      </q-btn>
+    </div>
+    <div v-if="cAutoFillable" class="float-right" :offset="[50, 30]">
       <q-btn
         small
         class="q-ma-md"
@@ -42,7 +55,7 @@
         @click="emStaGenAutoFillEmitter"
         :disabled="!cdReady">
         <span v-if="!cXs" class="q-px-md">
-          re-fill
+          {{cFillLabel}}
         </span>
       </q-btn>
     </div>
@@ -73,7 +86,8 @@ export default {
       '[P]staGenNextIconColor'  : 'positive',
       '[EM]staGenBack'          : null,
       '[EM]staGenNext'          : null,
-      '[EM]staGenAutoFill'      : null
+      '[EM]staGenAutoFill'      : null,
+      '[EM]staGenAutoReset'     : null
     })
   ],
   components: {
@@ -110,6 +124,18 @@ export default {
       if (this.cpDinGenAction.nextLabel !== undefined)
         return this.cpDinGenAction.nextLabel
       return 'Guardar'
+    },
+    cFillLabel () {
+      let trans = this.mComLang('fill')
+      if (trans !== '')
+        return trans
+      return 'Auto llenar'
+    },
+    cResetLabel () {
+      let trans = this.mComLang('reset')
+      if (trans !== '')
+        return trans
+      return 'Reiniciar'
     }
   }
 }

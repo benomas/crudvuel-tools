@@ -149,6 +149,19 @@ export default class CvVueCommon {
           )
             return false
           return true
+        },
+
+        cClereable: function () {
+          if (
+            this.cResource == null ||
+            this.cResource.lang == null ||
+            this.cResource.lang.fields ==  null ||
+            !this.cpStaGenAction ||
+            !this.cpStaGenAction.name ||
+            this.cpStaGenAction.name === 'show'
+          )
+            return false
+          return true
         }
       },
 
