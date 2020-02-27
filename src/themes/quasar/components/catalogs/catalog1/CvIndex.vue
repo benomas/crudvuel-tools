@@ -165,10 +165,6 @@ export default {
   directives : {
     cvPageOpt: cvPageOpt
   },
-  computed: {
-  },
-  methods: {
-  },
   mounted: function () {
     //console.log(this)
   }

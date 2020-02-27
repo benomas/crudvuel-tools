@@ -35,7 +35,7 @@
       </q-btn>
     </div>
 
-    <div v-if="!cAutoFillable && cClereable" class="float-right" :offset="[30, 90]">
+    <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" :offset="[30, 90]">
       <q-btn
         small
         class="q-ma-md"
@@ -49,7 +49,7 @@
       </q-btn>
     </div>
 
-    <div v-if="cClereable" class="float-right" :offset="[30, 90]">
+    <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" :offset="[30, 90]">
       <q-btn
         small
         class="q-ma-md"
@@ -105,7 +105,10 @@ export default {
       '[EM]staGenNext'          : null,
       '[EM]staGenAutoFill'      : null,
       '[EM]staGenAutoReset'     : null,
-      '[EM]staGenAutoClear'     : null
+      '[EM]staGenAutoClear'     : null,
+      '[P]staInsAutoFillable'   : null,
+      '[P]staInsClereable'      : null,
+      '[P]staInsAutoFillable'   : null,
     })
   ],
 

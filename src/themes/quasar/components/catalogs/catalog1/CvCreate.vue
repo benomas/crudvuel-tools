@@ -18,19 +18,20 @@
           <cv-catalog-skeleton
             v-bind="mCustomBindins('cv-catalog-skeleton')"
             v-on="mCustomOns('cv-catalog-skeleton')"
+            :cv-sta-ins-resource="cResource.pluralName"
             :cv-segment="''"
             >
           </cv-catalog-skeleton>
-          <div class="col-xs-12 h-50px">
-          <!-- Code -->
-          </div>
-          <div class="col-xs-12">
-            <cv-action-buttons
+        </div>
+      </div>
+
+      <div slot="cv-buttons-slot">
+        <div class="col-xs-12 ">
+          <cv-action-buttons
               v-bind="mCustomBindins('cv-action-buttons')"
               v-on="mCustomOns('cv-action-buttons')"
               >
-            </cv-action-buttons>
-          </div>
+          </cv-action-buttons>
         </div>
       </div>
     </cv-action-container>
