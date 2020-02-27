@@ -4,19 +4,19 @@
     <template v-if="1" slot="headers-slot" slot-scope="props">
       <!-- cv-grid-customization-->
       <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" >
-        {{ fLang('id') }}
+        {{ mfLang('id') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
       </th>
       <th cv-key="user_full_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-35" >
-        {{ fLang('user_full_name') }}
+        {{ mfLang('user_full_name') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="user_full_name"></cv-order-icons>
       </th>
       <th  cv-key="email" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-30" >
-        {{ fLang('email') }}
+        {{ mfLang('email') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="email"></cv-order-icons>
       </th>
       <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
-        {{ fLang('active') }}
+        {{ mfLang('active') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
       </th>
       <th cv-key="last_name" class="cv-filterable cv-selectable " hidden>
@@ -87,7 +87,7 @@
     <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
       <q-item>
         <q-item-section>
-          <q-item-section label>{{ fLang('id') }}</q-item-section>
+          <q-item-section label>{{ mfLang('id') }}</q-item-section>
         </q-item-section>
         <q-item-label>
           <q-item-section sublabel class="limit-label">{{props.slotRow.id}}</q-item-section>
@@ -95,13 +95,13 @@
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('user_full_name') }}</q-item-section>
+          <q-item-section label>{{ mfLang('user_full_name') }}</q-item-section>
           <q-item-section sublabel class="limit-label">{{props.slotRow.user_full_name}}</q-item-section>
         </q-item-label>
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('email') }}</q-item-section>
+          <q-item-section label>{{ mfLang('email') }}</q-item-section>
           <q-item-section sublabel class="limit-label h-40px">{{props.slotRow.email}}</q-item-section>
         </q-item-label>
       </q-item>

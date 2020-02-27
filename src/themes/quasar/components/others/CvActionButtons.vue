@@ -16,6 +16,7 @@
         </span>
       </q-btn>
     </div>
+
     <div class="float-right" :offset="[18, 30]">
       <q-btn
         v-if="cpDinGenShowNextButton"
@@ -33,7 +34,8 @@
         </span>
       </q-btn>
     </div>
-    <div v-if="cClereable" class="float-right" :offset="[30, 90]">
+
+    <div v-if="!cAutoFillable && cClereable" class="float-right" :offset="[30, 90]">
       <q-btn
         small
         class="q-ma-md"
@@ -46,6 +48,21 @@
         </span>
       </q-btn>
     </div>
+
+    <div v-if="cClereable" class="float-right" :offset="[30, 90]">
+      <q-btn
+        small
+        class="q-ma-md"
+        icon="fas fa-fill"
+        color="accent"
+        @click="emStaGenAutoClearEmitter"
+        :disabled="!cdReady">
+        <span v-if="!cXs" class="q-px-md">
+          {{cClearLabel}}
+        </span>
+      </q-btn>
+    </div>
+
     <div v-if="cAutoFillable" class="float-right" :offset="[50, 30]">
       <q-btn
         small
@@ -87,28 +104,31 @@ export default {
       '[EM]staGenBack'          : null,
       '[EM]staGenNext'          : null,
       '[EM]staGenAutoFill'      : null,
-      '[EM]staGenAutoReset'     : null
+      '[EM]staGenAutoReset'     : null,
+      '[EM]staGenAutoClear'     : null
     })
   ],
+
   components: {
     QBtn,
     QIcon,
     QPageSticky,
     QTooltip
   },
-  props: [
-  ],
+
   computed: {
     cpDinGenShowBackButton () {
       if (this.cvDinGenShowBackButton != null && this.cvDinGenShowBackButton === false)
         return false
       return this.cBackLabel != null && this.cBackLabel !== ''
     },
+
     cpDinGenShowNextButton () {
       if (this.cvDinGenShowNextButton != null && this.cvDinGenShowNextButton === false)
         return false
       return this.cNextLabel != null && this.cNextLabel !== ''
     },
+
     cBackLabel () {
       let trans = this.mComLang('backLabel')
       if (trans !== '')
@@ -117,6 +137,7 @@ export default {
         return this.cpDinGenAction.backLabel
       return 'Cancelar'
     },
+
     cNextLabel () {
       let trans = this.mComLang('nextLabel')
       if (trans !== '')
@@ -125,17 +146,26 @@ export default {
         return this.cpDinGenAction.nextLabel
       return 'Guardar'
     },
+
     cFillLabel () {
       let trans = this.mComLang('fill')
       if (trans !== '')
         return trans
       return 'Auto llenar'
     },
+
     cResetLabel () {
       let trans = this.mComLang('reset')
       if (trans !== '')
         return trans
       return 'Reiniciar'
+    },
+
+    cClearLabel () {
+      let trans = this.mComLang('clear')
+      if (trans !== '')
+        return trans
+      return 'Limipiar'
     }
   }
 }

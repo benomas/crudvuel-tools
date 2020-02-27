@@ -4,23 +4,23 @@
     <template v-if="1" slot="headers-slot" slot-scope="props">
       <!-- cv-grid-customization-->
       <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" ref="headers">
-        {{ fLang('id') }}
+        {{ mfLang('id') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
       </th>
       <th cv-key="cv_search" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-27" ref="headers">
-        {{ fLang('cv_search') }}
+        {{ mfLang('cv_search') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="cv_search"></cv-order-icons>
       </th>
       <th cv-key="cat_file_name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" ref="headers">
-        {{ fLang('cat_file_name') }}
+        {{ mfLang('cat_file_name') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="cat_file_name"></cv-order-icons>
       </th>
       <th cv-key="cat_file_slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-15" ref="headers">
-        {{ fLang('cat_file_slug') }}
+        {{ mfLang('cat_file_slug') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="cat_file_slug"></cv-order-icons>
       </th>
       <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-10" ref="headers">
-        {{ fLang('active') }}
+        {{ mfLang('active') }}
         <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
       </th>
       <th cv-key="resource_id" class="cv-filterable cv-selectable " hidden>
@@ -103,7 +103,7 @@
     <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
       <q-item>
         <q-item-section>
-          <q-item-section label>{{ fLang('id') }}</q-item-section>
+          <q-item-section label>{{ mfLang('id') }}</q-item-section>
         </q-item-section>
         <q-item-label>
           <q-item-section sublabel class="limit-label">{{props.slotRow.id}}</q-item-section>
@@ -111,19 +111,19 @@
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('cv_search') }}</q-item-section>
+          <q-item-section label>{{ mfLang('cv_search') }}</q-item-section>
           <q-item-section sublabel class="limit-label">{{props.slotRow.cv_search}}</q-item-section>
         </q-item-label>
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('cat_file_name') }}</q-item-section>
+          <q-item-section label>{{ mfLang('cat_file_name') }}</q-item-section>
           <q-item-section sublabel class="limit-label">{{props.slotRow.cat_file_name}}</q-item-section>
         </q-item-label>
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('cat_file_slug') }}</q-item-section>
+          <q-item-section label>{{ mfLang('cat_file_slug') }}</q-item-section>
           <q-item-section sublabel class="limit-label">{{props.slotRow.cat_file_slug}}</q-item-section>
         </q-item-label>
       </q-item>

@@ -4,23 +4,23 @@
     <template v-if="1" slot="headers-slot" slot-scope="props">
         <!-- cv-grid-customization-->
         <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" >
-          {{ fLang('id') }}
+          {{ mfLang('id') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
         </th>
         <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-18" >
-          {{ fLang('name') }}
+          {{ mfLang('name') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="name"></cv-order-icons>
         </th>
         <th cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
-          {{ fLang('slug') }}
+          {{ mfLang('slug') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="slug"></cv-order-icons>
         </th>
         <th cv-key="cat_permission_type_cv_search" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-15" >
-          {{ fLang('cat_permission_type_cv_search') }}
+          {{ mfLang('cat_permission_type_cv_search') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="cat_permission_type_cv_search"></cv-order-icons>
         </th>
         <th cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
-          {{ fLang('active') }}
+          {{ mfLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>
     </template>
@@ -101,7 +101,7 @@
     <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
       <q-item>
         <q-item-section>
-          <q-item-section label>{{ fLang('id') }}</q-item-section>
+          <q-item-section label>{{ mfLang('id') }}</q-item-section>
         </q-item-section>
         <q-item-label>
           <q-item-section sublabel class="limit-label">{{props.slotRow.id}}</q-item-section>
@@ -109,19 +109,19 @@
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('name') }}</q-item-section>
+          <q-item-section label>{{ mfLang('name') }}</q-item-section>
           <q-item-section sublabel class="limit-label h-50px">{{props.slotRow.name}}</q-item-section>
         </q-item-label>
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('slug') }}</q-item-section>
+          <q-item-section label>{{ mfLang('slug') }}</q-item-section>
           <q-item-section sublabel class="limit-label h-50px">{{props.slotRow.slug}}</q-item-section>
         </q-item-label>
       </q-item>
       <q-item>
         <q-item-label>
-          <q-item-section label>{{ fLang('cat_permission_type_cv_search') }}</q-item-section>
+          <q-item-section label>{{ mfLang('cat_permission_type_cv_search') }}</q-item-section>
           <q-item-section sublabel class="limit-label">{{props.slotRow.cat_permission_type_cv_search}}</q-item-section>
         </q-item-label>
       </q-item>
