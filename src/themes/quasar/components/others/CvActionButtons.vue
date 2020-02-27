@@ -33,6 +33,19 @@
         </span>
       </q-btn>
     </div>
+    <div v-if="cAutoFillable" class="" :offset="[18, 30]">
+      <q-btn
+        small
+        class="q-ma-md"
+        icon="fas fa-fill"
+        color="info"
+        @click="emStaGenAutoFillEmitter"
+        :disabled="!cdReady">
+        <span v-if="!cXs" class="q-px-md">
+          re-fill
+        </span>
+      </q-btn>
+    </div>
   </div>
 </template>
 <script>
@@ -60,6 +73,7 @@ export default {
       '[P]staGenNextIconColor'  : 'positive',
       '[EM]staGenBack'          : null,
       '[EM]staGenNext'          : null,
+      '[EM]staGenAutoFill'      : null
     })
   ],
   components: {

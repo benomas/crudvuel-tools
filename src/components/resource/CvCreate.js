@@ -27,8 +27,8 @@ export default {
       if (this.cHasActiveField)
         this.mSetRow({active: 1})
       return new Promise((resolve, reject) => {
-        if (this.cAutoFillableable)
-          this.mAutoFill()
+        if (this.cAutoFillable)
+          this.mAutoFill(this.row)
         this.mSetReady()
         resolve()
       })

@@ -61,9 +61,14 @@ export default {
   methods: {
     mAutoFill () {
       let fields = Object.keys(this.cResource.lang.fields)
-      for (let i = 0; i < fields.length; i++)
-        if (this.row[fields[i]] ==  null)
-          this.$set(this.row,fields[i],1)
+      if (this.row == null)
+        this.$set(this,'row',{})
+      if (this.cResource.filler != null)
+        this.$set(this,'row',{...this.cResource.filler()})
+      else
+        for (let i = 0; i < fields.length; i++)
+          if (this.row[fields[i]] ==  null)
+            this.$set(this.row,fields[i],1)
       return this
     },
 
@@ -91,6 +96,16 @@ export default {
         return null
       }
       return resource
+    },
+
+    mServicesAccessing (resource = null,action = null, serviceName = null) {
+      if (resource == null || action == null)
+        return null
+      resource = this.mResourceAccessing(resource)
+      if ( resource == null || resource.actions[action] == null)
+        return null
+      serviceName = serviceName ? serviceName : 'getService'
+      return resource.actions[action][serviceName] == null ? null : resource.actions[action][serviceName]
     },
 
     mrLang (source,resource = null) {
@@ -124,68 +139,6 @@ export default {
           resolve()
         })
       })
-    },
-
-    defInputProps (field,resource = null) {
-      let lResource = this.mResourceAccessing(resource)
-      let def =  {
-        'float-label'    : lResource ? this.fLang(field,lResource) : null,
-        'label'          : lResource ? this.fLang(field,lResource) : null,
-        'clearable'      : 'clearable',
-        'readonly'       : this.cDisableFields,
-        'disable'        : this.cDisableFields,
-        'hide-underline' : this.cDisableFields,
-        'clear-icon'     : 'fas fa-times-circle',
-        'class'          : 'w-100',
-        'error'          : this.cvErr(this.errors,field,'boolean'),
-        'error-message'  : this.cvErr(this.errors,field),
-        'no-error-icon'  : true,
-        'ref'            : `row.${field}`
-        //'loading'   : !this.cReady,
-      }
-      if (lResource.fields != null && lResource.fields[field] != null && lResource.fields[field].icon != null)
-        def.icon = lResource.fields[field].icon
-      return def
-    },
-
-    defErrorInputProps (field,resource = null) {
-      let lResource = this.mResourceAccessing(resource)
-      let def =  {
-        'error'         : this.cvErr(this.errors,field,'boolean'),
-        'error-message' : this.cvErr(this.errors,field),
-        'no-error-icon' : true
-      }
-      if (lResource.fields != null && lResource.fields[field] != null && lResource.fields[field].icon != null)
-        def.icon = lResource.fields[field].icon
-      return def
-    },
-
-    defMatcherizerProps (resource = null,snakeResource = null) {
-      let lResource = this.mResourceAccessing(resource)
-      return {
-        'cv-source-service'      : lResource.crudServices.index || null,
-        'cv-source-label'        : lResource.rowLabel || null,
-        'cv-search-label'        : lResource.rowLabel || null,
-        'cv-disable-fields'      : this.cDisableFields,
-        'cv-search-icon'         : lResource.icon || null,
-        'cv-parent-ref'          : this.cSelfRef || null,
-        'clear-icon'             : 'fas fa-times-circle',
-        'class'                  : 'w-100',
-        'cv-filter-query'        : {'cv_search': ''},
-        'cv-order-by'            : 'cv_search',
-        'cv-label-call-back'     : (rows,row) => { return row['cv_search'] },
-        'cv-list-of-items-limit' : '10',
-        ...(snakeResource ? {
-          'ref'              : `row.${snakeResource}_id`,
-          'cv-select-query'  : {'id': `${snakeResource}_id`,'cv_search': `${snakeResource}_cv_search`},
-          'cv-current-value' : this.row[`${snakeResource}_id`],
-          'cv-current-label' : this.row[`${snakeResource}_cv_search`]
-        } : {})
-      }
-    },
-
-    validator () {
-      return true
     },
 
     mCancelAction () {

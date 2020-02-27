@@ -4,6 +4,7 @@ import VueMirroring  from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
     new VueMirroring('ResourceComponentSet').fixProperties({
+      '[P]staGenAction'        : null,
       '[P]staInsResource'      : null,
       '[P]dinGenDisableFields' : null
     })
@@ -14,6 +15,10 @@ export default {
       if (this.cpDinGenDisableFields != null)
         return this.cpDinGenDisableFields
       return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
+    },
+
+    cResource () {
+      return (this.cpStaGenAction && this.cpStaGenAction.resource) ? this.cpStaGenAction.resource : null
     },
 
     cKeyName () {
@@ -45,14 +50,6 @@ export default {
   },
 
   methods: {
-    mAutoFill (row) {
-      let fields = Object.keys(this.cpStaInsResource.lang.fields)
-      for (let i = 0; i < fields.length; i++)
-        if (row[fields[i]] ==  null)
-          row[fields[i]] = 1
-      return row
-    },
-
     mResourceAccessing (resource = null) {
       if (!resource)
         return this.cpStaInsResource
