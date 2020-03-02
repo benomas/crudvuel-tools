@@ -24,17 +24,22 @@
             >
             <template v-if="1" slot="headers-slot" slot-scope="props">
                 <!-- cv-grid-customization-->
-              <th v-cv-page-opt="'id'" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-15" >
+              <th v-cv-page-opt="'id'" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-10" >
                 {{ mfLang('id') }}
                 <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
+              <th v-cv-page-opt="'cv_search'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
+                {{ mfLang('cv_search') }}
+                <cv-order-icons cv-sta-ins-row-field="cv_search" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+              </th>
+              <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-10">
                 {{ mfLang('name') }}
                 <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'description'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
+              <th v-cv-page-opt="'description'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25">
                 {{ mfLang('description') }}
                 <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
@@ -52,6 +57,14 @@
                     v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
                     :cv-din-ins-field="'id'"
+                  >
+                  </cv-simple-field-filter>
+                </td>
+                <td>
+                  <cv-simple-field-filter
+                    v-bind="mCustomBindins('cv-simple-field-filter')"
+                    v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-din-ins-field="'cv_search'"
                   >
                   </cv-simple-field-filter>
                 </td>
@@ -79,6 +92,7 @@
             </template>
             <template v-if="1" slot="table-properties-slot" slot-scope="props">
               <td>{{props.slotRow.id}}</td>
+              <td>{{props.slotRow.cv_search}}</td>
               <td>{{props.slotRow.name}}</td>
               <td>{{props.slotRow.description}}</td>
             </template>
@@ -97,6 +111,20 @@
                   v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
                   :cv-din-ins-field="'id'"
+                >
+                </cv-simple-field-filter>
+              </div>
+              <div v-cv-page-opt="'cv_search'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                <cv-order-icons cv-sta-ins-row-field="cv_search" v-bind="mCustomBindins('cv-order-icons')">
+                </cv-order-icons>
+                {{ mfLang('cv_search') }}
+              </div>
+              <div class="col-xs-12">
+                <cv-simple-field-filter
+                  v-if="cEnableSimpleFieldFilter"
+                  v-bind="mCustomBindins('cv-simple-field-filter')"
+                  v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-din-ins-field="'cv_search'"
                 >
                 </cv-simple-field-filter>
               </div>
@@ -131,6 +159,12 @@
             </template>
             <!-- cv-grid-flexi-data-cells-->
             <template v-if="1" slot="flexi-properties-slot" slot-scope="props">
+              <q-item>
+                <q-item-label>
+                  <q-item-section label class="f-bold text-subtitle2">{{ mfLang('cv_search') }}</q-item-section>
+                  <q-item-section sublabel class="limit-label">{{props.slotRow.cv_search}}</q-item-section>
+                </q-item-label>
+              </q-item>
               <q-item>
                 <q-item-label>
                   <q-item-section label class="f-bold text-subtitle2">{{ mfLang('name') }}</q-item-section>
