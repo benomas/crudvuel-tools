@@ -148,7 +148,7 @@ export default {
       for (const item2 of array){
         let equal = true
         for (const prop of props){
-          equal = equal && item1[prop].toString() === item2[prop].toString()
+          equal = equal && item1[prop] != null && item2[prop] != null && item1[prop].toString() === item2[prop].toString()
         }
         if (equal)
           return true
