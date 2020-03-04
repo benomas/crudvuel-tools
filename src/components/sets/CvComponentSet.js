@@ -99,10 +99,8 @@ export default {
     mComponentInitialize () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
-          setTimeout(() => {
-            this.mSetReady()
-            resolve()
-          }, 5)
+          this.mSetReady()
+          resolve()
         })
       })
     },
