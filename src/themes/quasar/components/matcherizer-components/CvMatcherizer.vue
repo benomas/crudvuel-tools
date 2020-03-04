@@ -18,7 +18,7 @@
           v-bind="mCustomBindins('cv-simple-filter')"
           v-on="mCustomOns('cv-simple-filter')"
           ref="simpleFilteRef"
-          :cv-din-ins-icon-class="'q-mt-sm q-mr-sm'"
+          :cv-din-ins-icon-class="'q-mb-xs q-mr-sm'"
           :cv-din-ins-disable-fields="cpDinGenDisableFields"
         >
         </cv-simple-filter>

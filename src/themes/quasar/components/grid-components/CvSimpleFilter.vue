@@ -6,7 +6,6 @@
       dense
       autocomplete="off"
       ref="inputRef"
-      clear-icon='fas fa-times-circle'
       class="w-100"
       :class="{'active-filter':cpDinInsActiveFilter}"
       :label="cpDinInsLabel"
