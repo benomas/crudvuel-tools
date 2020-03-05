@@ -1,20 +1,27 @@
-<script>
+import {camelCase}  from 'lodash'
+import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
+
 export default {
-  data    : function () {
-    return {
-      errorCount : 0,
-      catFiles   : []
-    }
-  },
+  mixins: [
+    new VueMirroring().fixProperties({
+      '[D|M]errorCount'        : 0,
+      '[D|M]catFiles'          : [],
+      '[P]dinGenExportHeaders' : function () {
+        return this.services.general.cvComunicator.shareHeaders() || {}
+      },
+      '[P]dinGenFileUrl' : function () {
+        return this.cvGlobDep.globals.cvEnv.apiUrl() + '/api/files'
+      }
+    })
+  ],
+
   computed: {
-    cExportHeaders: function () {
-      return this.services.general.cvComunicator.shareHeaders() || {}
-    },
     cFileHeaders: function () {
-      let fileHeaders = this.cExportHeaders
+      let fileHeaders = {...this.cpDinGenExportHeaders}
       delete fileHeaders['Content-Type']
       return fileHeaders
     },
+
     cQFieldFileHeaders: function () {
       let qFieldFileHeaders = []
       let headerKeys =  Object.keys(this.cFileHeaders)
@@ -25,9 +32,7 @@ export default {
         })
       return qFieldFileHeaders
     },
-    cFileUrl: function () {
-      return this.cvGlobDep.globals.cvEnv.apiUrl() + '/api/files'
-    },
+
     cFieldFormater: function () {
       return this.cRow ? [
         {
@@ -48,42 +53,55 @@ export default {
         }
       ] : []
     },
+
     cUploadReference: function () {
       return this.$refs.uploader
     },
-    cFileName: function () {
-      return this.cCurrentResource
-    },
+
     cMultiple: function () {
-      if (typeof this.cRow.cat_file_multiple !== 'undefined' && this.cRow.cat_file_multiple)
+      if (this.cRow.cat_file_multiple != null && this.cRow.cat_file_multiple)
         return true
       return false
     },
+
+    cFileResource () {
+      if (this.cRow.cat_file_resource != null)
+        return this.cRow.cat_file_resource
+      return ''
+    },
+
+    cCamelFileResource () {
+      return camelCase(cFileResource)
+    },
+
     cCurrentCvResource: function () {
       return this.cRow.cat_file_camel_resource != null ? this.cRow.cat_file_camel_resource : false
     },
+
     cCurrentResource: function () {
       return this.cRow.cat_file_resource != null ? this.cRow.cat_file_resource : null
     },
+
     cCatFiles: function () {
       return this.catFiles
     }
   },
+
   methods: {
-    init: function () {
-      this.$set(this.cRow,'cat_file_camel_resource',null)
-    },
     mOpenFile: function () {
       window.open(this.cRow.absolute_path)
     },
+
     uploadFileStart: function () {
       this.errorCount = 0
       this.errors     = {}
     },
+
     uploadFilesFinish: function () {
       if (!this.errorCount)
         this.successRedirect()
     },
+
     uploadFileCompleted: function (info) {
       return new Promise ((resolve,reject) => {
         let {file,xhr} = info
@@ -94,6 +112,7 @@ export default {
         resolve(xhr)
       })
     },
+
     uploadFileFail: function (info) {
       let {file,xhr} = info
       console.log(info)
@@ -117,16 +136,6 @@ export default {
               if (typeof parsed.errors['request_file_' + this.cRow.cat_file_id] !== 'undefined') {
                 if (typeof this.errors['request_file_' + this.cRow.cat_file_id] === 'undefined')
                   this.errors['request_file_' + this.cRow.cat_file_id] = parsed.errors['request_file_' + this.cRow.cat_file_id]
-                /* fix error concat
-                else {
-                  let oldError = this.errors['request_file_' + this.cRow.cat_file_id][0]
-                  for (let i = 0; i < parsed.errors['request_file_' + this.cRow.cat_file_id].length; i++)
-                    oldError = oldError + ', ' + parsed.errors['request_file_' + this.cRow.cat_file_id][i]
-                  //this.$set(this.errors['request_file_' + this.cRow.cat_file_id],0,'asdasdasd')
-                  this.errors['request_file_' + this.cRow.cat_file_id].push()
-                  //this.errors['request_file_' + this.cRow.cat_file_id][0] = 'asdasdasd'
-                }
-                */
               }
             }
           }
@@ -137,15 +146,15 @@ export default {
         this.collectErrorMessages(this.cpStaGenAction.getSetErrorMessage() + this.cIdentText)
       this.errorRedirect()
     },
-    validator: function () {
-      return true
-    },
+
     upload: function () {
       this.cUploadReference.upload()
     },
+
     reset: function () {
       this.cUploadReference.reset()
     },
+
     transformResponse: function (response) {
       let row = response.data.data || response.data
       if (row != null) {
@@ -157,6 +166,7 @@ export default {
       }
       return row
     },
+
     loadCatFiles: function () {
       return new Promise((resolve, reject) => {
         this.resources.catFiles.crudServices.sluged().then( response => {
@@ -169,6 +179,7 @@ export default {
         })
       })
     },
+
     mFieldFormater: function (catFileOrSlug) {
       let catFile
       if (typeof catFileOrSlug === 'object')
@@ -196,4 +207,3 @@ export default {
     }
   }
 }
-</script>
