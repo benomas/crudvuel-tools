@@ -16,8 +16,9 @@ export default {
   ],
 
   computed: {
+
     cFileHeaders: function () {
-      let fileHeaders = {...this.cpDinGenExportHeaders}
+      let fileHeaders = {...this.cpDinGenExportHeaders()}
       delete fileHeaders['Content-Type']
       return fileHeaders
     },
@@ -97,15 +98,16 @@ export default {
       this.errors     = {}
     },
 
-    uploadFilesFinish: function () {
+    uploadFilesFinish: function () {/*
       if (!this.errorCount)
-        this.successRedirect()
+        this.successRedirect()*/
     },
 
     uploadFileCompleted: function (info) {
       return new Promise ((resolve,reject) => {
         let {file,xhr} = info
         this.cRow   = xhr.response.data
+        this.mSetReady()
         this.ready = true
         if (this.cShowSetMessages)
           this.collectSuccessMessages(this.cpStaGenAction.getSetSuccessMessage() + this.cIdentText)
@@ -115,36 +117,37 @@ export default {
 
     uploadFileFail: function (info) {
       let {file,xhr} = info
-      console.log(info)
       if (this.cvComunicator.proccessErrorStatus(xhr))
         return false
-      this.ready  = true
+      this.mSetReady()
       this.errorCount++
       if (xhr !== undefined && xhr.response != null && xhr.response !== '') {
         let parsed = JSON.parse(xhr.response)
         if (typeof parsed.errors !== 'undefined') {
+          let errors = {}
           if (!this.cMultiple)
-            this.errors = parsed.errors
+            errors = parsed.errors
           else {
             if (typeof parsed.errors['resource_id'] !== 'undefined')
-              this.errors['resource_id'] = parsed.errors['resource_id']
+              errors['resource_id'] = parsed.errors['resource_id']
             if (typeof parsed.errors['cat_file_id'] !== 'undefined')
-              this.errors['cat_file_id'] = parsed.errors['cat_file_id']
+              errors['cat_file_id'] = parsed.errors['cat_file_id']
             if (typeof parsed.errors['active'] !== 'undefined')
-              this.errors['active'] = parsed.errors['active']
+              errors['active'] = parsed.errors['active']
             if (this.cRow.cat_file_id) {
               if (typeof parsed.errors['request_file_' + this.cRow.cat_file_id] !== 'undefined') {
-                if (typeof this.errors['request_file_' + this.cRow.cat_file_id] === 'undefined')
-                  this.errors['request_file_' + this.cRow.cat_file_id] = parsed.errors['request_file_' + this.cRow.cat_file_id]
+                if (typeof errors['request_file_' + this.cRow.cat_file_id] === 'undefined')
+                  errors['request_file_' + this.cRow.cat_file_id] = parsed.errors['request_file_' + this.cRow.cat_file_id]
               }
             }
           }
+          this.mSetLocalError(errors)
         }
       }
 
       if (this.cShowSetMessages)
-        this.collectErrorMessages(this.cpStaGenAction.getSetErrorMessage() + this.cIdentText)
-      this.errorRedirect()
+        this.mErrorNotification(this.cpStaGenAction.getSetErrorMessage())
+      //this.errorRedirect()
     },
 
     upload: function () {

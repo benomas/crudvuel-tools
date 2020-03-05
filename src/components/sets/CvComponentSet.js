@@ -9,7 +9,8 @@ export default {
       '[D]isMounted'                 : false,
       '[P]staGenParentRef'           : null,
       '[P]dinComComponentLang'       : {},
-      '[P]staInsComponentBindingTag' : ''
+      '[P]staInsComponentBindingTag' : '',
+      '[D|M]localError'              : {}
     })
   ],
 
