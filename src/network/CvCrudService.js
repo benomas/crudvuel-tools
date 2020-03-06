@@ -83,6 +83,10 @@ export default class CvCrudService {
     return this.cvComunicator.axios.get(...this.fixRowsUrl(null,...params))
   }
 
+  relatedIndex (relatedResource, relatedKey,qString) {
+    return this.cvComunicator.axios.get( `${this.getRelBaseUrl()}/related-to/${relatedResource}/${relatedKey}${this.fixQueryString(qString)}`)
+  }
+
   //spected params: params,url,qString
   store (...params) {
     return this.cvComunicator.axios.post(...this.fixRowsUrl(null,...params))

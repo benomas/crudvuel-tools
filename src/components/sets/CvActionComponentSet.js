@@ -226,6 +226,20 @@ export default{
     },
     mShowResponse (response) {
       return response.data.data || response.data
+    },
+    mSolveAsIndexResponse(rows=[]) {
+      if (rows == null)
+        return {data:[],count:0}
+      return {data:rows,count:rows.length}
+    },
+    mErrorResponse (response) {
+      if (
+        response != null && response.response != null  &&
+        response.response.data != null  &&
+        response.response.data.errors != null
+      )
+        return response.response.data.errors
+      return null
     }
   }
 }

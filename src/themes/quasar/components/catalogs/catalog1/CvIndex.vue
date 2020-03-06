@@ -3,7 +3,7 @@
     <cv-action-container
       v-if="cpStaGenAction"
       v-bind="mCustomBingins('cv-action-container')"
-      v-on="mOns('cv-action-container')">
+      v-on="mCustomOns('cv-action-container')">
       <div slot="cv-title-slot" class="row action-label">
         <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
           <label>
@@ -17,7 +17,7 @@
         <div>
           <cv-adaptive-grid-index
             v-bind="mCustomBingins('cv-adaptive-grid-index')"
-            v-on="mOns('cv-adaptive-grid-index')"
+            v-on="mCustomOns('cv-adaptive-grid-index')"
             :cv-sta-comf-cv-paginate-limit-values="[ 8, 20, 50, 100, 200 ]"
             :cv-sta-comf-cv-paginate-pages-per-view="5"
             :cv-din-insf-adaptive-grid-index-grid-show-top-pagination="false"
@@ -50,7 +50,7 @@
                 <td>
                   <cv-simple-field-filter
                     v-bind="mCustomBingins('cv-simple-field-filter')"
-                    v-on="mOns('cv-simple-field-filter')"
+                    v-on="mCustomOns('cv-simple-field-filter')"
                     :cv-din-ins-field="'id'"
                   >
                   </cv-simple-field-filter>
@@ -58,7 +58,7 @@
                 <td>
                   <cv-simple-field-filter
                     v-bind="mCustomBingins('cv-simple-field-filter')"
-                    v-on="mOns('cv-simple-field-filter')"
+                    v-on="mCustomOns('cv-simple-field-filter')"
                     :cv-din-ins-field="'name'"
                   >
                   </cv-simple-field-filter>
@@ -66,7 +66,7 @@
                 <td>
                   <cv-simple-field-filter
                     v-bind="mCustomBingins('cv-simple-field-filter')"
-                    v-on="mOns('cv-simple-field-filter')"
+                    v-on="mCustomOns('cv-simple-field-filter')"
                     :cv-din-ins-field="'description'"
                   >
                   </cv-simple-field-filter>
@@ -95,7 +95,7 @@
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
                   v-bind="mCustomBingins('cv-simple-field-filter')"
-                  v-on="mOns('cv-simple-field-filter')"
+                  v-on="mCustomOns('cv-simple-field-filter')"
                   :cv-din-ins-field="'id'"
                 >
                 </cv-simple-field-filter>
@@ -109,7 +109,7 @@
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
                   v-bind="mCustomBingins('cv-simple-field-filter')"
-                  v-on="mOns('cv-simple-field-filter')"
+                  v-on="mCustomOns('cv-simple-field-filter')"
                   :cv-din-ins-field="'name'"
                 >
                 </cv-simple-field-filter>
@@ -123,7 +123,7 @@
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
                   v-bind="mCustomBingins('cv-simple-field-filter')"
-                  v-on="mOns('cv-simple-field-filter')"
+                  v-on="mCustomOns('cv-simple-field-filter')"
                   :cv-din-ins-field="'description'"
                 >
                 </cv-simple-field-filter>

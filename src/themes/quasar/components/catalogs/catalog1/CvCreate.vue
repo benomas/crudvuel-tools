@@ -3,7 +3,7 @@
     <cv-action-container
       v-if="cpStaGenAction"
       v-bind="mCustomBingins('cv-action-container')"
-      v-on="mOns('cv-action-container')">
+      v-on="mCustomOns('cv-action-container')">
       <div slot="cv-title-slot" class="row action-label">
         <div class="col-xs-10 col-sm-9 col-md-8  q-pb-md">
           <label>
@@ -17,7 +17,7 @@
         <div class="row w-100">
           <cv-catalog-skeleton
             v-bind="mCustomBingins('cv-catalog-skeleton')"
-            v-on="mOns('cv-catalog-skeleton')"
+            v-on="mCustomOns('cv-catalog-skeleton')"
             :cv-segment="''"
             >
           </cv-catalog-skeleton>
@@ -27,7 +27,7 @@
           <div class="col-xs-12">
             <cv-action-buttons
               v-bind="mCustomBingins('cv-action-buttons')"
-              v-on="mOns('cv-action-buttons')"
+              v-on="mCustomOns('cv-action-buttons')"
               >
             </cv-action-buttons>
           </div>
