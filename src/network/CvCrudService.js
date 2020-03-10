@@ -92,7 +92,6 @@ export default class CvCrudService {
   }
 
   relatedIndex (relatedResource, relatedKey,qString) {
-    console.log([relatedResource, relatedKey,qString])
     return this.cvComunicator.axios.get(`${this.getRelBaseUrl()}/related-to/${relatedResource}/${relatedKey}${this.fixQueryString(qString)}`)
   }
 

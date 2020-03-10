@@ -167,8 +167,8 @@ export default {
   },
 
   mounted () {
-    this.mSetIsMounted(true)
     this.mComponentInitialize().then((startData = null) => {
+      this.mSetIsMounted(true)
     }).catch((exceptionData) => {
       this.mFailInitializeNotification().then(() => {
         this.mFinish()

@@ -63,8 +63,11 @@ export default {
       let fields = Object.keys(this.cResource.lang.fields)
       if (this.row == null)
         this.$set(this,'row',{})
-      if (this.cResource.filler != null)
-        this.$set(this,'row',{...this.cResource.filler()})
+      if (this.cResource.filler != null){
+        this.cResource.filler().then(row => {
+          this.mSetRow({...row})
+        })
+      }
       else{
         for (let i = 0; i < fields.length; i++)
           if (this.row[fields[i]] ==  null)
