@@ -30,12 +30,13 @@ export default {
   mixins: [
     CvComponentSet,
     vueMirroring.fixProperties({
-      '[P]dinGenShowOwnSpinner'       : true,
-      '[P]dinGenExcludeActions'       : [],
-      '[P]dinInsShowHeader'           : true,
-      '[P]dinGenAction'               : true,
-      '[P]dinInsActionClasses'        : '',
-      '[P]dinInsActionContentClasses' : ''
+      '[P]dinGenShowOwnSpinner'            : true,
+      '[P]dinGenExcludeActions'            : [],
+      '[P]dinInsShowHeader'                : true,
+      '[P]dinGenAction'                    : true,
+      '[P]dinInsActionClasses'             : '',
+      '[P]dinInsActionContentClasses'      : '',
+      '[P]dinInsDisableResponsiveBehavior' : false
     })
   ],
 

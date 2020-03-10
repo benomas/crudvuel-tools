@@ -17,7 +17,7 @@
       <slot name="cv-content-slot"
       >
       </slot>
-      <div class="w-100 h-40px"></div>
+      <div class="w-100 h-60px"></div>
     </div>
     <div >
       <slot name="cv-buttons-slot"
@@ -61,6 +61,8 @@ export default {
 
   computed: {
     cFixedActionContainerHeight () {
+      if (this.cpDinInsDisableResponsiveBehavior)
+        return 'auto'
       if (this.cvButtonsSlot)
         return this.cActionContentHeightFixNoButtons
       return this.cActionContentHeightFix
