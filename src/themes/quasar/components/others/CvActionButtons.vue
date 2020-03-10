@@ -1,81 +1,97 @@
 <template>
   <div>
-    <div class="float-left" :offset="[18, 30]">
+    <q-page-sticky position="bottom-left" :offset="[18, 18]">
       <q-btn
         v-if="cpDinGenShowBackButton"
-        small
-        class="q-ma-md"
+        :size="cdBtnSize"
+        :class="{'q-ma-md':cGtsm}"
+        class="q-mx-xs q-my-sm"
         :icon="cpStaGenBackIcon"
         :color="cpStaGenBackIconColor"
         @click="emStaGenBackEmitter">
         <q-tooltip  :disable="!cpDinGenShowBackButton && !cXs && !cSm">
           {{cBackLabel}}
         </q-tooltip>
-        <span v-if="!cXs && cpDinGenShowBackButton" class="q-px-md">
+        <span v-if="cGtlg && cpDinGenShowBackButton" class="q-px-sm">
           {{cBackLabel}}
         </span>
       </q-btn>
-    </div>
+    </q-page-sticky>
 
-    <div class="float-right" :offset="[18, 30]">
-      <q-btn
-        v-if="cpDinGenShowNextButton"
-        small
-        class="q-ma-md"
-        :icon="cpStaGenNextIcon"
-        :color="cpStaGenNextIconColor"
-        @click="emStaGenNextEmitter"
-        :disabled="!cdReady">
-        <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
-          {{cNextLabel}}
-        </q-tooltip>
-        <span v-if="!cXs && cpDinGenShowNextButton" class="q-px-md">
-          {{cNextLabel}}
-        </span>
-      </q-btn>
-    </div>
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <div class="float-right" >
+        <q-btn
+          v-if="cpDinGenShowNextButton"
+          :size="cdBtnSize"
+          :class="{'q-ma-md':cGtsm}"
+          class="q-mx-xs q-my-sm"
+          :icon="cpStaGenNextIcon"
+          :color="cpStaGenNextIconColor"
+          @click="emStaGenNextEmitter"
+          :disabled="!cdReady">
+          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            {{cNextLabel}}
+          </q-tooltip>
+          <span v-if="cGtlg && cpDinGenShowNextButton" class="q-px-sm">
+            {{cNextLabel}}
+          </span>
+        </q-btn>
+      </div>
 
-    <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" :offset="[30, 90]">
-      <q-btn
-        small
-        class="q-ma-md"
-        icon="fas fa-fill"
-        color="warning"
-        @click="emStaGenAutoResetEmitter"
-        :disabled="!cdReady">
-        <span v-if="!cXs" class="q-px-md">
-          {{cResetLabel}}
-        </span>
-      </q-btn>
-    </div>
+      <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" >
+        <q-btn
+        :size="cdBtnSize"
+          :class="{'q-ma-md':cGtsm}"
+          class="q-mx-xs q-my-sm"
+          icon="fas fa-fill"
+          color="warning"
+          @click="emStaGenAutoResetEmitter"
+          :disabled="!cdReady">
+          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            {{cResetLabel}}
+          </q-tooltip>
+          <span v-if="cGtlg" class="q-px-sm">
+            {{cResetLabel}}
+          </span>
+        </q-btn>
+      </div>
 
-    <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" :offset="[30, 90]">
-      <q-btn
-        small
-        class="q-ma-md"
-        icon="fas fa-fill"
-        color="accent"
-        @click="emStaGenAutoClearEmitter"
-        :disabled="!cdReady">
-        <span v-if="!cXs" class="q-px-md">
-          {{cClearLabel}}
-        </span>
-      </q-btn>
-    </div>
+      <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" >
+        <q-btn
+        :size="cdBtnSize"
+          :class="{'q-ma-md':cGtsm}"
+          class="q-mx-xs q-my-sm"
+          icon="fas fa-fill"
+          color="accent"
+          @click="emStaGenAutoClearEmitter"
+          :disabled="!cdReady">
+          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            {{cClearLabel}}
+          </q-tooltip>
+          <span v-if="cGtlg" class="q-px-sm">
+            {{cClearLabel}}
+          </span>
+        </q-btn>
+      </div>
 
-    <div v-if="cAutoFillable" class="float-right" :offset="[50, 30]">
-      <q-btn
-        small
-        class="q-ma-md"
-        icon="fas fa-fill"
-        color="info"
-        @click="emStaGenAutoFillEmitter"
-        :disabled="!cdReady">
-        <span v-if="!cXs" class="q-px-md">
-          {{cFillLabel}}
-        </span>
-      </q-btn>
-    </div>
+      <div v-if="cAutoFillable" class="float-right" >
+        <q-btn
+        :size="cdBtnSize"
+          :class="{'q-ma-md':cGtsm}"
+          class="q-mx-xs q-my-sm"
+          icon="fas fa-fill"
+          color="info"
+          @click="emStaGenAutoFillEmitter"
+          :disabled="!cdReady">
+          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            {{cFillLabel}}
+          </q-tooltip>
+          <span v-if="cGtlg" class="q-px-sm">
+            {{cFillLabel}}
+          </span>
+        </q-btn>
+      </div>
+    </q-page-sticky>
   </div>
 </template>
 <script>
@@ -109,6 +125,7 @@ export default {
       '[P]staInsAutoFillable'   : null,
       '[P]staInsClereable'      : null,
       '[P]staInsAutoFillable'   : null,
+      '[D]btnSize'              : 'md'
     })
   ],
 
@@ -120,6 +137,11 @@ export default {
   },
 
   computed: {
+    cBtnSize: function () {/*
+      if (this.cGtsm)
+        return this.cdBtnSize*/
+      return 'xs'
+    },
     cpDinGenShowBackButton () {
       if (this.cvDinGenShowBackButton != null && this.cvDinGenShowBackButton === false)
         return false

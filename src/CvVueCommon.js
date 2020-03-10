@@ -37,14 +37,18 @@ export default class CvVueCommon {
           if (this.cWindowsHeight < 200)
             return 'auto'
 
-          return ( this.cWindowsHeight - 265) + 'px'
+          return ( this.cWindowsHeight - 135 + this.cSmActionContentHeightFix) + 'px'
         },
 
         cActionContentHeightFixNoButtons: function () {
           if (this.cWindowsHeight < 200)
             return 'auto'
 
-          return ( this.cWindowsHeight - 220) + 'px'
+          return ( this.cWindowsHeight - 135 + this.cSmActionContentHeightFix) + 'px'
+        },
+
+        cSmActionContentHeightFix () {
+          return this.cLtmd ? 65 : 0
         },
 
         cGtxs: function () {
@@ -162,7 +166,7 @@ export default class CvVueCommon {
           )
             return false
           return true
-        }
+        },
       },
 
       methods: {

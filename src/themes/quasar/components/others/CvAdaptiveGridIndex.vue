@@ -1,177 +1,202 @@
 <template>
   <div>
-    <!-- cv-grid-customization-->
-    <!--deprecated
     <div class="row action-inner-container w-100">
       <cv-grid
-        cv-tag="div"
-        :cv-service="cpStaGenAction.getService"
-        :cv-top-paginate="true"
-        :cv-bottom-paginate="true"
-        :cv-pages-per-view="5"
-        :cv-limit-values="[8,10,20,30,50,100,200]"
-        :cv-limit="8"
-        @initial-mutation="ready=false;"
-        :ref="gridRef"
-        :cv-min-height="'300px'"
-        @page-nave-up="pageAnimation='animated slideInUp'"
-        @page-nave-down="pageAnimation='animated slideInDown'"
-        @page-nave-neutral="pageAnimation='animated fadeIn'"
-        :cv-search-icon="cLtmd?'fas fa-search':''"
-        :cv-search-label="cGtsm?$tc('crudvuel.labels.crudvuelGrid.searchLabel'):''">
+        v-bind="mCustomBindins('cv-grid')"
+        v-on="mCustomOns('cv-grid')"
+        cv-grid-tag="div"
+        :cv-min-height="'300px'">
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
-          <cv-ths cv-tag="thead" class="gt-sm" v-show="!cDisableGrid">
-            <tr slot="cv-ths-slot" cv-role="cv-header-config">
-              <slot name="headers-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+          <thead class="gt-sm" >
+            <tr slot="cv-ths-slot" >
+              <slot name="headers-slot" >
               </slot>
-              <th  class="t-center t-middle">
+
+              <th class="t-center t-middle">
                 {{ $tc('crudvuel.actions') }}
                 <q-btn
                   v-if="hasPermission('create')"
                   icon="fas fa-plus-circle"
-                  @click="$router.push(mActionPath('create'))"
+                  @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                   color="secondary"
                   round
                   size="sm"
                   :title="mResorceAction('create').label"
                 ></q-btn>
-                <slot name="extra-actions-header-slot" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+
+                <slot name="extra-actions-header-slot" >
                 </slot>
               </th>
             </tr>
-          </cv-ths>
+          </thead>
+
+          <thead v-show="cShowTableMode" class="sub-header" >
+            <slot name="sub-headers-slot" >
+            </slot>
+          </thead>
+
           <transition-group
-            v-if="mainGridData && !cDisableGrid"
-            v-show="cvForceGrid || cGtmd"
+            v-show="cShowTableMode"
             tag="tbody"
-            :enter-active-class="pageAnimation"
+            :enter-active-class="cdPageAnimation"
             :duration="{ enter: 500, leave: 0 }">
-            <tr v-for="(gridRow, position) in mainGridData.rows" :key="position + '|' +gridRow[rowKey]">
-              <slot name="table-properties-slot" :slot-row="gridRow" :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+            <tr v-for="(gridRow, position) in cvDinInsfAdaptiveGridIndexGridRows" :key="position + '|' +gridRow[cpDinGenKeyName]">
+              <slot name="table-properties-slot" :slot-row="gridRow" >
               </slot>
-              <td  v-if="typeof gridRow.active!=='undefined' && cGtxs" class="t-center t-middle">
+
+              <td  v-if="gridRow.active != null && cGtxs" class="t-center t-middle">
                 <div
-                    v-if="gridRow.active"
-                    @click="temp = 'deactivateRow'; deactivateRow(gridRow)"
+                  v-if="gridRow.active"
+                  @click="(()=>{
+                    temp = 'deactivateRow'
+                    emDinGenLaunchActionEmitter({action:'deactivate',row:gridRow})
+                  })"
                 >
                   <q-icon
                     class="active-icon"
                     name="fas fa-check"
                     color="positive"
                     :title="mResorceAction('deactivate').label"
-                    v-cv-in-progress="isSynchronizing(gridRow)"
-                    :disabled="isSynchronizing(gridRow)"
                   />
                 </div>
+
                 <div
-                    v-if="!gridRow.active"
-                    @click="temp = 'activateRow'; activateRow(gridRow)"
+                  v-else
+                  @click="(()=>{
+                    temp = 'activateRow'
+                    emDinGenLaunchActionEmitter({action:'activate',row:gridRow})
+                  })"
                 >
                   <q-icon
-                    v-if="!gridRow.active"
                     class="active-icon"
                     name="fas fa-times-circle"
                     color="negative"
-                    @click="temp = 'activateRow'; activateRow(gridRow)"
                     :title="mResorceAction('activate').label"
-                    v-cv-in-progress="isSynchronizing(gridRow)"
-                    :disabled="isSynchronizing(gridRow)"
                   />
                 </div>
               </td>
+
               <td class="t-center t-middle">
                 <q-btn
                   v-if="hasPermission('show')"
                   icon="fas fa-eye"
-                  @click="$router.push(mActionPath('show',gridRow))"
+                  @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
                   color="info"
                   round
                   size="sm"
                   :title="mResorceAction('show').label"
-                  v-cv-in-progress="isSynchronizing(gridRow)"
-                  :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
                   v-if="hasPermission('edit')"
                   icon="fas fa-pencil-alt"
-                  @click="$router.push(mActionPath('edit',gridRow))"
+                  @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
                   color="positive"
                   round
                   size="sm"
                   :title="mResorceAction('edit').label"
-                  v-cv-in-progress="isSynchronizing(gridRow)"
-                  :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
                   v-if="hasPermission('delete')"
                   icon="fas fa-trash-alt"
-                  @click="deleteRow(gridRow)"
+                  @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
                   color="negative"
                   round
                   size="sm"
                   :title="mResorceAction('delete').label"
-                  v-cv-in-progress="isSynchronizing(gridRow)"
-                  :disabled="isSynchronizing(gridRow)"
                 >
                 </q-btn>
-                <slot name="table-extra-actions-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+                <slot name="table-extra-actions-slot" :slot-row="gridRow">
                 </slot>
               </td>
             </tr>
           </transition-group>
+
+          <div class="q-ma-sm" v-show="cShowGridMode" >
+            <div class="row w-100 q-mb-md">
+              <slot  name="flexi-grind-header-create-slot">
+                <div class="w-100 t-right">
+                  <q-btn
+                    v-if="hasPermission('create')"
+                    icon="fas fa-plus-circle"
+                    @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
+                    color="secondary"
+                    round
+                    size="sm"
+                    :title="mResorceAction('create').label"
+                  >
+                  </q-btn>
+                </div>
+              </slot>
+            </div>
+
+            <div class="q-card row w-100 round-borders q-pa-sm">
+              <div class="row">
+                <slot  name="flexi-grind-headers-slot">
+                </slot>
+              </div>
+            </div>
+          </div>
+
           <transition-group
-            v-if="mainGridData && !cvDisableCards"
-            v-show="cvForceCards || cLtlg"
+            v-show="cShowGridMode"
             tag="div"
             class="row"
-            :enter-active-class="pageAnimation"
+            :enter-active-class="cdPageAnimation"
             :duration="{ enter: 500, leave: 0 }">
-            <div :class="cCardContainerClass" v-for="gridRow in mainGridData.rows" :key="gridRow[rowKey]">
+            <div :class="cpDinInsCardContainerClass" v-for="(gridRow, position) in cvDinInsfAdaptiveGridIndexGridRows" :key="position + '|' +gridRow[cpDinGenKeyName]">
               <div class="row col-xs-12 q-pa-sm">
-                <q-card dense :class="cCardClass">
-                  <slot name="flexi-properties-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
-                  </slot>
-                  <q-card-section :class="cpActionCardTitleClass">
-                    {{ $tc('crudvuel.actions') }}
-                  </q-card-section>
-                  <q-card-actions :class="cpActionCardClass" >
-                    <q-btn
-                      v-if="hasPermission('show')"
-                      icon="fas fa-eye"
-                      @click="$router.push(mActionPath('show',gridRow))"
-                      color="info"
-                      round
-                      size="sm"
-                      :title="mResorceAction('show').label"
-                      v-cv-in-progress="isSynchronizing(gridRow)"
-                      :disabled="isSynchronizing(gridRow)"
-                    ></q-btn>
-                    <q-btn
-                      v-if="hasPermission('edit')"
-                      icon="fas fa-pencil-alt"
-                      @click="$router.push(mActionPath('edit',gridRow))"
-                      color="positive"
-                      round
-                      size="sm"
-                      :title="mResorceAction('edit').label"
-                      v-cv-in-progress="isSynchronizing(gridRow)"
-                      :disabled="isSynchronizing(gridRow)"
-                    ></q-btn>
-                    <q-btn
-                      v-if="hasPermission('delete')"
-                      icon="fas fa-trash-alt"
-                      @click="deleteRow(gridRow)"
-                      color="negative"
-                      round
-                      size="sm"
-                      :title="mResorceAction('delete').label"
-                      v-cv-in-progress="isSynchronizing(gridRow)"
-                      :disabled="isSynchronizing(gridRow)"
-                    >
-                    </q-btn>
-                    <slot name="flexi-extra-actions-slot" :slot-row="gridRow"  :grid-data="mainGridData" :slot-component-ref="cSelfRef">
+                <q-card :class="cpDinInsCardClass" class="mnh-400px">
+                  <div class="w-100 h-50px">
+                    <q-chip square class="f-right bg-secondary txt-white q-ma-none no-border-radius f-bold text-subtitle1">
+                      {{ mfLang(cKeyName) }} : {{gridRow[cKeyName]}}
+                    </q-chip>
+                  </div>
+
+                  <div class="mxh-300px of-y-auto">
+                    <slot name="flexi-properties-slot" :slot-row="gridRow">
                     </slot>
-                  </q-card-actions>
+                  </div>
+
+                  <div class="absolute-bottom">
+                    <q-card-section :class="cpDinInsActionCardTitleClass">
+                      {{ $tc('crudvuel.actions') }}
+                    </q-card-section>
+                    <q-card-actions :class="cpDinInsActionCardClass" >
+                      <q-btn
+                        v-if="hasPermission('show')"
+                        icon="fas fa-eye"
+                        @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
+                        color="info"
+                        round
+                        size="sm"
+                        :title="mResorceAction('show').label"
+                      ></q-btn>
+
+                      <q-btn
+                        v-if="hasPermission('edit')"
+                        icon="fas fa-pencil-alt"
+                        @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
+                        color="positive"
+                        round
+                        size="sm"
+                        :title="mResorceAction('edit').label"
+                      ></q-btn>
+
+                      <q-btn
+                        v-if="hasPermission('delete')"
+                        icon="fas fa-trash-alt"
+                        @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
+                        color="negative"
+                        round
+                        size="sm"
+                        :title="mResorceAction('delete').label"
+                      >
+                      </q-btn>
+
+                      <slot name="flexi-extra-actions-slot" :slot-row="gridRow">
+                      </slot>
+                    </q-card-actions>
+                  </div>
                 </q-card>
               </div>
             </div>
@@ -179,7 +204,6 @@
         </table>
       </cv-grid>
     </div>
-    -->
   </div>
 </template>
 <script>
@@ -187,83 +211,107 @@ import {
   QItemLabel,
   QItemSection,
   QSeparator,
-  QCardSection
+  QCardSection,
+  QBtn,
+  QIcon,
+  QCard,
+  QCardActions,
+  QAvatar,
+  QChip
 } from 'quasar'
-import CvComponentSet         from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
-import CvMultiRowComponentSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentSet'
-import CvGrid                 from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvGrid'
+import VueMirroring             from 'crudvuel/mirroring/VueMirroring'
+import CvComponentSet           from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
+import CvActionComponentSet     from 'crudvuel-tools/src/themes/quasar/components/sets/CvActionComponentSet'
+import CvMultiRowComponentSet   from 'crudvuel-tools/src/themes/quasar/components/sets/CvMultiRowComponentSet'
+import CvGrid                   from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvGrid'
+
+let vueMirroring = new VueMirroring('AdaptiveGridIndex')
+
 export default {
   mixins     : [
     CvComponentSet,
-    CvMultiRowComponentSet
+    CvMultiRowComponentSet,
+    CvActionComponentSet,
+    vueMirroring.fixProperties({
+      '[D|M]pageAnimation'            : 'animated fadeIn',
+      '[P]dinInsShowTableMode'        : true,
+      '[P]dinInsShowGridMode'         : true,
+      '[P]dinInsCardContainerClass'   : 'row col-xs-12 col-sm-6 col-md-12 q-pa-sm',
+      '[P]dinInsCardClass'            : 'q-card w-100 round-borders',
+      '[P]dinInsActionCardTitleClass' : 'bg-white',
+      '[P]dinInsActionCardClass'      : 'row justify-start bg-secondary',
+      '[EM]dinGenLaunchAction'        : null
+    }),
+    vueMirroring.assimilate(
+      {CvGrid}
+    )
   ],
+
   components : {
     QItemLabel,
     QItemSection,
     QSeparator,
-    QCardSection
-  },/*
-  data () {
-    return {
-      temp          : null,
-      pageAnimation : 'animated fadeIn'
+    QCardSection,
+    CvGrid,
+    QBtn,
+    QIcon,
+    QCard,
+    QCardActions,
+    QAvatar,
+    QChip
+  },
+
+  computed: {
+    cShowTableMode () {
+      if (this.cpDinInsShowGridMode === false)
+        return true
+      return this.cpDinInsShowTableMode && this.cGtmd
+    },
+
+    cShowGridMode () {
+      if (this.cpDinInsShowTableMode === false)
+        return true
+      return this.cpDinInsShowGridMode && this.cLtlg
     }
   },
-  props:[
-    'cvForceCards',
-    'cvForceGrid',
-    'cvDisableCards',
-    'cvDisableGrid',
-    'cvCardClass',
-    'cvActionCardClass',
-    'cvCardContainerClass',
-    'cvActionCardTitleClass'
-  ],
-  computed:{
-    cForceCards: function () {
-      return this.cvForceCards
+
+  methods: {
+    emStaComfCvPaginatePageNavDownProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetPageAnimation('animated slideInDown')
+        resolve(emitted)
+      })
     },
-    cForceGrid: function () {
-      return this.cvForceGrid
+
+    emStaComfCvPaginatePageNavUpProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetPageAnimation('animated slideInUp')
+        resolve(emitted)
+      })
     },
-    cDisableCards: function () {
-      return this.cvDisableCards
+
+    emStaComfCvPaginatePageNavNeutralProccesor (emitted = null) {
+      return new Promise((resolve, reject) => {
+        this.mSetPageAnimation('animated fadeIn')
+        resolve(emitted)
+      })
     },
-    cDisableGrid: function () {
-      return this.cvDisableGrid
+
+    emDinGenLaunchActionProccesor (emitted) {
+      return new Promise((resolve, reject) => {
+        resolve(emitted)
+      })
     },
-    cCardClass: function () {
-      return this.cvCardClass || {'w-100 round-borders':'true'}
-    },
-    cpActionCardClass: function () {
-      return this.cvActionCardClass || {'bg-tertiary-l-90':'true'}
-    },
-    cCardContainerClass: function () {
-      return this.cvCardContainerClass || {'row col-md-12 col-sm-6 col-xs-12 q-pa-sm':true}
-    },
-    cpActionCardTitleClass: function () {
-      return this.cvActionCardTitleClass || {'':true}
+
+    mComponentInitialize () {
+      return new Promise((resolve, reject) => {
+        this.emDinInsfAdaptiveGridIndexGridFilterSelectorCurrentFilterEmitter('cv-combinatory-paginator')
+        this.$nextTick(() => {
+          this.mSetReady()
+          resolve()
+        })
+      })
     }
-  },*/
-  methods: {/*
-    mSuccessNotification: function () {
-      if (this.successNotificationMessages) {
-        CvNotify.createPositive(this.successNotificationMessages)
-        this.successNotificationMessages = null
-      }
-    },
-    mErrorNotification: function () {
-      if (this.errorNotificationMessages) {
-        CvNotify.createNegative(this.errorNotificationMessages)
-        this.errorNotificationMessages = null
-      }
-    },
-    mCancelNotification: function () {
-      if (this.cancelNotificationMessages) {
-        CvNotify.createWarning(this.cancelNotificationMessages)
-        this.cancelNotificationMessages = null
-      }
-    }*/
   }
 }
 </script>

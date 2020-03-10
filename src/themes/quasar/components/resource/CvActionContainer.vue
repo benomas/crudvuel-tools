@@ -17,6 +17,7 @@
       <slot name="cv-content-slot"
       >
       </slot>
+      <div class="w-100 h-40px"></div>
     </div>
     <div >
       <slot name="cv-buttons-slot"
@@ -31,6 +32,7 @@ import CvActionContainer    from 'crudvuel-tools/src/components/resource/CvActio
 import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvSpinner            from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSpinner'
 import cvEmptySlot          from 'crudvuel-tools/src/directives/cvEmptySlot'
+import CvSeparator          from 'crudvuel-tools/src/themes/quasar/components/others/CvSeparator'
 import VueMirroring         from 'crudvuel/mirroring/VueMirroring'
 
 export default {
@@ -49,7 +51,8 @@ export default {
   },
 
   components : {
-    CvSpinner
+    CvSpinner,
+    CvSeparator
   },
 
   directives : {
