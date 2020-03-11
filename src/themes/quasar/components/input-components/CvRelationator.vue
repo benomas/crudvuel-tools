@@ -9,7 +9,7 @@
           color="positive"
           class="txt-white"
           >
-          {{cFilteredAvailableSource.length}} / {{cAvailableSource.length}} / {{cpDinInsSource.length}}
+          {{cFilteredAvailableSource.length}} / {{cAvailableSource.length}} / {{cpDinInsSource.length}} --{{cdReady}}
         </q-chip>
         <cv-simple-filter
           class="w-100"

@@ -15,13 +15,13 @@
       </div>
       <div slot="cv-content-slot">
         <div class="row w-100">
-          <cv-catalog-skeleton
+          <cv-catalogs-skeleton
             v-bind="mCustomBindins('cv-catalog-skeleton')"
             v-on="mCustomOns('cv-catalog-skeleton')"
             :cv-sta-ins-resource="cResource.pluralName"
             :cv-segment="''"
             >
-          </cv-catalog-skeleton>
+          </cv-catalogs-skeleton>
         </div>
       </div>
 
@@ -38,11 +38,13 @@
   </div>
 </template>
 <script>
-import CvCreate                 from 'src/customs/crudvuel/themes/quasar/components/resource/CvCreate'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
 import CvCatalogsSkeleton       from 'crudvuel-tools/src/themes/quasar/components/catalogs/catalog1/CvCatalogsSkeleton'
 import CvSkeletonController     from 'src/customs/crudvuel/themes/quasar/components/resource/CvSkeletonController'
-import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
+import CvCreate                 from 'src/customs/crudvuel/themes/quasar/components/resource/CvCreate'
+
 let vueMirroring = new VueMirroring('Create').enableRoot()
+
 export default {
   mixins: [
     CvCreate,
