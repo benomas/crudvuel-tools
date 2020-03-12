@@ -36,7 +36,8 @@ export default {
       '[P]dinGenAction'                    : true,
       '[P]dinInsActionClasses'             : '',
       '[P]dinInsActionContentClasses'      : '',
-      '[P]dinInsDisableResponsiveBehavior' : false
+      '[P]dinInsDisableResponsiveBehavior' : false,
+      '[P]dinInsAddBottonMargin'           : true
     })
   ],
 
