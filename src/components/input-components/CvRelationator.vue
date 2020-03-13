@@ -24,7 +24,7 @@ export default {
       '[P|EM]dinInsSource'           : [],
       '[P|EM]dinInsRelated'          : [],
       '[P|EM]dinInsInitialRelated'   : [],
-      '[P|EM]dinInsRelatedAttach'     : {},
+      '[P|EM]dinInsRelatedAttach'    : {},
       '[P|EM]dinInsRelatedDetach'    : {},
       '[P]dinInsSourceResource'      : null,
       '[P]dinInsRelatedResource'     : null,
