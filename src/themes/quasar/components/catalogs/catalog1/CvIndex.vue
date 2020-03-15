@@ -22,7 +22,7 @@
             :cv-sta-comf-cv-paginate-pages-per-view="5"
             :cv-din-insf-adaptive-grid-index-grid-show-top-pagination="false"
             >
-            <template v-if="1" slot="headers-slot" slot-scope="props">
+            <template v-if="1" slot="headers-slot">
                 <!-- cv-grid-customization-->
               <th v-cv-page-opt="'id'" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-10" >
                 {{ mfLang('id') }}
@@ -50,7 +50,7 @@
                 </cv-order-icons>
               </th>
             </template>
-            <template v-if="cEnableSimpleFieldFilter" slot="sub-headers-slot" slot-scope="props">
+            <template v-if="cEnableSimpleFieldFilter" slot="sub-headers-slot">
               <tr>
                 <td>
                   <cv-simple-field-filter
@@ -97,9 +97,9 @@
               <td>{{props.slotRow.description}}</td>
             </template>
             <!-- cv-grid-extra-actions-->
-            <template v-if="1" slot="table-extra-actions-slot" slot-scope="props">
+            <template v-if="1" slot="table-extra-actions-slot">
             </template>
-            <template v-if="1" slot="flexi-grind-headers-slot" slot-scope="props">
+            <template v-if="1" slot="flexi-grind-headers-slot">
               <div v-cv-page-opt="'id'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
                 <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
@@ -179,7 +179,7 @@
               </q-item>
             </template>
             <!-- cv-grid-flexi-extra-actions-->
-            <template v-if="1" slot="flexi-extra-actions-slot" slot-scope="props">
+            <template v-if="1" slot="flexi-extra-actions-slot">
             </template>
           </cv-adaptive-grid-index>
         </div>

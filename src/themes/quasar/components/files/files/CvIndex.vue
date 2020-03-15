@@ -1,7 +1,7 @@
 <template>
   <cv-adaptive-grid-index v-if="cResource && cAction" v-bind="defActionProps()" v-on="bGridOn()">
     <!-- cv-grid-customization-->
-    <template v-if="1" slot="headers-slot" slot-scope="props">
+    <template v-if="1" slot="headers-slot">
       <!-- cv-grid-customization-->
       <th cv-key="id" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" ref="headers">
         {{ mfLang('id') }}
