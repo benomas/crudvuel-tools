@@ -160,6 +160,17 @@ export default {
         })))
       })
     },
+    mComponentBootFlow () {
+      this.mComponentInitialize().then((startData = null) => {
+        this.mSetIsMounted(true)
+      }).catch((exceptionData) => {
+        this.mFailInitializeNotification().then(() => {
+          this.mFinish()
+        }).catch(() => {
+          this.mFinish()
+        })
+      })
+    },
     mySubString,
     myReplace,
     cvF,
@@ -167,14 +178,6 @@ export default {
   },
 
   mounted () {
-    this.mComponentInitialize().then((startData = null) => {
-      this.mSetIsMounted(true)
-    }).catch((exceptionData) => {
-      this.mFailInitializeNotification().then(() => {
-        this.mFinish()
-      }).catch(() => {
-        this.mFinish()
-      })
-    })
+    this.mComponentBootFlow()
   }
 }

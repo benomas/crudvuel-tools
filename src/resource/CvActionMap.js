@@ -12,7 +12,7 @@ export default class CvResourceMap extends CvClass {
     this.path              = null,
     this.urlParams         = null,
     this.component         = null,
-    this.props             = null,
+    this.props             = {},
     this.type              = null,
     this.getSuccessMessage = null,
     this.getErrorMessage   = null,
@@ -54,11 +54,14 @@ export default class CvResourceMap extends CvClass {
 
   setRoute () {
     if (this.path !== undefined && this.component !== undefined && this.component) {
+      let props = { cvStaGenAction:this}
+      if(typeof this.props === 'object')
+        props = {...props,...this.props}
       this.actionRoute = {
         name      : `${this.resource.name}.${this.name}`,
         path      : this.path,
         component : this.component,
-        props     : this.props?this.props:{ cvStaGenAction:this},
+        props,
         meta      : {cvAction:this}
       }
     }
