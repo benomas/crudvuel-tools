@@ -1,5 +1,31 @@
+
+
 body
   color:$black-l-30
+  &.screen--xs
+    .main-component
+      top:30px
+      bottom:0
+  &.screen--sm
+    .main-component
+      top:30px
+      bottom:0
+  /*
+  &.screen--md
+
+  &.screen--lg
+
+  &.screen--xl
+  */
+
+.main-component
+  position:absolute
+  width:-moz-available
+  top:120px
+  bottom:15px
+  &.has-bottom-buttons
+    bottom:70px
+
 a
   text-decoration  : none
   background-color : transparent

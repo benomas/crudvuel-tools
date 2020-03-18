@@ -13,11 +13,11 @@
         </label>
       </div>
     </slot>
-    <div :class="{...cpDinInsActionContentClasses,...{'q-pa-md':cGtmd}}" class="shadow-2 of-y-auto"  :style="{'height':cFixedActionContainerHeight}">
+    <div :class="{...cpDinInsActionContentClasses,...{'q-pa-md shadow-2':cGtsm,'has-bottom-buttons':cpDinInsAddBottonMargin,' main-component':!cpDinInsDisableResponsiveBehavior}}" class="of-y-auto q-mr-md" >
       <slot name="cv-content-slot"
       >
       </slot>
-      <div v-if="cpDinInsAddBottonMargin" class="w-100 h-60px"></div>
+      <div v-if="cLtmd" class="w-100 h-60px"></div>
     </div>
     <div >
       <slot name="cv-buttons-slot"
@@ -57,16 +57,6 @@ export default {
 
   directives : {
     cvEmptySlot: cvEmptySlot
-  },
-
-  computed: {
-    cFixedActionContainerHeight () {
-      if (this.cpDinInsDisableResponsiveBehavior)
-        return 'auto'
-      if (this.cvButtonsSlot)
-        return this.cActionContentHeightFixNoButtons
-      return this.cActionContentHeightFix
-    }
-  },
+  }
 }
 </script>

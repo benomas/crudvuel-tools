@@ -1,11 +1,11 @@
 <template>
   <div>
-    <q-page-sticky position="bottom-left" :offset="[18, 18]">
+    <q-page-sticky position="bottom-left" :offset="[0, 0]">
       <q-btn
         v-if="cpDinGenShowBackButton"
         :size="cdBtnSize"
-        :class="{'q-ma-md':cGtsm}"
-        class="q-mx-xs q-my-sm"
+        :class="{'q-ma-md':cGtmd}"
+        class="q-mx-sm q-my-sm"
         :icon="cpStaGenBackIcon"
         :color="cpStaGenBackIconColor"
         @click="emStaGenBackEmitter">
@@ -18,13 +18,13 @@
       </q-btn>
     </q-page-sticky>
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+    <q-page-sticky position="bottom-right" :offset="[0, 0]">
       <div class="float-right" >
         <q-btn
           v-if="cpDinGenShowNextButton"
           :size="cdBtnSize"
-          :class="{'q-ma-md':cGtsm}"
-          class="q-mx-xs q-my-sm"
+          :class="{'q-ma-md':cGtmd}"
+          class="q-mx-sm q-my-sm"
           :icon="cpStaGenNextIcon"
           :color="cpStaGenNextIconColor"
           @click="emStaGenNextEmitter"
@@ -41,8 +41,8 @@
       <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" >
         <q-btn
         :size="cdBtnSize"
-          :class="{'q-ma-md':cGtsm}"
-          class="q-mx-xs q-my-sm"
+          :class="{'q-ma-md':cGtmd}"
+          class="q-mx-sm q-my-sm"
           icon="fas fa-fill"
           color="warning"
           @click="emStaGenAutoResetEmitter"
@@ -59,8 +59,8 @@
       <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" >
         <q-btn
         :size="cdBtnSize"
-          :class="{'q-ma-md':cGtsm}"
-          class="q-mx-xs q-my-sm"
+          :class="{'q-ma-md':cGtmd}"
+          class="q-mx-sm q-my-sm"
           icon="fas fa-fill"
           color="accent"
           @click="emStaGenAutoClearEmitter"
@@ -77,7 +77,7 @@
       <div v-if="cAutoFillable" class="float-right" >
         <q-btn
         :size="cdBtnSize"
-          :class="{'q-ma-md':cGtsm}"
+          :class="{'q-ma-md':cGtmd}"
           class="q-mx-xs q-my-sm"
           icon="fas fa-fill"
           color="info"

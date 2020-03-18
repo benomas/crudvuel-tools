@@ -33,78 +33,60 @@ export default class CvVueCommon {
           return this.$q.screen.height || 0
         },
 
-        cActionContentHeightFix: function () {
-          if (this.cWindowsHeight < 200)
-            return 'auto'
-
-          return ( this.cWindowsHeight - 135 + this.cSmActionContentHeightFix) + 'px'
-        },
-
-        cActionContentHeightFixNoButtons: function () {
-          if (this.cWindowsHeight < 200)
-            return 'auto'
-
-          return ( this.cWindowsHeight - 135 + this.cSmActionContentHeightFix) + 'px'
-        },
-
-        cSmActionContentHeightFix () {
-          return this.cLtmd ? 65 : 0
-        },
-
         cGtxs: function () {
-          return this.cWindowsWidth >= 576
+          return this.$q.screen.gt.xs
         },
 
         cGtsm: function () {
-          return this.cWindowsWidth >= 768
+          return this.$q.screen.gt.sm
         },
 
         cGtmd: function () {
-          return this.cWindowsWidth >= 992
+          return this.$q.screen.gt.md
         },
 
         cGtlg: function () {
-          return this.cWindowsWidth >= 1200
+          return this.$q.screen.gt.lg
         },
 
         cLtxs: function () {
-          return this.cWindowsWidth < 360
+          return this.$q.screen.lt.xs
         },
 
         cLtsm: function () {
-          return this.cWindowsWidth < 576
+          return this.$q.screen.lt.sm
         },
 
         cLtmd: function () {
-          return this.cWindowsWidth < 768
+          return this.$q.screen.lt.md
         },
 
         cLtlg: function () {
-          return this.cWindowsWidth < 992
+          return this.$q.screen.lt.lg
         },
 
         cLtxg: function () {
-          return this.cWindowsWidth < 1200
+          return this.$q.screen.lt.xl
         },
 
         cXs: function () {
-          return this.cWindowsWidth < 576
+          return this.$q.screen.xs
         },
 
         cSm: function () {
-          return this.cWindowsWidth >= 576 && this.cWindowsWidth < 768
+          return this.$q.screen.sm
         },
 
         cMd: function () {
-          return this.cWindowsWidth >= 768 && this.cWindowsWidth < 992
+          return this.$q.screen.md
         },
 
         cLg: function () {
-          return this.cWindowsWidth >= 992 && this.cWindowsWidth < 1200
+          return this.$q.screen.lg
         },
 
         cXg: function () {
-          return this.cWindowsWidth >= 1200
+          return this.$q.screen.xl
         },
 
         cColSize: function () {
