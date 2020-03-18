@@ -12,7 +12,7 @@
         <q-tooltip  :disable="!cpDinGenShowBackButton && !cXs && !cSm">
           {{cBackLabel}}
         </q-tooltip>
-        <span v-if="cGtlg && cpDinGenShowBackButton" class="q-px-sm">
+        <span v-if="cGtsm && cpDinGenShowBackButton" class="q-px-sm">
           {{cBackLabel}}
         </span>
       </q-btn>
@@ -32,7 +32,7 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cNextLabel}}
           </q-tooltip>
-          <span v-if="cGtlg && cpDinGenShowNextButton" class="q-px-sm">
+          <span v-if="cGtsm && cpDinGenShowNextButton" class="q-px-sm">
             {{cNextLabel}}
           </span>
         </q-btn>
@@ -50,7 +50,7 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cResetLabel}}
           </q-tooltip>
-          <span v-if="cGtlg" class="q-px-sm">
+          <span v-if="cGtsm" class="q-px-sm">
             {{cResetLabel}}
           </span>
         </q-btn>
@@ -68,7 +68,7 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cClearLabel}}
           </q-tooltip>
-          <span v-if="cGtlg" class="q-px-sm">
+          <span v-if="cGtsm" class="q-px-sm">
             {{cClearLabel}}
           </span>
         </q-btn>
@@ -86,7 +86,7 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cFillLabel}}
           </q-tooltip>
-          <span v-if="cGtlg" class="q-px-sm">
+          <span v-if="cGtsm" class="q-px-sm">
             {{cFillLabel}}
           </span>
         </q-btn>

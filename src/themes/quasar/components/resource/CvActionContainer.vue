@@ -17,7 +17,8 @@
       <slot name="cv-content-slot"
       >
       </slot>
-      <div v-if="cLtmd" class="w-100 h-60px"></div>
+      <div v-if="cpDinInsAddBottonMargin && cLtmd" class="w-100 h-60px"></div>
+      <div v-if="!cpDinInsAddBottonMargin && cLtmd" class="w-100 h-20px"></div>
     </div>
     <div >
       <slot name="cv-buttons-slot"

@@ -265,13 +265,13 @@ export default {
     cShowTableMode () {
       if (this.cpDinInsShowGridMode === false)
         return true
-      return this.cpDinInsShowTableMode && this.cGtmd
+      return this.cpDinInsShowTableMode && this.cGtsm
     },
 
     cShowGridMode () {
       if (this.cpDinInsShowTableMode === false)
         return true
-      return this.cpDinInsShowGridMode && this.cLtlg
+      return this.cpDinInsShowGridMode && this.cLtmd
     }
   },
 
