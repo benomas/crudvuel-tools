@@ -13,7 +13,7 @@
         </label>
       </div>
     </slot>
-    <div :class="{...cpDinInsActionContentClasses,...{'q-pa-md shadow-2':cGtsm,'has-bottom-buttons':cpDinInsAddBottonMargin,' main-component':!cpDinInsDisableResponsiveBehavior}}" class="of-y-auto q-mr-md" >
+    <div :class="{...cpDinInsActionContentClasses,...{'q-pa-md shadow-2':cGtsm}}" :style="cStyle">
       <slot name="cv-content-slot"
       >
       </slot>
@@ -29,6 +29,7 @@
   </div>
 </template>
 <script>
+import {QPage} from 'quasar'
 import CvActionContainer    from 'crudvuel-tools/src/components/resource/CvActionContainer'
 import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvSpinner            from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSpinner'
@@ -53,11 +54,28 @@ export default {
 
   components : {
     CvSpinner,
-    CvSeparator
+    CvSeparator,
+    QPage
   },
 
   directives : {
     cvEmptySlot: cvEmptySlot
+  },
+
+  computed: {
+    cOffset () {
+      return (this.cGtsm ? 115 : 0)*1 + (this.cpDinInsAddBottonMargin ? 80 : 35)*1
+    },
+    cStyle () {
+      let calHeight = this.$q.screen.height === 0
+        ? `calc(100vh - ${this.cOffset}px)`
+        : (this.$q.screen.height - this.cOffset) + 'px'
+      if (!this.cpDinInsDisableResponsiveBehavior)
+        return {
+          minHeight: calHeight
+        }
+      return {}
+    }
   }
 }
 </script>
