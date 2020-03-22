@@ -7,19 +7,27 @@
           {{ mfLang('id') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="id"></cv-order-icons>
         </th>
-        <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25" >
+        <th cv-key="name" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
           {{ mfLang('name') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="name"></cv-order-icons>
         </th>
-        <th  cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-22" >
+        <th  cv-key="slug" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
           {{ mfLang('slug') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="slug"></cv-order-icons>
         </th>
-        <th  cv-key="description" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-22" >
+        <th  cv-key="description" class="gt-md cv-orderable cv-filterable cv-selectable t-left t-middle w-20" >
           {{ mfLang('description') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="description"></cv-order-icons>
         </th>
-        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-8" >
+        <th  cv-key="internal_role" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-5" >
+          {{ mfLang('internal_role') }}
+          <cv-order-icons :cv-data="props.gridData" cv-key="internal_role"></cv-order-icons>
+        </th>
+        <th  cv-key="external_role" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-5" >
+          {{ mfLang('external_role') }}
+          <cv-order-icons :cv-data="props.gridData" cv-key="external_role"></cv-order-icons>
+        </th>
+        <th  cv-key="active" class="cv-orderable cv-filterable cv-selectable t-center t-middle w-5" >
           {{ mfLang('active') }}
           <cv-order-icons :cv-data="props.gridData" cv-key="active"></cv-order-icons>
         </th>
@@ -75,6 +83,28 @@
           >
           </cv-simple-filter>
         </td>
+        <td >
+          <cv-simple-filter
+            class="w-100"
+            :cv-search-label="''"
+            cv-search-icon=""
+            @cv-event-filter-go-to-find="((search)=>{
+              superFilter('internal_role',search)
+            })"
+          >
+          </cv-simple-filter>
+        </td>
+        <td >
+          <cv-simple-filter
+            class="w-100"
+            :cv-search-label="''"
+            cv-search-icon=""
+            @cv-event-filter-go-to-find="((search)=>{
+              superFilter('external_role',search)
+            })"
+          >
+          </cv-simple-filter>
+        </td>
         <td class="t-center">
         </td>
         <td class="t-center">
@@ -94,6 +124,12 @@
       </td>
       <td class="gt-md">
         {{props.slotRow.description}}
+      </td>
+      <td class="gt-md">
+        {{props.slotRow.internal_role}}
+      </td>
+      <td class="gt-md">
+        {{props.slotRow.external_role}}
       </td>
     </template>
     <!-- cv-grid-extra-actions-->
@@ -125,6 +161,18 @@
         <q-item-label>
           <q-item-section label>{{ mfLang('description') }}</q-item-section>
           <q-item-section sublabel class="limit-label h-60px">{{props.slotRow.description}}</q-item-section>
+        </q-item-label>
+      </q-item>
+      <q-item>
+        <q-item-label>
+          <q-item-section label>{{ mfLang('internal_role') }}</q-item-section>
+          <q-item-section sublabel class="limit-label h-60px">{{props.slotRow.internal_role}}</q-item-section>
+        </q-item-label>
+      </q-item>
+      <q-item>
+        <q-item-label>
+          <q-item-section label>{{ mfLang('external_role') }}</q-item-section>
+          <q-item-section sublabel class="limit-label h-60px">{{props.slotRow.external_role}}</q-item-section>
         </q-item-label>
       </q-item>
     </template>

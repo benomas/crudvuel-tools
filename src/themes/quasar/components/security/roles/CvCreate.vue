@@ -11,12 +11,22 @@
           <q-input v-bind="defInputProps('slug')" v-model.trim="row.slug"/>
         </q-field>
       </div>
-      <div class="col-xs-12 col-sm-2 q-pa-md m-auto">
+      <div class="col-xs-12 col-sm-4 m-auto">
+        <q-field v-bind="defErrorInputProps('internal')">
+          <cv-toggle v-bind="defInputProps('internal')" v-model="row.internal" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
+        </q-field>
+      </div>
+      <div class="col-xs-12 col-sm-4 m-auto">
+        <q-field v-bind="defErrorInputProps('external')">
+          <cv-toggle v-bind="defInputProps('external')" v-model="row.external" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
+        </q-field>
+      </div>
+      <div class="col-xs-12 col-sm-4 m-auto">
         <q-field v-bind="defErrorInputProps('active')">
           <cv-toggle v-bind="defInputProps('active')" v-model="row.active" :left-label="true" :true-value="1" :false-value="0" color="positive"/>
         </q-field>
       </div>
-      <div class="col-xs-12 col-sm-9 col-md-12 q-pa-md">
+      <div class="col-xs-12 q-pa-md">
         <q-field v-bind="defErrorInputProps('description')" >
           <q-input v-bind="defInputProps('description')" v-model="row.description" type="textarea" :max-height="100" :min-rows="7"/>
         </q-field>
