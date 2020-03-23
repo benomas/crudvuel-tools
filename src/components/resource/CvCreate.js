@@ -59,13 +59,13 @@ export default {
       })
     },
 
-    mCompleteAction () {/*
+    mCompleteAction () {
       let successMessage = this.cpStaGenAction.getSetSuccessMessage()
       if (successMessage){
         this.mDelayer(900).then(()=>{
           this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
         })
-      }*/
+      }
       this.mFinish('completed')
       return this
     },
