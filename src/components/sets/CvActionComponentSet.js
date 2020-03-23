@@ -5,9 +5,10 @@ let cvSynchronizer = new CvSynchronizer()
 export default {
   mixins: [
     new VueMirroring().fixProperties({
-      '[P]staGenAction'         : null,
-      '[P]dinGenExcludeActions' : [],
-      '[P]dinGenDisableFields'  : null
+      '[P]staGenAction'          : null,
+      '[P]dinGenExcludeActions'  : [],
+      '[P]dinGenDisableFields'   : null,
+      '[P]dinGenActionMode'      : 'route'
     })
   ],
 
@@ -138,7 +139,7 @@ export default {
       return this.mResorceAction(action,resource).getFixedPath(row) || null
     },
 
-    mFinish () {
+    mFinish (status = 'completed') {
     },
 
     mFailInitializeNotification () {
@@ -154,7 +155,7 @@ export default {
       let cancelMessage = this.cpStaGenAction.getSetCancelMessage()
       if (cancelMessage)
         this.mCancelNotification(cancelMessage + this.actionKeyMessage(this.cdRow))
-      this.mFinish()
+      this.mFinish('canceled')
     },
 
     actionKeyMessage (gridRow = null) {
@@ -164,10 +165,11 @@ export default {
     },
 
     mCompleteAction () {
-      let successMessage = this.cpStaGenAction.setSuccessMessage()
+      let successMessage = this.cpStaGenAction.getSetSuccessMessage()
+      console.log(successMessage)
       if (successMessage)
         this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
-      this.mFinish()
+      this.mFinish('completed')
       return this
     },
 

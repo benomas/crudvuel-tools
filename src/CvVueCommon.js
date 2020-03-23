@@ -120,7 +120,7 @@ export default class CvVueCommon {
         },
 
         cAutoFillable: function () {
-          if (this.cEnv == null || this.cEnv !== 'dev')
+          if (this.cEnv == null)
             return false
           if (this.cAutoFillableEnabled == null || this.cAutoFillableEnabled !== true)
             return false

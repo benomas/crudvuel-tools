@@ -1,5 +1,5 @@
 <template>
-  <div class="filters-container w-100">
+  <div class="filters-container">
     <q-input
       borderless
       standout

@@ -59,22 +59,38 @@ export default {
       })
     },
 
-    mCompleteAction () {
-      this.mFinish()
+    mCompleteAction () {/*
+      let successMessage = this.cpStaGenAction.getSetSuccessMessage()
+      if (successMessage){
+        this.mDelayer(900).then(()=>{
+          this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
+        })
+      }*/
+      this.mFinish('completed')
       return this
     },
 
-    mFinish () {
-      let baseRoute = this.$route.path.split(this.mActionPath('index'))
-      this.$router.push(baseRoute[0] + this.mActionPath('index'))
+    mFinish (status = 'completed') {
+      if (this.cpDinGenActionMode === 'route') {
+        let baseRoute = this.$route.path.split(this.mActionPath('index'))
+        this.$router.push(baseRoute[0] + this.mActionPath('index'))
+      }
+
+      if (this.cpDinGenActionMode === 'dialog') {
+        if (status === 'completed')
+          this.$emit('action-completed', this.cdRow)
+        if (status === 'canceled')
+          this.$emit('action-canceled', null)
+      }
     }
   },
 
   created () {
     this.mAddCustomBinding({
-      'cv-din-gen-action' : 'cdAction',
-      'cv-row'            : 'cdRow',
-      'cv-errors'         : 'cFixedErrors'
+      'cv-din-gen-action'      : 'cdAction',
+      'cv-row'                 : 'cdRow',
+      'cv-errors'              : 'cFixedErrors',
+      'cv-din-gen-action-mode' : 'cpDinGenActionMode'
     })
   }
 }

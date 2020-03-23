@@ -33,11 +33,11 @@ export default class CvResourceMap extends CvClass {
   }
 
   getGetSuccessMessage () {
-    return this.getSuccessMessage || this.resource.getSuccessMessage()
+    return this.getSuccessMessage || this.resource.getGetSuccessMessage()
   }
 
   getGetErrorMessage () {
-    return this.getErrorMessage || this.resource.getErrorMessage()
+    return this.getErrorMessage || this.resource.getGetErrorMessage()
   }
 
   getSetSuccessMessage () {

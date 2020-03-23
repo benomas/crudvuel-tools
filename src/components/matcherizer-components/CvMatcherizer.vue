@@ -10,6 +10,7 @@ import CvComponentSet         from 'crudvuel-tools/src/components/sets/CvCompone
 import CvResourceComponentSet from 'crudvuel-tools/src/components/sets/CvResourceComponentSet'
 import CvPaginateComponentSet from 'crudvuel-tools/src/components/sets/CvPaginateComponentSet'
 import CvSimpleFilter         from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
+import CvPermission           from 'crudvuel-tools/src//components/CvPermissionComponent'
 import VueMirroring           from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Matcherizer')
 
@@ -18,6 +19,7 @@ export default {
     CvComponentSet,
     CvResourceComponentSet,
     CvPaginateComponentSet,
+    CvPermission,
     vueMirroring.fixProperties({
       '[P|NN]staInsPagSelectQuery'     : ['id','cv_search'],
       '[P|NN]staInsPagFilterQuery'     : {'cv_search': ''},
@@ -35,6 +37,12 @@ export default {
       '[D|M]sourcePageCount'           : null,
       '[D|M]listWidth'                 : '200px',
       '[D|M]lastSearch'                : null,
+      '[EM]dinGenReset'                : null,
+      '[P|EM]dinInsDataLoadedFail'     : false,
+      '[P|EM]dinInsDataLoaded'         : false,
+      '[P|EM]dinInsLoading'            : false,
+      '[P|EM]dinInsLoading'            : false,
+      '[P]staInsEnableCreateButton'    : true,
       //-----------
       '[D|EM]searchFocus'              : false,
       '[D|EM]searchContinue'           : false,
@@ -45,11 +53,7 @@ export default {
       '[P]dinInsLabelCallBack'         : null,
       '[P]dinInsSourceService'         : null,
       '[P]staInsLocalData'             : null,
-      '[P]dinInsKeyLoading'            : false,
-      '[P|EM]dinInsLoading'            : false,
-      '[P|EM]dinInsDataLoaded'         : false,
-      '[P|EM]dinInsDataLoadedFail'     : false,
-      '[EM]dinGenReset'                : null
+      '[P]dinInsKeyLoading'            : false
     }),
     vueMirroring.assimilate(
       {CvSimpleFilter,root: true}
@@ -163,7 +167,62 @@ export default {
 
     cMatcherizerChild () {
       return this.cvMatcherizerChild
+    },
+
+    cHasCreateAction () {
+      if (!this.cpStaInsResource)
+        return false
+
+      if (this.cpStaInsResource.actions == null)
+        return false
+
+      if (this.cpStaInsResource.actions.create == null)
+        return false
+
+      return true
+    },
+
+    cShowCreateButton () {
+      if (!this.cpStaInsEnableCreateButton)
+        return false
+
+      if (!this.cHasCreateAction)
+        return false
+
+      if (!this.hasActionPermission(this.cpStaInsResource.actions.create))
+        return false
+
+      return true
+    },
+    /*
+    cSimpleFilterWidthClass () {
+      let noButtonClass  = 'col-xs-12'
+      let hasButtonClass = 'col-xs-9 col-sm-10'
+
+      if(!this.cShowCreateButton)
+        return noButtonClass
+
+      return hasButtonClass
+    },
+
+    cCreateButtonWidthClass () {
+      let hasButtonClass = 'col-xs-3 col-sm-2'
+      return hasButtonClass
+    }*/
+
+    cCreateMessage () {
+      if (!this.cShowCreateButton)
+        return ''
+      return this.cpStaInsResource.actions.create.label
+    },
+
+    cCreateAction () {
+      if (!this.cHasCreateAction)
+        return null
+
+      return this.cpStaInsResource.actions.create
     }
+
   },
 
   methods: {
@@ -350,6 +409,10 @@ export default {
       return new Promise((resolve, reject) => {
         resolve(emitted)
       })
+    },
+
+    mInvokeCreation () {
+      console.log('lauch creation')
     }
   }
 }

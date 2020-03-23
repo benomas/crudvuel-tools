@@ -151,12 +151,12 @@ export default {
       return defWord
     },
 
-    mDelayer () {
+    mDelayer (delayFor = 1) {
       return new Promise((resolve, reject) => {
         this.$nextTick().then(()=>this.$nextTick().then(()=>this.$nextTick().then(()=>{
           setTimeout(() => {
             resolve()
-          }, 1)
+          }, delayFor)
         })))
       })
     },
@@ -165,9 +165,9 @@ export default {
         this.mSetIsMounted(true)
       }).catch((exceptionData) => {
         this.mFailInitializeNotification().then(() => {
-          this.mFinish()
+          this.mFinish('fail initialize')
         }).catch(() => {
-          this.mFinish()
+          this.mFinish('fail notify')
         })
       })
     },

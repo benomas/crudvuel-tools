@@ -1,6 +1,105 @@
 <template>
-  <div>
-    <q-page-sticky position="bottom-left" :offset="[0, 0]">
+  <div >
+    <div v-if="cpDinGenActionMode==='route'">
+      <q-page-sticky position="bottom-left" :offset="[0, 0]">
+        <q-btn
+          v-if="cpDinGenShowBackButton"
+          :size="cdBtnSize"
+          :class="{'q-ma-md':cGtmd}"
+          class="q-mx-sm q-my-sm"
+          :icon="cpStaGenBackIcon"
+          :color="cpStaGenBackIconColor"
+          @click="emStaGenBackEmitter">
+          <q-tooltip  :disable="!cpDinGenShowBackButton && !cXs && !cSm">
+            {{cBackLabel}}
+          </q-tooltip>
+
+          <span v-if="cGtsm && cpDinGenShowBackButton" class="q-px-sm">
+            {{cBackLabel}}
+          </span>
+        </q-btn>
+      </q-page-sticky>
+
+      <q-page-sticky position="bottom-right" :offset="[0, 0]">
+        <div class="float-right" >
+          <q-btn
+            v-if="cpDinGenShowNextButton"
+            :size="cdBtnSize"
+            :class="{'q-ma-md':cGtmd}"
+            class="q-mx-sm q-my-sm"
+            :icon="cpStaGenNextIcon"
+            :color="cpStaGenNextIconColor"
+            @click="emStaGenNextEmitter"
+            :disabled="!cdReady">
+            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+              {{cNextLabel}}
+            </q-tooltip>
+
+            <span v-if="cGtsm && cpDinGenShowNextButton" class="q-px-sm">
+              {{cNextLabel}}
+            </span>
+          </q-btn>
+        </div>
+
+        <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" >
+          <q-btn
+          :size="cdBtnSize"
+            :class="{'q-ma-md':cGtmd}"
+            class="q-mx-sm q-my-sm"
+            icon="fas fa-fill"
+            color="warning"
+            @click="emStaGenAutoResetEmitter"
+            :disabled="!cdReady">
+            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+              {{cResetLabel}}
+            </q-tooltip>
+
+            <span v-if="cGtsm" class="q-px-sm">
+              {{cResetLabel}}
+            </span>
+          </q-btn>
+        </div>
+
+        <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" >
+          <q-btn
+          :size="cdBtnSize"
+            :class="{'q-ma-md':cGtmd}"
+            class="q-mx-sm q-my-sm"
+            icon="fas fa-fill"
+            color="accent"
+            @click="emStaGenAutoClearEmitter"
+            :disabled="!cdReady">
+            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+              {{cClearLabel}}
+            </q-tooltip>
+
+            <span v-if="cGtsm" class="q-px-sm">
+              {{cClearLabel}}
+            </span>
+          </q-btn>
+        </div>
+
+        <div v-if="cAutoFillable" class="float-right" >
+          <q-btn
+          :size="cdBtnSize"
+            :class="{'q-ma-md':cGtmd}"
+            class="q-mx-xs q-my-sm"
+            icon="fas fa-fill"
+            color="info"
+            @click="emStaGenAutoFillEmitter"
+            :disabled="!cdReady">
+            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+              {{cFillLabel}}
+            </q-tooltip>
+
+            <span v-if="cGtsm" class="q-px-sm">
+              {{cFillLabel}}
+            </span>
+          </q-btn>
+        </div>
+      </q-page-sticky>
+    </div>
+    <div v-if="cpDinGenActionMode==='dialog'">
       <q-btn
         v-if="cpDinGenShowBackButton"
         :size="cdBtnSize"
@@ -12,13 +111,12 @@
         <q-tooltip  :disable="!cpDinGenShowBackButton && !cXs && !cSm">
           {{cBackLabel}}
         </q-tooltip>
+
         <span v-if="cGtsm && cpDinGenShowBackButton" class="q-px-sm">
           {{cBackLabel}}
         </span>
       </q-btn>
-    </q-page-sticky>
 
-    <q-page-sticky position="bottom-right" :offset="[0, 0]">
       <div class="float-right" >
         <q-btn
           v-if="cpDinGenShowNextButton"
@@ -32,6 +130,7 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cNextLabel}}
           </q-tooltip>
+
           <span v-if="cGtsm && cpDinGenShowNextButton" class="q-px-sm">
             {{cNextLabel}}
           </span>
@@ -50,6 +149,7 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cResetLabel}}
           </q-tooltip>
+
           <span v-if="cGtsm" class="q-px-sm">
             {{cResetLabel}}
           </span>
@@ -68,6 +168,7 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cClearLabel}}
           </q-tooltip>
+
           <span v-if="cGtsm" class="q-px-sm">
             {{cClearLabel}}
           </span>
@@ -86,12 +187,13 @@
           <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
             {{cFillLabel}}
           </q-tooltip>
+
           <span v-if="cGtsm" class="q-px-sm">
             {{cFillLabel}}
           </span>
         </q-btn>
       </div>
-    </q-page-sticky>
+    </div>
   </div>
 </template>
 <script>
@@ -105,6 +207,7 @@ import {
   QPageSticky,
   QTooltip
 } from 'quasar'
+
 export default {
   mixins: [
     CvComponentSet,
@@ -125,7 +228,8 @@ export default {
       '[P]staInsAutoFillable'   : null,
       '[P]staInsClereable'      : null,
       '[P]staInsAutoFillable'   : null,
-      '[D]btnSize'              : 'md'
+      '[D]btnSize'              : 'md',
+      '[P]dinGenActionMode'     : 'route'
     })
   ],
 
