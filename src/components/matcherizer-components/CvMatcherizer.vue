@@ -43,7 +43,7 @@ export default {
       '[P|EM]dinInsLoading'              : false,
       '[P|EM]dinInsLoading'              : false,
       '[P]staInsEnableCreateButton'      : true,
-      '[P]staInsEnableAutoSelectCreated' : true
+      '[P]staInsEnableAutoSelectCreated' : true,
       //-----------
       '[D|EM]searchFocus'                : false,
       '[D|EM]searchContinue'             : false,
