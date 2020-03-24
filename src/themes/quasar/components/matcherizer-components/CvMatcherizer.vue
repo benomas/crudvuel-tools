@@ -40,6 +40,7 @@
               v-html="mShowPatter(mLabelCallBack(cSourceRows,row),mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue)"
             >
             </li>
+
             <li
               v-if="cpDinInsLoading"
               class="list-group-item more-data-message"
@@ -47,12 +48,14 @@
               <q-spinner-facebook :size="18" class="q-mx-md txt-secondary-l-30"/>
               <span class="txt-secondary-l-30">{{cLoadingLabel}}...</span>
             </li>
+
             <li
               v-if="cdSourceCount && cdSourceCount > cpDinInsListOfItemsLimit"
               class="list-group-item more-data-message"
             >
               <span class="txt-secondary-l-30">{{cMoreDataLabel}}</span>
             </li>
+
             <li
               v-if="cSourceRowsCount === 0"
               class="list-group-item more-data-message"
@@ -76,6 +79,7 @@
           </ul>
         </div>
       </q-slide-transition >
+
       <cv-action-dialog
         v-bind="mCustomBindins('cv-action-dialog')"
         v-on="mCustomOns('cv-action-dialog')"

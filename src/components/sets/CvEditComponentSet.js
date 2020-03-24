@@ -22,7 +22,7 @@ export default {
           resolve()
       })
     },
-    mCompleteAction () {
+    mCompleteAction (data = null) {
       this.mSetSelfUnReady()
       this.cpActionSetService(this.cKeyValue,this.cdRow).then(response => {
         this.mSetRow(this.transformResponse(response))

@@ -14,6 +14,7 @@ export default {
     cDisableFields () {
       if (this.cpDinGenDisableFields != null)
         return this.cpDinGenDisableFields
+
       return (this.cpStaGenAction && this.cpStaGenAction.disableFields) || false
     },
 
@@ -24,6 +25,7 @@ export default {
     cKeyName () {
       if (this.cpStaInsResource == null || this.cpStaInsResource.keyName == null)
         return 'id'
+
       return this.cpStaInsResource.keyName
     },
 
@@ -35,6 +37,7 @@ export default {
         this.cpStaInsResource.lang.fields.active == null
       )
         return false
+
       return true
     },
 
@@ -45,6 +48,7 @@ export default {
       const found = [...this.cpStaInsComponentBindingTag.matchAll(/^cv-(.+)?-skeleton$/gi)]
       if (!found || found[0] == null || found[0][1] == null)
         return null
+
       return this.mResourceAccessing(camelCase(found[0][1]))
     }
   },
@@ -59,11 +63,13 @@ export default {
           return this.resources[resource]
         return null
       }
+
       return resource
     },
 
     mrLang (source,resource = null) {
       let lResource = this.mResourceAccessing(resource)
+
       return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
     },
 
@@ -74,8 +80,10 @@ export default {
     mIndexResponse (response) {
       if  (response.data.count != null)
         return {rows:response.data.data,count:response.data.count}
+
       if  (response.count != null)
         return {rows:response.data,count:response.count}
+
       return {rows:[],count:0}
     },
 
@@ -86,6 +94,7 @@ export default {
     mSolveAsIndexResponse(rows=[]) {
       if (rows == null)
         return {data:[],count:0}
+
       return {data:rows,count:rows.length}
     },
 
@@ -96,6 +105,7 @@ export default {
         response.response.data.errors != null
       )
         return response.response.data.errors
+
       return null
     }
   }

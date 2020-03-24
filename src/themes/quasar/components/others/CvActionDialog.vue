@@ -7,7 +7,7 @@
       maximized
       :position="'right'"
       >
-      <div v-if="cpDinGenCreateAction" class="w-80 ml-20 h-100 bg-white" :style="{'min-width':cpDinGenMinWidth}">
+      <div v-if="cpDinGenCreateAction" class="h-100 bg-white" :style="{'min-width':cDialogMinWith,'margin-left':cDialogMargin}">
         <component
           v-bind:is="cpDinGenCreateAction.component"
           :cv-sta-gen-action="cpDinGenCreateAction"
@@ -34,19 +34,14 @@ export default {
     CvComponentSet,
     CvResourceComponentSet,
     vueMirroring.fixProperties({
-      '[P|EM]dinGenCreateDialog'  : false,
-      '[P]dinGenCreateAction'     : null,
-      '[P]dinGenMinWidth'         : '320px',
-      '[EM]dinGenActionCanceled'  : null,
-      '[EM]dinGenActionCompleted' : null
+      '[P|EM]dinGenCreateDialog'     : false,
+      '[P]dinGenCreateAction'        : null,
+      '[P]dinGenDefaultMarginRatio'  : 0.15,
+      '[P]dinGenDepthMarginRatioFix' : 0.05,
+      '[EM]dinGenActionCanceled'     : null,
+      '[EM]dinGenActionCompleted'    : null
     })
   ],
-
-  data () {
-    return  {
-      createDialog:false
-    }
-  },
 
   components: {
     QDialog
@@ -56,8 +51,47 @@ export default {
     ClosePopup
   },
 
+  computed: {
+    cDialogDepth () {
+      let parent =  null
+      let depth = 0
+      parent = this
+      do{
+        parent = parent.$parent
+        if (
+          parent.$vnode != null &&
+          parent.$vnode.componentOptions != null &&
+          parent.$vnode.componentOptions.tag != null
+        ){
+          if(parent.$vnode.componentOptions.tag === 'cv-action-dialog')
+            depth ++
+        }
+      }while(parent.$parent != null)
+
+      return depth
+    },
+
+    cDepthMarginRatio () {
+      return this.cpDinGenDefaultMarginRatio + this.cpDinGenDepthMarginRatioFix * this.cDialogDepth
+    },
+
+    cDialogMinWith () {
+      if (this.cLtsm)
+        return this.cWindowsWidth + 'px'
+
+      return this.cWindowsWidth *  (1 - this.cDepthMarginRatio) + 'px'
+    },
+
+    cDialogMargin () {
+      if (this.cLtsm)
+        0
+
+      return (this.cWindowsWidth * this.cDepthMarginRatio) + 'px'
+    }
+  },
+
   mounted () {
-    console.log(this)
+    //console.log(this.cDepthMarginRatio)
   }
 }
 </script>

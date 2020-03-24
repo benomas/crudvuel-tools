@@ -59,18 +59,19 @@ export default {
       })
     },
 
-    mCompleteAction () {
+    mCompleteAction (data = null) {
       let successMessage = this.cpStaGenAction.getSetSuccessMessage()
+
       if (successMessage){
         this.mDelayer(900).then(()=>{
           this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
         })
       }
-      this.mFinish('completed')
-      return this
+
+      return this.mFinish('completed',data)
     },
 
-    mFinish (status = 'completed') {
+    mFinish (status = 'completed',data = null) {
       if (this.cpDinGenActionMode === 'route') {
         let baseRoute = this.$route.path.split(this.mActionPath('index'))
         this.$router.push(baseRoute[0] + this.mActionPath('index'))
@@ -78,7 +79,8 @@ export default {
 
       if (this.cpDinGenActionMode === 'dialog') {
         if (status === 'completed')
-          this.$emit('action-completed', this.cdRow)
+          this.$emit('action-completed', this.mShowResponse(data))
+
         if (status === 'canceled')
           this.$emit('action-canceled', null)
       }

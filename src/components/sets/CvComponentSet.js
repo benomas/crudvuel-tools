@@ -41,10 +41,13 @@ export default {
           return false
         return this.ready
       }
+
       if (this.cpDinGenParentReady === false)
         return false
+
       if (this.ready == null)
         return false
+
       return this.ready
     }
   },
@@ -52,6 +55,7 @@ export default {
   methods: {
     mCustomBindins (index,localBindins = {}) {
       let collection = {}
+
       for (const customBinding of this.customBindins)
         for (const [prop, value] of Object.entries(customBinding))
           collection[prop]=this[value]
@@ -90,6 +94,7 @@ export default {
         if (customOns[key] == null)
           customOns[key] = value
       }
+
       return customOns
     },
 
@@ -118,12 +123,14 @@ export default {
     mSetParentReady () {
       if (this.cpStaGenParentRef)
         this.cpStaGenParentRef.mSetReady()
+
       return this
     },
 
     mSetParentUnReady () {
       if (this.cpStaGenParentRef)
         this.cpStaGenParentRef.mSetUnReady()
+
       return this
     },
 
@@ -131,23 +138,26 @@ export default {
       return response.data.data || response.data
     },
 
-    mFinish () {
+    mFinish (status = null,data = null) {
       return this
     },
 
     mSetReady () {
       this.$set(this,'ready',true)
+
       return this
     },
 
     mSetUnReady () {
       this.$set(this,'ready',false)
+
       return this
     },
 
     mComLang: function (word,defWord = '') {
       if (this.cpDinComComponentLang && this.cpDinComComponentLang[word])
         return this.cpDinComComponentLang[word]
+
       return defWord
     },
 

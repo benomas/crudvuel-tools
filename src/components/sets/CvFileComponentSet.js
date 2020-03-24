@@ -20,17 +20,20 @@ export default {
     cFileHeaders: function () {
       let fileHeaders = {...this.cpDinGenExportHeaders()}
       delete fileHeaders['Content-Type']
+
       return fileHeaders
     },
 
     cQFieldFileHeaders: function () {
       let qFieldFileHeaders = []
       let headerKeys =  Object.keys(this.cFileHeaders)
+
       for (let i = 0; i < headerKeys.length; i++)
         qFieldFileHeaders.push({
           name  : headerKeys[i],
           value : this.cFileHeaders[headerKeys[i]]
         })
+
       return qFieldFileHeaders
     },
 
@@ -62,12 +65,14 @@ export default {
     cMultiple: function () {
       if (this.cRow.cat_file_multiple != null && this.cRow.cat_file_multiple)
         return true
+
       return false
     },
 
     cFileResource () {
       if (this.cRow.cat_file_resource != null)
         return this.cRow.cat_file_resource
+
       return ''
     },
 
@@ -108,19 +113,24 @@ export default {
         let {file,xhr} = info
         this.cRow   = xhr.response.data
         this.mSetReady()
+
         this.ready = true
         if (this.cShowSetMessages)
           this.collectSuccessMessages(this.cpStaGenAction.getSetSuccessMessage() + this.cIdentText)
+
         resolve(xhr)
       })
     },
 
     uploadFileFail: function (info) {
       let {file,xhr} = info
+
       if (this.cvComunicator.proccessErrorStatus(xhr))
         return false
+
       this.mSetReady()
       this.errorCount++
+
       if (xhr !== undefined && xhr.response != null && xhr.response !== '') {
         let parsed = JSON.parse(xhr.response)
         if (typeof parsed.errors !== 'undefined') {
@@ -160,6 +170,7 @@ export default {
 
     transformResponse: function (response) {
       let row = response.data.data || response.data
+
       if (row != null) {
         if (row.cat_file != null) {
           row.cat_file_camel_resource = row.cat_file.camel_resource
@@ -167,6 +178,7 @@ export default {
         }
         row.cv_search = row.cv_search
       }
+
       return row
     },
 
@@ -185,10 +197,12 @@ export default {
 
     mFieldFormater: function (catFileOrSlug) {
       let catFile
+
       if (typeof catFileOrSlug === 'object')
         catFile = catFileOrSlug
       else
         catFile = this.cCatFiles[catFileOrSlug] || null
+
       return this.cRow ? [
         {
           name  : 'resource_id',

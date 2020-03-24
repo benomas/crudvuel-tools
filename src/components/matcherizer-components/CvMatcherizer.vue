@@ -21,44 +21,56 @@ export default {
     CvPaginateComponentSet,
     CvPermission,
     vueMirroring.fixProperties({
-      '[P|NN]staInsPagSelectQuery'     : ['id','cv_search'],
-      '[P|NN]staInsPagFilterQuery'     : {'cv_search': ''},
-      '[P|NN]staInsPagOrderBy'         : 'cv_search',
-      '[P|NN]staInsPagLimit'           : 50,
-      '[P|M]dinInsCurrentValue'        : null,
-      '[P]dinInsCurrentLabel'          : '',
-      '[P]dinInsListOfItemsLimit'      : 20,
-      '[P]dinInsValueCallBack'         : null,
-      '[P|NN]staInsPaglastFilterQuery' : null,
-      '[P|EM]staInsCurrentItem'        : null,
-      '[P]dinGenDisableFields'         : null,
-      '[D|M]sourceRows'                : [],
-      '[D|M]sourceCount'               : null,
-      '[D|M]sourcePageCount'           : null,
-      '[D|M]listWidth'                 : '200px',
-      '[D|M]lastSearch'                : null,
-      '[EM]dinGenReset'                : null,
-      '[P|EM]dinInsDataLoadedFail'     : false,
-      '[P|EM]dinInsDataLoaded'         : false,
-      '[P|EM]dinInsLoading'            : false,
-      '[P|EM]dinInsLoading'            : false,
-      '[P]staInsEnableCreateButton'    : true,
+      '[P|NN]staInsPagSelectQuery'       : ['id','cv_search'],
+      '[P|NN]staInsPagFilterQuery'       : {'cv_search': ''},
+      '[P|NN]staInsPagOrderBy'           : 'cv_search',
+      '[P|NN]staInsPagLimit'             : 50,
+      '[P|M]dinInsCurrentValue'          : null,
+      '[P]dinInsCurrentLabel'            : '',
+      '[P]dinInsListOfItemsLimit'        : 20,
+      '[P]dinInsValueCallBack'           : null,
+      '[P|NN]staInsPaglastFilterQuery'   : null,
+      '[P|EM]staInsCurrentItem'          : null,
+      '[P]dinGenDisableFields'           : null,
+      '[D|M]sourceRows'                  : [],
+      '[D|M]sourceCount'                 : null,
+      '[D|M]sourcePageCount'             : null,
+      '[D|M]listWidth'                   : '200px',
+      '[D|M]lastSearch'                  : null,
+      '[EM]dinGenReset'                  : null,
+      '[P|EM]dinInsDataLoadedFail'       : false,
+      '[P|EM]dinInsDataLoaded'           : false,
+      '[P|EM]dinInsLoading'              : false,
+      '[P|EM]dinInsLoading'              : false,
+      '[P]staInsEnableCreateButton'      : true,
+      '[P]staInsEnableAutoSelectCreated' : true
       //-----------
-      '[D|EM]searchFocus'              : false,
-      '[D|EM]searchContinue'           : false,
-      '[D|EM]searchOn'                 : false,
-      '[D|EM]listOn'                   : false,
-      '[D|EM]listLeave'                : false,
+      '[D|EM]searchFocus'                : false,
+      '[D|EM]searchContinue'             : false,
+      '[D|EM]searchOn'                   : false,
+      '[D|EM]listOn'                     : false,
+      '[D|EM]listLeave'                  : false,
       //unconfirmed
-      '[P]dinInsLabelCallBack'         : null,
-      '[P]dinInsSourceService'         : null,
-      '[P]staInsLocalData'             : null,
-      '[P]dinInsKeyLoading'            : false
+      '[P]dinInsLabelCallBack'           : null,
+      '[P]dinInsSourceService'           : null,
+      '[P]staInsLocalData'               : null,
+      '[P]dinInsKeyLoading'              : false
     }),
     vueMirroring.assimilate(
       {CvSimpleFilter,root: true}
     )
   ],
+
+  watch: {
+    cpStaInsPagFilterQuery: function (newValue, oldValue) {
+      if(JSON.stringify(newValue) !== JSON.stringify(oldValue)){
+        this.emStaInsfMatcherizerSimpleFilterSearchEmitter('')
+        this.emDinGenResetEmitter()
+        this.mSetPagFilterQuery(newValue)
+        console.log(newValue, oldValue)
+      }
+    }
+  },
 
   components: {
     CvSimpleFilter

@@ -21,12 +21,14 @@ export default {
         this.$route.params[this.cpDinGenKeyName] == null
       )
         return null
+
       return this.$route.params[this.cpDinGenKeyName]
     },
 
     cFixedErrors () {
       let errors = {}
       let subErrors
+
       if (this.cdErrors != null) {
         for (const [field, message] of Object.entries(this.cdErrors)) {
           let fieldSegments = field.split('.')
@@ -42,6 +44,7 @@ export default {
             }
           }
         }
+
         return errors
       }
     }
