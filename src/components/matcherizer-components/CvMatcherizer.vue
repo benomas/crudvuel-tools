@@ -36,6 +36,7 @@ export default {
       '[D|M]sourceCount'                 : null,
       '[D|M]sourcePageCount'             : null,
       '[D|M]listWidth'                   : '200px',
+      '[D|M]listTop'                     : '200px',
       '[D|M]lastSearch'                  : null,
       '[EM]dinGenReset'                  : null,
       '[P|EM]dinInsDataLoadedFail'       : false,
@@ -43,7 +44,8 @@ export default {
       '[P|EM]dinInsLoading'              : false,
       '[P|EM]dinInsLoading'              : false,
       '[P]staInsEnableCreateButton'      : true,
-      '[P]staInsEnableAutoSelectCreated' : true,
+      '[P]staInsBottomMarginTolerance'   : 0,
+      '[P]staInsSyncTime'                : 25,
       //-----------
       '[D|EM]searchFocus'                : false,
       '[D|EM]searchContinue'             : false,
@@ -288,10 +290,24 @@ export default {
           .then(response => {
             this.emDinInsDataLoadedEmitter(response)
             this.emDinInsLoadingEmitter(false)
+            this.mDelayer().then(()=>{
+              console.log([
+                this.$refs.listContainerReference.offsetTop,
+                this.$refs.listContainerReference.offsetHeight,
+                this.cWindowsHeight
+              ])
+            })
           })
           .catch(response => {
             this.emDinInsDataLoadedFailEmitter(response)
             this.emDinInsLoadingEmitter(false)
+            this.mDelayer().then(()=>{
+              console.log([
+                this.$refs.listContainerReference.offsetTop,
+                this.$refs.listContainerReference.offsetHeight,
+                this.cWindowsHeight
+              ])
+            })
           })
     },
 
@@ -313,14 +329,6 @@ export default {
       if  (response.count != null)
         return {rows: response.data,count: response.count, pageCount: response.data.length}
       return {rows: [],count: 0, pageCount: 0}
-    },
-
-    mFixListWidth () {
-      if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null)
-        this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
-      else
-        this.mSetListWidth('200px')
-      return this
     },
 
     mValueCallBack (rows,row) {
@@ -369,7 +377,7 @@ export default {
     // event navigation control
     emStaInsfMatcherizerSimpleFilterFocusedProccesor (emitted = null) {
       return new Promise((resolve, reject) => {
-        this.mSetSearchFocus(true).mFixListWidth().emDinInsLoadingEmitter(true)
+        this.mSetSearchFocus(true).mFixListStyle().emDinInsLoadingEmitter(true)
         this.emSearchContinueEmitter(true)
         resolve(emitted)
       })
@@ -425,6 +433,44 @@ export default {
 
     mInvokeCreation () {
       console.log('lauch creation')
+    },
+
+    mFixListStyle () {
+      let node                    = this.$refs.filterReference
+      let scrollTopFix            = 0
+
+      //fix matcherizer integration inside dialogs
+      if (node.parentElement && node.offsetParent) {
+        do {
+          if(node.scrollTop > 0)
+            break
+          //lastParentNode = node.parentElement
+        } while (node = node.parentElement)
+      }
+
+      if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
+        scrollTopFix = node.scrollTop
+
+      if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null) {
+        this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
+        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
+        this.mSetListTop(`${topMargin}px`)
+      }
+      else
+        this.mSetListWidth('200px')
+
+      this.mDirectionFix()
+
+      return this
+    },
+
+    mDirectionFix() {
+      if (this.$refs.listContainerReference.offsetTop + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight) {
+        this.mDelayer(this.cpStaInsSyncTime).then(()=>{
+          let topMargin  = this.$refs.listContainerReference.offsetTop - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
+          this.mSetListTop(`${topMargin}px`)
+        })
+      }
     }
   }
 }

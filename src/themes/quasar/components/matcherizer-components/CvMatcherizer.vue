@@ -25,12 +25,13 @@
       <q-slide-transition appear>
         <div>
           <ul
-            v-if="cShowList"
+            v-show="cShowList"
+            ref="listContainerReference"
             @mouseover="(()=>emListOnEmitter(true))"
             @mouseleave="emListLeaveEmitter"
             class="list-group"
             :class="{'b-none':!cdSourceRows,'of-y-hidden':cSourceRowsCount === 0}"
-            :style="{'width':cdListWidth}">
+            :style="{'width':cdListWidth,'top':cdListTop}">
             <li
               class="list-group-item"
               v-for="(row, rowKey) in cSourceRows"
@@ -142,7 +143,7 @@ export default {
     // event navigation control
     emStaInsfMatcherizerSimpleFilterFocusedProccesor (emitted = null) {
       return new Promise((resolve, reject) => {
-        this.mSetSearchFocus(true).mFixListWidth().emDinInsLoadingEmitter(true)
+        this.mSetSearchFocus(true).mFixListStyle().emDinInsLoadingEmitter(true)
         this.emSearchContinueEmitter(true)
         resolve(emitted)
       })
@@ -191,6 +192,35 @@ export default {
 
     mInvokeCreation () {
       this.mSetCreateDialog(true)
+    },
+
+    mFixListStyle () {
+      let node                    = this.$refs.filterReference
+      let scrollTopFix            = 0
+
+      //fix matcherizer integration inside dialogs
+      if (node.parentElement && node.offsetParent) {
+        do {
+          if(node.scrollTop > 0)
+            break
+          //lastParentNode = node.parentElement
+        } while (node = node.parentElement)
+      }
+
+      if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
+        scrollTopFix = node.scrollTop
+
+      if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null) {
+        this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
+        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
+        this.mSetListTop(`${topMargin}px`)
+      }
+      else
+        this.mSetListWidth('200px')
+
+      this.mDirectionFix()
+
+      return this
     }
   }
 }
