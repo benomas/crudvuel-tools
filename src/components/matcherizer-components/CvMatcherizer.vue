@@ -38,6 +38,7 @@ export default {
       '[D|M]listWidth'                   : '200px',
       '[D|M]listTop'                     : '200px',
       '[D|M]lastSearch'                  : null,
+      '[D|M]scrollTopFix'                : 0,
       '[EM]dinGenReset'                  : null,
       '[P|EM]dinInsDataLoadedFail'       : false,
       '[P|EM]dinInsDataLoaded'           : false,
@@ -45,7 +46,7 @@ export default {
       '[P|EM]dinInsLoading'              : false,
       '[P]staInsEnableCreateButton'      : true,
       '[P]staInsBottomMarginTolerance'   : 0,
-      '[P]staInsSyncTime'                : 25,
+      '[P]staInsSyncTime'                : 30,
       //-----------
       '[D|EM]searchFocus'                : false,
       '[D|EM]searchContinue'             : false,
@@ -235,8 +236,21 @@ export default {
         return null
 
       return this.cpStaInsResource.actions.create
-    }
+    },
 
+    cFilterReferenceNode () {
+      let node = this.$refs.filterReference
+
+      //fix matcherizer integration inside dialogs
+      if (node.parentElement && node.offsetParent) {
+        do {
+          if(node.scrollTop > 0)
+            break
+        } while (node = node.parentElement)
+      }
+
+      return node
+    }
   },
 
   methods: {
@@ -285,30 +299,28 @@ export default {
     },
 
     mRefreshSource () {
-      if (this.cRequireNewRemoteSearch)
+      if (this.cRequireNewRemoteSearch){
         return this.cpDinInsSourceService(null,null,this.cPaginator)
           .then(response => {
             this.emDinInsDataLoadedEmitter(response)
             this.emDinInsLoadingEmitter(false)
             this.mDelayer().then(()=>{
-              console.log([
-                this.$refs.listContainerReference.offsetTop,
-                this.$refs.listContainerReference.offsetHeight,
-                this.cWindowsHeight
-              ])
+              this.mDirectionFix()
             })
           })
           .catch(response => {
             this.emDinInsDataLoadedFailEmitter(response)
             this.emDinInsLoadingEmitter(false)
             this.mDelayer().then(()=>{
-              console.log([
-                this.$refs.listContainerReference.offsetTop,
-                this.$refs.listContainerReference.offsetHeight,
-                this.cWindowsHeight
-              ])
+              this.mDirectionFix()
             })
           })
+      }else{
+        console.log('bbb')
+        this.mDelayer().then(()=>{
+          this.mDirectionFix()
+        })
+      }
     },
 
     emDinInsDataLoadedProccesor (emitted = null) {
@@ -436,24 +448,16 @@ export default {
     },
 
     mFixListStyle () {
-      let node                    = this.$refs.filterReference
-      let scrollTopFix            = 0
-
-      //fix matcherizer integration inside dialogs
-      if (node.parentElement && node.offsetParent) {
-        do {
-          if(node.scrollTop > 0)
-            break
-          //lastParentNode = node.parentElement
-        } while (node = node.parentElement)
-      }
+      node = this.cFilterReferenceNode
 
       if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
-        scrollTopFix = node.scrollTop
+        this.mSetScrollTopFix(node.scrollTop)
+      else
+        this.mSetScrollTopFix(0)
 
       if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null) {
         this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
-        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
+        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
         this.mSetListTop(`${topMargin}px`)
       }
       else
@@ -465,12 +469,29 @@ export default {
     },
 
     mDirectionFix() {
-      if (this.$refs.listContainerReference.offsetTop + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight) {
-        this.mDelayer(this.cpStaInsSyncTime).then(()=>{
-          let topMargin  = this.$refs.listContainerReference.offsetTop - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
-          this.mSetListTop(`${topMargin}px`)
-        })
-      }
+      this.mDelayer(this.cpStaInsSyncTime).then(()=>{
+        let node = this.cFilterReferenceNode
+
+        if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
+          this.mSetScrollTopFix(node.scrollTop)
+        else
+          this.mSetScrollTopFix(0)
+
+        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
+        //console.log(topMargin)
+        if (topMargin + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight)
+          topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
+        else
+          topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
+          /*
+        console.log(
+          this.$refs.filterReference.clientHeight,
+          this.$refs.filterReference.offsetTop,
+          this.cdScrollTopFix,
+          topMargin
+        )*/
+        this.mSetListTop(`${topMargin}px`)
+      })
     }
   }
 }
