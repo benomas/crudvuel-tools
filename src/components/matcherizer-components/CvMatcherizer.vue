@@ -47,6 +47,7 @@ export default {
       '[P]staInsEnableCreateButton'      : true,
       '[P]staInsBottomMarginTolerance'   : 0,
       '[P]staInsSyncTime'                : 30,
+      '[P]staInsEnableAutoSelectCreated' : true,
       //-----------
       '[D|EM]searchFocus'                : false,
       '[D|EM]searchContinue'             : false,
@@ -483,13 +484,6 @@ export default {
           topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
         else
           topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
-          /*
-        console.log(
-          this.$refs.filterReference.clientHeight,
-          this.$refs.filterReference.offsetTop,
-          this.cdScrollTopFix,
-          topMargin
-        )*/
         this.mSetListTop(`${topMargin}px`)
       })
     }
