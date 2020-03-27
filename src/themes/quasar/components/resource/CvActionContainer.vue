@@ -20,7 +20,7 @@
       <div v-if="cpDinInsAddBottonMargin && cLtmd" class="w-100 h-60px"></div>
       <div v-if="!cpDinInsAddBottonMargin && cLtmd" class="w-100 h-20px"></div>
     </div>
-    <div >
+    <div class="mt-50px">
       <slot name="cv-buttons-slot"
       >
         <span v-cv-empty-slot="'cvButtonsSlot'"></span>

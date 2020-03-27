@@ -16,6 +16,22 @@ export default class CvVueCommon {
       },
 
       computed: {
+        cComunicator () {
+          return cvGlobDep.globals.cvComunicator
+        },
+
+        cI18n () {
+          return app.i18n
+        },
+
+        cServices () {
+          return cvGlobDep.globals.cvComunicator.resources
+        },
+
+        cResources () {
+          return resources
+        },
+
         cUnauthorizedInteractions: function () {
           return store.state.unauthorizedInteractions
         },

@@ -40,11 +40,7 @@ export default {
       '[D|M]lastSearch'                  : null,
       '[D|M]scrollTopFix'                : 0,
       '[EM]dinGenReset'                  : null,
-      '[P|EM]dinInsDataLoadedFail'       : false,
-      '[P|EM]dinInsDataLoaded'           : false,
       '[P|EM]dinInsLoading'              : false,
-      '[P|EM]dinInsLoading'              : false,
-      '[P]staInsEnableCreateButton'      : true,
       '[P]staInsBottomMarginTolerance'   : 0,
       '[P]staInsSyncTime'                : 30,
       '[P]staInsEnableAutoSelectCreated' : true,
@@ -71,7 +67,6 @@ export default {
         this.emStaInsfMatcherizerSimpleFilterSearchEmitter('')
         this.emDinGenResetEmitter()
         this.mSetPagFilterQuery(newValue)
-        console.log(newValue, oldValue)
       }
     }
   },
@@ -184,32 +179,6 @@ export default {
     cMatcherizerChild () {
       return this.cvMatcherizerChild
     },
-
-    cHasCreateAction () {
-      if (!this.cpStaInsResource)
-        return false
-
-      if (this.cpStaInsResource.actions == null)
-        return false
-
-      if (this.cpStaInsResource.actions.create == null)
-        return false
-
-      return true
-    },
-
-    cShowCreateButton () {
-      if (!this.cpStaInsEnableCreateButton)
-        return false
-
-      if (!this.cHasCreateAction)
-        return false
-
-      if (!this.hasActionPermission(this.cpStaInsResource.actions.create))
-        return false
-
-      return true
-    },
     /*
     cSimpleFilterWidthClass () {
       let noButtonClass  = 'col-xs-12'
@@ -225,19 +194,6 @@ export default {
       let hasButtonClass = 'col-xs-3 col-sm-2'
       return hasButtonClass
     }*/
-
-    cCreateMessage () {
-      if (!this.cShowCreateButton)
-        return ''
-      return this.cpStaInsResource.actions.create.label
-    },
-
-    cCreateAction () {
-      if (!this.cHasCreateAction)
-        return null
-
-      return this.cpStaInsResource.actions.create
-    },
 
     cFilterReferenceNode () {
       let node = this.$refs.filterReference
@@ -444,7 +400,7 @@ export default {
       })
     },
 
-    mInvokeCreation () {
+    mInvokeActionDialog () {
       console.log('lauch creation')
     },
 

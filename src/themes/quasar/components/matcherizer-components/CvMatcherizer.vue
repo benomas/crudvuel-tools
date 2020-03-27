@@ -68,7 +68,7 @@
                     class="m-auto"
                     v-if="1"
                     icon="fas fa-plus-circle"
-                    @click="(()=>mInvokeCreation())"
+                    @click="(()=>mInvokeActionDialog())"
                     color="secondary"
                     round
                     size="xs"
@@ -84,7 +84,7 @@
       <cv-action-dialog
         v-bind="mCustomBindins('cv-action-dialog')"
         v-on="mCustomOns('cv-action-dialog')"
-        :cv-din-gen-create-action="cCreateAction">
+        :cv-din-gen-dialog-action="cCreateAction">
       </cv-action-dialog>
     </div>
   </div>
@@ -175,7 +175,8 @@ export default {
     emStaGenActionCanceledProccesor (emitted) {
       return new Promise((resolve,reject) => {
         this.mDelayer(600).then(()=>{
-          this.mSetCreateDialog(false)
+          if (this.mSetShowActionDialog != null)
+            this.mSetShowActionDialog(false)
           resolve(emitted)
         })
       })
@@ -184,14 +185,16 @@ export default {
     emStaGenActionCompletedProccesor (emitted) {
       return new Promise((resolve,reject) => {
         this.mDelayer(600).then(()=>{
-          this.mSetCreateDialog(false)
+          if (this.mSetShowActionDialog != null)
+            this.mSetShowActionDialog(false)
           resolve(emitted)
         })
       })
     },
 
-    mInvokeCreation () {
-      this.mSetCreateDialog(true)
+    mInvokeActionDialog () {
+      if (this.mSetShowActionDialog != null)
+        this.mSetShowActionDialog(true)
     },
 
     mFixListStyle () {

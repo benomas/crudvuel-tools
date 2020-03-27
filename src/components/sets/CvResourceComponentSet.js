@@ -4,13 +4,133 @@ import VueMirroring  from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
     new VueMirroring('ResourceComponentSet').fixProperties({
-      '[P]staGenAction'        : null,
-      '[P]staInsResource'      : null,
-      '[P]dinGenDisableFields' : null
+      '[P]staGenAction'             : null,
+      '[P]staInsResource'           : null,
+      '[P]dinGenDisableFields'      : null,
+      '[P|EM]dinInsDataLoadedFail'  : false,
+      '[P|EM]dinInsDataLoaded'      : false,
+      '[P]staInsEnableCreateButton' : true
     })
   ],
 
   computed: {
+    cHasCreateAction () {
+      if (!this.cpStaInsResource)
+        return false
+
+      if (this.cpStaInsResource.actions == null)
+        return false
+
+      if (this.cpStaInsResource.actions.create == null)
+        return false
+
+      return true
+    },
+
+    cShowCreateButton () {
+      if (!this.cpStaInsEnableCreateButton)
+        return false
+
+      if (!this.cHasCreateAction)
+        return false
+
+      if (!this.hasActionPermission(this.cpStaInsResource.actions.create))
+        return false
+
+      return true
+    },
+
+    cCreateMessage () {
+      if (!this.cShowCreateButton)
+        return ''
+      return this.cpStaInsResource.actions.create.label
+    },
+
+    cCreateAction () {
+      if (!this.cHasCreateAction)
+        return null
+
+      return this.cpStaInsResource.actions.create
+    },
+
+    cHasShowAction () {
+      if (!this.cpStaInsResource)
+        return false
+
+      if (this.cpStaInsResource.actions == null)
+        return false
+
+      if (this.cpStaInsResource.actions.show == null)
+        return false
+
+      return true
+    },
+
+    cShowShowButton () {
+      if (!this.cpStaInsEnableShowButton)
+        return false
+
+      if (!this.cHasShowAction)
+        return false
+
+      if (!this.hasActionPermission(this.cpStaInsResource.actions.show))
+        return false
+
+      return true
+    },
+
+    cShowMessage () {
+      if (!this.cShowShowButton)
+        return ''
+      return this.cpStaInsResource.actions.show.label
+    },
+
+    cShowAction () {
+      if (!this.cHasShowAction)
+        return null
+
+      return this.cpStaInsResource.actions.show
+    },
+
+    cHasEditAction () {
+      if (!this.cpStaInsResource)
+        return false
+
+      if (this.cpStaInsResource.actions == null)
+        return false
+
+      if (this.cpStaInsResource.actions.edit == null)
+        return false
+
+      return true
+    },
+
+    cShowEditButton () {
+      if (!this.cpStaInsEnableEditButton)
+        return false
+
+      if (!this.cHasEditAction)
+        return false
+
+      if (!this.hasActionPermission(this.cpStaInsResource.actions.edit))
+        return false
+
+      return true
+    },
+
+    cEditMessage () {
+      if (!this.cShowEditButton)
+        return ''
+      return this.cpStaInsResource.actions.edit.label
+    },
+
+    cEditAction () {
+      if (!this.cHasCreateAction)
+        return null
+
+      return this.cpStaInsResource.actions.edit
+    },
+
     cDisableFields () {
       if (this.cpDinGenDisableFields != null)
         return this.cpDinGenDisableFields

@@ -4,7 +4,7 @@
       <q-page-sticky position="bottom-left" :offset="[0, 0]">
         <q-btn
           v-if="cpDinGenShowBackButton"
-          :size="cdBtnSize"
+          :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
           :icon="cpStaGenBackIcon"
@@ -24,7 +24,7 @@
         <div class="float-right" >
           <q-btn
             v-if="cpDinGenShowNextButton"
-            :size="cdBtnSize"
+            :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
             :icon="cpStaGenNextIcon"
@@ -43,7 +43,7 @@
 
         <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" >
           <q-btn
-          :size="cdBtnSize"
+            :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
             icon="fas fa-fill"
@@ -62,7 +62,7 @@
 
         <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" >
           <q-btn
-          :size="cdBtnSize"
+          :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
             icon="fas fa-fill"
@@ -81,7 +81,7 @@
 
         <div v-if="cAutoFillable" class="float-right" >
           <q-btn
-          :size="cdBtnSize"
+          :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-xs q-my-sm"
             icon="fas fa-fill"
@@ -102,7 +102,7 @@
     <div v-if="cpDinGenActionMode==='dialog'">
       <q-btn
         v-if="cpDinGenShowBackButton"
-        :size="cdBtnSize"
+        :size="cBtnSize"
         :class="{'q-ma-md':cGtmd}"
         class="q-mx-sm q-my-sm"
         :icon="cpStaGenBackIcon"
@@ -120,7 +120,7 @@
       <div class="float-right" >
         <q-btn
           v-if="cpDinGenShowNextButton"
-          :size="cdBtnSize"
+          :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
           :icon="cpStaGenNextIcon"
@@ -139,7 +139,7 @@
 
       <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" >
         <q-btn
-        :size="cdBtnSize"
+          :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
           icon="fas fa-fill"
@@ -158,7 +158,7 @@
 
       <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" >
         <q-btn
-        :size="cdBtnSize"
+          :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
           icon="fas fa-fill"
@@ -177,7 +177,7 @@
 
       <div v-if="cAutoFillable" class="float-right" >
         <q-btn
-        :size="cdBtnSize"
+          :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-xs q-my-sm"
           icon="fas fa-fill"
@@ -241,10 +241,10 @@ export default {
   },
 
   computed: {
-    cBtnSize: function () {/*
+    cBtnSize: function () {
       if (this.cGtsm)
-        return this.cdBtnSize*/
-      return 'xs'
+        return this.cdBtnSize
+      return 'sm'
     },
     cpDinGenShowBackButton () {
       if (this.cvDinGenShowBackButton != null && this.cvDinGenShowBackButton === false)

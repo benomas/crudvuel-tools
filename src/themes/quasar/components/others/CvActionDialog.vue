@@ -1,17 +1,18 @@
 <template>
   <div>
     <q-dialog
-      :value="cpDinGenCreateDialog"
-      @input="(()=>{this.emDinGenCreateDialogEmitter(false)})"
+      :value="cpDinGenShowActionDialog"
+      @input="(()=>{this.emDinGenShowActionDialogEmitter(false)})"
       full-height
       maximized
       :position="'right'"
       >
-      <div v-if="cpDinGenCreateAction" class="h-100 bg-white" :style="{'min-width':cDialogMinWith,'margin-left':cDialogMargin}">
+      <div v-if="cpDinGenDialogAction" class="h-100 bg-white" :style="{'min-width':cDialogMinWith,'margin-left':cDialogMargin}">
         <component
-          v-bind:is="cpDinGenCreateAction.component"
-          :cv-sta-gen-action="cpDinGenCreateAction"
+          v-bind:is="cpDinGenDialogAction.component"
+          :cv-sta-gen-action="cpDinGenDialogAction"
           :cv-din-gen-action-mode="'dialog'"
+          :cv-din-gen-key-value="cpDinGenKeyValue"
           @action-canceled="emDinGenActionCanceledEmitter"
           @action-completed="emDinGenActionCompletedEmitter"
         ></component>
@@ -34,8 +35,9 @@ export default {
     CvComponentSet,
     CvResourceComponentSet,
     vueMirroring.fixProperties({
-      '[P|EM]dinGenCreateDialog'     : false,
-      '[P]dinGenCreateAction'        : null,
+      '[P|EM]dinGenShowActionDialog' : false,
+      '[P]dinGenDialogAction'        : null,
+      '[P]dinGenKeyValue'            : null,
       '[P]dinGenDefaultMarginRatio'  : 0.15,
       '[P]dinGenDepthMarginRatioFix' : 0.05,
       '[EM]dinGenActionCanceled'     : null,

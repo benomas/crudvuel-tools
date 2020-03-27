@@ -72,7 +72,7 @@
             @upload="uploadFileCompleted"
             @finish="uploadFilesFinish"
             @start="uploadFileStart"
-            :float-label="mrLang('otherLabels.dropHere')"
+            :float-label="mrLang('other_labels.dropHere')"
           />
         </q-field>
       </div>
@@ -86,7 +86,7 @@
           :disabled="!row.absolute_path"
           @click="mOpenFile">
           <q-tooltip >
-            {{!row.absolute_path?mrLang('otherLabels.noDownload','files'):mrLang('otherLabels.download','files')}}
+            {{!row.absolute_path?mrLang('other_labels.noDownload','files'):mrLang('other_labels.download','files')}}
           </q-tooltip>
         </q-btn>
       </div>
