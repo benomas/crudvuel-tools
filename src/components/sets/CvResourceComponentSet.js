@@ -14,11 +14,17 @@ export default {
   ],
 
   computed: {
-    cHasCreateAction () {
+    cHasActions () {
       if (!this.cpStaInsResource)
         return false
 
       if (this.cpStaInsResource.actions == null)
+        return false
+      return true
+    },
+
+    cHasCreateAction () {
+      if (!this.cHasActions)
         return false
 
       if (this.cpStaInsResource.actions.create == null)
@@ -54,10 +60,7 @@ export default {
     },
 
     cHasShowAction () {
-      if (!this.cpStaInsResource)
-        return false
-
-      if (this.cpStaInsResource.actions == null)
+      if (!this.cHasActions)
         return false
 
       if (this.cpStaInsResource.actions.show == null)
@@ -93,10 +96,7 @@ export default {
     },
 
     cHasEditAction () {
-      if (!this.cpStaInsResource)
-        return false
-
-      if (this.cpStaInsResource.actions == null)
+      if (!this.cHasActions)
         return false
 
       if (this.cpStaInsResource.actions.edit == null)
