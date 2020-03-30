@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md cv-index">
+  <div class="cv-index" :class="{'q-pa-sm':cGtxs}">
     <cv-action-container
       v-if="cpStaGenAction"
       v-bind="mCustomBindins('cv-action-container')"

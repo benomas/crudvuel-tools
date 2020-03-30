@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md cv-index">
+  <div class="cv-index" :class="{'q-pa-sm':cGtxs}">
     <cv-action-container
       v-if="cpStaGenAction"
       v-bind="mCustomBindins('cv-action-container')"
@@ -24,12 +24,12 @@
             >
             <template v-if="1" slot="headers-slot">
                 <!-- cv-grid-customization-->
-              <th v-cv-page-opt="'id'" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-10" >
+              <th v-cv-page-opt="'id'" class="cv-orderable cv-filterable cv-selectable t-left t-middle  w-8" >
                 {{ mfLang('id') }}
                 <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'cv_search'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-30">
+              <th v-cv-page-opt="'cv_search'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20">
                 {{ mfLang('cv_search') }}
                 <cv-order-icons cv-sta-ins-row-field="cv_search" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
@@ -44,7 +44,7 @@
                 <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'active'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-10" ref="headers">
+              <th v-cv-page-opt="'active'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-8" ref="headers">
                 {{ mfLang('active') }}
                 <cv-order-icons cv-sta-ins-row-field="active" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>

@@ -236,7 +236,7 @@ export default {
       '[D|M]pageAnimation'            : 'animated fadeIn',
       '[P]dinInsShowTableMode'        : true,
       '[P]dinInsShowGridMode'         : true,
-      '[P]dinInsCardContainerClass'   : 'row col-xs-12 col-sm-6 col-md-12 q-pa-sm',
+      '[P]dinInsCardContainerClass'   : 'row col-xs-12 col-sm-6 col-md-12',
       '[P]dinInsCardClass'            : 'q-card w-100 round-borders',
       '[P]dinInsActionCardTitleClass' : 'bg-white',
       '[P]dinInsActionCardClass'      : 'row justify-start bg-secondary',
