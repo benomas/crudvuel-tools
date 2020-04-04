@@ -32,6 +32,28 @@ export default class CvVueCommon {
           return resources
         },
 
+        cResourcesPerSection () {
+          if (!this.cResources)
+            return {}
+
+          let sections  = {}
+
+          for (const [resource, resourceDef] of Object.entries(this.cResources)){
+
+            if (resourceDef.resourceSections == null)
+              continue
+
+            for (const section of resourceDef.resourceSections) {
+              if (sections[section] == null)
+                sections[section] = {'resources':{}}
+
+              sections[section]['resources'][resource] = true
+            }
+          }
+
+          return sections
+        },
+
         cUnauthorizedInteractions: function () {
           return store.state.unauthorizedInteractions
         },
