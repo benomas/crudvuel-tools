@@ -15,7 +15,7 @@
               <th class="t-center t-middle">
                 {{ $tc('crudvuel.actions') }}
                 <q-btn
-                  v-if="hasPermission('create')"
+                  v-cv-can-access="'action:create'"
                   icon="fas fa-plus-circle"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                   color="secondary"
@@ -78,7 +78,7 @@
 
               <td class="t-center t-middle">
                 <q-btn
-                  v-if="hasPermission('show')"
+                  v-cv-can-access="'action:show'"
                   icon="fas fa-eye"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
                   color="info"
@@ -87,7 +87,7 @@
                   :title="mResorceAction('show').label"
                 ></q-btn>
                 <q-btn
-                  v-if="hasPermission('edit')"
+                  v-cv-can-access="'action:edit'"
                   icon="fas fa-pencil-alt"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
                   color="positive"
@@ -96,7 +96,7 @@
                   :title="mResorceAction('edit').label"
                 ></q-btn>
                 <q-btn
-                  v-if="hasPermission('delete')"
+                  v-cv-can-access="'action:delete'"
                   icon="fas fa-trash-alt"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
                   color="negative"
@@ -116,7 +116,7 @@
               <slot  name="flexi-grind-header-create-slot">
                 <div class="w-100 t-right">
                   <q-btn
-                    v-if="hasPermission('create')"
+                    v-cv-can-access="'action:create'"
                     icon="fas fa-plus-circle"
                     @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                     color="secondary"
@@ -163,7 +163,7 @@
                     </q-card-section>
                     <q-card-actions :class="cpDinInsActionCardClass" >
                       <q-btn
-                        v-if="hasPermission('show')"
+                        v-cv-can-access="'action:show'"
                         icon="fas fa-eye"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
                         color="info"
@@ -173,7 +173,7 @@
                       ></q-btn>
 
                       <q-btn
-                        v-if="hasPermission('edit')"
+                        v-cv-can-access="'action:edit'"
                         icon="fas fa-pencil-alt"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
                         color="positive"
@@ -183,7 +183,7 @@
                       ></q-btn>
 
                       <q-btn
-                        v-if="hasPermission('delete')"
+                        v-cv-can-access="'action:delete'"
                         icon="fas fa-trash-alt"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
                         color="negative"

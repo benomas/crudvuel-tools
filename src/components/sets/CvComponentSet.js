@@ -1,6 +1,5 @@
-import {mySubString,myReplace,cvF,cvFixDotDepth} from 'crudvuel-tools/src/cvHelper'
-import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
-
+import {mySubString,myReplace,cvF,cvFixDotDepth}  from 'crudvuel-tools/src/cvHelper'
+import VueMirroring                               from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
     new VueMirroring('ComponentSet').fixProperties({

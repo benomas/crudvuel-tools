@@ -8,6 +8,7 @@
 <script>
 import CvComponentSet         from 'crudvuel-tools/src/components/sets/CvComponentSet'
 import CvResourceComponentSet from 'crudvuel-tools/src/components/sets/CvResourceComponentSet'
+import CvDialogComponentSet   from 'crudvuel-tools/src/themes/quasar/components/sets/CvDialogComponentSet'
 import CvPaginateComponentSet from 'crudvuel-tools/src/components/sets/CvPaginateComponentSet'
 import CvSimpleFilter         from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import CvPermission           from 'crudvuel-tools/src//components/CvPermissionComponent'
@@ -18,6 +19,7 @@ export default {
   mixins: [
     CvComponentSet,
     CvResourceComponentSet,
+    CvDialogComponentSet,
     CvPaginateComponentSet,
     CvPermission,
     vueMirroring.fixProperties({

@@ -1,12 +1,14 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth}    from 'crudvuel-tools/src/cvHelper'
 import {split,camelCase}                            from 'lodash'
 import CvPermissionComponent                        from 'crudvuel/components/CvPermissionComponent'
+import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
 
 export default function (staticMixin = {}) {
   return {
     mixins: [
       staticMixin,
-      CvPermissionComponent
+      CvPermissionComponent,
+      cvCanAccess
     ],
 
     methods: {
@@ -93,6 +95,10 @@ export default function (staticMixin = {}) {
       mySubString,
       myReplace,
       cvF,
+    },
+
+    directives: {
+      cvCanAccess
     }
   }
 }

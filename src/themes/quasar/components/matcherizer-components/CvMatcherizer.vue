@@ -93,6 +93,7 @@
 import CvMatcherizer                from 'crudvuel-tools/src/components/matcherizer-components/CvMatcherizer'
 import CvComponentExtraSet          from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvResourceComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvResourceComponentExtraSet'
+import CvDialogComponentExtraSet    from 'crudvuel-tools/src/themes/quasar/components/sets/CvDialogComponentExtraSet'
 import CvPaginateComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvPaginateComponentExtraSet'
 import CvSimpleFilter               from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
 import CvActionDialog               from 'crudvuel-tools/src/themes/quasar/components/others/CvActionDialog'
@@ -107,6 +108,7 @@ export default {
     CvComponentExtraSet,
     CvResourceComponentExtraSet,
     CvPaginateComponentExtraSet,
+    CvDialogComponentExtraSet,
     vueMirroring.assimilate(
       {CvSimpleFilter,root: true},
       {CvActionDialog,root: true}
