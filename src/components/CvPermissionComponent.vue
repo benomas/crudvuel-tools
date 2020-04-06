@@ -1,4 +1,5 @@
 <script>
+import {kebabCase} from 'lodash'
 export default {
   methods:{
     hasSpecialPermission (special) {
@@ -16,19 +17,19 @@ export default {
     hasResourcePermission (resource) {
       return !this.cUnauthorizedInteractions ||
         typeof this.cUnauthorizedInteractions['resource'] === 'undefined' ||
-        typeof this.cUnauthorizedInteractions['resource'][this.lodash.kebabCase(resource)] === 'undefined'
+        typeof this.cUnauthorizedInteractions['resource'][kebabCase(resource)] === 'undefined'
     },
 
     hasActionPermission (action) {
-      if (typeof action === 'undefined')
+      if (action === undefined)
         action = this.cpStaGenAction || null
 
       if (!action)
         return true
 
       return !this.cUnauthorizedInteractions ||
-        typeof this.cUnauthorizedInteractions['action'] === 'undefined' ||
-        typeof this.cUnauthorizedInteractions['action'][this.lodash.kebabCase(action.resource.name) + '.' + this.lodash.kebabCase(action.name)] === 'undefined'
+        this.cUnauthorizedInteractions['action'] === undefined ||
+        this.cUnauthorizedInteractions['action'][kebabCase(action.resource.name) + '.' + kebabCase(action.name)]  === undefined
     },
 
     hasPermission (action,resource = null,excludes = null) {
@@ -38,7 +39,7 @@ export default {
       return excludes.indexOf(action,excludes) < 0 &&
         this.mResorceAction(action,resource) &&
         this.hasActionPermission(resource.actions[action])
-    },
+    }
   }
 }
 </script>

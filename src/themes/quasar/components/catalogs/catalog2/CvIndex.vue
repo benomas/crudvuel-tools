@@ -185,6 +185,11 @@
         </div>
       </div>
     </cv-action-container>
+
+    <cv-action-dialog
+      v-bind="mCustomBindins('cv-action-dialog')"
+      v-on="mCustomOns('cv-action-dialog')">
+    </cv-action-dialog>
   </div>
 </template>
 <script>

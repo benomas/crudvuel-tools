@@ -63,7 +63,7 @@ export default {
       let successMessage = this.cpStaGenAction.getSetSuccessMessage()
 
       if (successMessage){
-        this.mDelayer(900).then(()=>{
+        this.mDelayer(200).then(()=>{
           this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
         })
       }

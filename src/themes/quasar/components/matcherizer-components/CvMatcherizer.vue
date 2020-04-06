@@ -174,7 +174,7 @@ export default {
 
     emStaGenActionCanceledProccesor (emitted) {
       return new Promise((resolve,reject) => {
-        this.mDelayer(600).then(()=>{
+        this.mDelayer(200).then(()=>{
           if (this.mSetShowActionDialog != null)
             this.mSetShowActionDialog(false)
           resolve(emitted)
@@ -184,7 +184,7 @@ export default {
 
     emStaGenActionCompletedProccesor (emitted) {
       return new Promise((resolve,reject) => {
-        this.mDelayer(600).then(()=>{
+        this.mDelayer(200).then(()=>{
           if (this.mSetShowActionDialog != null)
             this.mSetShowActionDialog(false)
           resolve(emitted)

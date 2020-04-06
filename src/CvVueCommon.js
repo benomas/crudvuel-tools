@@ -1,17 +1,14 @@
-import {mySubString,myReplace,cvF,cvFixDotDepth}   from 'crudvuel-tools/src/cvHelper'
-
 export default class CvVueCommon {
   vueCommonMaker (app, router, store, Vue, cRouter, cvGlobDep, resources) {
     return {
-      data: function () {
+      data () {
         return {
           cvGlobDep,
           cvComunicator : cvGlobDep.globals.cvComunicator,
           i18n          : app.i18n,
           services      : cvGlobDep.globals.cvComunicator.resources,
           resources     : resources,
-          router        : cRouter,
-          lodash        : cvGlobDep.globals.lodash
+          router        : cRouter
         }
       },
 
@@ -187,49 +184,10 @@ export default class CvVueCommon {
             return false
           return true
         },
-      },
 
-      methods: {
-        inputFocus: function (ref,internalRef = 'cInputRef') {
-          if (this.$refs[ref] != null) {
-            if (internalRef && this.$refs[ref][internalRef] != null) {
-              if (typeof this.$refs[ref][internalRef].focus === 'function')
-                this.$refs[ref][internalRef].focus()
-              else {
-                if (typeof this.$refs[ref][internalRef].$el.focus === 'function')
-                  this.$refs[ref][internalRef].$el.focus()
-              }
-            } else {
-              if (this.$refs[ref].focus != null)
-                this.$refs[ref].focus()
-              else
-                this.$refs[ref].$el.focus()
-            }
-          }
-        },
-
-        mVueSetter: function (source = null) {
-          if (!source || typeof source.row === 'undefined' || typeof source.cvColumnMap === 'undefined')
-            return false
-          let destination = source.destination || 'row'
-          if (typeof destination === 'string')
-            destination = cvFixDotDepth(this,destination)
-
-          let mapKeys = Object.keys(source.cvColumnMap)
-          for (let i = 0; i < mapKeys.length; i++) {
-            if (source.row && typeof source.row[mapKeys[i]] !== 'undefined')
-              this.$set(destination, source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
-            else
-              this.$set(destination, source.cvColumnMap[mapKeys[i]], null)
-          }
-        },
-
-        transformResponse (response) {
-          return response.data.data || response.data
-        },
-        mySubString,
-        myReplace,
-        cvF,
+        cRootPath: function () {
+          return '/'
+        }
       }
     }
   }
