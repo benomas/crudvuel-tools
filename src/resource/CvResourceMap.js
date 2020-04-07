@@ -29,6 +29,7 @@ export default class CvResourceMap extends CvClass {
     this.parentRouteAction = null
     this.filler            = null
     this.resourceSections  = null
+    this.context           = 'resource',
     this.loadOptions(options)
   }
 
@@ -114,6 +115,14 @@ export default class CvResourceMap extends CvClass {
 
   getAction (action=null) {
     return action && this.actions[action] != null ? this.actions[action] : action
+  }
+
+  getContext () {
+    return this.context || ''
+  }
+
+  getName () {
+    return this.name || ''
   }
 
   loadService (actionService = null) {

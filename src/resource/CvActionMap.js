@@ -25,6 +25,7 @@ export default class CvResourceMap extends CvClass {
     this.backLabel         = null,
     this.isParentRoute     = null,
     this.position          = null,
+    this.context           = 'action',
     this.loadOptions(options)
   }
 
@@ -50,6 +51,10 @@ export default class CvResourceMap extends CvClass {
 
   getSetCancelMessage () {
     return this.setCancelMessage || this.resource.getSetCancelMessage()
+  }
+
+  getContext () {
+    return this.context || ''
   }
 
   setRoute () {

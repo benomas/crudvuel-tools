@@ -1,8 +1,31 @@
 import {split,camelCase} from 'lodash'
 
+let hideNode = function (el, vnode) {
+  el.style.display='none'
+}
+
 let checkPermissions = function (el, binding, vnode){
   let rules   = binding.value
   let context = vnode.context
+
+  if(typeof rules === 'object'){
+    if (rules.getContext == null)
+      return
+
+    if (rules.getContext() === 'action'){
+      if (!context.hasActionPermission(rules))
+        hideNode(el, vnode)
+
+      return
+    }
+
+    if (rules.getContext() === 'resource'){
+      if (!context.hasResourcePermission(rules.getName()))
+        hideNode(el, vnode)
+
+      return
+    }
+  }
 
   let segments = split(rules,':')
 
@@ -14,21 +37,21 @@ let checkPermissions = function (el, binding, vnode){
 
   if (mode === 'section') {
     if (!context.hasSectionPermission(target))
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     return
   }
 
   if (mode === 'resource') {
     if (!context.hasResourcePermission(target))
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     return
   }
 
   if (mode === 'special') {
     if (!context.hasSpecialPermission(target))
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     return
   }
@@ -46,23 +69,23 @@ let checkPermissions = function (el, binding, vnode){
       actionName = segments[0]
 
       if(context.cResource == null)
-        return commentNode(el, vnode)
+        return hideNode(el, vnode)
 
       resource = context.cResource
     }else{
       actionName = segments[1]
 
       if(context.cResources == null || context.cResources[segments[0]] == null)
-        return commentNode(el, vnode)
+        return hideNode(el, vnode)
       resource = context.cResources[segments[0]]
     }
 
     if (resource.actions == null || resource.actions[actionName] == null)
-      return commentNode(el, vnode)
+      return hideNode(el, vnode)
 
 
     if (!context.hasActionPermission(resource.actions[actionName]))
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     return
   }
@@ -70,13 +93,13 @@ let checkPermissions = function (el, binding, vnode){
 
   if (segments.length === 1) {
     if(context.cResources[resourceName].actions.index == null)
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     if(context.cResources[resourceName].actions.index == null)
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     if (!context.hasResourcePermission(resourceName) || !context.hasActionPermission(context.cResources[resourceName].actions.index))
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     return
   }
@@ -85,13 +108,13 @@ let checkPermissions = function (el, binding, vnode){
 
   if (segments.length === 2) {
     if(context.cResources[resourceName].actions == null)
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     if(context.cResources[resourceName].actions[actionName] == null)
-      commentNode(el, vnode)
+      hideNode(el, vnode)
 
     if (!context.hasActionPermission(context.cResources[resourceName].actions[actionName]))
-      commentNode(el, vnode)
+      hideNode(el, vnode)
   }
 
   return null
