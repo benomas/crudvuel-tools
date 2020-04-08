@@ -1,5 +1,5 @@
 <script>
-import {kebabCase} from 'lodash'
+import {kebabCase,camelCase} from 'lodash'
 export default {
   methods:{
     hasSpecialPermission (special) {
@@ -29,7 +29,7 @@ export default {
 
       return !this.cUnauthorizedInteractions ||
         this.cUnauthorizedInteractions['action'] === undefined ||
-        this.cUnauthorizedInteractions['action'][kebabCase(action.resource.name) + '.' + kebabCase(action.name)]  === undefined
+        this.cUnauthorizedInteractions['action'][kebabCase(action.resource.name) + '.' + camelCase(action.name)]  === undefined
     },
 
     hasPermission (action,resource = null,excludes = null) {

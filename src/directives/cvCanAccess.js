@@ -81,11 +81,8 @@ let checkPermissions = function (el, binding, vnode){
       resource = context.cResources[segments[0]]
     }
 
-    if(rules === 'action:addOwners')
-      console.log(resource.actions)
     if (resource.actions == null || resource.actions[actionName] == null)
       return hideNode(el, vnode)
-
 
     if (!context.hasActionPermission(resource.actions[actionName]))
       hideNode(el, vnode)
