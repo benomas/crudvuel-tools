@@ -8,6 +8,9 @@ let checkPermissions = function (el, binding, vnode){
   let rules   = binding.value
   let context = vnode.context
 
+  if (rules == null)
+    return
+
   if(typeof rules === 'object'){
     if (rules.getContext == null)
       return
