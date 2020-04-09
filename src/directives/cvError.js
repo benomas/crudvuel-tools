@@ -3,7 +3,9 @@ let defaultClasses = [
   'f-s12px',
   'txt-negative',
   'f-left',
-  'q-pl-lg'
+  'q-pl-lg',
+  'ellipsis',
+  'cv-error-directive'
 ]
 
 let errorWrapper = function (el, binding, vnode) {
@@ -24,6 +26,7 @@ let errorWrapper = function (el, binding, vnode) {
 
   if (context.cErrors[field] == null) {
     el.textContent = ''
+    el.title       = ''
     return
   }
 
@@ -41,6 +44,7 @@ let errorWrapper = function (el, binding, vnode) {
       el.classList.add(ClassDef)
 
   el.textContent = context.cErrors[field][0]
+  el.title       = context.cErrors[field][0]
 }
 
 export default {

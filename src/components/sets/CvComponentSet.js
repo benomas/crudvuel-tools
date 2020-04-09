@@ -169,6 +169,7 @@ export default {
         })))
       })
     },
+
     mComponentBootFlow () {
       this.mComponentInitialize().then((startData = null) => {
         this.mSetIsMounted(true)
@@ -180,6 +181,19 @@ export default {
         })
       })
     },
+
+    mDifuminate () {
+      this.$el.style.opacity = '40%'
+
+      return this
+    },
+
+    mOpacityRecovery () {
+      this.$el.style.opacity = '100%'
+
+      return this
+    },
+
     mySubString,
     myReplace,
     cvF,
