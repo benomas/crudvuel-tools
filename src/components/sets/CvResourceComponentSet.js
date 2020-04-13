@@ -8,8 +8,7 @@ export default {
       '[P]staInsResource'           : null,
       '[P]dinGenDisableFields'      : null,
       '[P|EM]dinInsDataLoadedFail'  : false,
-      '[P|EM]dinInsDataLoaded'      : false,
-      '[P]staInsEnableCreateButton' : true
+      '[P|EM]dinInsDataLoaded'      : false
     })
   ],
 

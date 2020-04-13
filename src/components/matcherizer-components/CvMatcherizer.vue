@@ -31,6 +31,7 @@ export default {
       '[P]dinInsCurrentLabel'            : '',
       '[P]dinInsListOfItemsLimit'        : 20,
       '[P]dinInsValueCallBack'           : null,
+      '[P]dinInsLabelCallBack'           : null,
       '[P|NN]staInsPaglastFilterQuery'   : null,
       '[P|EM]staInsCurrentItem'          : null,
       '[P]dinGenDisableFields'           : null,
@@ -46,6 +47,7 @@ export default {
       '[P]staInsBottomMarginTolerance'   : 0,
       '[P]staInsSyncTime'                : 30,
       '[P]staInsEnableAutoSelectCreated' : true,
+      '[P]staInsEnableCreateButton'      : true,
       //-----------
       '[D|EM]searchFocus'                : false,
       '[D|EM]searchContinue'             : false,
@@ -53,7 +55,6 @@ export default {
       '[D|EM]listOn'                     : false,
       '[D|EM]listLeave'                  : false,
       //unconfirmed
-      '[P]dinInsLabelCallBack'           : null,
       '[P]dinInsSourceService'           : null,
       '[P]staInsLocalData'               : null,
       '[P]dinInsKeyLoading'              : false
@@ -303,6 +304,9 @@ export default {
     },
 
     mValueCallBack (rows,row) {
+      if (row == null)
+        return ''
+
       if (this.cpDinInsValueCallBack == null)
         return row.id || ''
 
@@ -310,24 +314,30 @@ export default {
         ? this.cpDinInsValueCallBack(rows,row) : this.cpDinInsValueCallBack
     },
 
-    mShowPatter (label,isCurrent) {
-      let located = this.myReplace(label,this.cdPagSearchObject,'<span class="matcherizer-item">$1</span>')
-      if (isCurrent)
-        located += this.cCurrentSelectedItemMark()
-      return located
-    },
-
     mLabelCallBack (rows,row) {
-      if (typeof this.cvLabelCallBack === 'undefined')
+      if (row == null)
+        return ''
+
+      if (this.cpDinInsLabelCallBack == null)
         return row.cv_search || ''
 
-      return typeof this.cvLabelCallBack === 'function'
-        ? this.cvLabelCallBack(rows,row) : this.cvLabelCallBack
+      return typeof this.cpDinInsLabelCallBack === 'function'
+        ? this.cpDinInsLabelCallBack(rows,row) : this.cpDinInsLabelCallBack
+    },
+
+    mShowPatter (label,isCurrent) {
+      let located = this.myReplace(label,this.cdPagSearchObject,'<span class="matcherizer-item">$1</span>')
+
+      if (isCurrent)
+        located += this.cCurrentSelectedItemMark()
+
+      return located
     },
 
     mSelect (rowKey,row) {
       this.mSetMatcherizerSimpleFilterSearch(this.mLabelCallBack(this.cSourceRows,row))
       this.emStaInsCurrentItemEmitter(row)
+
       this.mDelayer().then(() => {
         this.emSearchContinueEmitter(false)
       })

@@ -34,8 +34,10 @@ const myReplace = function (subject,patter,replace) {
   let regexString = "(" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + ")"
   let patt = new RegExp(regexString,"ig")
   let fixDataType = subject
+
   if(typeof fixDataType === 'boolean' || typeof fixDataType === 'number')
     fixDataType=fixDataType.toString()
+
   return fixDataType.replace(patt,replace)
 }
 

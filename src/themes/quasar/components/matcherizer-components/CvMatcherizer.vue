@@ -63,7 +63,7 @@
             >
               <div class="row w-100 h-40px">
                 <span class="col-xs-8 txt-negative-l-30 my-auto">{{cNoDataLabel}}</span>
-                <span class="col-xs-4 my-auto t-right">
+                <span v-if="cpStaInsEnableCreateButton" class="col-xs-4 my-auto t-right">
                   <q-btn
                     v-cv-can-access="cCreateAction"
                     class="m-auto"
