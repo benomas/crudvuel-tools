@@ -136,6 +136,7 @@ export default {
     cpDinInsSourceService () {
       if (this.cvDinInsSourceService != null)
         return this.cvDinInsSourceService
+
       if (
         this.cpStaInsResource != null &&
         this.cpStaInsResource.actions != null &&
@@ -143,6 +144,8 @@ export default {
         this.cpStaInsResource.actions.index.getService != null
       )
         return this.cpStaInsResource.actions.index.getService
+
+      console.log('asasas')
       return this.mLocalService()
     },
 
@@ -276,7 +279,6 @@ export default {
             })
           })
       }else{
-        console.log('bbb')
         this.mDelayer().then(()=>{
           this.mDirectionFix()
         })

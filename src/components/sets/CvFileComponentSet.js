@@ -77,7 +77,7 @@ export default {
     },
 
     cCamelFileResource () {
-      return camelCase(cFileResource)
+      return camelCase(this.cFileResource)
     },
 
     cCurrentCvResource: function () {
