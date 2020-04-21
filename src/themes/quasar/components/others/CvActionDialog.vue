@@ -3,6 +3,7 @@
     <q-dialog
       :value="cpDinGenShowActionDialog"
       @input="(()=>{this.emDinGenShowActionDialogEmitter(false)})"
+      @hide="(()=>{this.emDinGenActionCanceledEmitter()})"
       full-height
       maximized
       :position="'right'"
@@ -41,7 +42,8 @@ export default {
       '[P]dinGenDefaultMarginRatio'  : 0.15,
       '[P]dinGenDepthMarginRatioFix' : 0.05,
       '[EM]dinGenActionCanceled'     : null,
-      '[EM]dinGenActionCompleted'    : null
+      '[EM]dinGenActionCompleted'    : null,
+      '[D|M]cancelInProgress'        : false
     })
   ],
 

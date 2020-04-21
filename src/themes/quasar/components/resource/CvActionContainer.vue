@@ -13,7 +13,7 @@
         </label>
       </div>
     </slot>
-    <div :class="{...cpDinInsActionContentClasses,...{'q-pa-md shadow-2':cGtsm}}" :style="cStyle">
+    <div :class="{...cpDinInsActionContentClasses,...{'shadow-2 q-pa-md':cpDinInsShowActionDefaultContentClasses && cGtsm}}" :style="cStyle">
       <slot name="cv-content-slot"
       >
       </slot>

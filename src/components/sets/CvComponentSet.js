@@ -1,5 +1,6 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth}  from 'crudvuel-tools/src/cvHelper'
 import VueMirroring                               from 'crudvuel-tools/src/mirroring/VueMirroring'
+import {get}                                      from 'lodash'
 export default {
   mixins: [
     new VueMirroring('ComponentSet').fixProperties({
@@ -154,8 +155,8 @@ export default {
     },
 
     mComLang: function (word,defWord = '') {
-      if (this.cpDinComComponentLang && this.cpDinComComponentLang[word])
-        return this.cpDinComComponentLang[word]
+      if (this.cpDinComComponentLang)
+        return get(this.cpDinComComponentLang,word) || defWord
 
       return defWord
     },

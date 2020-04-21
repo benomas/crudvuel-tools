@@ -1,5 +1,6 @@
 import VueMirroring     from 'crudvuel-tools/src/mirroring/VueMirroring'
 import CvSynchronizer   from 'crudvuel-tools/src/CvSynchronizer'
+import {get}            from 'lodash'
 let cvSynchronizer = new CvSynchronizer()
 
 export default {
@@ -140,6 +141,12 @@ export default {
 
     mfLang (field,resource = null) {
       return this.mrLang('fields.' + field,resource)
+    },
+
+    mDepthLang (path = '') {
+      let rootLang = this.cI18n.messages[this.cI18n.locale]
+
+      return get(rootLang,path)
     },
 
     mResorceAction (action = null,resource = null) {

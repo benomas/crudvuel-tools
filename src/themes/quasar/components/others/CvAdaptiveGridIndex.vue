@@ -7,12 +7,12 @@
         cv-grid-tag="div"
         :cv-min-height="'300px'">
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
-          <thead class="gt-sm" >
+          <thead class="gt-sm" v-show="cShowTableMode">
             <tr slot="cv-ths-slot" >
               <slot name="headers-slot" >
               </slot>
 
-              <th class="t-center t-middle">
+              <th class="t-center t-middle" v-if="cpDinInsShowActions">
                 {{ $tc('crudvuel.actions') }}
                 <q-btn
                   v-cv-can-access="'action:create'"
@@ -24,7 +24,7 @@
                   :title="mResorceAction('create').label"
                 ></q-btn>
 
-                <slot name="extra-actions-header-slot" >
+                <slot name="extra-actions-header-slot" v-if="cpDinInsShowActions">
                 </slot>
               </th>
             </tr>
@@ -44,7 +44,7 @@
               <slot name="table-properties-slot" :slot-row="gridRow" >
               </slot>
 
-              <td  v-if="gridRow.active != null && cGtxs" class="t-center t-middle">
+              <td  v-if="cpDinInsShowActions && gridRow.active != null && cGtxs" class="t-center t-middle">
                 <div
                   v-if="gridRow.active"
                   @click="(()=>{
@@ -76,7 +76,7 @@
                 </div>
               </td>
 
-              <td class="t-center t-middle">
+              <td class="t-center t-middle" v-if="cpDinInsShowActions">
                 <q-btn
                   v-cv-can-access="'action:show'"
                   icon="fas fa-eye"
@@ -112,7 +112,7 @@
           </transition-group>
 
           <div class="q-ma-sm" v-show="cShowGridMode" >
-            <div class="row w-100 q-mb-md">
+            <div class="row w-100 q-mb-md" v-if="cpDinInsShowActions">
               <slot  name="flexi-grind-header-create-slot">
                 <div class="w-100 t-right">
                   <q-btn
@@ -130,9 +130,18 @@
             </div>
 
             <div class="q-card row w-100 round-borders q-pa-sm">
-              <div class="row">
-                <slot  name="flexi-grind-headers-slot">
-                </slot>
+              <div class="row w-100">
+                <q-expansion-item
+                  class="w-100"
+                  :header-class="'w-100 txt-secondary'"
+                  icon="fas fa-filter"
+                  :label="mComLang('filter','Filtros')"
+                >
+                  <div class="q-pa-sm">
+                    <slot  name="flexi-grind-headers-slot">
+                    </slot>
+                  </div>
+                </q-expansion-item>
               </div>
             </div>
           </div>
@@ -157,7 +166,7 @@
                     </slot>
                   </div>
 
-                  <div class="absolute-bottom">
+                  <div class="absolute-bottom"  v-if="cpDinInsShowActions">
                     <q-card-section :class="cpDinInsActionCardTitleClass">
                       {{ $tc('crudvuel.actions') }}
                     </q-card-section>
@@ -217,7 +226,8 @@ import {
   QCard,
   QCardActions,
   QAvatar,
-  QChip
+  QChip,
+  QExpansionItem
 } from 'quasar'
 import VueMirroring             from 'crudvuel/mirroring/VueMirroring'
 import CvComponentSet           from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
@@ -234,8 +244,10 @@ export default {
     CvActionComponentSet,
     vueMirroring.fixProperties({
       '[D|M]pageAnimation'            : 'animated fadeIn',
+      '[P]dinGenExcludeActions'       : [],
       '[P]dinInsShowTableMode'        : true,
       '[P]dinInsShowGridMode'         : true,
+      '[P]dinInsShowActions'          : true,
       '[P]dinInsCardContainerClass'   : 'row col-xs-12 col-sm-6 col-md-12',
       '[P]dinInsCardClass'            : 'q-card w-100 round-borders',
       '[P]dinInsActionCardTitleClass' : 'bg-white',
@@ -258,7 +270,8 @@ export default {
     QCard,
     QCardActions,
     QAvatar,
-    QChip
+    QChip,
+    QExpansionItem
   },
 
   computed: {
