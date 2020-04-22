@@ -60,6 +60,10 @@ export default {
         return false
 
       return true
+    },
+
+    cResourceName: function () {
+      return this.cResource != null ? this.cResource.name : null
     }
   },
 

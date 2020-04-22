@@ -12,9 +12,10 @@
               <slot name="headers-slot" >
               </slot>
 
-              <th class="t-center t-middle" v-if="cpDinInsShowActions">
-                {{ $tc('crudvuel.actions') }}
+              <th class="t-center t-middle" v-if="cpDinInsShowTableActions">
+                <span v-if="cpDinInsShowTopActionLang">{{ $tc('crudvuel.actions') }}</span>
                 <q-btn
+                  v-if="!mExcludeAction('create')"
                   v-cv-can-access="'action:create'"
                   icon="fas fa-plus-circle"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
@@ -24,7 +25,7 @@
                   :title="mResorceAction('create').label"
                 ></q-btn>
 
-                <slot name="extra-actions-header-slot" v-if="cpDinInsShowActions">
+                <slot name="extra-actions-header-slot" v-if="cpDinInsShowTableActions">
                 </slot>
               </th>
             </tr>
@@ -44,7 +45,7 @@
               <slot name="table-properties-slot" :slot-row="gridRow" >
               </slot>
 
-              <td  v-if="cpDinInsShowActions && gridRow.active != null && cGtxs" class="t-center t-middle">
+              <td  v-if="cpDinInsShowTableActions && gridRow.active != null && cGtxs" class="t-center t-middle">
                 <div
                   v-if="gridRow.active"
                   @click="(()=>{
@@ -76,8 +77,9 @@
                 </div>
               </td>
 
-              <td class="t-center t-middle" v-if="cpDinInsShowActions">
+              <td class="t-center t-middle" v-if="cpDinInsShowTableActions">
                 <q-btn
+                  v-if="!mExcludeAction('show')"
                   v-cv-can-access="'action:show'"
                   icon="fas fa-eye"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
@@ -87,6 +89,7 @@
                   :title="mResorceAction('show').label"
                 ></q-btn>
                 <q-btn
+                  v-if="!mExcludeAction('edit')"
                   v-cv-can-access="'action:edit'"
                   icon="fas fa-pencil-alt"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
@@ -96,6 +99,7 @@
                   :title="mResorceAction('edit').label"
                 ></q-btn>
                 <q-btn
+                  v-if="!mExcludeAction('delete')"
                   v-cv-can-access="'action:delete'"
                   icon="fas fa-trash-alt"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
@@ -112,10 +116,11 @@
           </transition-group>
 
           <div class="q-ma-sm" v-show="cShowGridMode" >
-            <div class="row w-100 q-mb-md" v-if="cpDinInsShowActions">
+            <div class="row w-100 q-mb-md" v-if="cpDinInsShowTableActions">
               <slot  name="flexi-grind-header-create-slot">
                 <div class="w-100 t-right">
                   <q-btn
+                    v-if="!mExcludeAction('create')"
                     v-cv-can-access="'action:create'"
                     icon="fas fa-plus-circle"
                     @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
@@ -154,8 +159,8 @@
             :duration="{ enter: 500, leave: 0 }">
             <div :class="cpDinInsCardContainerClass" v-for="(gridRow, position) in cvDinInsfAdaptiveGridIndexGridRows" :key="position + '|' +gridRow[cpDinGenKeyName]">
               <div class="row col-xs-12 q-pa-sm">
-                <q-card :class="cpDinInsCardClass" class="mnh-400px">
-                  <div class="w-100 h-50px">
+                <q-card :class="cpDinInsCardClass">
+                  <div class="w-100 h-50px" v-if="cpDinInsShowGridKey">
                     <q-chip square class="f-right bg-secondary txt-white q-ma-none no-border-radius f-bold text-subtitle1">
                       {{ mfLang(cKeyName) }} : {{gridRow[cKeyName]}}
                     </q-chip>
@@ -166,12 +171,13 @@
                     </slot>
                   </div>
 
-                  <div class="absolute-bottom"  v-if="cpDinInsShowActions">
+                  <div class="absolute-bottom"  v-if="cpDinInsShowGridActions">
                     <q-card-section :class="cpDinInsActionCardTitleClass">
                       {{ $tc('crudvuel.actions') }}
                     </q-card-section>
                     <q-card-actions :class="cpDinInsActionCardClass" >
                       <q-btn
+                        v-if="!mExcludeAction('show')"
                         v-cv-can-access="'action:show'"
                         icon="fas fa-eye"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
@@ -182,6 +188,7 @@
                       ></q-btn>
 
                       <q-btn
+                        v-if="!mExcludeAction('edit')"
                         v-cv-can-access="'action:edit'"
                         icon="fas fa-pencil-alt"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
@@ -192,6 +199,7 @@
                       ></q-btn>
 
                       <q-btn
+                        v-if="!mExcludeAction('delete')"
                         v-cv-can-access="'action:delete'"
                         icon="fas fa-trash-alt"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
@@ -247,9 +255,12 @@ export default {
       '[P]dinGenExcludeActions'         : [],
       '[P]dinInsShowTableMode'          : true,
       '[P]dinInsShowGridMode'           : true,
-      '[P]dinInsShowActions'            : true,
+      '[P]dinInsShowTableActions'       : true,
+      '[P]dinInsShowGridActions'        : true,
+      '[P]dinInsShowTopActionLang'      : true,
+      '[P]dinInsShowGridKey'            : true,
       '[P]dinInsCardContainerClass'     : 'row col-xs-12 col-sm-6 col-md-12',
-      '[P]dinInsCardClass'              : 'q-card w-100 round-borders',
+      '[P]dinInsCardClass'              : 'q-card w-100 round-borders mnh-400px',
       '[P]dinInsCardContentClass'       : '',
       '[P]dinInsActionCardTitleClass'   : 'bg-white',
       '[P]dinInsActionCardClass'        : 'row justify-start bg-secondary',
@@ -326,6 +337,10 @@ export default {
           resolve()
         })
       })
+    },
+
+    mExcludeAction (action) {
+      return this.cpDinGenExcludeActions.find(element => element === action)
     }
   }
 }

@@ -66,6 +66,7 @@ export default {
     cOffset () {
       return (this.cGtsm ? 115 : 0)*1 + (this.cpDinInsAddBottonMargin ? 80 : 35)*1
     },
+
     cStyle () {
       let calHeight = this.$q.screen.height === 0
         ? `calc(100vh - ${this.cOffset}px)`
