@@ -94,8 +94,11 @@ export default {
   },
 
   methods: {
-    mOpenFile: function () {
-      window.open(this.cRow.absolute_path)
+    mOpenFile: function (file = null) {
+      if (file)
+        window.open(file.absolute_path)
+      else
+        window.open(this.cRow.absolute_path)
     },
 
     uploadFileStart: function () {

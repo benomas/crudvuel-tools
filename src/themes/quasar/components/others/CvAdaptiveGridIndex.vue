@@ -161,7 +161,7 @@
                     </q-chip>
                   </div>
 
-                  <div class="mxh-300px of-y-auto">
+                  <div :class="cpDinInsCardContentClass" class="mxh-300px of-y-auto">
                     <slot name="flexi-properties-slot" :slot-row="gridRow">
                     </slot>
                   </div>
@@ -243,16 +243,18 @@ export default {
     CvMultiRowComponentSet,
     CvActionComponentSet,
     vueMirroring.fixProperties({
-      '[D|M]pageAnimation'            : 'animated fadeIn',
-      '[P]dinGenExcludeActions'       : [],
-      '[P]dinInsShowTableMode'        : true,
-      '[P]dinInsShowGridMode'         : true,
-      '[P]dinInsShowActions'          : true,
-      '[P]dinInsCardContainerClass'   : 'row col-xs-12 col-sm-6 col-md-12',
-      '[P]dinInsCardClass'            : 'q-card w-100 round-borders',
-      '[P]dinInsActionCardTitleClass' : 'bg-white',
-      '[P]dinInsActionCardClass'      : 'row justify-start bg-secondary',
-      '[EM]dinGenLaunchAction'        : null
+      '[D|M]pageAnimation'              : 'animated fadeIn',
+      '[P]dinGenExcludeActions'         : [],
+      '[P]dinInsShowTableMode'          : true,
+      '[P]dinInsShowGridMode'           : true,
+      '[P]dinInsShowActions'            : true,
+      '[P]dinInsCardContainerClass'     : 'row col-xs-12 col-sm-6 col-md-12',
+      '[P]dinInsCardClass'              : 'q-card w-100 round-borders',
+      '[P]dinInsCardContentClass'       : '',
+      '[P]dinInsActionCardTitleClass'   : 'bg-white',
+      '[P]dinInsActionCardClass'        : 'row justify-start bg-secondary',
+      '[P]dinInsActionCardContentClass' : '',
+      '[EM]dinGenLaunchAction'          : null
     }),
     vueMirroring.assimilate(
       {CvGrid}
