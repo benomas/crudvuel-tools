@@ -13,7 +13,7 @@
               </slot>
 
               <th class="t-center t-middle" v-if="cpDinInsShowTableActions">
-                <span v-if="cpDinInsShowTopActionLang">{{ $tc('crudvuel.actions') }}</span>
+                <span v-if="cpDinInsShowTopActionLang" class="q-mr-sm">{{ $tc('crudvuel.actions') }}</span>
                 <q-btn
                   v-if="!mExcludeAction('create')"
                   v-cv-can-access="'action:create'"
