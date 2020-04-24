@@ -20,7 +20,7 @@
       <div v-if="cpDinInsAddBottonMargin && cLtmd" class="w-100 h-60px"></div>
       <div v-if="!cpDinInsAddBottonMargin && cLtmd" class="w-100 h-20px"></div>
     </div>
-    <div class="mt-50px">
+    <div >
       <slot name="cv-buttons-slot"
       >
         <span v-cv-empty-slot="'cvButtonsSlot'"></span>
@@ -64,13 +64,13 @@ export default {
 
   computed: {
     cOffset () {
-      return (this.cGtsm ? 115 : 0)*1 + (this.cpDinInsAddBottonMargin ? 80 : 35)*1
+      return (this.cGtsm ? 20 : 0) * 1 + (this.cpDinInsAddBottonMargin ? 20 : 35) * 1
     },
 
     cStyle () {
       let calHeight = this.$q.screen.height === 0
-        ? `calc(100vh - ${this.cOffset}px)`
-        : (this.$q.screen.height - this.cOffset) + 'px'
+        ? `calc(100vh - ${this.cOffset }px)`
+        : (this.$q.screen.height - this.cOffset - 75) + 'px'
       if (!this.cpDinInsDisableResponsiveBehavior)
         return {
           minHeight: calHeight

@@ -112,14 +112,13 @@ export default {
     },
 
     mFixResponse (response) {
-      console.log(typeof response.xhr.response)
       return JSON.parse(response.xhr.response)
     },
 
     uploadFileCompleted: function (info) {
       return new Promise ((resolve,reject) => {
         let file = this.mFixResponse(info)
-        console.log(file)
+
         if (this.mDirectInput != null)
           this.mDirectInput('files',[file.data])
 

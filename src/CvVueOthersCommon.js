@@ -92,6 +92,27 @@ export default function (staticMixin = {}) {
         return null
       },
 
+      mIsLast (arrayData = null,current = null) {
+        if (arrayData == null || current == null)
+          return false
+
+        return current === (arrayData.length -1)
+      },
+
+      mIsBeforeLast (arrayData = null,current = null) {
+        if (arrayData == null || current == null)
+          return false
+
+        return current === (arrayData.length -2)
+      },
+
+      mIsFirst (arrayData = null,current = null) {
+        if (arrayData == null || current == null)
+          return false
+
+        return current === 0
+      },
+
       mySubString,
       myReplace,
       cvF,
