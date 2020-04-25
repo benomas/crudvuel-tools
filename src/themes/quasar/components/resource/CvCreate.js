@@ -8,7 +8,8 @@ import CvComponentExtraSet          from 'crudvuel-tools/src/themes/quasar/compo
 import CvActionButtons              from 'crudvuel-tools/src/themes/quasar/components/others/CvActionButtons'
 import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
 import {
-  QBtn
+  QBtn,
+  QExpansionItem
 } from 'quasar'
 let vueMirroring = new VueMirroring('Create').enableRoot()
 
@@ -29,7 +30,8 @@ export default {
   components: {
     CvActionContainer,
     CvActionButtons,
-    QBtn
+    QBtn,
+    QExpansionItem
   },
 
   methods: {
