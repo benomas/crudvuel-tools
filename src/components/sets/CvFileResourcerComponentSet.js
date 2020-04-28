@@ -5,7 +5,8 @@ export default {
   props:[
     'cvResourcer',
     'cvResourcerKey',
-    'cvEnableAutoUpload'
+    'cvEnableAutoUpload',
+    'cvResourcerAction'
   ],
 
   computed: {
@@ -63,6 +64,10 @@ export default {
 
     cImgExtensions () {
       return ['jpg','jpeg','gif','svg','png','tif']
+    },
+
+    cResourcerAction () {
+      return this.cvResourcerAction
     }
   },
 
@@ -71,7 +76,8 @@ export default {
       return {
         'cv-resourcer'          : this.cResourcer,
         'cv-resourcer-key'      : this.cResourcerKey,
-        'cv-enable-auto-upload' : this.cEnableAutoUpload
+        'cv-enable-auto-upload' : this.cEnableAutoUpload,
+        'cv-resourcer-action'   : this.cResourcerAction
       }
     },
 
