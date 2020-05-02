@@ -45,9 +45,9 @@
               <slot name="table-properties-slot" :slot-row="gridRow" >
               </slot>
 
-              <td  v-if="cpDinInsShowTableActions && gridRow.active != null && cGtxs" class="t-center t-middle">
+              <td  v-if="cpDinInsShowActiveTableActions && gridRow.active != null && cGtxs" class="t-center t-middle">
                 <div
-                  v-if="gridRow.active"
+                  v-if="!mExcludeAction('deactivate') && gridRow.active"
                   @click="(()=>{
                     temp = 'deactivateRow'
                     emDinGenLaunchActionEmitter({action:'deactivate',row:gridRow})
@@ -62,7 +62,7 @@
                 </div>
 
                 <div
-                  v-else
+                  v-if="!mExcludeAction('deactivate') && !gridRow.active"
                   @click="(()=>{
                     temp = 'activateRow'
                     emDinGenLaunchActionEmitter({action:'activate',row:gridRow})
@@ -256,6 +256,7 @@ export default {
       '[P]dinInsShowTableMode'          : true,
       '[P]dinInsShowGridMode'           : true,
       '[P]dinInsShowTableActions'       : true,
+      '[P]dinInsShowActiveTableActions' : true,
       '[P]dinInsShowGridActions'        : true,
       '[P]dinInsShowTopActionLang'      : true,
       '[P]dinInsShowGridKey'            : true,
