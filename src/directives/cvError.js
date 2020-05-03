@@ -14,7 +14,7 @@ let errorWrapper = function (el, binding, vnode) {
 
   el.classList.add('w-100')
   el.classList.add('h-20px')
-  el.classList.add('q-pt-xs')
+  el.classList.add('q-pb-lg')
 
   let field   = binding.value.field
   let context = vnode.context
