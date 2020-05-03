@@ -1,5 +1,5 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth}    from 'crudvuel-tools/src/cvHelper'
-import {split,camelCase,get}                            from 'lodash'
+import {split,camelCase,get}                        from 'lodash'
 import CvPermissionComponent                        from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
 
