@@ -1,5 +1,5 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth}    from 'crudvuel-tools/src/cvHelper'
-import {split,camelCase}                            from 'lodash'
+import {split,camelCase,get}                            from 'lodash'
 import CvPermissionComponent                        from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
 
@@ -111,6 +111,22 @@ export default function (staticMixin = {}) {
           return false
 
         return current === 0
+      },
+
+      mrLang (source,resource = null) {
+        let lResource = this.mResourceAccessing(resource)
+
+        return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
+      },
+
+      mfLang (field,resource = null) {
+        return this.mrLang('fields.' + field,resource)
+      },
+
+      mDepthLang (path = '') {
+        let rootLang = this.cI18n.messages[this.cI18n.locale]
+
+        return get(rootLang,path)
       },
 
       mySubString,
