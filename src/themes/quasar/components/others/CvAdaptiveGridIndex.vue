@@ -14,6 +14,18 @@
 
               <th class="t-center t-middle" v-if="cpDinInsShowTableActions">
                 <span v-if="cpDinInsShowTopActionLang" class="q-mr-sm">{{ $tc('crudvuel.actions') }}</span>
+
+                <q-btn
+                  v-if="!mExcludeAction('exporting')"
+                  v-cv-can-access="'action:exporting'"
+                  icon="fas fa-file-excel"
+                  @click="(()=>emDinGenLaunchActionEmitter({action:'exporting'}))"
+                  color="positive"
+                  round
+                  size="sm"
+                  :title="mResorceAction('exporting').label"
+                ></q-btn>
+
                 <q-btn
                   v-if="!mExcludeAction('create')"
                   v-cv-can-access="'action:create'"
