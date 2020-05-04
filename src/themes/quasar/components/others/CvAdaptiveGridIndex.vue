@@ -16,14 +16,14 @@
                 <span v-if="cpDinInsShowTopActionLang" class="q-mr-sm">{{ $tc('crudvuel.actions') }}</span>
 
                 <q-btn
-                  v-if="!mExcludeAction('exporting')"
-                  v-cv-can-access="'action:exporting'"
+                  v-if="!mExcludeAction('exportings')"
+                  v-cv-can-access="'action:exportings'"
                   icon="fas fa-file-excel"
-                  @click="(()=>emDinGenLaunchActionEmitter({action:'exporting'}))"
+                  @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
                   color="positive"
                   round
                   size="sm"
-                  :title="mResorceAction('exporting').label"
+                  :title="mResorceAction('exportings').label"
                 ></q-btn>
 
                 <q-btn
