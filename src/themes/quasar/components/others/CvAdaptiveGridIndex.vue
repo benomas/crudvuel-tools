@@ -18,6 +18,7 @@
                 <q-btn
                   v-if="!mExcludeAction('exportings')"
                   v-cv-can-access="'action:exportings'"
+                  class="q-mx-xs"
                   icon="fas fa-file-excel"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
                   color="positive"
@@ -29,6 +30,7 @@
                 <q-btn
                   v-if="!mExcludeAction('create')"
                   v-cv-can-access="'action:create'"
+                  class="q-mx-xs"
                   icon="fas fa-plus-circle"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                   color="secondary"
@@ -131,9 +133,23 @@
             <div class="row w-100 q-mb-md" v-if="cpDinInsShowTableActions">
               <slot  name="flexi-grind-header-create-slot">
                 <div class="w-100 t-right">
+
+                  <q-btn
+                    v-if="!mExcludeAction('exportings')"
+                    v-cv-can-access="'action:exportings'"
+                    class="q-mx-xs"
+                    icon="fas fa-file-excel"
+                    @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
+                    color="positive"
+                    round
+                    size="sm"
+                    :title="mResorceAction('exportings').label"
+                  ></q-btn>
+
                   <q-btn
                     v-if="!mExcludeAction('create')"
                     v-cv-can-access="'action:create'"
+                    class="q-mx-xs"
                     icon="fas fa-plus-circle"
                     @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                     color="secondary"
@@ -172,9 +188,15 @@
             <div :class="cpDinInsCardContainerClass" v-for="(gridRow, position) in cvDinInsfAdaptiveGridIndexGridRows" :key="position + '|' +gridRow[cpDinGenKeyName]">
               <div class="row col-xs-12 q-pa-sm">
                 <q-card :class="cpDinInsCardClass">
-                  <div class="w-100 h-50px" v-if="cpDinInsShowGridKey">
-                    <q-chip square class="f-right bg-secondary txt-white q-ma-none no-border-radius f-bold text-subtitle1">
-                      {{ mfLang(cKeyName) }} : {{gridRow[cKeyName]}}
+                  <div class="w-100 h-50px q-pa-xs" v-if="cpDinInsShowGridKey">
+                    <q-chip class="f-right bg-secondary-l-87 txt-white t-right">
+                      <span class="f-left txt-red q-mr-lg f-bold">{{ mfLang(cKeyName) }}</span>
+                      <q-avatar
+                        class="bg-secondary txt-white"
+                        style="margin-right: -12px;"
+                        >
+                        {{gridRow[cKeyName]}}
+                      </q-avatar>
                     </q-chip>
                   </div>
 
@@ -275,8 +297,8 @@ export default {
       '[P]dinInsCardContainerClass'     : 'row col-xs-12 col-sm-6 col-md-12',
       '[P]dinInsCardClass'              : 'q-card w-100 round-borders mnh-400px',
       '[P]dinInsCardContentClass'       : '',
-      '[P]dinInsActionCardTitleClass'   : 'bg-white',
-      '[P]dinInsActionCardClass'        : 'row justify-start bg-secondary',
+      '[P]dinInsActionCardTitleClass'   : 'bg-white bb-1px border-secondary-l-90',
+      '[P]dinInsActionCardClass'        : 'row justify-start bg-secondary-l-96',
       '[P]dinInsActionCardContentClass' : '',
       '[EM]dinGenLaunchAction'          : null
     }),

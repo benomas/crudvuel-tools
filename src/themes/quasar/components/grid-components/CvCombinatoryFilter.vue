@@ -1,23 +1,24 @@
 <template>
   <div class="filters-container w-100">
     <q-input
-      outlined
+      borderless
+      standout
       dense
       autocomplete="off"
       ref="inputRef"
-      clear-icon='fas fa-times-circle'
       class="w-100"
       :class="{'active-filter':cpDinInsActiveFilter}"
       :label="cpDinInsLabel"
       :label-color="cpDinInsLabelColor"
-      :hint="cpDinInsHint"
       :clear-icon="cpDinInsClearIcon"
       :color="cpDinInsColor"
       :bg-color="cpDinInsBgColor"
+      :outlined="!cpDinInsDisableFields"
       :clearable="!cpDinInsDisableFields"
       :disable="cpDinInsDisableFields"
       :readonly="cpDinInsDisableFields"
       :hide-underline="cpDinInsDisableFields"
+      :hide-bottom-space="true"
       :loading="cpDinInsKeyLoading"
       :value="cpDinInsSearch"
       @clear="emDinInsClearedEmitter"
@@ -25,9 +26,13 @@
       @keyup="emDinInsKeyUpEmitter"
       @focus="emDinInsFocusedEmitter"
       @blur="emDinInsBluredEmitter"
+      @mouseover="emDinInsMouseOverEmitter"
+      @mouseleave="emDinInsMouseLeaveEmitter"
     >
       <template v-slot:prepend>
-        <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
+        <div :class="cpDinInsIconClass" >
+          <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
+        </div>
       </template>
     </q-input>
   </div>
