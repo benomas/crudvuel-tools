@@ -1,5 +1,5 @@
 <template>
-  <div :class="cpDinInsActionClasses" class="q-pa-sm" >
+  <div :class="{...cpDinInsActionClasses,...{'q-px-md':cGtsm}}" class="q-pa-sm" >
     <transition name="component-fade" mode="out-in" >
       <cv-spinner v-if="!cdReady" >
       </cv-spinner>
@@ -13,7 +13,7 @@
         </label>
       </div>
     </slot>
-    <div :class="{...cpDinInsActionContentClasses,...{'shadow-2 q-pa-md':cpDinInsShowActionDefaultContentClasses && cGtsm}}" :style="cStyle">
+    <div :class="{...cpDinInsActionContentClasses,...{'rounded-borders shadow-3 q-pa-md':cpDinInsShowActionDefaultContentClasses && cGtsm}}" :style="cStyle">
       <slot name="cv-content-slot"
       >
       </slot>

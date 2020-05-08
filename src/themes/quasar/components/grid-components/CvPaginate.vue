@@ -6,7 +6,7 @@
           <q-btn @click="emDinComCurrentPageEmitter(1)" v-if="cPagesViewStart > 1" size="sm" class="bg-secondary-l-84 txt-white">«</q-btn>
           <span>
             <span>
-              <q-tooltip  :disable="!cpDinComTotalPageElements || (!cXs && !cSm)"  class="fs-5">
+              <q-tooltip  :disable="!cpDinComTotalPageElements || (!cXs && !cSm)"  content-class="bg-secondary-l-90 txt-secondary-l-66 f-rem-2">
                 {{cPaginateMessage}}
               </q-tooltip>
               <transition-group

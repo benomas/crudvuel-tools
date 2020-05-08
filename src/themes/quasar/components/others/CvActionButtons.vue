@@ -142,7 +142,7 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          icon="fas fa-fill"
+          icon="icon-sube-rellenar"
           color="warning"
           @click="emStaGenAutoResetEmitter"
           :disabled="!cdReady">
@@ -161,7 +161,7 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          icon="fas fa-fill"
+          icon="icon-sube-rellenar"
           color="accent"
           @click="emStaGenAutoClearEmitter"
           :disabled="!cdReady">
@@ -180,7 +180,7 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-xs q-my-sm"
-          icon="fas fa-fill"
+          icon="icon-sube-rellenar"
           color="info"
           @click="emStaGenAutoFillEmitter"
           :disabled="!cdReady">
@@ -216,9 +216,9 @@ export default {
       '[P]dinGenShowBackButton' : true,
       '[P]dinGenShowNextButton' : true,
       '[P]dinGenAction'         : null,
-      '[P]staGenBackIcon'       : 'fas fa-backspace',
+      '[P]staGenBackIcon'       : 'icon-sube-retroceso',
       '[P]staGenBackIconColor'  : 'negative',
-      '[P]staGenNextIcon'       : 'fas fa-check',
+      '[P]staGenNextIcon'       : 'icon-sube-check',
       '[P]staGenNextIconColor'  : 'positive',
       '[EM]staGenBack'          : null,
       '[EM]staGenNext'          : null,

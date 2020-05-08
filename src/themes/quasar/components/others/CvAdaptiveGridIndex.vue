@@ -25,7 +25,11 @@
                   round
                   size="sm"
                   :title="mResorceAction('exportings').label"
-                ></q-btn>
+                >
+                  <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
+                    {{mResorceAction('exportings').label}}
+                  </q-tooltip>
+                </q-btn>
 
                 <q-btn
                   v-if="!mExcludeAction('create')"
@@ -37,7 +41,11 @@
                   round
                   size="sm"
                   :title="mResorceAction('create').label"
-                ></q-btn>
+                >
+                  <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-66 f-rem-2">
+                    {{mResorceAction('create').label}}
+                  </q-tooltip>
+                </q-btn>
 
                 <slot name="extra-actions-header-slot" v-if="cpDinInsShowTableActions">
                 </slot>
@@ -68,11 +76,14 @@
                   })"
                 >
                   <q-icon
-                    class="active-icon"
-                    name="fas fa-check"
+                    class="active-icon f-bold"
+                    name="icon-sube-check"
                     color="positive"
                     :title="mResorceAction('deactivate').label"
                   />
+                  <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
+                    {{mResorceAction('deactivate').label}}
+                  </q-tooltip>
                 </div>
 
                 <div
@@ -83,11 +94,14 @@
                   })"
                 >
                   <q-icon
-                    class="active-icon"
-                    name="fas fa-times-circle"
+                    class="active-icon f-bold"
+                    name="icon-sube-cerrar"
                     color="negative"
                     :title="mResorceAction('activate').label"
                   />
+                  <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
+                    {{mResorceAction('activate').label}}
+                  </q-tooltip>
                 </div>
               </td>
 
@@ -101,7 +115,12 @@
                   round
                   size="sm"
                   :title="mResorceAction('show').label"
-                ></q-btn>
+                >
+                  <q-tooltip content-class="bg-info-l-90 txt-info-l-45 f-rem-2">
+                    {{mDepthLang('crudvuel.labels.showPrefix')}} {{mResorceAction('show').label}}
+                  </q-tooltip>
+                </q-btn>
+
                 <q-btn
                   v-if="!mExcludeAction('edit')"
                   v-cv-can-access="'action:edit'"
@@ -111,7 +130,12 @@
                   round
                   size="sm"
                   :title="mResorceAction('edit').label"
-                ></q-btn>
+                >
+                  <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
+                    {{mResorceAction('edit').label}}
+                  </q-tooltip>
+                </q-btn>
+
                 <q-btn
                   v-if="!mExcludeAction('delete')"
                   v-cv-can-access="'action:delete'"
@@ -122,7 +146,11 @@
                   size="sm"
                   :title="mResorceAction('delete').label"
                 >
+                  <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
+                    {{mResorceAction('delete').label}}
+                  </q-tooltip>
                 </q-btn>
+
                 <slot name="table-extra-actions-slot" :slot-row="gridRow">
                 </slot>
               </td>
@@ -144,7 +172,11 @@
                     round
                     size="sm"
                     :title="mResorceAction('exportings').label"
-                  ></q-btn>
+                  >
+                    <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
+                      {{mResorceAction('exportings').label}}
+                    </q-tooltip>
+                  </q-btn>
 
                   <q-btn
                     v-if="!mExcludeAction('create')"
@@ -157,6 +189,9 @@
                     size="sm"
                     :title="mResorceAction('create').label"
                   >
+                    <q-tooltip content-class="bg-info-l-90 txt-info-l-45 f-rem-2">
+                      {{mResorceAction('create').label}}
+                    </q-tooltip>
                   </q-btn>
                 </div>
               </slot>
@@ -218,8 +253,11 @@
                         color="info"
                         round
                         size="sm"
-                        :title="mResorceAction('show').label"
-                      ></q-btn>
+                      >
+                        <q-tooltip content-class="bg-info-l-90 txt-info-l-45 f-rem-2">
+                          {{mDepthLang('crudvuel.labels.showPrefix')}} {{mResorceAction('show').label}}
+                        </q-tooltip>
+                      </q-btn>
 
                       <q-btn
                         v-if="!mExcludeAction('edit')"
@@ -229,8 +267,11 @@
                         color="positive"
                         round
                         size="sm"
-                        :title="mResorceAction('edit').label"
-                      ></q-btn>
+                      >
+                        <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
+                          {{mResorceAction('edit').label}}
+                        </q-tooltip>
+                      </q-btn>
 
                       <q-btn
                         v-if="!mExcludeAction('delete')"
@@ -240,8 +281,10 @@
                         color="negative"
                         round
                         size="sm"
-                        :title="mResorceAction('delete').label"
                       >
+                        <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
+                          {{mResorceAction('delete').label}}
+                        </q-tooltip>
                       </q-btn>
 
                       <slot name="flexi-extra-actions-slot" :slot-row="gridRow">
@@ -269,7 +312,8 @@ import {
   QCardActions,
   QAvatar,
   QChip,
-  QExpansionItem
+  QExpansionItem,
+  QTooltip
 } from 'quasar'
 import VueMirroring             from 'crudvuel/mirroring/VueMirroring'
 import CvComponentSet           from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentSet'
@@ -319,7 +363,8 @@ export default {
     QCardActions,
     QAvatar,
     QChip,
-    QExpansionItem
+    QExpansionItem,
+    QTooltip
   },
 
   computed: {

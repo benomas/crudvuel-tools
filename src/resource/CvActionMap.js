@@ -5,6 +5,7 @@ export default class CvResourceMap extends CvClass {
     super()
     this.name              = null,
     this.label             = null,
+    this.buttonLabel       = null,
     this.icon              = null,
     this.getService        = null,
     this.setService        = null,
