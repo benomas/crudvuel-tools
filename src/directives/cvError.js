@@ -1,9 +1,9 @@
 let defaultClasses = [
   'w-100',
-  'f-s12px',
+  'f-s10px',
   'txt-negative',
   'f-left',
-  'q-pl-lg',
+  'q-pl-xs',
   'ellipsis',
   'cv-error-directive'
 ]

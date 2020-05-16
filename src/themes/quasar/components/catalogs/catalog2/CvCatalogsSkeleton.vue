@@ -1,22 +1,27 @@
 <template>
   <div class="row w-100">
-    <div class="col-xs-12 col-sm-6 col-md-5 q-pa-md  q-pa-md">
+    <div class="col-xs-12 col-sm-5 col-md-7 q-pa-sm">
       <q-input
         v-bind="mInputBinding('name')"
         v-on="mInputOnsBinding('name')"/>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-5 q-pa-md  q-pa-md">
+
+    <div class="col-xs-7 col-sm-4 col-md-3 q-pa-sm">
       <q-input
         v-bind="mInputBinding('slug')"
         v-on="mInputOnsBinding('slug')"/>
     </div>
-    <div class="col-xs-12 col-sm-2 col-md-2 q-pa-md m-auto">
-      <q-field borderless v-bind="mErrorBinding('active')">
-        <q-toggle
-          v-bind="mToogleBinding('active')"
-          v-on="mToogleOnsBinding('active')"/>
-      </q-field>
+
+    <div class="row col-xs-5 col-sm-3 col-md-2 my-auto q-px-md">
+      <div class="row w-100" v-bind="mToogleTittleBinding('active')">
+        <span class="col-xs-8 m-auto q-pl-sm" >{{mfLang('active')}}</span>
+
+        <q-toggle class="col-xs-4 m-unset q-pl-sm" v-bind="mToogleBinding('active')" v-on="mToogleOns('active')" :label="''"/>
+      </div>
+
+      <div v-cv-error="{field:'active'}"></div>
     </div>
+
     <div class="col-xs-12 col-sm-9 col-md-12 q-pa-md">
       <q-input
         v-bind="mInputBinding('description')"
