@@ -197,12 +197,15 @@ export default {
     mAddRelated: function (row,position=null) {
       if (this.cDisableFields)
         return false
+
       if (position == null){
         let newRow = {...row,...{order:this.cpDinInsRelated.length + 1}}
         this.emDinInsRelatedEmitter(concat(this.cpDinInsRelated,newRow).sort(this.cpDinInsRelatedSortCallBack))
       }
+
       else{
         let newRelated = []
+
         for (let i = 0 ;i < this.cpDinInsRelated.length + 1; i++) {
           if (i + 1  < position) {
             newRelated.push({...this.cpDinInsRelated[i],...{order:i+1}})
@@ -217,6 +220,7 @@ export default {
         }
         this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
       }
+
       return this
     },
 

@@ -67,8 +67,7 @@ export default {
   watch: {
     cpStaInsPagFilterQuery: function (newValue, oldValue) {
       if(JSON.stringify(newValue) !== JSON.stringify(oldValue)){
-        this.emStaInsfMatcherizerSimpleFilterSearchEmitter('')
-        this.emDinGenResetEmitter()
+        this.mResetMe()
         this.mSetPagFilterQuery(newValue)
       }
     }
@@ -456,6 +455,11 @@ export default {
           topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
         this.mSetListTop(`${topMargin}px`)
       })
+    },
+
+    mResetMe () {
+      this.emStaInsfMatcherizerSimpleFilterSearchEmitter('')
+      this.emDinGenResetEmitter()
     }
   }
 }
