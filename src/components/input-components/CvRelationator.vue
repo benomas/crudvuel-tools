@@ -28,6 +28,7 @@ export default {
       '[P|EM]dinInsRelatedDetach'    : {},
       '[P]dinInsSourceResource'      : null,
       '[P]dinInsRelatedResource'     : null,
+      '[P]dinInsDraggeable'          : false,
       '[P]dinInsSourceService'       : function (paginate = {}) {
         if (this.cvDinInsSourceResource != null){
           let indexService = this.cvDinInsSourceResource.loadService('index')

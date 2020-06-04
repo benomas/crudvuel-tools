@@ -32,7 +32,7 @@
           :class="['cv-item-' + row[cKeyName],'drop-target-uid-' + _uid]"
           v-for="(row, rowKey) in cFilteredAvailableSource"
           :key="mDinamicIndex(rowKey,row)"
-          draggable="true"
+          :draggable="cpDinInsDraggeable"
           :ref="'cv-source-item-' + row[cKeyName]"
           @dragstart="((e)=>mOnDragStart(e,row,'source',_uid))"
         >
@@ -73,7 +73,7 @@
           :class="['cv-item-' + row[cKeyName],'drop-target-uid-' + _uid]"
           v-for="(row, rowKey) in cFilteredAvailableRelated"
           :key="mDinamicIndex(rowKey,row)"
-          draggable="true"
+          :draggable="cpDinInsDraggeable"
           :ref="'cv-related-item-' + row[cKeyName]"
           @dragstart="((e)=>mOnDragStart(e,row,'related',_uid))"
         >
