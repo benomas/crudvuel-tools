@@ -1,3 +1,5 @@
+import { mapGetters } from 'vuex'
+
 export default class CvVueCommon {
   vueCommonMaker (app, router, store, Vue, cRouter, cvGlobDep, resources) {
     return {
@@ -195,7 +197,9 @@ export default class CvVueCommon {
 
         cInternalPriaveRootPath () {
           return cvGlobDep.globals.internalPriaveRootPath()
-        }
+        },
+
+        ...mapGetters(Object.keys(store.getters))
       }
     }
   }

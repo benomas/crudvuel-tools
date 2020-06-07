@@ -2,8 +2,9 @@ import {mySubString,myReplace,cvF,cvFixDotDepth}    from 'crudvuel-tools/src/cvH
 import {split,camelCase,get}                        from 'lodash'
 import CvPermissionComponent                        from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
+import { mapActions }                               from 'vuex'
 
-export default function (staticMixin = {}) {
+export default function (app, router, store, Vue, cRouter, cvGlobDep, resources,staticMixin = {}) {
   return {
     mixins: [
       staticMixin,
@@ -129,9 +130,10 @@ export default function (staticMixin = {}) {
         return get(rootLang,path)
       },
 
+      ...mapActions(Object.keys(store._actions)),
       mySubString,
       myReplace,
-      cvF,
+      cvF
     },
 
     directives: {
