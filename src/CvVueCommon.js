@@ -187,6 +187,14 @@ export default class CvVueCommon {
 
         cRootPath: function () {
           return '/'
+        },
+
+        cExternalPriaveRootPath () {
+          return cvGlobDep.globals.externalPriaveRootPath()
+        },
+
+        cInternalPriaveRootPath () {
+          return cvGlobDep.globals.internalPriaveRootPath()
         }
       }
     }
