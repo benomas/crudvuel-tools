@@ -4,7 +4,7 @@ import CvPermissionComponent                        from 'crudvuel/components/Cv
 import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
 import { mapActions }                               from 'vuex'
 
-export default function (app, router, store, Vue, cRouter, cvGlobDep, resources,staticMixin = {}) {
+export default function (store,staticMixin = {}) {
   return {
     mixins: [
       staticMixin,
@@ -34,11 +34,14 @@ export default function (app, router, store, Vue, cRouter, cvGlobDep, resources,
       mVueSetter (source = null) {
         if (!source || typeof source.row === 'undefined' || typeof source.cvColumnMap === 'undefined')
           return false
+
         let destination = source.destination || 'row'
+
         if (typeof destination === 'string')
           destination = cvFixDotDepth(this,destination)
 
         let mapKeys = Object.keys(source.cvColumnMap)
+
         for (let i = 0; i < mapKeys.length; i++) {
           if (source.row && typeof source.row[mapKeys[i]] !== 'undefined')
             this.$set(destination, source.cvColumnMap[mapKeys[i]], source.row[mapKeys[i]])
@@ -128,6 +131,18 @@ export default function (app, router, store, Vue, cRouter, cvGlobDep, resources,
         let rootLang = this.cI18n.messages[this.cI18n.locale]
 
         return get(rootLang,path)
+      },
+
+      mRedirect (newRoute = null) {
+        return store.getters.cStCvRouterCaller().mRedirect(newRoute || '')
+      },
+
+      mRedirectToLoguedStart () {
+        return store.getters.cStCvRouterCaller().routeRedirectToLoguedStart()
+      },
+
+      mRedirectToUnloguedStart () {
+        return store.getters.cStCvRouterCaller().routeRedirectToUnloguedStart()
       },
 
       ...mapActions(Object.keys(store._actions)),

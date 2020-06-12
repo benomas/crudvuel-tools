@@ -102,8 +102,15 @@ export default {
       }
 
       if (typeof action === 'string') {
+        if (!resource)
+          resource = this.cResource
+
+        if (!resource || this.mResourceAccessing(resource).actions == null)
+          return null
+
         if (typeof this.mResourceAccessing(resource).actions[action] !== 'undefined')
           return this.mResourceAccessing(resource).actions[action]
+
         return null
       }
 
@@ -115,8 +122,8 @@ export default {
         return this.cResource
 
       if (typeof resource === 'string') {
-        if (this.resources != null && this.resources[resource] != null)
-          return this.resources[resource]
+        if (this.cResources != null && this.cResources[resource] != null)
+          return this.cResources[resource]
         return null
       }
 
@@ -162,7 +169,12 @@ export default {
     },
 
     mActionPath (action,row,resource = null) {
-      return this.mResorceAction(action,resource).getFixedPath(row) || null
+      let fixedAction = this.mResorceAction(action,resource)
+
+      if (!fixedAction)
+        return ''
+
+      return fixedAction.getFixedPath(row) || null
     },
 
     mFinish (status = 'completed',data = null) {

@@ -1,34 +1,19 @@
 import { mapGetters } from 'vuex'
 
 export default class CvVueCommon {
-  vueCommonMaker (app, router, store, Vue, cRouter, cvGlobDep, resources) {
+  vueCommonMaker (store) {
     return {
-      data () {
-        return {
-          cvGlobDep,
-          cvComunicator : cvGlobDep.globals.cvComunicator,
-          i18n          : app.i18n,
-          services      : cvGlobDep.globals.cvComunicator.resources,
-          resources     : resources,
-          router        : cRouter
-        }
-      },
-
       computed: {
-        cComunicator () {
-          return cvGlobDep.globals.cvComunicator
-        },
-
         cI18n () {
-          return app.i18n
+          return store.getters.cStCvAppCaller().i18n
         },
 
         cServices () {
-          return cvGlobDep.globals.cvComunicator.resources
+          return store.getters.cStCvServices
         },
 
         cResources () {
-          return resources
+          return store.getters.cStResources
         },
 
         cResourcesPerSection () {
@@ -38,7 +23,6 @@ export default class CvVueCommon {
           let sections  = {}
 
           for (const [resource, resourceDef] of Object.entries(this.cResources)){
-
             if (resourceDef.resourceSections == null)
               continue
 
@@ -54,12 +38,12 @@ export default class CvVueCommon {
         },
 
         cUnauthorizedInteractions: function () {
-          return store.state.unauthorizedInteractions
+          return store.getters.cStUnauthorizedInteractions
         },
 
         //responsive computed
         cCurrentUser: function () {
-          return store.state.currentUser
+          return store.getters.cStCurrentUser
         },
 
         cWindowsWidth: function () {
@@ -129,38 +113,41 @@ export default class CvVueCommon {
         cColSize: function () {
           if (this.cXs)
             return 'xs'
+
           if (this.cSm)
             return 'sm'
+
           if (this.cMd)
             return 'md'
+
           if (this.cLg)
             return 'lg'
+
           return 'xg'
         },
 
         cCurrentRoute: function () {
           if (this.$route != null)
             return this.$route.path
+
           return null
         },
 
-        cCvPassport: function () {
-          return cvGlobDep.globals.cvPassport
-        },
-
         cEnv: function () {
-          return cvGlobDep.globals.cvEnv.environmentProperty('ENV_MODE','production') || null
+          return store.getters.cStCvEnv.environmentProperty('ENV_MODE','production') || null
         },
 
         cAutoFillableEnabled: function () {
-          return cvGlobDep.globals.cvEnv.environmentProperty('AUTOFILL_ENABLED',false) || null
+          return store.getters.cStCvEnv.environmentProperty('AUTOFILL_ENABLED',false) || null
         },
 
         cAutoFillable: function () {
           if (this.cEnv == null)
             return false
+
           if (this.cAutoFillableEnabled == null || this.cAutoFillableEnabled !== true)
             return false
+
           if (
             this.cResource == null ||
             this.cResource.lang == null ||
@@ -171,6 +158,7 @@ export default class CvVueCommon {
 
           )
             return false
+
           return true
         },
 
@@ -184,19 +172,8 @@ export default class CvVueCommon {
             this.cpStaGenAction.name === 'show'
           )
             return false
+
           return true
-        },
-
-        cRootPath: function () {
-          return '/'
-        },
-
-        cExternalPriaveRootPath () {
-          return cvGlobDep.globals.externalPriaveRootPath()
-        },
-
-        cInternalPriaveRootPath () {
-          return cvGlobDep.globals.internalPriaveRootPath()
         },
 
         ...mapGetters(Object.keys(store.getters))

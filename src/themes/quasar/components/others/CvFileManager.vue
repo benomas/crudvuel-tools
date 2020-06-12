@@ -26,7 +26,7 @@ export default {
       return qFieldFileHeaders
     },
     cFileUrl: function () {
-      return this.cvGlobDep.globals.cvEnv.apiUrl() + '/api/files'
+      return this.cStCvEnv.apiUrl() + '/api/files'
     },
     cFieldFormater: function () {
       return this.cRow ? [
@@ -159,7 +159,7 @@ export default {
     },
     loadCatFiles: function () {
       return new Promise((resolve, reject) => {
-        this.resources.catFiles.crudServices.sluged().then( response => {
+        this.cResources.catFiles.crudServices.sluged().then( response => {
           let catFiles = response.data.data || response.data || null
           this.$set(this,'catFiles',catFiles)
           resolve(response)

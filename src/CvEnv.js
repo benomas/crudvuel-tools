@@ -1,5 +1,5 @@
 
-export default class CvComunicator {
+export default class CvEnv {
 
   environmentProperty (property,defaultValue) {
 		return process.env[property] || defaultValue

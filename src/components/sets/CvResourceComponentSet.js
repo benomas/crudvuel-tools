@@ -178,8 +178,8 @@ export default {
         return this.cpStaInsResource
 
       if (typeof resource === 'string') {
-        if (this.resources != null && this.resources[resource] != null)
-          return this.resources[resource]
+        if (this.cResources != null && this.cResources[resource] != null)
+          return this.cResources[resource]
         return null
       }
 
