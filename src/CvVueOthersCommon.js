@@ -134,15 +134,15 @@ export default function (store,staticMixin = {}) {
       },
 
       mRedirect (newRoute = null) {
-        return store.getters.cStCvRouterCaller().mRedirect(newRoute || '')
+        return store.getters.cStCurrentCvRouter.mRedirect(newRoute || '')
       },
 
       mRedirectToLoguedStart () {
-        return store.getters.cStCvRouterCaller().routeRedirectToLoguedStart()
+        return store.getters.cStCurrentCvRouter.routeRedirectToLoguedStart()
       },
 
       mRedirectToUnloguedStart () {
-        return store.getters.cStCvRouterCaller().routeRedirectToUnloguedStart()
+        return store.getters.cStCurrentCvRouter.routeRedirectToUnloguedStart()
       },
 
       ...mapActions(Object.keys(store._actions)),
