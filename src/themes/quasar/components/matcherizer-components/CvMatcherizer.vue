@@ -33,7 +33,7 @@
             :class="{'b-none':!cdSourceRows,'of-y-hidden':cSourceRowsCount === 0}"
             :style="{'width':cdListWidth,'top':cdListTop}">
             <li
-              class="list-group-item"
+              class="list-group-item txt-black-l-30"
               v-for="(row, rowKey) in cSourceRows"
               @click="mSelect(rowKey,row)"
               :class="{'single-selected':mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue,'current-cursor-item':cdCurrentItem===rowKey}"

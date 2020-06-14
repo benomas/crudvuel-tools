@@ -6,8 +6,8 @@ export default {
       if (this.$store != null)
         return this.$store.getters.cStUnauthorizedInteractions
 
-      if (this.store != null)
-        return this.store.getters.cStUnauthorizedInteractions
+      if (this.cStStore != null)
+        return this.cStStore.getters.cStUnauthorizedInteractions
 
       return null
     },

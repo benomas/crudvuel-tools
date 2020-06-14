@@ -143,6 +143,7 @@ export default class CvResourceMap extends CvClass {
   loadService (actionService = null) {
     if (!actionService || this.crudServices == null || this.crudServices[actionService] == null)
       return null
+
     return (...params) => this.crudServices[actionService](...params)
   }
 }

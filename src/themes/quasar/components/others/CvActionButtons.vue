@@ -244,56 +244,72 @@ export default {
     cBtnSize: function () {
       if (this.cGtsm)
         return this.cdBtnSize
+
       return 'sm'
     },
+
     cpDinGenShowBackButton () {
       if (this.cvDinGenShowBackButton != null && this.cvDinGenShowBackButton === false)
         return false
+
       return this.cBackLabel != null && this.cBackLabel !== ''
     },
 
     cpDinGenShowNextButton () {
       if (this.cvDinGenShowNextButton != null && this.cvDinGenShowNextButton === false)
         return false
+
       return this.cNextLabel != null && this.cNextLabel !== ''
     },
 
     cBackLabel () {
       let trans = this.mComLang('backLabel')
+
       if (trans !== '')
         return trans
+
       if (this.cpDinGenAction.backLabel !== undefined)
         return this.cpDinGenAction.backLabel
+
       return 'Cancelar'
     },
 
     cNextLabel () {
       let trans = this.mComLang('nextLabel')
+
       if (trans !== '')
         return trans
+
       if (this.cpDinGenAction.nextLabel !== undefined)
         return this.cpDinGenAction.nextLabel
+
       return 'Guardar'
     },
 
     cFillLabel () {
       let trans = this.mComLang('fill')
+
       if (trans !== '')
         return trans
+
       return 'Auto llenar'
     },
 
     cResetLabel () {
       let trans = this.mComLang('reset')
+
       if (trans !== '')
         return trans
+
       return 'Reiniciar'
     },
 
     cClearLabel () {
       let trans = this.mComLang('clear')
+
       if (trans !== '')
         return trans
+
       return 'Limipiar'
     }
   }
