@@ -18,7 +18,6 @@ export default class CvComunicator {
       callBackRedirector: null
     }
 
-    this.mRouter    = store.cStCvRouterCaller
     this.axios      = axios.create(this.defaultConfig)
 
     this.axios.interceptors.request.use(config => {
@@ -31,10 +30,12 @@ export default class CvComunicator {
 
     this.axios.interceptors.response.use(response => {
         this.mGetStCvPassport().reactToResponse(response)
+
         return response
     },error => {
       this.mGetStCvPassport().reactToResponse(error)
       this.proccessErrorStatus(error.response)
+
       return Promise.reject(error)
     })
 
@@ -46,6 +47,7 @@ export default class CvComunicator {
       'X-Requested-With' : 'XMLHttpRequest',
       'Content-Type'     : 'application/json'
     }
+
     return this.mGetStCvPassport().injectHeaders(headers)
   }
 /*
@@ -71,17 +73,20 @@ export default class CvComunicator {
         this[`error${response.status}`]()
         return true
     }
+
     return false
   }
 
   error401 () {
-    this.mRouter().VueRouter.push('/login')
+    this.mGetStCurrentCvRouter().getVueRouter().push('/login')
+
     return this
   }
 
   error403 () {
     console.log('unauthorized')
-    this.mRouter().VueRouter.push('/')
+    this.mGetStCurrentCvRouter().getVueRouter().push('/')
+
     return this
   }
 
@@ -89,22 +94,4 @@ export default class CvComunicator {
     location.reload()
     return this
   }
-  /*
-  //to be deprecated
-  redirect (newRoute) {
-    newRoute = newRoute || ''
-    this.mRouter().VueRouter.push(newRoute)
-    return this
-  }
-  //to be deprecated
-  loguedStart () {
-    console.log( this.mRouter().loguedStart)
-    this.redirect(this.mRouter() != null && this.mRouter().loguedStart != null ? this.mRouter().loguedStart():'/')
-    return this
-  }
-  //to be deprecated
-  unLoguedStart () {
-    this.redirect(this.mRouter() != null && this.mRouter().unLoguedStart != null ? this.mRouter().unLoguedStart():'/')
-    return this
-  }*/
 }

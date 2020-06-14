@@ -93,6 +93,21 @@ export default class CvResourceMap extends CvClass {
     return excludes.length ? this.routes.filter(route => excludes.find(e => e !== route.name )) : this.routes
   }
 
+  getRoute (routeName = null, newName = null) {
+    let selectedRoute = this.routes.filter(route => routeName === route.name)
+
+    if (selectedRoute && selectedRoute[0] != null){
+      let derivedRoute = selectedRoute[0]
+
+      if (newName)
+        derivedRoute = {...selectedRoute[0],...{name:newName}}
+
+      return derivedRoute
+    }
+
+    return {}
+  }
+
   getGetSuccessMessage () {
     return this.getSuccessMessage
   }
