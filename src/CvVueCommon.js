@@ -1,11 +1,11 @@
 import { mapGetters } from 'vuex'
 
 export default class CvVueCommon {
-  vueCommonMaker (store) {
+  vueCommonMaker (app,store) {
     return {
       computed: {
         cI18n () {
-          return store.getters.cStCvAppCaller().i18n
+          return app.i18n
         },
 
         cServices () {

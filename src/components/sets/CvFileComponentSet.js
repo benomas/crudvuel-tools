@@ -7,7 +7,7 @@ export default {
       '[D|M]errorCount'        : 0,
       '[D|M]catFiles'          : [],
       '[P]dinGenExportHeaders' : function () {
-        return this.services.general.cvComunicator.shareHeaders() || {}
+        return this.cStCvComunicator.shareHeaders() || {}
       },
       '[P]dinGenFileUrl' : function () {
         return this.cStCvEnv.apiUrl() + '/api/files'

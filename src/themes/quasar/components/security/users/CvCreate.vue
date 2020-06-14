@@ -105,7 +105,7 @@ export default {
   },
   methods: {
     getAdittionalData: function () {
-      this.services.roles.index(null,null,this.cvParams.getSerialized())
+      this.cStCvServices.roles.index(null,null,this.cvParams.getSerialized())
         .then((response) => {
           this.roles = response.data.data || response.data
           this.mSetReady().then(() => {

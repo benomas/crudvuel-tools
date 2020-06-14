@@ -8,7 +8,7 @@ export default {
   },
   computed: {
     cExportHeaders: function () {
-      return this.services.general.cvComunicator.shareHeaders() || {}
+      return this.cStCvComunicator.shareHeaders() || {}
     },
     cFileHeaders: function () {
       let fileHeaders = this.cExportHeaders

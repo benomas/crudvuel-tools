@@ -128,13 +128,13 @@ export default {
   },
   methods: {
     getAdittionalData: function () {
-      this.services.permissions.index(null,null,this.cvParams.getSerialized())
+      this.cStCvServices.permissions.index(null,null,this.cvParams.getSerialized())
         .then((response) => {
           this.permissions = response.data.data || response.data
           this.$nextTick().then(() => {
             this.permissionsLoaded = true
           })
-          this.services.roles.index(null,null,this.cvParams.getSerialized())
+          this.cStCvServices.roles.index(null,null,this.cvParams.getSerialized())
             .then((rolesResponse) => {
               this.$set(this,'roles',rolesResponse.data.data || rolesResponse.data)
               this.mSetReady().then(() => {
