@@ -218,7 +218,7 @@ export default {
 
       if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null) {
         this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
-        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
+        let topMargin = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
         this.mSetListTop(`${topMargin}px`)
       }
       else
@@ -227,7 +227,26 @@ export default {
       this.mDirectionFix()
 
       return this
-    }
+    },
+
+    mDirectionFix() {//TODO this method needs to be fixed
+      this.mDelayer(this.cpStaInsSyncTime).then(()=>{
+        let node = this.cFilterReferenceNode
+
+        if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner')){
+          this.mSetScrollTopFix(node.scrollTop)
+        }
+        else
+          return this.mSetScrollTopFix(0)
+
+        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
+
+        if (topMargin + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight)
+          topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
+
+        this.mSetListTop(`${topMargin}px`)
+      })
+    },
   }
 }
 </script>
