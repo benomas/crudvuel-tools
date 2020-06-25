@@ -30,6 +30,7 @@ export default class VueAutoDefiner {
     this.autoDefInit     = null
     this.autoDefDataInit = null
     this.autoDefPropInit = null
+
     return this
   }
 
@@ -46,6 +47,7 @@ export default class VueAutoDefiner {
   getAutos () {
     let currentData = this.autoData
     let parentPrefix  = this.getParentPrefix()
+
     return {
       data () {
         let data = {}
@@ -105,16 +107,19 @@ export default class VueAutoDefiner {
 
   setAutoDefDataInit (autoDefDataInit = null) {
     this.autoDefDataInit = autoDefDataInit
+
     return this
   }
 
   setAutoDefPropInit (autoDefPropInit = null) {
     this.autoDefPropInit = autoDefPropInit
+
     return this
   }
 
   setAutoDefTypes (autoDefTypes = null) {
     this.autoDefTypes = autoDefTypes
+
     return this
   }
 
@@ -125,16 +130,19 @@ export default class VueAutoDefiner {
 
   setAutoDefScope (autoDefScope = '') {
     this.autoDefScope = lowerCase(autoDefScope)
+
     return this
   }
 
   setAutoDefName (autoDefName = null) {
     this.autoDefName = camelCase(autoDefName)
+
     return this
   }
 
   setAutoDefInit (autoDefInit = null) {
     this.autoDefInit = autoDefInit
+
     return this
   }
 
@@ -144,27 +152,32 @@ export default class VueAutoDefiner {
     for (const type of cTypes)
       if(types[type] != null)
         types[type] = true
+
     return this.resetAutoDefs().setAutoDefTypes(types)
   }
 
   loadAutoDefMode (source){
     if(source[3] == null)
       return this
+
     return this.setAutoDefMode(source[3])
   }
 
   loadAutoDefScope (source){
     if(source[4] == null)
       return this
+
     return this.setAutoDefScope(source[4])
   }
 
   definitionSplitter(definition = null){
     if (!definition)
       return this
+
     const found = [...definition.matchAll(/^(\[(\S+)\])?(sta|din)?(gen|com|ins)?(\w+)$/gi)]
     if (!found || found[0] == null || found[0][5] == null || found[0][5] === '')
       return this
+
     return this.loadAutoDefTypes(found[0]).loadAutoDefMode(found[0]).loadAutoDefScope(found[0]).setAutoDefName(found[0][5])
   }
 
@@ -175,6 +188,7 @@ export default class VueAutoDefiner {
   calAutoPropName(prefix = '') {
     let mode = this.getAutoDefMode() || ''
     let scope = this.getAutoDefScope() || ''
+
     return camelCase(`${prefix} ${mode} ${scope} ${this.getAutoDefName()}`)
   }
 
@@ -187,6 +201,7 @@ export default class VueAutoDefiner {
   addAutoData(){
     if (this.hasAutoData()){
       let dataName = this.calAutoDataName()
+
       if(this.hasAutoProp()){
         let defaultData = this.getAutoDefPropInit()
         let prop = this.calAutoPropName('cv')
@@ -194,15 +209,18 @@ export default class VueAutoDefiner {
         this.autoData[dataName] = function(context) {
           if (isNullable || context[prop] != null)
             return context[prop]
+
           return defaultData
         }
       }else{
         let def = this.getAutoDefInit()
+
         this.autoData[dataName] = function(){
           return def
         }
       }
     }
+
     return this
   }
 /**
@@ -211,6 +229,7 @@ export default class VueAutoDefiner {
   addAutoProp(){
     if (this.hasAutoProp())
       this.autoProps.push(this.calAutoPropName('cv'))
+
     return this
   }
 /**
@@ -218,19 +237,23 @@ export default class VueAutoDefiner {
  */
   addAutoComputed(){
     let name = this.calAutoDataName()
+
     if (this.hasAutoData()) {
       this.autoComputed[this.calAutoDataName('cd')] = function() {
         return this[name]
       }
     }
+
     if (this.hasAutoProp()) {
       let defaultComputedProp = this.getAutoDefPropInit()
       let propName = this.calAutoPropName('cv')
+
       this.autoComputed[this.calAutoPropName('cp')] = function() {
         let comp = this[propName]
         return comp != null ? comp : defaultComputedProp
       }
     }
+
     return this
   }
 /**
@@ -239,11 +262,13 @@ export default class VueAutoDefiner {
   addAutoMethod(){
     if (this.hasAutoData()) {
       let name = this.calAutoDataName()
+
       this.autoMethods[this.calAutoDataName('m set')] = function(value = null) {
         this.$set(this,name,value)
         return this
       }
     }
+
     return this
   }
 /**
@@ -253,6 +278,7 @@ export default class VueAutoDefiner {
     if (this.hasAutoEmitter()) {
       let name = this.calAutoPropName()
       let setterName = camelCase(`m set ${name}`)
+
       this.autoMethods[camelCase(`em ${name} proccesor`)] = function(emitted = null) {
         return new Promise ((resolve, reject) => {
           if (this[setterName] != null)
@@ -260,7 +286,9 @@ export default class VueAutoDefiner {
           resolve(emitted)
         })
       }
+
       let propName = this.calAutoPropName()
+
       if(this.autoMethods[camelCase(`em ${propName} emitter`)] == null)
         this.autoMethods[camelCase(`em ${propName} emitter`)] = function(emitted = null) {
           this[camelCase(`em ${propName} proccesor`)](emitted).then((proccesed = null) => {
@@ -268,6 +296,7 @@ export default class VueAutoDefiner {
           }).catch(error=>error)
         }
     }
+
     return this
   }
 /**
@@ -277,10 +306,12 @@ export default class VueAutoDefiner {
     if (this.hasAutoProp() && this.getAutoDefMode() === 'sta') {
       let propName = this.calAutoDataName('cp')
       let dataName = this.calAutoDataName('m set')
+
       this.autoMounters.push(function (context) {
         context[dataName](context[propName])
       })
     }
+
     return this
   }
 /**
@@ -293,6 +324,7 @@ export default class VueAutoDefiner {
           mounter(this)
       }
     })(this.autoMounters)
+
     return this
   }
 
@@ -305,14 +337,17 @@ export default class VueAutoDefiner {
       this.setAutoDefPropInit(!this.hasAutoData() ? this.getAutoDefInit() : null)
       this.setAutoDefPropInit(this.getAutoDefInit())
     }
+
     return this
   }
 
   validateDefinition () {
     if (!this.getAutoDefName())
       return false
+
     if(this.hasAutoProp() && (!this.getAutoDefMode() || !this.getAutoDefScope()))
       return false
+
     return true
   }
   /**
@@ -328,6 +363,7 @@ export default class VueAutoDefiner {
     for (const [property, def] of Object.entries(properties)){
       if (this.definitionSplitter(property).setAutoDefInit(def).complementDefinition().validateDefinition())
         this.addAutoData().addAutoProp().addAutoComputed().addAutoMethod().addAutoEmitter()}
+
     return this.getAutos()
   }
 
@@ -339,14 +375,17 @@ export default class VueAutoDefiner {
     let complementedName = ''
     for (let i=from;i<splited.length; i++)
       complementedName += ` ${splited[i]}`
+
     return complementedName
   }
 
   fixPropertyName (splitedProperty = []) {
     let scope = splitedProperty[2]
     let mode  = splitedProperty[1]
+
     if(this.getVueComponentConnector().switchModeRequired(splitedProperty))
       mode = 'sta'
+
     switch(scope){
       case 'com':
         return camelCase(`${mode} comf ${this.getCurrentComponent().tag} ${this.complementName(splitedProperty)} `)
@@ -357,12 +396,14 @@ export default class VueAutoDefiner {
       case 'insf':
         return camelCase(`${mode} insf ${this.getVueComponentConnector().getParentPrefix()} ${this.complementName(splitedProperty)}`)
     }
+
     return camelCase(`${mode} ${scope} ${this.complementName(splitedProperty)}`)
   }
 
   fixDataName (splitedProperty = []) {
     let scope = splitedProperty[2]
     let mode  = splitedProperty[1]
+
     switch(scope){
       case 'com':
         return camelCase(`${this.getCurrentComponent().tag} ${this.complementName(splitedProperty)} `)
@@ -373,6 +414,7 @@ export default class VueAutoDefiner {
       case 'insf':
         return camelCase(`${this.getParentPrefix()} ${this.complementName(splitedProperty)}`)
     }
+
     return camelCase(`${this.complementName(splitedProperty)}`)
   }
 
@@ -383,8 +425,10 @@ export default class VueAutoDefiner {
   fixEmitterName (splitedEmitter = []) {
     let scope = splitedEmitter[2]
     let mode  = splitedEmitter[1]
+
     if(this.getVueComponentConnector().switchModeRequired(splitedEmitter))
       mode = 'sta'
+
     switch(scope){
       case 'com':
         return camelCase(`${mode} comf ${this.getCurrentComponent().tag} ${this.complementName(splitedEmitter)} `)
@@ -395,6 +439,7 @@ export default class VueAutoDefiner {
       case 'insf':
         return camelCase(`${mode} insf ${this.getParentPrefix()} ${this.complementName(splitedEmitter)}`)
     }
+
     return camelCase(`${mode} ${scope} ${this.complementName(splitedEmitter)}`)
   }
 
