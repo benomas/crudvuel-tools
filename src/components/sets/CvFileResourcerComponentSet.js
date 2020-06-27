@@ -6,7 +6,8 @@ export default {
     'cvResourcer',
     'cvResourcerKey',
     'cvEnableAutoUpload',
-    'cvResourcerAction'
+    'cvResourcerAction',
+    'cvFileCount'
   ],
 
   computed: {
@@ -68,6 +69,10 @@ export default {
 
     cResourcerAction () {
       return this.cvResourcerAction
+    },
+
+    cFileCount () {
+      return this.cvFileCount || 0
     }
   },
 

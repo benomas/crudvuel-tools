@@ -27,6 +27,7 @@ export default {
       '[P]dinInsRows'                 : [],
       '[P]dinInsShowTopPagination'    : true,
       '[P]dinInsShowBottomPagination' : true,
+      '[P]dinInsShowFilters'          : true,
       '[P]staInsMinHeight'            : '300px',
       '[P]dinComGridLang'             : {},
       '[EM]dinGenMsync'               : null

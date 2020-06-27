@@ -7,7 +7,7 @@
       <cv-spinner v-if="!cdReady" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
-    <div class="row justify-end q-px-sm">
+    <div class="row justify-end q-px-sm" v-if="cpDinInsShowFilters">
       <div class="col-xs-12 col-sm-5 col-md-4">
         <div class="row">
           <cv-filter-selector
