@@ -12,6 +12,16 @@ export default function (store,staticMixin = {}) {
       cvCanAccess
     ],
 
+    filters: {
+      fCapitalize: function (value) {
+        if (!value) return ''
+
+        value = value.toString()
+
+        return value.charAt(0).toUpperCase() + value.slice(1)
+      }
+    },
+
     methods: {
       inputFocus (ref,internalRef = 'cInputRef') {
         if (this.$refs[ref] != null) {
@@ -134,7 +144,7 @@ export default function (store,staticMixin = {}) {
       },
 
       mRedirect (newRoute = null) {
-        return store.getters.cStCurrentCvRouter.mRedirect(newRoute || '')
+        return store.getters.cStCurrentCvRouter.routeRedirect(newRoute || '')
       },
 
       mRedirectToLoguedStart () {
