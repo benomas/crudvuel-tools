@@ -155,6 +155,16 @@ export default function (store,staticMixin = {}) {
         return store.getters.cStCurrentCvRouter.routeRedirectToUnloguedStart()
       },
 
+      mDelayer (delayFor = 1) {
+        return new Promise((resolve, reject) => {
+          this.$nextTick().then(()=>this.$nextTick().then(()=>this.$nextTick().then(()=>{
+            setTimeout(() => {
+              resolve()
+            }, delayFor)
+          })))
+        })
+      },
+
       ...mapActions(Object.keys(store._actions)),
       mySubString,
       myReplace,
