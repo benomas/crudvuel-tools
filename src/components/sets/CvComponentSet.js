@@ -163,11 +163,11 @@ export default {
 
     mDelayer (delayFor = 1) {
       return new Promise((resolve, reject) => {
-        this.$nextTick().then(()=>this.$nextTick().then(()=>this.$nextTick().then(()=>{
+        this.$nextTick().then(()=>this.$nextTick().then(()=>{
           setTimeout(() => {
             resolve()
           }, delayFor)
-        })))
+        }))
       })
     },
 

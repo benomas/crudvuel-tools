@@ -69,7 +69,7 @@
         @dragover="mOnDragOver"
         @drop="mOnDrop">
         <li
-          class="list-group-item cv-related-item-container"
+          class="list-group-item cv-related-item-container q-px-xl"
           :class="['cv-item-' + row[cKeyName],'drop-target-uid-' + _uid]"
           v-for="(row, rowKey) in cFilteredAvailableRelated"
           :key="mDinamicIndex(rowKey,row)"
@@ -77,7 +77,7 @@
           :ref="'cv-related-item-' + row[cKeyName]"
           @dragstart="((e)=>mOnDragStart(e,row,'related',_uid))"
         >
-          <q-badge v-if="cpDinInsHasOrder" class="q-mr-sm q-mt-xs text-subtitle2" color="positive" floating>{{row.order}}</q-badge>
+          <q-badge v-if="cpDinInsHasOrder" class="q-mr-sm q-mt-xs text-subtitle2" color="info" floating>{{row.order}}</q-badge>
           <q-icon v-if="!cDisableFields" name="fas fa-minus-square" :class="{'f-left':cGtxs,'f-right':cLtsm}" @click="mRemoveRelated(row)"/>
           <slot name="cv-related-item" :slot-row="row">
             <span>{{cpDinInsLabelCallBack(row)}}</span>
