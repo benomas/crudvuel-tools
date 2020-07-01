@@ -1,5 +1,5 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth}    from 'crudvuel-tools/src/cvHelper'
-import {split,camelCase,get}                        from 'lodash'
+import {split,camelCase,get,capitalize,upperFirst}  from 'lodash'
 import CvPermissionComponent                        from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
 import { mapActions }                               from 'vuex'
@@ -13,12 +13,18 @@ export default function (store,staticMixin = {}) {
     ],
 
     filters: {
-      fCapitalize: function (value) {
-        if (!value) return ''
+      fCapitalize: function (value = null) {
+        if (!value)
+          return ''
 
-        value = value.toString()
+        return capitalize (value)
+      },
 
-        return value.charAt(0).toUpperCase() + value.slice(1)
+      fUcfirst: function (value = null) {
+        if (!value)
+          return ''
+
+        return upperFirst (value)
       }
     },
 
