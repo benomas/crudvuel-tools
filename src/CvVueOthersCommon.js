@@ -171,6 +171,34 @@ export default function (store,staticMixin = {}) {
         })
       },
 
+      mDepthSet (target = null,segments = null,value = null) {
+        if (!target || !segments)
+          return target
+
+        let tempRef = target
+
+        for (let i = 0; i < segments.length -1 ; i++)
+          if((tempRef = tempRef[segments[i]]) == null)
+            return target
+
+        tempRef[segments[segments.length -1]] = value
+
+        return target
+      },
+
+      mDepthget (target = null,segments = null) {
+        if (!target || !segments)
+          return target
+
+        let tempRef = target
+
+        for (let i = 0; i < segments.length ; i++)
+          if((tempRef = tempRef[segments[i]]) == null)
+            return target
+
+        return tempRef
+      },
+
       ...mapActions(Object.keys(store._actions)),
       mySubString,
       myReplace,
