@@ -1,5 +1,5 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth}    from 'crudvuel-tools/src/cvHelper'
-import {split,camelCase,get,capitalize,upperFirst}  from 'lodash'
+import {split,camelCase,get,capitalize,upperFirst,round}  from 'lodash'
 import CvPermissionComponent                        from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
 import { mapActions }                               from 'vuex'
@@ -25,6 +25,13 @@ export default function (store,staticMixin = {}) {
           return ''
 
         return upperFirst (value)
+      },
+
+      fRound: function (value = null) {
+        if (!value)
+          return 0
+
+        return round (value,4)
       }
     },
 
