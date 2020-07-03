@@ -27,11 +27,11 @@ export default function (store,staticMixin = {}) {
         return upperFirst (value)
       },
 
-      fRound: function (value = null) {
+      fRound: function (value = null,decimals = 2) {
         if (!value)
           return 0
 
-        return round (value,4)
+        return round (value,decimals)
       }
     },
 
