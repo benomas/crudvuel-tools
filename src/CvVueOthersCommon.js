@@ -98,7 +98,7 @@ export default function (store,staticMixin = {}) {
           if (!this.hasResourcePermission(resourceName) || !this.hasActionPermission(this.cResources[resourceName].actions.index))
             return null
 
-          return this.cRootPath + this.cResources[resourceName].actions.index.path
+          return this.cStBasePath + this.cResources[resourceName].actions.index.path
         }
 
         let actionName = camelCase(segments[1])
@@ -113,7 +113,7 @@ export default function (store,staticMixin = {}) {
           if (!this.hasActionPermission(this.cResources[resourceName].actions[actionName]))
             return null
 
-          return this.cRootPath + this.cResources[resourceName].actions[actionName].path
+          return this.cStBasePath + this.cResources[resourceName].actions[actionName].path
         }
 
         return null
@@ -204,6 +204,10 @@ export default function (store,staticMixin = {}) {
             return target
 
         return tempRef
+      },
+
+      mGoHome () {
+        store.getters.cStCurrentCvRouter.routeRedirectToLoguedStart()
       },
 
       ...mapActions(Object.keys(store._actions)),

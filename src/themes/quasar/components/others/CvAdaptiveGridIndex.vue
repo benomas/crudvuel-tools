@@ -18,10 +18,9 @@
                 <q-btn
                   v-if="!mExcludeAction('exportings')"
                   v-cv-can-access="'action:exportings'"
-                  class="q-mx-xs"
-                  icon="fas fa-file-excel"
+                  class="q-mx-xs bg-positive-l-90 txt-positive-l-45"
+                  icon="far fa-file-excel"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
-                  color="positive"
                   round
                   size="sm"
                   :title="mResorceAction('exportings').label"
@@ -34,10 +33,9 @@
                 <q-btn
                   v-if="!mExcludeAction('create')"
                   v-cv-can-access="'action:create'"
-                  class="q-mx-xs"
-                  icon="fas fa-plus-circle"
+                  class="q-mx-xs bg-secondary-l-90 txt-secondary-l-66"
+                  icon="fas fa-plus"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
-                  color="secondary"
                   round
                   size="sm"
                   :title="mResorceAction('create').label"
@@ -77,7 +75,7 @@
                 >
                   <q-icon
                     class="active-icon f-bold"
-                    name="icon-sube-check"
+                    name="icon-check"
                     color="positive"
                     :title="mResorceAction('deactivate').label"
                   />
@@ -95,7 +93,7 @@
                 >
                   <q-icon
                     class="active-icon f-bold"
-                    name="icon-sube-cerrar"
+                    name="icon-cerrar"
                     color="negative"
                     :title="mResorceAction('activate').label"
                   />
@@ -109,9 +107,9 @@
                 <q-btn
                   v-if="!mExcludeAction('show')"
                   v-cv-can-access="'action:show'"
-                  icon="fas fa-eye"
+                  icon="icon-ver"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
-                  color="info"
+                  class="q-mx-xs bg-info-l-90 txt-info-l-45"
                   round
                   size="sm"
                   :title="mResorceAction('show').label"
@@ -124,9 +122,9 @@
                 <q-btn
                   v-if="!mExcludeAction('edit')"
                   v-cv-can-access="'action:edit'"
-                  icon="fas fa-pencil-alt"
+                  icon="icon-editar"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
-                  color="positive"
+                  class="bg-positive-l-90 txt-positive-l-45 q-mx-xs"
                   round
                   size="sm"
                   :title="mResorceAction('edit').label"
@@ -139,9 +137,9 @@
                 <q-btn
                   v-if="!mExcludeAction('delete')"
                   v-cv-can-access="'action:delete'"
-                  icon="fas fa-trash-alt"
+                  icon="icon-borrar"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
-                  color="negative"
+                  class="bg-negative-l-90 txt-negative-l-45 q-mx-xs"
                   round
                   size="sm"
                   :title="mResorceAction('delete').label"
@@ -165,10 +163,9 @@
                   <q-btn
                     v-if="!mExcludeAction('exportings')"
                     v-cv-can-access="'action:exportings'"
-                    class="q-mx-xs"
+                    class="q-mx-xs bg-positive-l-90 txt-positive-l-45"
                     icon="fas fa-file-excel"
                     @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
-                    color="positive"
                     round
                     size="sm"
                     :title="mResorceAction('exportings').label"
@@ -181,15 +178,14 @@
                   <q-btn
                     v-if="!mExcludeAction('create')"
                     v-cv-can-access="'action:create'"
-                    class="q-mx-xs"
-                    icon="fas fa-plus-circle"
+                    class="q-mx-xs bg-secondary-l-90 txt-secondary-l-66"
+                    icon="fas fa-plus"
                     @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
-                    color="secondary"
                     round
                     size="sm"
                     :title="mResorceAction('create').label"
                   >
-                    <q-tooltip content-class="bg-info-l-90 txt-info-l-45 f-rem-2">
+                    <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-45 f-rem-2">
                       {{mResorceAction('create').label}}
                     </q-tooltip>
                   </q-btn>
@@ -248,9 +244,9 @@
                       <q-btn
                         v-if="!mExcludeAction('show')"
                         v-cv-can-access="'action:show'"
-                        icon="fas fa-eye"
+                        icon="icon-ver"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
-                        color="info"
+                        class="bg-info-l-90 txt-info-l-45"
                         round
                         size="sm"
                       >
@@ -262,9 +258,9 @@
                       <q-btn
                         v-if="!mExcludeAction('edit')"
                         v-cv-can-access="'action:edit'"
-                        icon="fas fa-pencil-alt"
+                        icon="icon-editar"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
-                        color="positive"
+                        class="bg-positive-l-90 txt-positive-l-45"
                         round
                         size="sm"
                       >
@@ -276,9 +272,9 @@
                       <q-btn
                         v-if="!mExcludeAction('delete')"
                         v-cv-can-access="'action:delete'"
-                        icon="fas fa-trash-alt"
+                        icon="fas icon-borrar"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
-                        color="negative"
+                        class="bg-negative-l-90 txt-negative-l-45"
                         round
                         size="sm"
                       >

@@ -46,7 +46,7 @@
             :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
-            icon="fas fa-fill"
+            icon="icon-info"
             color="warning"
             @click="emStaGenAutoResetEmitter"
             :disabled="!cdReady">
@@ -65,7 +65,7 @@
           :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
-            icon="fas fa-fill"
+            icon="icon-borrar"
             color="accent"
             @click="emStaGenAutoClearEmitter"
             :disabled="!cdReady">
@@ -84,7 +84,7 @@
           :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-xs q-my-sm"
-            icon="fas fa-fill"
+            icon="icon-rellenar"
             color="info"
             @click="emStaGenAutoFillEmitter"
             :disabled="!cdReady">
@@ -142,7 +142,7 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          icon="icon-sube-rellenar"
+          icon="icon-info"
           color="warning"
           @click="emStaGenAutoResetEmitter"
           :disabled="!cdReady">
@@ -161,7 +161,7 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          icon="icon-sube-rellenar"
+          icon="icon-borrar"
           color="accent"
           @click="emStaGenAutoClearEmitter"
           :disabled="!cdReady">
@@ -180,7 +180,7 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-xs q-my-sm"
-          icon="icon-sube-rellenar"
+          icon="icon-rellenar"
           color="info"
           @click="emStaGenAutoFillEmitter"
           :disabled="!cdReady">
@@ -216,9 +216,9 @@ export default {
       '[P]dinGenShowBackButton' : true,
       '[P]dinGenShowNextButton' : true,
       '[P]dinGenAction'         : null,
-      '[P]staGenBackIcon'       : 'icon-sube-retroceso',
+      '[P]staGenBackIcon'       : 'icon-retroceso',
       '[P]staGenBackIconColor'  : 'negative',
-      '[P]staGenNextIcon'       : 'icon-sube-check',
+      '[P]staGenNextIcon'       : 'icon-check',
       '[P]staGenNextIconColor'  : 'positive',
       '[EM]staGenBack'          : null,
       '[EM]staGenNext'          : null,
