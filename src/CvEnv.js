@@ -33,4 +33,8 @@ export default class CvEnv {
     return this.environmentProperty("AJAX_MAX_CONTENT_LENGHT","20000")
   }
 
+	base64QueryString() {
+		return this.environmentProperty("BASE_64_QUERY_STRING",false)
+  }
+
 }

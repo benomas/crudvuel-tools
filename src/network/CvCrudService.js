@@ -1,5 +1,6 @@
 import FileSaver      from 'file-saver'
 import CvSerializer   from 'crudvuel-tools/src/CvSerializer'
+import {cvBase64}     from  'crudvuel-tools/src/cvHelper'
 
 export default class CvCrudService {
   constructor (store,resourceName) {
@@ -23,11 +24,21 @@ export default class CvCrudService {
   }
 
   fixQueryString (qString = null) {
+    let fixBase64 = (querySource) => `b64Query=${cvBase64.encode(querySource)}`
     let fixedQString
-    if (qString && typeof qString === 'object')
-      fixedQString = new CvSerializer(qString).getSerialized(qString)
-    else
-      fixedQString = qString
+    if (qString && typeof qString === 'object') {
+      if (this.mGetStCvEnv().base64QueryString())
+        fixedQString = fixBase64(JSON.stringify(qString))
+      else
+        fixedQString = new CvSerializer(qString).getSerialized(qString)
+    }
+    else{
+      if (this.mGetStCvEnv().base64QueryString())
+        fixedQString = fixBase64(qString || '')
+      else
+        fixedQString = qString
+    }
+
     return fixedQString? '?' + fixedQString: ''
   }
 
