@@ -144,7 +144,6 @@ export default {
       )
         return this.cpStaInsResource.actions.index.getService
 
-      console.log('asasas')
       return this.mLocalService()
     },
 
