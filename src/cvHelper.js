@@ -1,3 +1,8 @@
+import {camelCase,capitalize,kebabCase,
+  lowerCase,lowerFirst,snakeCase,split,
+  toLower,toUpper,trim,trimEnd,
+  trimStart,truncate,upperCase,upperFirst,startCase,replace} from 'lodash'
+
 var cvAuthHelper = (context) => {
   var parentContext = context
   const authCallError = response => {
@@ -203,4 +208,68 @@ const  cvBase64 = {
 
 }
 
-export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64}
+const cvCamelCase = function (text = '') {
+  return camelCase(text)
+}
+
+const cvSlugCase = function (text = '') {
+  return kebabCase(text)
+}
+
+const cvKebabCase = function (text = '') {
+  return kebabCase(text)
+}
+
+const cvSnakeCase = function (text = '') {
+  return snakeCase(text)
+}
+
+const cvStudlyCase = function (text = '') {
+  return replace(startCase(text),' ','')
+}
+
+const cvSingularCase = function (resource = null) {
+  if (resource != null && resource.singularName)
+    return resource.singularName
+
+  return resource
+}
+
+const cvPluralCase = function (resource = null) {
+  if (resource != null && resource.pluralName)
+    return resource.pluralName
+
+  return resource
+}
+
+const cvLowerCase = function (text = '') {
+  return lowerCase(text)
+}
+
+const cvUpperCase = function (text = '') {
+  return upperCase(text)
+}
+
+const cvUcfirstCase = function (text = '') {
+  return upperFirst(text)
+}
+
+const cvTitleCase = function (text = '') {
+  return upperFirst(text)
+}
+
+const cvCaseFixer = function(path,text = '') {
+
+  for (const stringCase of split(path,'|')){
+    let newStringcase = cvCamelCase(`cv ${stringCase} Case`)
+    if(eval("typeof " + newStringcase) === 'function'){
+      text = eval(newStringcase)(text)
+    }
+  }
+
+  return text
+}
+
+export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64,
+  cvCamelCase,cvSlugCase,cvKebabCase,cvSnakeCase,cvStudlyCase,cvSingularCase,
+  cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer}
