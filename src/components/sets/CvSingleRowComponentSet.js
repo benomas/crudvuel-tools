@@ -47,6 +47,16 @@ export default {
 
         return errors
       }
+    },
+
+    cActionReady () {
+      if (this.cdAction.name === 'create')
+        return true
+
+      if (this.cRow != null && this.cRow.id)
+        return true
+
+      return false
     }
   }
 }

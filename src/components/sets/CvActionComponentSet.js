@@ -62,7 +62,7 @@ export default {
       return true
     },
 
-    cResourceName: function () {
+    cResourceName () {
       return this.cResource != null ? this.cResource.name : null
     }
   },

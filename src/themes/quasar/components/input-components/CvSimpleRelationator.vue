@@ -1,6 +1,6 @@
 
 <script>
-import {QList,QItemSection,QIcon,QSeparator} from 'quasar'
+import {QList,QItemSection,QIcon,QSeparator,QCheckbox} from 'quasar'
 import {cvCaseFixer}                         from 'crudvuel-tools/src/cvHelper'
 
 export default {
@@ -14,7 +14,8 @@ export default {
     QList,
     QIcon,
     QSeparator,
-    QItemSection
+    QItemSection,
+    QCheckbox
   },
 
   computed: {
@@ -73,6 +74,28 @@ export default {
       for (const item of this.cFixDataRef) {
         if (item[this.cKeyName] !== row[this.cKeyName])
           newData.push(item)
+      }
+
+      this.emDinGenRowEmitter({
+        inputSource : `${this.cpStaInsResource.singularName}.${this.cpStaInsResource.keyName}`,
+        resource    : this.cpStaInsResource,
+        row         : {[cvCaseFixer('snake',this.cpStaInsResource.pluralName)]: newData},
+        uid         : this._uid,
+        forceSync   : true
+      })
+    },
+
+    mReplaceRow (row = null) {
+      if (!row)
+        return
+
+      let newData = []
+
+      for (const item of this.cFixDataRef) {
+        if (item[this.cKeyName] !== row[this.cKeyName])
+          newData.push(item)
+        else
+          newData.push(row)
       }
 
       this.emDinGenRowEmitter({
