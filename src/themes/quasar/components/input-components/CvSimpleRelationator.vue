@@ -24,11 +24,18 @@ export default {
     },
 
     cAutoFilterLimitReached () {
-      return this.cFixDataRef.length >= this.cAutoFilterLimit
+      return this.cLocalFilterQuerySize >= this.cAutoFilterLimit
     },
 
     cLocalFilterQuery () {
       return this.localFilterQuery
+    },
+
+    cLocalFilterQuerySize () {
+      if (this.localFilterQuery[this.cKeyName] == null)
+        return 0
+
+      return this.localFilterQuery[this.cKeyName].length
     },
 
     cFixDataRef () {
@@ -47,8 +54,12 @@ export default {
 
       let newLocalFilterQuery = {'cv_search': '','id': []}
 
-        for (const item of this.cFixDataRef)
+        for (const item of this.cFixDataRef){
+          if (this.cAutoFilterLimitReached)
+            break
+
           newLocalFilterQuery[this.cKeyName].push({'lOp': 'and','eOp': '<>','value': item[this.cKeyName]})
+        }
 
       this.$set(this,'localFilterQuery',newLocalFilterQuery)
     },
