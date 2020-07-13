@@ -1,7 +1,7 @@
 
 <script>
-import {QList,QItemSection,QIcon,QSeparator,QCheckbox} from 'quasar'
-import {cvCaseFixer}                         from 'crudvuel-tools/src/cvHelper'
+import {QList,QItemSection,QIcon,QSeparator,QCheckbox}  from 'quasar'
+import {cvCaseFixer}                                    from 'crudvuel-tools/src/cvHelper'
 
 export default {
   data () {
@@ -36,7 +36,7 @@ export default {
     },
 
     cKeyName () {
-      this.cpStaInsResource.keyName
+      return this.cpStaInsResource.keyName
     }
   },
 
@@ -109,7 +109,6 @@ export default {
   },
 
   mounted () {
-    //console.log(this)
   }
 }
 </script>
