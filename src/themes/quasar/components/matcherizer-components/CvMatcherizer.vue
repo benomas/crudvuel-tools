@@ -36,10 +36,15 @@
               class="list-group-item txt-black-l-30"
               v-for="(row, rowKey) in cSourceRows"
               @click="mSelect(rowKey,row)"
-              :class="{'single-selected':mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue,'current-cursor-item':cdCurrentItem===rowKey}"
+              :class="{'single-selected':mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue,'current-cursor-item':cdCurrentItem===rowKey,[cpDinInsContainerItemClass]:true}"
               :key="mValueCallBack(cSourceRows,row) + '|' + rowKey"
-              v-html="mShowPatter(mLabelCallBack(cSourceRows,row),mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue)"
             >
+              <div class="row w-100 my-auto">
+                <div v-html="mShowPatter(mLabelCallBack(cSourceRows,row),mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue)" :class="cpDinInsItemClass"></div>
+
+                <slot name="item-slot" :slot-item="row">
+                </slot>
+              </div>
             </li>
 
             <li

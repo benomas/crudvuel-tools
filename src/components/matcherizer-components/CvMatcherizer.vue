@@ -57,7 +57,9 @@ export default {
       //unconfirmed
       '[P]dinInsSourceService'           : null,
       '[P]staInsLocalData'               : null,
-      '[P]dinInsKeyLoading'              : false
+      '[P]dinInsKeyLoading'              : false,
+      '[P]dinInsItemClass'               : 'col my-auto',
+      '[P]dinInsContainerItemClass'      : 'bb-2px border-grey-l-90'
     }),
     vueMirroring.assimilate(
       {CvSimpleFilter,root: true}
