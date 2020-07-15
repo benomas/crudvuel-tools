@@ -53,7 +53,7 @@ export default {
       if (this.cdAction.name === 'create')
         return true
 
-      if (this.cRow != null && this.cRow.id)
+      if ((this.cRow != null && this.cRow.id) || (this.cdRow != null && this.cdRow.id))
         return true
 
       return false
