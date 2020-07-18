@@ -40,7 +40,9 @@
               :key="mValueCallBack(cSourceRows,row) + '|' + rowKey"
             >
               <div class="row w-100 my-auto">
-                <div v-html="mShowPatter(mLabelCallBack(cSourceRows,row),mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue)" :class="cpDinInsItemClass"></div>
+                <div :class="cpDinInsItemClass">
+                  <div class="w-100 my-auto" v-html="mShowPatter(mLabelCallBack(cSourceRows,row),mValueCallBack(cSourceRows,row)===cpDinInsCurrentValue)"></div>
+                </div>
 
                 <slot name="item-slot" :slot-item="row">
                 </slot>

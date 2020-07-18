@@ -122,11 +122,13 @@ export default {
 
     cSourceRows () {
       let limitedSourceRows = []
+
       for (let i = 0; i < this.cpDinInsListOfItemsLimit; i++) {
         if (i >= this.cdSourceRows.length)
           return limitedSourceRows
         limitedSourceRows.push(this.cdSourceRows[i])
       }
+
       return limitedSourceRows
     },
 
@@ -151,22 +153,28 @@ export default {
 
     cMoreDataLabel () {
       let trans = this.mComLang('moreDat')
+
       if (trans !== '')
         return trans
+
       return '*Mas resultados disponibles mediante busqueda'
     },
 
     cNoDataLabel () {
       let trans = this.mComLang('noData')
+
       if (trans !== '')
         return trans
+
       return '*Sin resultados disponibles'
     },
 
     cLoadingLabel () {
       let trans = this.mComLang('loadingLabel')
+
       if (trans !== '')
         return trans
+
       return 'Cargando'
     },
 
@@ -231,6 +239,7 @@ export default {
       return new Promise((resolve, reject) => {
         if ((emitted == null || emitted === '') && this.cdStaInsfMatcherizerSimpleFilterSearch != null && this.cdStaInsfMatcherizerSimpleFilterSearch !== '')
           this.emDinGenResetEmitter()
+
         this.mSetMatcherizerSimpleFilterSearch(emitted).mSetPagSearchObject(emitted).mRefreshSource()
         resolve(emitted)
       })
@@ -248,10 +257,12 @@ export default {
         this.mSetMatcherizerSimpleFilterLabel(this.cvStaInsfMatcherizerSimpleFilterLabel)
       else
         this.mSetMatcherizerSimpleFilterLabel(this.cpStaInsResource != null ? this.cpStaInsResource.rowLabel : null)
+
       if (this.cvStaInsfMatcherizerSimpleFilterIcon != null && this.cvStaInsfMatcherizerSimpleFilterIcon !== undefined)
         this.mSetMatcherizerSimpleFilterLabel(this.cvStaInsfMatcherizerSimpleFilterIcon)
       else
         this.mSetMatcherizerSimpleFilterIcon(this.cpStaInsResource != null ? this.cpStaInsResource.icon : null)
+
       return new Promise((resolve, reject) => {
         this.mDelayer().then(() => {
           this.mSetReady()
@@ -300,8 +311,10 @@ export default {
     mTransformResponse (response) {
       if  (response.data.count != null)
         return {rows: response.data.data,count: response.data.count, pageCount: response.data.data.length}
+
       if  (response.count != null)
         return {rows: response.data,count: response.count, pageCount: response.data.length}
+
       return {rows: [],count: 0, pageCount: 0}
     },
 
@@ -328,7 +341,7 @@ export default {
     },
 
     mShowPatter (label,isCurrent) {
-      let located = this.myReplace(label,this.cdPagSearchObject,'<span class="matcherizer-item">$1</span>')
+      let located = this.myReplace(label,this.cdPagSearchObject,'<span class="matcherizer-item my-auto">$1</span>')
 
       if (isCurrent)
         located += this.cCurrentSelectedItemMark()
@@ -348,11 +361,13 @@ export default {
     emStaInsCurrentItemProccesor (emitted = null) {
       return new Promise((resolve, reject) => {
         let fixedEmitted = {row: emitted}
+
         if (this.cpStaInsResource != null && this.cpStaInsResource.singularName != null)
           fixedEmitted['resource'] = this.cpStaInsResource.singularName
         else {
           fixedEmitted['resource'] = 'anonymous'
         }
+
         resolve(fixedEmitted)
       })
     },
@@ -369,8 +384,10 @@ export default {
     emStaInsfMatcherizerSimpleFilterBluredProccesor (emitted = null) {
       return new Promise((resolve, reject) => {
         this.mSetSearchFocus(false)
+
         if (!this.cdListOn)
           this.emSearchContinueEmitter(false)
+
         resolve(emitted)
       })
     },
@@ -402,6 +419,7 @@ export default {
         this.mDelayer().then(() => {
           if (!this.cdSearchFocus && !this.cdSearchOn)
             this.emSearchContinueEmitter(false)
+
           resolve()
         })
         resolve(emitted)
@@ -454,6 +472,7 @@ export default {
           topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
         else
           topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
+
         this.mSetListTop(`${topMargin}px`)
       })
     },
