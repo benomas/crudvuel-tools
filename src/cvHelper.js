@@ -142,9 +142,7 @@ const  cvBase64 = {
 
     }
 
-    output = Base64._utf8_decode(output)
-
-    return output
+    return cvBase64._utf8_decode(output)
 
   },
 
@@ -178,8 +176,10 @@ const  cvBase64 = {
   // private method for UTF-8 decoding
   _utf8_decode : function (utftext) {
     var string = ""
-    var i = 0
-    var c = c1 = c2 = 0
+    var i  = 0
+    var c  = 0
+    var c1 = 0
+    var c2 = 0
 
     while ( i < utftext.length ) {
 
