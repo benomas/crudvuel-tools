@@ -270,6 +270,65 @@ const cvCaseFixer = function(path,text = '') {
   return text
 }
 
+const cvNumberToAbc = function (n=null) {
+  if (n == null)
+    return ''
+
+  let ordA = 'a'.charCodeAt(0)
+  let ordZ = 'z'.charCodeAt(0)
+  let len = ordZ - ordA + 1
+  let s = ''
+
+  while(n >= 0) {
+      s = String.fromCharCode(n % len + ordA) + s
+      n = Math.floor(n / len) - 1
+  }
+
+  return s
+}
+
+const cvRomanize = function(n=null) {
+  if (n == null)
+    return ''
+
+  if (isNaN(n))
+      return '';
+
+  let lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1}
+  let roman = ''
+  let i
+
+  for ( i in lookup ) {
+    while ( n >= lookup[i] ) {
+      roman += i
+      n -= lookup[i]
+    }
+  }
+
+  return roman
+}
+
+const cvEnumerator = function(codeHook = null, position = null) {
+  if (codeHook == null && position == null)
+    return ''
+
+  switch (codeHook) {
+    case 'abc':
+      return `${cvNumberToAbc(position)}) `
+
+    case '123':
+      return `${position + 1}) `
+
+    case 'I,II,III':
+      return `${cvRomanize(position + 1)}) `
+
+    case '':
+      return ''
+  }
+
+  return ''
+}
+
 export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64,
   cvCamelCase,cvSlugCase,cvKebabCase,cvSnakeCase,cvStudlyCase,cvSingularCase,
-  cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer}
+  cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,cvNumberToAbc,cvRomanize,cvEnumerator}
