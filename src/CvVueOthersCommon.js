@@ -1,8 +1,8 @@
-import {mySubString,myReplace,cvF,cvFixDotDepth}    from 'crudvuel-tools/src/cvHelper'
+import {mySubString,myReplace,cvF,cvFixDotDepth}          from 'crudvuel-tools/src/cvHelper'
 import {split,camelCase,get,capitalize,upperFirst,round}  from 'lodash'
-import CvPermissionComponent                        from 'crudvuel/components/CvPermissionComponent'
-import cvCanAccess                                  from 'crudvuel/directives/cvCanAccess'
-import { mapActions }                               from 'vuex'
+import CvPermissionComponent                              from 'crudvuel/components/CvPermissionComponent'
+import cvCanAccess                                        from 'crudvuel/directives/cvCanAccess'
+import { mapActions }                                     from 'vuex'
 
 export default function (store,staticMixin = {}) {
   return {
