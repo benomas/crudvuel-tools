@@ -1,5 +1,5 @@
 <template>
-  <div :class="{...cpDinInsActionClasses,...{'q-px-md':cGtsm}}" class="q-pa-sm" >
+  <div :class="{...cpDinInsActionClasses,...{'q-px-md':cGtsm}}" class="q-pa-xs" >
     <transition name="component-fade" mode="out-in" >
       <cv-spinner v-if="!cdReady" >
       </cv-spinner>
