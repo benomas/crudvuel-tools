@@ -329,6 +329,45 @@ const cvEnumerator = function(codeHook = null, position = null) {
   return ''
 }
 
+const mIsArray = function(arrayData = null){
+  return Object.prototype.toString.call( arrayData ) === '[object Array]'
+}
+
+const mLastArrayPosition = function (arrayData = null) {
+  if (!arrayData || !mIsArray(arrayData) || !arrayData.length)
+    return null
+
+  return arrayData.length -1
+}
+
+const mSwitchArrayPosition = function (arrayData = null,position1 = null, position2 = null){
+  if(position1 === null || position2 === null || arrayData === null || !mIsArray(arrayData))
+    return null
+
+  if(arrayData[position1] === null || arrayData[position2] === null || !arrayData.length)
+    return arrayData
+
+  let tempPosition = arrayData[position1]
+  arrayData[position1] = arrayData[position2]
+  arrayData[position2] = tempPosition
+
+  return arrayData
+}
+
+const mMoveItemUp = function (arrayData = null,position = null){
+  if (position == null)
+    return arrayData
+
+  return mSwitchArrayPosition(arrayData,position,position-1)
+}
+
+const mMoveItemDown = function (arrayData = null,position = null){
+  if (position == null)
+    return arrayData
+
+  return mSwitchArrayPosition(arrayData,position,position+1)
+}
+
 export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64,
   cvCamelCase,cvSlugCase,cvKebabCase,cvSnakeCase,cvStudlyCase,cvSingularCase,
-  cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,cvNumberToAbc,cvRomanize,cvEnumerator}
+  cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,cvNumberToAbc,cvRomanize,cvEnumerator,mIsArray,mLastArrayPosition,mSwitchArrayPosition,mMoveItemUp,mMoveItemDown}
