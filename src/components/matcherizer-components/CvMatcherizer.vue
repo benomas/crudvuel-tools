@@ -56,6 +56,7 @@ export default {
       '[D|EM]listLeave'                  : false,
       //unconfirmed
       '[P]dinInsSourceService'           : null,
+      '[P]dinInsSourceServiceParams'     : [null,null],
       '[P]staInsLocalData'               : null,
       '[P]dinInsKeyLoading'              : false,
       '[P]dinInsItemClass'               : 'col my-auto',
@@ -274,7 +275,7 @@ export default {
 
     mRefreshSource () {
       if (this.cRequireNewRemoteSearch){
-        return this.cpDinInsSourceService(null,null,this.cPaginator)
+        return this.cpDinInsSourceService(...this.cpDinInsSourceServiceParams,this.cPaginator)
           .then(response => {
             this.emDinInsDataLoadedEmitter(response)
             this.emDinInsLoadingEmitter(false)
