@@ -15,8 +15,12 @@ export default class CvCrudService {
     this.FileSaver      = FileSaver
   }
 
+  getBaseUrl (additionalSegment = null) {
+    return `api${additionalSegment || ''}`
+  }
+
   getRelBaseUrl (additionalSegment = null) {
-    return `api${additionalSegment || ''}${this.resourcePrefix }${this.resourceName}`
+    return `${this.getBaseUrl(additionalSegment)}${this.resourcePrefix }${this.resourceName}`
   }
 
   getAbsBaseUrl () {
