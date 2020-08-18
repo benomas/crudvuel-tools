@@ -24,8 +24,13 @@ export default {
 
   methods: {
     mComponentInitialize () {
-      if (this.cHasActiveField && this.row == null)
-        this.mSetRow({active: 1})
+      if(this.row == null){
+        if (this.cHasActiveField)
+          this.mSetRow({active: 1})
+        else
+          this.mSetRow({})
+      }
+
       return new Promise((resolve, reject) => {
         this.mSetReady()
         resolve()

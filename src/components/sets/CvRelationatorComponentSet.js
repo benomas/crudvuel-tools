@@ -1,4 +1,3 @@
-import {camelCase}   from 'lodash'
 import VueMirroring  from 'crudvuel-tools/src/mirroring/VueMirroring'
 
 export default {
@@ -11,14 +10,14 @@ export default {
   computed: {
     cpStaInsResource () {
       if (this.cvStaInsResource != null)
-        return this.mResourceAccessing(this.cvStaInsResource)
+        return this.mResourceAccessing(this.mCaseFixer('camel',this.cvStaInsResource))
 
       const found = [...this.componentBindingTag.matchAll(/^(cv-relate-to-)(.+?)(-skeleton)$/gi)]
 
       if (!found || found[0] == null || found[0][2] == null || found[0][2] === '')
         return null
 
-      return this.mResourceAccessing(camelCase(found[0][2]))
+      return this.mResourceAccessing(this.mCaseFixer('camel',found[0][2]))
     },
 
     cRelatedBindingTag () {
