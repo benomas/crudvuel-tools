@@ -240,7 +240,14 @@ export default {
       this.mDelayer(this.cpStaInsSyncTime).then(()=>{
         let node = this.cFilterReferenceNode
 
-        if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner')){
+        if (
+          node &&
+          this.$refs &&
+          this.$refs.filterReference &&
+          this.$refs.filterReference.offsetParent &&
+          this.$refs.filterReference.offsetParent.classList &&
+          this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner')
+        ){
           this.mSetScrollTopFix(node.scrollTop)
         }
         else
