@@ -11,8 +11,15 @@
           >
           {{cFilteredAvailableSource.length}} / {{cAvailableSource.length}} / {{cpDinInsSource.length}}
         </q-chip>
+        <q-btn
+          round
+          size="xs"
+          class="bg-info-l-93 txt-info-l-54"
+          icon="fas fa-plus"
+          @click="mPushAllRight()"
+        />
         <cv-simple-filter
-          class="w-100"
+          class=""
           v-bind="mCustomBindins('cv-simple-filter-source')"
           v-on="mCustomOns('cv-simple-filter-source')"
           :cv-din-ins-disable-fields="cpDinGenDisableFields"
@@ -52,6 +59,13 @@
           color="positive" class="txt-white">
           {{cFilteredAvailableRelated.length}} / {{cpDinInsRelated.length}} / {{cpDinInsSource.length}}
         </q-chip>
+        <q-btn
+          round
+          size="xs"
+          class="bg-info-l-93 txt-info-l-54"
+          icon="fas fa-plus"
+          @click="mPushAllLeft()"
+        />
         <cv-simple-filter
           class="w-100"
           v-bind="mCustomBindins('cv-simple-filter-related')"
@@ -92,7 +106,7 @@ import CvRelationator               from 'crudvuel-tools/src/components/input-co
 import CvComponentExtraSet          from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvResourceComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvResourceComponentExtraSet'
 import CvSimpleFilter               from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
-import {QIcon,QChip,QBadge}         from 'quasar'
+import {QIcon,QChip,QBadge,QBtn}     from 'quasar'
 import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Relationator')
 
@@ -111,7 +125,8 @@ export default {
     CvSimpleFilter,
     QIcon,
     QChip,
-    QBadge
+    QBadge,
+    QBtn
   }
 }
 </script>

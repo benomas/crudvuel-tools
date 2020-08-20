@@ -10,7 +10,7 @@ import CvComponentSet             from 'crudvuel-tools/src/components/sets/CvCom
 import CvResourceComponentSet     from 'crudvuel-tools/src/components/sets/CvResourceComponentSet'
 import CvSimpleFilter             from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import {mySubString}              from 'crudvuel-tools/src/cvHelper'
-import {concat,indexOf,parseInt}  from 'lodash'
+import {concat,indexOf,parseInt,without}  from 'lodash'
 import VueMirroring               from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Relationator')
 
@@ -132,12 +132,17 @@ export default {
     },
 
     cRelatedAttach () {
+      /*return without([...this.cpDinInsRelated],[...this.cpDinInsInitialRelated])
+      */
       if (this.cpDinInsHasOrder === true)
         return this.mDifference(this.cpDinInsRelated,this.cpDinInsInitialRelated,this.cKeyName,'order')
       return this.mDifference(this.cpDinInsRelated,this.cpDinInsInitialRelated,this.cKeyName)
     },
 
     cRelatedDetach () {
+      /*
+      return without([...this.cpDinInsInitialRelated],[...this.cAvailableSource])
+      */
       if (this.cpDinInsHasOrder)
         return this.mDifference(this.cpDinInsInitialRelated,this.cpDinInsRelated,this.cKeyName,'order')
       return this.mDifference(this.cpDinInsInitialRelated,this.cpDinInsRelated,this.cKeyName)
@@ -201,7 +206,8 @@ export default {
 
       if (position == null){
         let newRow = {...row,...{order:this.cpDinInsRelated.length + 1}}
-        this.emDinInsRelatedEmitter(concat(this.cpDinInsRelated,newRow).sort(this.cpDinInsRelatedSortCallBack))
+        //this.emDinInsRelatedEmitter(concat(this.cpDinInsRelated,newRow).sort(this.cpDinInsRelatedSortCallBack))
+        this.emDinInsRelatedEmitter(concat(this.cpDinInsRelated,newRow))
       }
 
       else{
@@ -219,7 +225,8 @@ export default {
           }
           newRelated.push({...this.cpDinInsRelated[i-1],...{order:i+2}})
         }
-        this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
+        //this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
+        this.emDinInsRelatedEmitter(newRelated)
       }
 
       return this
@@ -228,8 +235,10 @@ export default {
     mRemoveRelated: function (row) {
       if (this.cDisableFields)
         return false
+
       let newRelated = []
       let i = 1
+
       if (this.cpDinInsHasOrder){
         for (const related of this.cpDinInsRelated){
           if (row.order > related.order)
@@ -244,7 +253,8 @@ export default {
           if (row[this.cKeyName] !== related[this.cKeyName])
             newRelated.push({...related,...{order:i++}})
       }
-      this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
+      //this.emDinInsRelatedEmitter(newRelated.sort(this.cpDinInsRelatedSortCallBack))
+      this.emDinInsRelatedEmitter(newRelated)
       return this
     },
 
@@ -391,7 +401,27 @@ export default {
           return item
       }
       return null
+    },
+
+    mPushAllRight(){
+      if (this.cDisableFields)
+        return false
+
+      let rows = []
+      for (const row of this.cFilteredAvailableSource)
+        rows.push({...row,...{order:this.cpDinInsRelated.length + 1}})
+
+      this.emDinInsRelatedEmitter(concat(this.cpDinInsRelated,rows).sort(this.cpDinInsRelatedSortCallBack))
+
+      return this
+    },
+
+    mPushAllLeft(){
+      this.emDinInsRelatedEmitter(without(this.cpDinInsRelated,...this.cFilteredAvailableRelated).sort(this.cpDinInsRelatedSortCallBack))
+
+      return this
     }
   }
 }
 </script>
+
