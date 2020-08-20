@@ -3,10 +3,11 @@ import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
     new VueMirroring().fixProperties({
-      '[P]dinGenKeyName'  : 'id',
-      '[P]dinGenKeyValue' : null,
-      '[P]staInsRow'      : {},
-      '[P]staInsErrors'   : {}
+      '[P]dinGenKeyName'      : 'id',
+      '[P]dinGenKeyValue'     : null,
+      '[P]staInsRow'          : {},
+      '[P]staInsErrors'       : {},
+      '[D]disableActionReady' : false
     })
   ],
 
@@ -50,6 +51,9 @@ export default {
     },
 
     cActionReady () {
+      if(this.cdDisableActionReady)
+        return false
+
       if (this.cdAction.name === 'create')
         return true
 

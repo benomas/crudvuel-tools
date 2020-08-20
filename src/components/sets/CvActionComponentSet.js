@@ -75,8 +75,10 @@ export default {
         this.$set(this,'row',{})
 
       if (this.cResource.filler != null){
+        this.mSetDisableActionReady(true)
         this.cResource.filler().then(row => {
           this.mSetRow({...row})
+          this.mSetDisableActionReady(false)
         })
       }
       else{
