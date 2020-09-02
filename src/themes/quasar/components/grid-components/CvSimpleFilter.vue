@@ -15,7 +15,6 @@
       :bg-color="cpDinInsBgColor"
       :outlined="!cpDinInsDisableFields"
       :clearable="!cpDinInsDisableFields"
-      :disable="cpDinInsDisableFields"
       :readonly="cpDinInsDisableFields"
       :hide-underline="cpDinInsDisableFields"
       :hide-bottom-space="true"
