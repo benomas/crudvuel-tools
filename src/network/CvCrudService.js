@@ -195,4 +195,14 @@ export default class CvCrudService {
       params || {}
     )
   }
+
+  //spected params: params,url,qString
+  newShow (id,params={},config={}) {
+    return this.mGetStCvComunicator().axios.get(`${this.getRelBaseUrl()}/${id}${this.fixQueryString(params)}`,config)
+  }
+
+  //spected params: params,url,qString
+  newIndex (params={},config={}) {
+    return this.mGetStCvComunicator().axios.get(`${this.getRelBaseUrl()}${this.fixQueryString(params)}`,config)
+  }
 }
