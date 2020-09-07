@@ -13,6 +13,7 @@
           </label>
         </div>
       </div>
+
       <div slot="cv-content-slot">
         <div>
           <cv-adaptive-grid-index
@@ -29,21 +30,25 @@
                 <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'cv_search'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-20">
+
+              <th v-cv-page-opt="'cv_search'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25">
                 {{ mfLang('cv_search') }}
                 <cv-order-icons cv-sta-ins-row-field="cv_search" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-10">
+
+              <th v-cv-page-opt="'name'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-15">
                 {{ mfLang('name') }}
                 <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
-              <th v-cv-page-opt="'description'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-25">
+
+              <th v-cv-page-opt="'description'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-35">
                 {{ mfLang('description') }}
                 <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
               </th>
+
               <th v-cv-page-opt="'active'" class="cv-orderable cv-filterable cv-selectable t-left t-middle w-8" ref="headers">
                 {{ mfLang('active') }}
                 <cv-order-icons cv-sta-ins-row-field="active" v-bind="mCustomBindins('cv-order-icons')">
@@ -60,6 +65,7 @@
                   >
                   </cv-simple-field-filter>
                 </td>
+
                 <td>
                   <cv-simple-field-filter
                     v-bind="mCustomBindins('cv-simple-field-filter')"
@@ -68,6 +74,7 @@
                   >
                   </cv-simple-field-filter>
                 </td>
+
                 <td>
                   <cv-simple-field-filter
                     v-bind="mCustomBindins('cv-simple-field-filter')"
@@ -76,6 +83,7 @@
                   >
                   </cv-simple-field-filter>
                 </td>
+
                 <td>
                   <cv-simple-field-filter
                     v-bind="mCustomBindins('cv-simple-field-filter')"
@@ -84,27 +92,34 @@
                   >
                   </cv-simple-field-filter>
                 </td>
+
                 <td class="t-center">
                 </td>
+
                 <td class="t-center">
                 </td>
               </tr>
             </template>
             <template v-if="1" slot="table-properties-slot" slot-scope="props">
               <td>{{props.slotRow.id}}</td>
+
               <td>{{props.slotRow.cv_search}}</td>
+
               <td>{{props.slotRow.name}}</td>
+
               <td>{{props.slotRow.description}}</td>
             </template>
             <!-- cv-grid-extra-actions-->
             <template v-if="1" slot="table-extra-actions-slot">
             </template>
+
             <template v-if="1" slot="flexi-grind-headers-slot">
               <div v-cv-page-opt="'id'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
                 <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
                 {{ mfLang('id') }}
               </div>
+
               <div class="col-xs-12">
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
@@ -114,11 +129,13 @@
                 >
                 </cv-simple-field-filter>
               </div>
+
               <div v-cv-page-opt="'cv_search'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
                 <cv-order-icons cv-sta-ins-row-field="cv_search" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
                 {{ mfLang('cv_search') }}
               </div>
+
               <div class="col-xs-12">
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
@@ -128,11 +145,13 @@
                 >
                 </cv-simple-field-filter>
               </div>
+
               <div v-cv-page-opt="'name'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
                 <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
                 {{ mfLang('name') }}
               </div>
+
               <div class="col-xs-12">
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"
@@ -142,11 +161,13 @@
                 >
                 </cv-simple-field-filter>
               </div>
+
               <div v-cv-page-opt="'description'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
                 <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
                 {{ mfLang('description') }}
               </div>
+
               <div class="col-xs-12">
                 <cv-simple-field-filter
                   v-if="cEnableSimpleFieldFilter"

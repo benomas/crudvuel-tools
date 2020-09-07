@@ -16,7 +16,7 @@
                 <span v-if="cpDinInsShowTopActionLang" class="q-mr-sm">{{ $tc('crudvuel.actions') }}</span>
 
                 <q-btn
-                  class="q-mx-xs bg-info-l-90 txt-info-l-66"
+                  class="q-ma-xs bg-info-l-90 txt-info-l-66"
                   icon="fas fa-sync"
                   @click="(()=>emDinGenMsyncEmitter())"
                   round
@@ -31,7 +31,7 @@
                 <q-btn
                   v-if="!mExcludeAction('exportings')"
                   v-cv-can-access="'action:exportings'"
-                  class="q-mx-xs bg-positive-l-90 txt-positive-l-45"
+                  class="q-ma-xs bg-positive-l-90 txt-positive-l-45"
                   icon="far fa-file-excel"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
                   round
@@ -46,7 +46,7 @@
                 <q-btn
                   v-if="!mExcludeAction('create')"
                   v-cv-can-access="'action:create'"
-                  class="q-mx-xs bg-secondary-l-90 txt-secondary-l-66"
+                  class="q-ma-xs bg-secondary-l-90 txt-secondary-l-66"
                   icon="fas fa-plus"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                   round
@@ -116,13 +116,13 @@
                 </div>
               </td>
 
-              <td class="t-center t-middle" v-if="cpDinInsShowTableActions">
+              <td class="t-left t-middle" v-if="cpDinInsShowTableActions">
                 <q-btn
                   v-if="!mExcludeAction('show')"
                   v-cv-can-access="'action:show'"
                   icon="icon-ver"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
-                  class="q-mx-xs bg-info-l-90 txt-info-l-45"
+                  class="q-ma-xs bg-info-l-90 txt-info-l-45"
                   round
                   size="sm"
                   :title="mResorceAction('show').label"
@@ -137,7 +137,7 @@
                   v-cv-can-access="'action:edit'"
                   icon="icon-editar"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'edit',row:gridRow}))"
-                  class="bg-positive-l-90 txt-positive-l-45 q-mx-xs"
+                  class="bg-positive-l-90 txt-positive-l-45 q-ma-xs"
                   round
                   size="sm"
                   :title="mResorceAction('edit').label"
@@ -152,7 +152,7 @@
                   v-cv-can-access="'action:delete'"
                   icon="icon-borrar"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'delete',row:gridRow}))"
-                  class="bg-negative-l-90 txt-negative-l-45 q-mx-xs"
+                  class="bg-negative-l-90 txt-negative-l-45 q-ma-xs"
                   round
                   size="sm"
                   :title="mResorceAction('delete').label"
@@ -173,7 +173,7 @@
               <slot  name="flexi-grind-header-create-slot">
                 <div class="w-100 t-right">
                   <q-btn
-                    class="q-mx-xs bg-info-l-90 txt-info-l-66"
+                    class="q-ma-xs bg-info-l-90 txt-info-l-66"
                     icon="fas fa-sync"
                     @click="(()=>emDinGenMsyncEmitter())"
                     round
@@ -188,7 +188,7 @@
                   <q-btn
                     v-if="!mExcludeAction('exportings')"
                     v-cv-can-access="'action:exportings'"
-                    class="q-mx-xs bg-positive-l-90 txt-positive-l-45"
+                    class="q-ma-xs bg-positive-l-90 txt-positive-l-45"
                     icon="fas fa-file-excel"
                     @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
                     round
@@ -203,7 +203,7 @@
                   <q-btn
                     v-if="!mExcludeAction('create')"
                     v-cv-can-access="'action:create'"
-                    class="q-mx-xs bg-secondary-l-90 txt-secondary-l-66"
+                    class="q-ma-xs bg-secondary-l-90 txt-secondary-l-66"
                     icon="fas fa-plus"
                     @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                     round
