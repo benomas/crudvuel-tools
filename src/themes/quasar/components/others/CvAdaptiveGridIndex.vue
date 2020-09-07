@@ -12,8 +12,21 @@
               <slot name="headers-slot" >
               </slot>
 
-              <th class="t-center t-middle" v-if="cpDinInsShowTableActions">
+              <th class="t-center t-middle mnw-220px" v-if="cpDinInsShowTableActions">
                 <span v-if="cpDinInsShowTopActionLang" class="q-mr-sm">{{ $tc('crudvuel.actions') }}</span>
+
+                <q-btn
+                  class="q-mx-xs bg-info-l-90 txt-info-l-66"
+                  icon="fas fa-sync"
+                  @click="(()=>emDinGenMsyncEmitter())"
+                  round
+                  size="sm"
+                  :title="mComLang('refresh','Recargar')"
+                >
+                  <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-66 f-rem-2">
+                    {{mComLang('refresh','Recargar')}}
+                  </q-tooltip>
+                </q-btn>
 
                 <q-btn
                   v-if="!mExcludeAction('exportings')"
@@ -159,6 +172,18 @@
             <div class="row w-100 q-mb-md" v-if="cpDinInsShowTableActions">
               <slot  name="flexi-grind-header-create-slot">
                 <div class="w-100 t-right">
+                  <q-btn
+                    class="q-mx-xs bg-info-l-90 txt-info-l-66"
+                    icon="fas fa-sync"
+                    @click="(()=>emDinGenMsyncEmitter())"
+                    round
+                    size="sm"
+                    :title="mComLang('refresh','Recargar')"
+                  >
+                    <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-45 f-rem-2">
+                    {{mComLang('refresh','Recargar')}}
+                    </q-tooltip>
+                  </q-btn>
 
                   <q-btn
                     v-if="!mExcludeAction('exportings')"

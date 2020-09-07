@@ -56,8 +56,10 @@ export default {
   methods:{
     emDinInsSearchProccesor (emitted = null){
       this.mSetLastEmission(emitted)
+
       if (emitted == null || emitted === '')
         this.mSetPreventDebounce(true)
+
       return new Promise ((resolve, reject) => {
         if (this.cdPreventDebounce){
           this.mSetPreventDebounce(false)
