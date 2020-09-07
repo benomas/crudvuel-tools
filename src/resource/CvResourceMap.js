@@ -36,10 +36,14 @@ export default class CvResourceMap extends CvClass {
   addChild (childResource) {
     if (!this.children)
       this.children = []
+
     this.children.push(childResource)
+
     if (this.defError(!this.parentRouteAction ? "resource needs to have a parentRouteAction where the children route will be append" : null))
       return this
+
     this.routes[this.parentRouteAction.position].children = childResource.getRoutes()
+
     return this
   }
 
@@ -69,23 +73,29 @@ export default class CvResourceMap extends CvClass {
       actionOptions.parentRoute = false
 
     let newAction = new CvActionMap(actionOptions)
+
     if (newAction.validAction() != null ) {
       newAction.setRoute()
+
       if (newAction.getRoute()) {
         newAction.setPosition(this.routes.length)
         this.routes.push(newAction.getRoute())
       }
+
       this.actions[newAction.name] = newAction
       this.actionsKeys.push(newAction.name)
+
       if (newAction.isParentRoute)
         this.parentRouteAction = newAction
     }
+
     return this
   }
 
   setActions (actionsOptions) {
     for (let i=0 ; i < actionsOptions.length; i++)
       this.addAction(actionsOptions[i])
+
     return this
   }
 

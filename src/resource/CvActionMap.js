@@ -61,8 +61,10 @@ export default class CvResourceMap extends CvClass {
   setRoute () {
     if (this.path !== undefined && this.component !== undefined && this.component) {
       let props = { cvStaGenAction:this}
+
       if(typeof this.props === 'object')
         props = {...props,...this.props}
+
       this.actionRoute = {
         name      : `${this.resource.name}.${this.name}`,
         path      : this.path,
@@ -83,11 +85,13 @@ export default class CvResourceMap extends CvClass {
 
     let fixedParams = {}
     let fixed=false
+
     for (let i=0 ;i<this.urlParams.length; i++)
       if (data[this.urlParams[i]]!==undefined) {
         fixedParams[this.urlParams[i]] = data[this.urlParams[i]]
         fixed = true
       }
+
     return fixed ? fixedParams : null
   }
 
@@ -103,8 +107,10 @@ export default class CvResourceMap extends CvClass {
     let urlParams = Object.keys(fixedParams)
 
     let fixedPath = this.path
+
     for (let i=0; i< urlParams.length; i++)
       fixedPath = fixedPath.replace(":"+urlParams[i],fixedParams[urlParams[i]])
+
     return fixedPath
   }
 
