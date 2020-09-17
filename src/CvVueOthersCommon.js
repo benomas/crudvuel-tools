@@ -212,6 +212,10 @@ export default function (store,staticMixin = {}) {
         store.getters.cStCurrentCvRouter.routeRedirectToLoguedStart()
       },
 
+      mRandomKey () {
+        return Math.random() * 100000000000000000
+      },
+
       mCaseFixer:cvCaseFixer,
 
       ...mapActions(Object.keys(store._actions)),

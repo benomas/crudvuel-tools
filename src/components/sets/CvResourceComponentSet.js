@@ -168,6 +168,13 @@ export default {
         return null
 
       return this.mResourceAccessing(this.mCaseFixer('camel',found[0][1]))
+    },
+
+    cCamelResource(){
+      if (!this.cpStaInsResource || !this.cpStaInsResource.pluralName)
+        return ''
+
+      return this.mCaseFixer('camel',this.cpStaInsResource.pluralName)
     }
   },
 
