@@ -368,6 +368,16 @@ const mMoveItemDown = function (arrayData = null,position = null){
   return mSwitchArrayPosition(arrayData,position,position+1)
 }
 
+const mCvDestructuring = function (data1=null,data2=null){
+  return Array.isArray(data2) ? [...data1,...data2] : {...data1,...data2}
+}
+
+const mCvConditionalDestructuring = function (data1=null,data2=null){
+  return Array.isArray(data2) ? data2 : {...data1,...data2}
+}
+
 export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64,
   cvCamelCase,cvSlugCase,cvKebabCase,cvSnakeCase,cvStudlyCase,cvSingularCase,
-  cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,cvNumberToAbc,cvRomanize,cvEnumerator,mIsArray,mLastArrayPosition,mSwitchArrayPosition,mMoveItemUp,mMoveItemDown}
+  cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,
+  cvNumberToAbc,cvRomanize,cvEnumerator,mIsArray,mLastArrayPosition,mSwitchArrayPosition,
+  mMoveItemUp,mMoveItemDown,mCvDestructuring,mCvConditionalDestructuring}

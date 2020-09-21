@@ -1,6 +1,7 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth,
         mIsArray,mLastArrayPosition,mSwitchArrayPosition,
-        mMoveItemUp,mMoveItemDown,cvCaseFixer}            from 'crudvuel-tools/src/cvHelper'
+        mMoveItemUp,mMoveItemDown,cvCaseFixer,mCvDestructuring,
+        mCvConditionalDestructuring}                      from 'crudvuel-tools/src/cvHelper'
 import {split,camelCase,get,capitalize,upperFirst,round}  from 'lodash'
 import CvPermissionComponent                              from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                        from 'crudvuel/directives/cvCanAccess'
@@ -226,7 +227,9 @@ export default function (store,staticMixin = {}) {
       mLastArrayPosition,
       mSwitchArrayPosition,
       mMoveItemUp,
-      mMoveItemDown
+      mMoveItemDown,
+      mCvDestructuring,
+      mCvConditionalDestructuring
     },
 
     directives: {
