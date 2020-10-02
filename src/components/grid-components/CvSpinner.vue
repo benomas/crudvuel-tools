@@ -10,7 +10,7 @@
         'margin-top'  :cFixedAnimationMarginTop
       }">
       <slot>
-        <img class="animation-img" src="crudvuel-tools/src/assets/spinner.gif">
+        <img class="animation-img" :src="require('crudvuel-tools/src/assets/spinner.gif')">
       </slot>
     </div>
   </div>

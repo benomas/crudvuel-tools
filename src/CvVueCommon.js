@@ -176,6 +176,18 @@ export default class CvVueCommon {
           return true
         },
 
+        cLandscape () {
+          return this.cWindowsWidth>this.cWindowsHeight
+        },
+
+        cPortrait(){
+          return !this.cLandscape
+        },
+
+        cMobile(){
+          return this.$q.platform.is.mobile
+        },
+
         ...mapGetters(Object.keys(store.getters))
       }
     }
