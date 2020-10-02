@@ -36,10 +36,10 @@ for $i in ($sizeIteratorStart..$sizeIteratorEnd)
       width:$percentClassPostFixValue*1% !important
     // max-width:n %
     .mxw-{$percentClassPostFix}
-      width:$percentClassPostFixValue*1% !important
+      max-width:$percentClassPostFixValue*1% !important
     // min-width:n %
     .mnw-{$percentClassPostFix}
-      width:$percentClassPostFixValue*1% !important
+      min-width:$percentClassPostFixValue*1% !important
     // height:n px
     .h-{$absoluteClassPostFix}px
       height:$i*5px !important
@@ -54,10 +54,10 @@ for $i in ($sizeIteratorStart..$sizeIteratorEnd)
           height:$percentClassPostFixValue*1%!important
     // max-width:n %
     .mxh-{$percentClassPostFix}
-          height:$percentClassPostFixValue*1%!important
+      max-height:$percentClassPostFixValue*1%!important
     // min-width:n %
     .mnh-{$percentClassPostFix}
-          height:$percentClassPostFixValue*1%!important
+      min-height:$percentClassPostFixValue*1%!important
   // box sizes
   if $border-sizes-module  == 'enabled'
     if $i < 5
