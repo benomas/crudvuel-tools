@@ -1,7 +1,7 @@
 <template>
   <div >
     <div v-if="cpDinGenActionMode==='route'">
-      <q-page-sticky position="bottom-left" :offset="[0, 0]">
+      <q-page-sticky position="bottom-left" :offset="cGtmd?[35, 15]:cGtsm?[40, 20]:[0,0]">
         <q-btn
           v-if="cpDinGenShowBackButton"
           :size="cBtnSize"
@@ -20,7 +20,7 @@
         </q-btn>
       </q-page-sticky>
 
-      <q-page-sticky position="bottom-right" :offset="[0, 0]">
+      <q-page-sticky position="bottom-right" :offset="cGtmd?[35, 15]:cGtsm?[40, 20]:[0,0]">
         <div class="float-right" >
           <q-btn
             v-if="cpDinGenShowNextButton"
