@@ -188,6 +188,10 @@ export default class CvVueCommon {
           return this.$q.platform.is.mobile
         },
 
+        cQuery (){
+          return this.$route.query
+        },
+
         ...mapGetters(Object.keys(store.getters))
       }
     }
