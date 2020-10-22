@@ -21,7 +21,6 @@
                   @click="(()=>emDinGenMsyncEmitter())"
                   round
                   size="sm"
-                  :title="mComLang('refresh','Recargar')"
                 >
                   <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-66 f-rem-2">
                     {{mComLang('refresh','Recargar')}}
@@ -36,7 +35,6 @@
                   @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
                   round
                   size="sm"
-                  :title="mResorceAction('exportings').label"
                 >
                   <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
                     {{mResorceAction('exportings').label}}
@@ -51,7 +49,6 @@
                   @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                   round
                   size="sm"
-                  :title="mResorceAction('create').label"
                 >
                   <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-66 f-rem-2">
                     {{mResorceAction('create').label}}
@@ -90,7 +87,6 @@
                     class="active-icon f-bold"
                     name="icon-check"
                     color="positive"
-                    :title="mResorceAction('deactivate').label"
                   />
                   <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
                     {{mResorceAction('deactivate').label}}
@@ -108,7 +104,6 @@
                     class="active-icon f-bold"
                     name="icon-cerrar"
                     color="negative"
-                    :title="mResorceAction('activate').label"
                   />
                   <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
                     {{mResorceAction('activate').label}}
@@ -125,7 +120,6 @@
                   class="q-ma-xs bg-info-l-90 txt-info-l-45"
                   round
                   size="sm"
-                  :title="mResorceAction('show').label"
                 >
                   <q-tooltip content-class="bg-info-l-90 txt-info-l-45 f-rem-2">
                     {{mDepthLang('crudvuel.labels.showPrefix')}} {{mResorceAction('show').label}}
@@ -140,7 +134,6 @@
                   class="bg-positive-l-90 txt-positive-l-45 q-ma-xs"
                   round
                   size="sm"
-                  :title="mResorceAction('edit').label"
                 >
                   <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
                     {{mResorceAction('edit').label}}
@@ -155,7 +148,6 @@
                   class="bg-negative-l-90 txt-negative-l-45 q-ma-xs"
                   round
                   size="sm"
-                  :title="mResorceAction('delete').label"
                 >
                   <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
                     {{mResorceAction('delete').label}}
@@ -178,7 +170,6 @@
                     @click="(()=>emDinGenMsyncEmitter())"
                     round
                     size="sm"
-                    :title="mComLang('refresh','Recargar')"
                   >
                     <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-45 f-rem-2">
                     {{mComLang('refresh','Recargar')}}
@@ -193,7 +184,6 @@
                     @click="(()=>emDinGenLaunchActionEmitter({action:'exportings'}))"
                     round
                     size="sm"
-                    :title="mResorceAction('exportings').label"
                   >
                     <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
                       {{mResorceAction('exportings').label}}
@@ -208,7 +198,6 @@
                     @click="(()=>emDinGenLaunchActionEmitter({action:'create'}))"
                     round
                     size="sm"
-                    :title="mResorceAction('create').label"
                   >
                     <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-45 f-rem-2">
                       {{mResorceAction('create').label}}

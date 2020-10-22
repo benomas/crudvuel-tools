@@ -32,7 +32,7 @@ export default {
       '[P]dinInsListOfItemsLimit'        : 20,
       '[P]dinInsValueCallBack'           : null,
       '[P]dinInsLabelCallBack'           : null,
-      '[P|NN]staInsPaglastFilterQuery'   : null,
+      '[P|NN]staInsPagLastFilterQuery'   : null,
       '[P|EM]staInsCurrentItem'          : null,
       '[P]dinGenDisableFields'           : null,
       '[D|M]sourceRows'                  : [],
@@ -86,10 +86,10 @@ export default {
       if (this.cdDinInsLocalData)
         return false
 
-      if (this.cdLastSearch == null || this.cdPaglastFilterQuery == null)
+      if (this.cdLastSearch == null || this.cdPagLastFilterQuery == null)
         return true
 
-      if (this.cdPaglastFilterQuery !== this.cdPagFilterQuery)
+      if (this.cdPagLastFilterQuery !== this.cdPagFilterQuery)
         return true
 
       /*
@@ -303,7 +303,7 @@ export default {
         this.mSetSourceRows(transformedResponse.rows)
         this.mSetSourceCount(transformedResponse.count)
         this.mSetSourcePageCount(transformedResponse.pageCount)
-        this.mSetPaglastFilterQuery({...this.cdPagFilterQuery})
+        this.mSetPagLastFilterQuery({...this.cdPagFilterQuery})
         this.mSetLastSearch(this.cdPagSearchObject)
         resolve(this.mTransformResponse(emitted))
       })
