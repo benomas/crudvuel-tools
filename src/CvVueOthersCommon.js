@@ -35,6 +35,13 @@ export default function (store,staticMixin = {}) {
           return 0
 
         return round (value,decimals)
+      },
+
+      fPercente: function (value = null) {
+        if (value == null)
+          return ` 0%`
+
+        return ` ${value}%`
       }
     },
 
