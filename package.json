@@ -1,6 +1,6 @@
 {
   "name": "crudvuel-tools",
-  "version": "3.0.135",
+  "version": "3.0.136",
   "description": "Vue plugins, with some integrations to quasar, compatible with crudvuel v0.3",
   "main": "./dist/crudvuel-tools.min.js",
   "scripts": {
