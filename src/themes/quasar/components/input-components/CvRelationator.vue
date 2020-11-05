@@ -2,22 +2,28 @@
   <div class="row cv-relator-container">
     <div :class="cpDinInsRelatedContainerClass">
       <hr class="lt-sm border-quaternary">
+
       <div class="t-center">
         <span class="txt-secondary f-weight-400 q-mr-xs">{{cSourceLabel}}:</span>
+
         <q-chip
           v-if="!cDisableFields"
           color="positive"
           class="txt-white"
           >
-          {{cFilteredAvailableSource.length}} / {{cAvailableSource.length}} / {{cpDinInsSource.length}}
+          {{cFilteredAvailableSource.length}} / {{cdAvailableSourceRows.length}} / {{cdSourceRows.length}}
         </q-chip>
+
         <q-btn
           round
           size="xs"
           class="bg-info-l-93 txt-info-l-54"
           icon="fas fa-plus"
-          @click="mPushAllRight()"
+          @click="(()=>{
+            mPushAllRight().mUpdateAvailableSourceRows()
+          })"
         />
+
         <cv-simple-filter
           class=""
           v-bind="mCustomBindins('cv-simple-filter-source')"
@@ -26,7 +32,9 @@
         >
         </cv-simple-filter>
       </div>
+
       <ul
+        v-if="cdReady"
         class="cv-drop-target cv-drop-source list-group"
         :class="['drop-target-uid-' + _uid]"
         :ref="'cv-drop-source-' + _uid"
@@ -36,36 +44,75 @@
         @drop="mOnDrop">
         <li
           class="list-group-item cv-source-item-container"
-          :class="['cv-item-' + row[cKeyName],'drop-target-uid-' + _uid]"
-          v-for="(row, rowKey) in cFilteredAvailableSource"
-          :key="mDinamicIndex(rowKey,row)"
+          :class="['cv-item-' + mSourceRowKey(sourceKey -1),'drop-target-uid-' + _uid]"
+          v-for="sourceKey in cSourceRowsVisualLimit"
+          :key="mDinamicIndex(sourceKey -1,mSourceRow(sourceKey -1))"
           :draggable="cpDinInsDraggeable"
-          :ref="'cv-source-item-' + row[cKeyName]"
-          @dragstart="((e)=>mOnDragStart(e,row,'source',_uid))"
+          :ref="'cv-source-item-' + mSourceRowKey"
+          @dragstart="((e)=>mOnDragStart(e,mSourceRow(sourceKey -1),'source',_uid))"
         >
-          <q-icon v-if="!cDisableFields" name="fas fa-plus-square" class="f-right" @click="mAddRelated(row)"/>
-          <slot name="cv-source-item" :slot-row="row">
-            <span>{{cpDinInsLabelCallBack(row)}}</span>
-          </slot>
+          <div v-if="mSourceRowKey(sourceKey -1)">
+            <q-icon v-if="!cDisableFields" name="fas fa-plus-square" class="f-right" @click="(()=>{
+              mAddRelated(mSourceRow(sourceKey -1)).mUpdateAvailableSourceRows()
+            })"/>
+
+            <slot name="cv-source-item" :slot-row="mSourceRow(sourceKey -1)">
+              <span>{{cpDinInsLabelCallBack(mSourceRow(sourceKey -1))}}</span>
+            </slot>
+          </div>
+
+          <q-skeleton v-else type="rect" />
         </li>
       </ul>
+
+      <div v-else class="q-pa-md bg-grey-l-96 q-mt-md">
+        <div class="q-gutter-md">
+          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+        </div>
+      </div>
+
+      <div class="bg-positive-l-93 q-px-md rounded-borders">
+        <q-slider
+          class="txt-positive"
+          :readonly="cSourceRowsVisualLimit < cdMinimumRowsVisualLimit"
+          :value="cdSourceRowsVisualLimit"
+          @change="val => { sourceRowsVisualLimit = val }"
+          :min="cdMinimumRowsVisualLimit"
+          :max="cdSourceRows.length"
+          :step="cSourceRowsVisualLimitStep"
+          label
+          markers
+          :label-value="`${cLimitListLabel} ${cdSourceRowsVisualLimit}`"
+        />
+      </div>
+
     </div>
     <div :class="cpDinInsRelatedSourceClass">
       <hr class="lt-sm border-quaternary">
+
       <div class="t-center">
         <span class="txt-secondary f-weight-400 q-mr-xs">{{cRelatedLabel}}:</span>
+
         <q-chip
           v-if="!cDisableFields"
           color="positive" class="txt-white">
-          {{cFilteredAvailableRelated.length}} / {{cpDinInsRelated.length}} / {{cpDinInsSource.length}}
+          {{cFilteredAvailableRelated.length}} / {{cdRelatedRows.length}} / {{cdSourceRows.length}}
         </q-chip>
+
         <q-btn
           round
           size="xs"
           class="bg-info-l-93 txt-info-l-54"
           icon="fas fa-plus"
-          @click="mPushAllLeft()"
+          @click="(()=>{
+            mPushAllLeft().mUpdateAvailableSourceRows()
+          })"
         />
+
         <cv-simple-filter
           class="w-100"
           v-bind="mCustomBindins('cv-simple-filter-related')"
@@ -74,7 +121,9 @@
         >
         </cv-simple-filter>
       </div>
+
       <ul
+        v-if="cdReady"
         class="cv-drop-target cv-drop-related list-group"
         :class="['drop-target-uid-' + _uid]"
         :ref="'cv-drop-related-' + _uid"
@@ -84,20 +133,53 @@
         @drop="mOnDrop">
         <li
           class="list-group-item cv-related-item-container q-px-xl"
-          :class="['cv-item-' + row[cKeyName],'drop-target-uid-' + _uid]"
-          v-for="(row, rowKey) in cFilteredAvailableRelated"
-          :key="mDinamicIndex(rowKey,row)"
+          :class="['cv-item-' + mRelatedRowKey(relatedKey -1),'drop-target-uid-' + _uid]"
+          v-for="relatedKey in cRelatedRowsVisualLimit"
+          :key="mDinamicIndex(relatedKey -1,mRelatedRow(relatedKey -1))"
           :draggable="cpDinInsDraggeable"
-          :ref="'cv-related-item-' + row[cKeyName]"
-          @dragstart="((e)=>mOnDragStart(e,row,'related',_uid))"
+          :ref="'cv-related-item-' + mRelatedRowKey(relatedKey -1)"
+          @dragstart="((e)=>mOnDragStart(e,mRelatedRow(relatedKey -1),'related',_uid))"
         >
-          <q-badge v-if="cpDinInsHasOrder" class="q-mr-sm q-mt-xs text-subtitle2" color="info" floating>{{row.order}}</q-badge>
-          <q-icon v-if="!cDisableFields" name="fas fa-minus-square" :class="{'f-left':cGtxs,'f-right':cLtsm}" @click="mRemoveRelated(row)"/>
-          <slot name="cv-related-item" :slot-row="row">
-            <span>{{cpDinInsLabelCallBack(row)}}</span>
-          </slot>
+          <div v-if="mRelatedRowKey(relatedKey -1)">
+            <q-badge  class="q-mr-md q-mt-sm text-subtitle2" color="info" floating>{{1 + mFindItemPosition(mRelatedRow(relatedKey -1),cdRelatedRows)}}</q-badge>
+
+            <q-icon v-if="!cDisableFields" name="fas fa-minus-square" :class="{'f-left':cGtxs,'f-right':cLtsm}" @click="(()=>{
+                mRemoveRelated(mRelatedRow(relatedKey -1)).mUpdateAvailableSourceRows()
+              })"/>
+
+            <slot name="cv-related-item" :slot-row="mRelatedRow(relatedKey -1)">
+              <span>{{cpDinInsLabelCallBack(mRelatedRow(relatedKey -1))}}</span>
+            </slot>
+          </div>
+
+          <q-skeleton v-else type="rect" />
         </li>
       </ul>
+
+      <div v-else class="q-pa-md bg-grey-l-96 q-mt-md">
+        <div class="q-gutter-md">
+          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+        </div>
+      </div>
+
+      <div class="bg-positive-l-93 q-px-md rounded-borders">
+        <q-slider
+          class="txt-positive"
+          :readonly="cRelatedRowsVisualLimit < cdMinimumRowsVisualLimit"
+          :value="cdRelatedRowsVisualLimit"
+          @change="val => { relatedRowsVisualLimit = val }"
+          :min="cdMinimumRowsVisualLimit"
+          :max="cdSourceRows.length"
+          :step="cSourceRowsVisualLimitStep"
+          label
+          markers
+          :label-value="`${cLimitListLabel} ${cdRelatedRowsVisualLimit}`"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -106,7 +188,7 @@ import CvRelationator               from 'crudvuel-tools/src/components/input-co
 import CvComponentExtraSet          from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvResourceComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/sets/CvResourceComponentExtraSet'
 import CvSimpleFilter               from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
-import {QIcon,QChip,QBadge,QBtn}     from 'quasar'
+import {QIcon,QChip,QBadge,QBtn,QSkeleton,QSlider}     from 'quasar'
 import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Relationator')
 
@@ -126,7 +208,9 @@ export default {
     QIcon,
     QChip,
     QBadge,
-    QBtn
+    QBtn,
+    QSkeleton,
+    QSlider
   }
 }
 </script>

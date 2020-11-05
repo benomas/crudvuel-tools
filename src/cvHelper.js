@@ -376,8 +376,12 @@ const mCvConditionalDestructuring = function (data1=null,data2=null){
   return Array.isArray(data2) ? data2 : {...data1,...data2}
 }
 
+const myLightSubString = function (text = '',search = '') {
+  return cvLowerCase(text).includes(cvLowerCase(trim(search)))
+}
+
 export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64,
   cvCamelCase,cvSlugCase,cvKebabCase,cvSnakeCase,cvStudlyCase,cvSingularCase,
   cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,
   cvNumberToAbc,cvRomanize,cvEnumerator,mIsArray,mLastArrayPosition,mSwitchArrayPosition,
-  mMoveItemUp,mMoveItemDown,mCvDestructuring,mCvConditionalDestructuring}
+  mMoveItemUp,mMoveItemDown,mCvDestructuring,mCvConditionalDestructuring,myLightSubString}
