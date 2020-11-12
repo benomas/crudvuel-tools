@@ -19,21 +19,21 @@ export default {
     CvComponentSet,
     CvResourceComponentSet,
     vueMirroring.fixProperties({
-      '[D]relatedRowPositions'       : {},
-      '[D]sourceRows'                : [],
-      '[D]relatedRows'               : [],
-      '[D]minimumRowsVisualLimit'    : 10,
-      '[D]sourceRowsVisualLimit'     : 10,
-      '[D]relatedRowsVisualLimit'    : 10,
-      '[D]availableSourceRows'       : [],
-      '[D]originalRelatedRows'       : [],
-      '[P]dinInsRelatedKeyValue'   : null,
-      '[P|EM]dinInsRelatedAttach'  : {},
-      '[P|EM]dinInsRelatedDetach'  : {},
-      '[P]dinInsSourceResource'    : null,
-      '[P]dinInsRelatedResource'   : null,
-      '[P]dinInsDraggeable'        : true,
-      '[P]dinInsSourceService'     : function (paginate = {}) {
+      '[D]relatedRowPositions'          : {},
+      '[D]sourceRows'                   : [],
+      '[D]relatedRows'                  : [],
+      '[D]minimumRowsVisualLimit'       : 10,
+      '[D]sourceRowsVisualLimit'        : 10,
+      '[D]relatedRowsVisualLimit'       : 10,
+      '[D]availableSourceRows'          : [],
+      '[D]originalRelatedRows'          : [],
+      '[P]dinInsRelatedKeyValue'        : null,
+      '[P|EM]dinInsRelatedDetachAttach' : {},
+      //'[P|EM]dinInsRelatedDetach'       : {},
+      '[P]dinInsSourceResource'         : null,
+      '[P]dinInsRelatedResource'        : null,
+      '[P]dinInsDraggeable'             : true,
+      '[P]dinInsSourceService'          : function (paginate = {}) {
         if (this.cvDinInsSourceResource != null){
           let indexService = this.cvDinInsSourceResource.loadService('index')
 
@@ -82,14 +82,6 @@ export default {
         let relatedPosition = this.mFindItemPosition(originalRelatedRow,this.cdRelatedRows)
 
         if (relatedPosition == null)
-          return true
-
-        let originalRelatedPosition = this.mFindItemPosition(originalRelatedRow,this.cdOriginalRelatedRows)
-
-        if (originalRelatedPosition == null)
-          return false
-
-        if(relatedPosition !== originalRelatedPosition)
           return true
 
         return false
@@ -170,7 +162,7 @@ export default {
     },
 
     cFilteredAvailableSource () {
-      return this.mProcessList(this.cdAvailableSourceRows,this.cdRelationatorSimpleFilterSourceSearch).sort(this.cpDinInsSourceSortCallBack)
+      return this.mProcessList(this.cdAvailableSourceRows,this.cdRelationatorSimpleFilterSourceSearch)
     },
 
     cFilteredAvailableRelated () {
@@ -283,14 +275,19 @@ export default {
     mComponentInitialize () {
       return new Promise((resolve, reject) => {
         this.mSetUnReady()
-        //this.emDinInsRelatedAttachEmitter([])
+        this.emDinInsRelatedDetachAttachEmitter({detach:[],attach:[]})
         //this.emDinInsRelatedDetachEmitter([])
         this.cpDinInsSourceService(this.cpDinInsSourcePaginate)
           .then(response1 => {
-            this.mSetSourceRows(this.mIndexResponse(response1).rows)
+            this.mSetSourceRows(this.mIndexResponse(response1).rows.sort(this.cpDinInsSourceSortCallBack))
             this.cpDinInsRelatedService(this.cpDinInsRelatedPaginate)
               .then(response2 => {
-                this.mSetRelatedRows(this.mIndexResponse(response2).rows).mSetOriginalRelatedRows([...this.cdRelatedRows]).mUpdateAvailableSourceRows()
+                let temp = []
+
+                for (const tempRow of this.mIndexResponse(response2).rows)
+                  temp.push({...tempRow})
+
+                this.mSetRelatedRows(this.mIndexResponse(response2).rows).mSetOriginalRelatedRows(temp).mUpdateAvailableSourceRows()
                 resolve()
                 this.mSetReady()
               })
@@ -306,42 +303,64 @@ export default {
       })
     },
 
-    mAddRelated: function (row,position = null) {
+    mAddRelated: function (row,position = null,sync = true) {
       if (this.cDisableFields || !this.cKeyName || row[this.cKeyName] == null)
         return this
 
       if(position == null)
         position = this.cdRelatedRows.length
 
-      this.relatedRows.splice(position, 0, row)
+      this.relatedRows.splice(position, 0, {...row,related_order:position + 1})
+
+      for(let i = position; i < this.relatedRows.length; i++)
+        this.relatedRows[i].related_order = i + 1
+
+      if(!sync)
+        return this
 
       return this.mReloadAttachDetach()
     },
 
-    mRemoveRelated: function (row) {
+    mRemoveRelated: function (row,sync = true) {
       if (this.cDisableFields || !this.cKeyName || row[this.cKeyName] == null)
         return this
 
       let position = this.mFindItemPosition(row,this.cdRelatedRows)
 
-      if(position != null)
+      if(position != null){
         this.relatedRows.splice(position, 1)
+
+        for(let i = position; i < this.relatedRows.length; i++)
+          this.relatedRows[i].related_order = i + 1
+      }
+
+      if(!sync)
+        return this
 
       return this.mReloadAttachDetach()
     },
 
-    mSwitchRelated: function (from,to) {
+    mSwitchRelated: function (from = null,to = null) {
       if (this.cDisableFields)
         return false
 
-      let fromPosition = this.mFindItemPosition(from,this.cdRelatedRows)
-      let toPosition   = this.mFindItemPosition(to,this.cdRelatedRows)
+      let fromPosition = from ? this.mFindItemPosition(from,this.cdRelatedRows) : 0
+      let toPosition   = to ? this.mFindItemPosition(to,this.cdRelatedRows) : this.cdRelatedRows.length
 
       if(fromPosition == null && toPosition == null)
         return null
 
-      this.relatedRows.splice(fromPosition, 1,to)
-      this.relatedRows.splice(toPosition, 1,from)
+      if(from)
+        from.related_order = toPosition + 1
+
+      if(to)
+        to.related_order = fromPosition + 1
+
+      this.relatedRows.splice(fromPosition, 1)
+      this.relatedRows.splice(toPosition, 0,from)
+
+      for(let i = Math.min(fromPosition, toPosition); i < this.relatedRows.length; i++)
+        this.relatedRows[i].related_order = i +1
 
       return this.mReloadAttachDetach()
     },
@@ -406,13 +425,18 @@ export default {
         if (this.cdCurrentDraggedItem.from === 'source') {
           let position = null
 
-          if (this.cdDraggedItemOver && this.cdDraggedItemOver.row != null){
+          if (this.cdDraggedItemOver != null && this.cdDraggedItemOver.row != null){
             position = this.mFindItemPosition(this.cdDraggedItemOver.row,this.cdRelatedRows)
           }
 
           this.mAddRelated(this.cdCurrentDraggedItem.row,position).mUpdateAvailableSourceRows()
         }else{
-          this.mSwitchRelated(this.cdCurrentDraggedItem.row,this.cdDraggedItemOver.row)
+          let toRow = null
+
+          if(this.cdDraggedItemOver && this.cdDraggedItemOver.row)
+            toRow = this.cdDraggedItemOver.row
+
+          this.mSwitchRelated(this.cdCurrentDraggedItem.row,toRow)
         }
       }
     },
@@ -508,9 +532,9 @@ export default {
         return this
 
       for (const position in this.cFilteredAvailableSource)
-        this.mAddRelated(this.cFilteredAvailableSource[position])
+        this.mAddRelated(this.cFilteredAvailableSource[position],this.cdRelatedRows.length,false)
 
-      return this
+      return this.mReloadAttachDetach()
     },
 
     mPushAllLeft(){
@@ -521,14 +545,16 @@ export default {
         return this
 
       while(this.cFilteredAvailableRelated != null && this.cFilteredAvailableRelated.length)
-        this.mRemoveRelated(this.cFilteredAvailableRelated[0])
+        this.mRemoveRelated(this.cFilteredAvailableRelated[0],false)
 
-      return this
+      return this.mReloadAttachDetach()
     },
 
     mReloadAttachDetach(){
-      this.emDinInsRelatedDetachEmitter([...this.cdOriginalRelatedRows.filter(item=>this.cpDinInsDetachRowComparatorCallBack(item))])
-      this.emDinInsRelatedAttachEmitter([...this.cdRelatedRows.filter(item=>this.cpDinInsAttachRowComparatorCallBack(item))])
+      this.emDinInsRelatedDetachAttachEmitter({
+        detach:[...this.cdOriginalRelatedRows.filter(item=>this.cpDinInsDetachRowComparatorCallBack(item))],
+        attach:[...this.cdRelatedRows.filter(item=>this.cpDinInsAttachRowComparatorCallBack(item))]
+      })
 
       return this
     }

@@ -38,9 +38,9 @@ export default {
       return {
         'cv-din-ins-related-paginate': {
           paginate: {
-            selectQuery  : ['id','cv_search'],
+            selectQuery  : ['id','cv_search','related_order'],
             byColumn     : 0,
-            orderBy      : 'id',
+            orderBy      : 'related_order',
             ascending    : 1,
             searchMode   : 'cv-simple-paginator',
             searchObject : ''

@@ -1,5 +1,5 @@
 <template>
-  <div class="row cv-relator-container">
+  <div class="row cv-relator-container q-pa-xs bg-grey-l-90">
     <div :class="cpDinInsRelatedContainerClass">
       <hr class="lt-sm border-quaternary">
 
@@ -18,7 +18,7 @@
           round
           size="xs"
           class="bg-info-l-93 txt-info-l-54"
-          icon="fas fa-plus"
+          :icon="cLtsm?'fas fa-angle-double-down':'fas fa-angle-double-right'"
           @click="(()=>{
             mPushAllRight().mUpdateAvailableSourceRows()
           })"
@@ -67,17 +67,17 @@
 
       <div v-else class="q-pa-md bg-grey-l-96 q-mt-md">
         <div class="q-gutter-md">
-          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-84" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-93" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-84" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-93" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-84" animation="pulse-y" />
         </div>
       </div>
 
-      <div class="bg-positive-l-93 q-px-md rounded-borders">
+      <div class="bg-grey-l-96 q-px-md ba-1px border-grey-l-72">
         <q-slider
-          class="txt-positive"
+          class="txt-positive-l-45"
           :readonly="cSourceRowsVisualLimit < cdMinimumRowsVisualLimit"
           :value="cdSourceRowsVisualLimit"
           @change="val => { sourceRowsVisualLimit = val }"
@@ -107,7 +107,7 @@
           round
           size="xs"
           class="bg-info-l-93 txt-info-l-54"
-          icon="fas fa-plus"
+          :icon="cLtsm?'fas fa-angle-double-up':'fas fa-angle-double-left'"
           @click="(()=>{
             mPushAllLeft().mUpdateAvailableSourceRows()
           })"
@@ -158,17 +158,17 @@
 
       <div v-else class="q-pa-md bg-grey-l-96 q-mt-md">
         <div class="q-gutter-md">
-          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-90" animation="pulse-y" />
-          <q-skeleton class="bg-grey-l-87" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-84" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-93" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-84" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-93" animation="pulse-y" />
+          <q-skeleton class="bg-grey-l-84" animation="pulse-y" />
         </div>
       </div>
 
-      <div class="bg-positive-l-93 q-px-md rounded-borders">
+      <div class="bg-white-l-96 q-px-md ba-1px border-grey-l-72">
         <q-slider
-          class="txt-positive"
+          class="txt-positive-l-45"
           :readonly="cRelatedRowsVisualLimit < cdMinimumRowsVisualLimit"
           :value="cdRelatedRowsVisualLimit"
           @change="val => { relatedRowsVisualLimit = val }"
