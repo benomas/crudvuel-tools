@@ -25,9 +25,12 @@ export default {
 
       if(
         this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] != null &&
-        this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] !== 'false' &&
-        this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] !== 0 &&
-        this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] !== false
+        (
+          this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] === 'true' ||
+          this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] === 1 ||
+          this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] === '1' ||
+          this.cdQueryStringJson[this.cpStaInsActivatePopulationFlag] === true
+        )
       )
         this.mAutoPopulateQueryString()
 
