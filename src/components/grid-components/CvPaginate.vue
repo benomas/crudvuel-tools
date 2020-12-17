@@ -144,6 +144,18 @@ export default {
           })
         }
       })
+    },
+
+    mFixedButtonClass (position = null) {
+      if(position == null)
+        return ''
+
+      let length = position.toString().length
+      
+      if(length <= 3)
+        return ''
+
+      return `mnw-${(10 + 10*length)}px`
     }
   }
 }

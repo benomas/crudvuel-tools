@@ -18,7 +18,9 @@
                   v-for="position in cPagesViewRange"
                   :key="position"
                   @click="emDinComCurrentPageEmitter(position)"
-                  class="t-center t-middle bg-secondary-l-90 txt-white">
+                  class="t-center t-middle bg-secondary-l-90 txt-white"
+                  :class="mFixedButtonClass(position)"
+                  >
                   <span class="fs-5">{{position}}</span>
                 </q-btn>
 
@@ -27,6 +29,7 @@
                   size="sm"
                   :key="position"
                   class="bg-secondary txt-white"
+                  :class="mFixedButtonClass(position)"
                   @click="emDinComCurrentPageEmitter(position)">
                   {{position}}
                 </q-btn>
