@@ -1,5 +1,5 @@
 import cvInProgress    from './directives/cvInProgress'
-import CvActionMap     from './resource/CvActionMap'
+import CvActionMap     from './resource/CvActionMap' //comment to force commit
 import CvTag           from './components/CvTag.vue'
 import CvSpinner       from 'src/customs/crudvuel/themes/quasar/components/grid-components/CvSpinner'
 import cvDinDep        from './cvDinDep'
