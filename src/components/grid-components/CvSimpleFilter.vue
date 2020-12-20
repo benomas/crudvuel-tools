@@ -38,6 +38,7 @@ export default {
       '[P]dinInsBgColor'              : 'white',
       '[P]dinInsDisableFields'        : false,
       '[P|EM]dinInsSearch'            : '',
+      '[P]dinInsShowIcon'             : true,
       '[P]dinInsIcon'                 : 'fas fa-search',
       '[P]dinInsIconColor'            : 'info',
       '[P]dinInsIconClass'            : '',

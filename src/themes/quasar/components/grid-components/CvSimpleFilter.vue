@@ -28,7 +28,7 @@
       @mouseover="emDinInsMouseOverEmitter"
       @mouseleave="emDinInsMouseLeaveEmitter"
     >
-      <template v-slot:prepend>
+      <template v-slot:prepend v-if="cpDinInsShowIcon">
         <div :class="cpDinInsIconClass" >
           <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
         </div>
