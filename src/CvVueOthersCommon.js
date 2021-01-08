@@ -5,6 +5,7 @@ import {mySubString,myReplace,cvF,cvFixDotDepth,
 import {split,camelCase,get,capitalize,upperFirst,round}  from 'lodash'
 import CvPermissionComponent                              from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                        from 'crudvuel/directives/cvCanAccess'
+import cvCantAccess                                       from 'crudvuel/directives/cvCantAccess'
 import { mapActions }                                     from 'vuex'
 
 export default function (store,staticMixin = {}) {
@@ -12,7 +13,8 @@ export default function (store,staticMixin = {}) {
     mixins: [
       staticMixin,
       CvPermissionComponent,
-      cvCanAccess
+      cvCanAccess,
+      cvCantAccess
     ],
 
     filters: {
@@ -240,7 +242,8 @@ export default function (store,staticMixin = {}) {
     },
 
     directives: {
-      cvCanAccess
+      cvCanAccess,
+      cvCantAccess
     }
   }
 }
