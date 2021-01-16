@@ -191,6 +191,22 @@ export default class CvVueCommon {
         cQuery (){
           return this.$route.query
         },
+        
+        cLocationProtocol (){
+          return location == null || location.protocol == null ? 'https' : location.protocol
+        },
+
+        cLocationPort (){
+          return location == null || location.port == null ? '' : location.port
+        },
+
+        cDocumentDomain(){
+          return document == null || document.domain== null ? 'localhost' : document.domain
+        },
+
+        cBaseUrl(){
+          return `${this.cLocationProtocol}//${this.cDocumentDomain}:${this.cLocationPort}/`
+        },
 
         ...mapGetters(Object.keys(store.getters))
       }
