@@ -42,8 +42,17 @@ export default {
   },
 
   methods:{
+    mPaginator() {
+      return {
+        paginate: {
+          ...this.cPaginator.paginate,
+          ...this.mPaginatorInterceptor()
+        }
+      }
+    },
+
     mPaginatorInterceptor () {
-      return this.cPaginator
+      return {}
     }
   }
 }
