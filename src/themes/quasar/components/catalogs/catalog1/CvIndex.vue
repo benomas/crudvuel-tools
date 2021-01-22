@@ -61,6 +61,7 @@
                   <cv-simple-field-filter
                     v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                     :cv-din-ins-field="'id'"
                   >
                   </cv-simple-field-filter>
@@ -70,6 +71,7 @@
                   <cv-simple-field-filter
                     v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                     :cv-din-ins-field="'cv_search'"
                   >
                   </cv-simple-field-filter>
@@ -79,6 +81,7 @@
                   <cv-simple-field-filter
                     v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                     :cv-din-ins-field="'name'"
                   >
                   </cv-simple-field-filter>
@@ -88,6 +91,7 @@
                   <cv-simple-field-filter
                     v-bind="mCustomBindins('cv-simple-field-filter')"
                     v-on="mCustomOns('cv-simple-field-filter')"
+                    :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                     :cv-din-ins-field="'description'"
                   >
                   </cv-simple-field-filter>
@@ -125,6 +129,7 @@
                   v-if="cEnableSimpleFieldFilter"
                   v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                   :cv-din-ins-field="'id'"
                 >
                 </cv-simple-field-filter>
@@ -141,6 +146,7 @@
                   v-if="cEnableSimpleFieldFilter"
                   v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                   :cv-din-ins-field="'cv_search'"
                 >
                 </cv-simple-field-filter>
@@ -157,6 +163,7 @@
                   v-if="cEnableSimpleFieldFilter"
                   v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                   :cv-din-ins-field="'name'"
                 >
                 </cv-simple-field-filter>
@@ -173,6 +180,7 @@
                   v-if="cEnableSimpleFieldFilter"
                   v-bind="mCustomBindins('cv-simple-field-filter')"
                   v-on="mCustomOns('cv-simple-field-filter')"
+                  :cv-sta-insf-simple-field-filter-simple-filter-show-icon="false"
                   :cv-din-ins-field="'description'"
                 >
                 </cv-simple-field-filter>
@@ -229,9 +237,6 @@ export default {
   components : { QIcon,QSkeleton },
   directives : {
     cvPageOpt: cvPageOpt
-  },
-  mounted: function () {
-    //console.log(this)
   }
 }
 </script>

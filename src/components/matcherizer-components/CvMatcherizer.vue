@@ -275,7 +275,7 @@ export default {
 
     mRefreshSource () {
       if (this.cRequireNewRemoteSearch){
-        return this.cpDinInsSourceService(...this.cpDinInsSourceServiceParams,this.cPaginator)
+        return this.cpDinInsSourceService(...this.cpDinInsSourceServiceParams,this.mPaginatorInterceptor())
           .then(response => {
             this.emDinInsDataLoadedEmitter(response)
             this.emDinInsLoadingEmitter(false)
