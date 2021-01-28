@@ -44,6 +44,27 @@ export default function (store,staticMixin = {}) {
           return ` 0%`
 
         return ` ${value}%`
+      },
+
+      fLaravelDateTimeFormat: function (value = null){
+        if (value == null)
+          return ''
+        
+        return value.replace(/(.+)?[T|t](.+)?\..*/,`$1 $2`)
+      },
+
+      fLaravelDateFormat: function (value = null){
+        if (value == null)
+          return ''
+        
+        return value.replace(/(.+)?[T|t](.+)?\..*/,`$1`)
+      },
+
+      fLaravelTimeFormat: function (value = null){
+        if (value == null)
+          return ''
+        
+        return value.replace(/(.+)?[T|t](.+)?\..*/,`$2`)
       }
     },
 

@@ -349,7 +349,7 @@ export default {
       '[P]dinInsShowGridFilterAndOrders' : true,
       '[P]dinInsShowTopActionLang'       : true,
       '[P]dinInsShowGridKey'             : true,
-      '[P]dinInsCardContainerClass'      : 'row col-xs-12 col-sm-6 col-md-12',
+      '[P]dinInsCardContainerClass'      : 'row col-xs-12 col-sm-6 col-md-4 col-lg-3 col-xl-2',
       '[P]dinInsCardClass'               : 'q-card w-100 round-borders mnh-400px',
       '[P]dinInsCardContentClass'        : '',
       '[P]dinInsActionCardTitleClass'    : 'bg-white bb-1px border-secondary-l-90',
