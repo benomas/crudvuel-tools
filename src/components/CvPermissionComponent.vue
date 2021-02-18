@@ -39,7 +39,10 @@ export default {
 
       return !this.mGetUnauthorizedInteractions() ||
         this.mGetUnauthorizedInteractions()['action'] === undefined ||
-        this.mGetUnauthorizedInteractions()['action'][kebabCase(action.resource.name) + '.' + camelCase(action.name)]  === undefined
+        (
+          this.mGetUnauthorizedInteractions()['action'][kebabCase(action.resource.name) + '.' + camelCase(action.name)]  === undefined && 
+          this.mGetUnauthorizedInteractions()['action'][kebabCase(action.resource.name) + '.' + kebabCase(action.name)]  === undefined
+        )
     },
 
     hasPermission (action,resource = null,excludes = null) {
