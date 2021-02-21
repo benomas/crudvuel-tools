@@ -37,7 +37,7 @@
                   size="sm"
                 >
                   <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
-                    {{mResorceAction('exportings').label}}
+                    {{mResourceAction('exportings').label}}
                   </q-tooltip>
                 </q-btn>
 
@@ -51,7 +51,7 @@
                   size="sm"
                 >
                   <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-66 f-rem-2">
-                    {{mResorceAction('create').label}}
+                    {{mResourceAction('create').label}}
                   </q-tooltip>
                 </q-btn>
 
@@ -89,7 +89,7 @@
                     color="positive"
                   />
                   <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
-                    {{mResorceAction('deactivate').label}}
+                    {{mResourceAction('deactivate').label}}
                   </q-tooltip>
                 </div>
 
@@ -106,14 +106,14 @@
                     color="negative"
                   />
                   <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
-                    {{mResorceAction('activate').label}}
+                    {{mResourceAction('activate').label}}
                   </q-tooltip>
                 </div>
               </td>
 
               <td class="t-left t-middle" v-if="cpDinInsShowTableActions">
                 <q-btn
-                  v-if="!mExcludeAction('show')"
+                  v-if="!mExcludeAction('show') && !mHasActionPermission('edit')"
                   v-cv-can-access="'action:show'"
                   icon="icon-ver"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
@@ -122,7 +122,7 @@
                   size="sm"
                 >
                   <q-tooltip content-class="bg-info-l-90 txt-info-l-45 f-rem-2">
-                    {{mDepthLang('crudvuel.labels.showPrefix')}} {{mResorceAction('show').label}}
+                    {{mDepthLang('crudvuel.labels.showPrefix')}} {{mResourceAction('show').label}}
                   </q-tooltip>
                 </q-btn>
 
@@ -136,7 +136,7 @@
                   size="sm"
                 >
                   <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
-                    {{mResorceAction('edit').label}}
+                    {{mResourceAction('edit').label}}
                   </q-tooltip>
                 </q-btn>
 
@@ -150,7 +150,7 @@
                   size="sm"
                 >
                   <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
-                    {{mResorceAction('delete').label}}
+                    {{mResourceAction('delete').label}}
                   </q-tooltip>
                 </q-btn>
 
@@ -186,7 +186,7 @@
                     size="sm"
                   >
                     <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
-                      {{mResorceAction('exportings').label}}
+                      {{mResourceAction('exportings').label}}
                     </q-tooltip>
                   </q-btn>
 
@@ -200,7 +200,7 @@
                     size="sm"
                   >
                     <q-tooltip content-class="bg-secondary-l-90 txt-secondary-l-45 f-rem-2">
-                      {{mResorceAction('create').label}}
+                      {{mResourceAction('create').label}}
                     </q-tooltip>
                   </q-btn>
                 </div>
@@ -265,7 +265,7 @@
                         size="sm"
                       >
                         <q-tooltip content-class="bg-info-l-90 txt-info-l-45 f-rem-2">
-                          {{mDepthLang('crudvuel.labels.showPrefix')}} {{mResorceAction('show').label}}
+                          {{mDepthLang('crudvuel.labels.showPrefix')}} {{mResourceAction('show').label}}
                         </q-tooltip>
                       </q-btn>
 
@@ -279,7 +279,7 @@
                         size="sm"
                       >
                         <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
-                          {{mResorceAction('edit').label}}
+                          {{mResourceAction('edit').label}}
                         </q-tooltip>
                       </q-btn>
 
@@ -293,7 +293,7 @@
                         size="sm"
                       >
                         <q-tooltip content-class="bg-negative-l-90 txt-negative-l-45 f-rem-2">
-                          {{mResorceAction('delete').label}}
+                          {{mResourceAction('delete').label}}
                         </q-tooltip>
                       </q-btn>
 

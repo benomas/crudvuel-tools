@@ -118,4 +118,26 @@ export default class CvResourceMap extends CvClass {
     if(typeof position)
       this.position = position
   }
+
+  getName () {
+    return this.name || ''
+  }
+
+  getResource () {
+    return this.resource || null
+  }
+
+  getResourceName () {
+    if(!this.getResource())
+      return ''
+      
+    return this.getResource().getName()
+  }
+
+  getResourceActionName(){
+    if(!this.getResource())
+      return this.getName()
+    
+    return `${this.getResourceName()}.${this.getName()}`
+  }
 }

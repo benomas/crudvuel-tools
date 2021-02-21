@@ -16,14 +16,14 @@ let checkPermissions = function (el, binding, vnode){
       return
 
     if (rules.getContext() === 'action'){
-      if (!(!context.hasActionPermission(rules)))
+      if (!(!context.mHasActionPermission(rules)))
         hideNode(el, vnode)
 
       return
     }
 
     if (rules.getContext() === 'resource'){
-      if (!(!context.hasResourcePermission(rules.getName())))
+      if (!(!context.mHasSectionPermission(rules.getName())))
         hideNode(el, vnode)
 
       return
@@ -39,21 +39,21 @@ let checkPermissions = function (el, binding, vnode){
   let target = segments[1]
 
   if (mode === 'section') {
-    if (!(!context.hasSectionPermission(target)))
+    if (!(!context.mHasSectionPermission(target)))
       hideNode(el, vnode)
 
     return
   }
 
   if (mode === 'resource') {
-    if (!(!context.hasResourcePermission(target)))
+    if (!(!context.mHasSectionPermission(target)))
       hideNode(el, vnode)
 
     return
   }
 
   if (mode === 'special') {
-    if (!(!context.hasSpecialPermission(target)))
+    if (!(!context.mHasSpecialPermission(target)))
       hideNode(el, vnode)
 
     return
@@ -87,7 +87,7 @@ let checkPermissions = function (el, binding, vnode){
     if (!(resource.actions == null || resource.actions[actionName] == null))
       return hideNode(el, vnode)
 
-    if (!(!context.hasActionPermission(resource.actions[actionName])))
+    if (!(!context.mHasActionPermission(resource.actions[actionName])))
       hideNode(el, vnode)
 
     return
@@ -101,7 +101,7 @@ let checkPermissions = function (el, binding, vnode){
     if(!(context.cResources[resourceName].actions.index == null))
       hideNode(el, vnode)
 
-    if (!(!context.hasResourcePermission(resourceName) || !context.hasActionPermission(context.cResources[resourceName].actions.index)))
+    if (!(!context.mHasSectionPermission(resourceName) || !context.mHasActionPermission(context.cResources[resourceName].actions.index)))
       hideNode(el, vnode)
 
     return
@@ -116,7 +116,7 @@ let checkPermissions = function (el, binding, vnode){
     if(!(context.cResources[resourceName].actions[actionName] == null))
       hideNode(el, vnode)
 
-    if (!(!context.hasActionPermission(context.cResources[resourceName].actions[actionName])))
+    if (!(!context.mHasActionPermission(context.cResources[resourceName].actions[actionName])))
       hideNode(el, vnode)
   }
 

@@ -128,7 +128,7 @@ export default function (store,staticMixin = {}) {
           if(this.cResources[resourceName].actions.index == null)
             return null
 
-          if (!this.hasResourcePermission(resourceName) || !this.hasActionPermission(this.cResources[resourceName].actions.index))
+          if (!this.mHasSectionPermission(resourceName) || !this.mHasActionPermission(this.cResources[resourceName].actions.index))
             return null
 
           return this.cStBasePath + this.cResources[resourceName].actions.index.path
@@ -143,7 +143,7 @@ export default function (store,staticMixin = {}) {
           if(this.cResources[resourceName].actions[actionName] == null)
             return null
 
-          if (!this.hasActionPermission(this.cResources[resourceName].actions[actionName]))
+          if (!this.mHasActionPermission(this.cResources[resourceName].actions[actionName]))
             return null
 
           return this.cStBasePath + this.cResources[resourceName].actions[actionName].path

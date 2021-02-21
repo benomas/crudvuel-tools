@@ -38,7 +38,7 @@ export default {
       if (!this.cHasCreateAction)
         return false
 
-      if (!this.hasActionPermission(this.cpStaInsResource.actions.create))
+      if (!this.mHasActionPermission(this.cpStaInsResource.actions.create))
         return false
 
       return true
@@ -74,7 +74,7 @@ export default {
       if (!this.cHasShowAction)
         return false
 
-      if (!this.hasActionPermission(this.cpStaInsResource.actions.show))
+      if (!this.mHasActionPermission(this.cpStaInsResource.actions.show))
         return false
 
       return true
@@ -110,7 +110,7 @@ export default {
       if (!this.cHasEditAction)
         return false
 
-      if (!this.hasActionPermission(this.cpStaInsResource.actions.edit))
+      if (!this.mHasActionPermission(this.cpStaInsResource.actions.edit))
         return false
 
       return true

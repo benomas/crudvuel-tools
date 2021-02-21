@@ -25,13 +25,13 @@
               <th  class="t-center t-middle">
                 {{ $tc('crudvuel.actions') }}
                 <q-btn
-                  v-if="hasPermission('create')"
+                  v-if="mHasPermission('create')"
                   icon="add_circle_outline"
                   @click="$router.push(mActionPath('create'))"
                   color="f-color"
                   round
                   small
-                  :title="mResorceAction('create').label"
+                  :title="mResourceAction('create').label"
                 ></q-btn>
                 <slot name="extra-actions-header-slot" :grid-data="mainGridData">
                 </slot>
@@ -56,7 +56,7 @@
                     class="active-icon"
                     name="fa-check"
                     color="positive"
-                    :title="mResorceAction('deactivate').label"
+                    :title="mResourceAction('deactivate').label"
                     v-cv-in-progress="isSynchronizing(gridRow)"
                     :disabled="isSynchronizing(gridRow)"
                   />
@@ -71,7 +71,7 @@
                     name="fa-times-circle"
                     color="negative"
                     @click="temp = 'activateRow'; activateRow(gridRow)"
-                    :title="mResorceAction('activate').label"
+                    :title="mResourceAction('activate').label"
                     v-cv-in-progress="isSynchronizing(gridRow)"
                     :disabled="isSynchronizing(gridRow)"
                   />
@@ -79,35 +79,35 @@
               </td>
               <td class="t-center t-middle">
                 <q-btn
-                  v-if="hasPermission('show')"
+                  v-if="mHasPermission('show')"
                   icon="visibility"
                   @click="$router.push(mActionPath('show',gridRow))"
                   color="info"
                   round
                   small
-                  :title="mResorceAction('show').label"
+                  :title="mResourceAction('show').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
-                  v-if="hasPermission('edit')"
+                  v-if="mHasPermission('edit')"
                   icon="edit"
                   @click="$router.push(mActionPath('edit',gridRow))"
                   color="positive"
                   round
                   small
-                  :title="mResorceAction('edit').label"
+                  :title="mResourceAction('edit').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 ></q-btn>
                 <q-btn
-                  v-if="hasPermission('delete')"
+                  v-if="mHasPermission('delete')"
                   icon="delete"
                   @click="deleteRow(gridRow)"
                   color="negative"
                   round
                   small
-                  :title="mResorceAction('delete').label"
+                  :title="mResourceAction('delete').label"
                   v-cv-in-progress="isSynchronizing(gridRow)"
                   :disabled="isSynchronizing(gridRow)"
                 >
@@ -134,35 +134,35 @@
                       <q-item-section label>{{ $tc('crudvuel.actions') }}</q-item-section>
                       <q-item-section sublabel>
                         <q-btn
-                          v-if="hasPermission('show')"
+                          v-if="mHasPermission('show')"
                           icon="visibility"
                           @click="$router.push(mActionPath('show',gridRow))"
                           color="info"
                           round
                           small
-                          :title="mResorceAction('show').label"
+                          :title="mResourceAction('show').label"
                           v-cv-in-progress="isSynchronizing(gridRow)"
                           :disabled="isSynchronizing(gridRow)"
                         ></q-btn>
                         <q-btn
-                          v-if="hasPermission('edit')"
+                          v-if="mHasPermission('edit')"
                           icon="edit"
                           @click="$router.push(mActionPath('edit',gridRow))"
                           color="positive"
                           round
                           small
-                          :title="mResorceAction('edit').label"
+                          :title="mResourceAction('edit').label"
                           v-cv-in-progress="isSynchronizing(gridRow)"
                           :disabled="isSynchronizing(gridRow)"
                         ></q-btn>
                         <q-btn
-                          v-if="hasPermission('delete')"
+                          v-if="mHasPermission('delete')"
                           icon="delete"
                           @click="deleteRow(gridRow)"
                           color="negative"
                           round
                           small
-                          :title="mResorceAction('delete').label"
+                          :title="mResourceAction('delete').label"
                           v-cv-in-progress="isSynchronizing(gridRow)"
                           :disabled="isSynchronizing(gridRow)"
                         >
@@ -219,54 +219,54 @@ export default {
   },
   methods: {
     activateRow: function (gridRow) {
-      if (!this.hasPermission('activate'))
+      if (!this.mHasPermission('activate'))
         return false
       if (this.isSynchronizing(gridRow))
         return false
       this.toSync(gridRow)
-      let mResorceAction = this.mResorceAction('activate')
-      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+      let mResourceAction = this.mResourceAction('activate')
+      mResourceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
         this.mainGridData.refresh()
-        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+        this.collectSuccessMessages(mResourceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
-        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
+        this.collectErrorMessages(mResourceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
       })
     },
     deactivateRow: function (gridRow) {
-      if (!this.hasPermission('deactivate'))
+      if (!this.mHasPermission('deactivate'))
         return false
       if (this.isSynchronizing(gridRow))
         return false
       this.toSync(gridRow)
-      let mResorceAction = this.mResorceAction('deactivate')
-      mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+      let mResourceAction = this.mResourceAction('deactivate')
+      mResourceAction.setService(gridRow[this.cRowKey]).then((response) => {
         this.synchronized(gridRow)
         this.mainGridData.refresh()
-        this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+        this.collectSuccessMessages(mResourceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
       }).catch((response) => {
         this.synchronized(gridRow)
-        this.collectErrorMessages(mResorceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
+        this.collectErrorMessages(mResourceAction.getSetErrorMessage() + this.actionKeyMessage(gridRow))
       })
     },
     deleteRow (gridRow) {
-      let mResorceAction = this.mResorceAction('delete')
+      let mResourceAction = this.mResourceAction('delete')
       this.toSync(gridRow)
       this.$q.dialog({
-        title   : mResorceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
-        message : mResorceAction.confirmLabel,
-        ok      : mResorceAction.nextLabel,
-        cancel  : mResorceAction.backLabel
+        title   : mResourceAction.label + ' ' + this.cRowKey + ':' + gridRow[this.cRowKey],
+        message : mResourceAction.confirmLabel,
+        ok      : mResourceAction.nextLabel,
+        cancel  : mResourceAction.backLabel
       }).then(() => {
-        mResorceAction.setService(gridRow[this.cRowKey]).then((response) => {
+        mResourceAction.setService(gridRow[this.cRowKey]).then((response) => {
           this.synchronized(gridRow)
           this.mainGridData.refresh()
-          this.collectSuccessMessages(mResorceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
+          this.collectSuccessMessages(mResourceAction.getSetSuccessMessage() + this.actionKeyMessage(gridRow))
         }).catch(response => false)
       }).catch(() => {
         this.synchronized(gridRow)
-        this.collectCancelMessages(mResorceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
+        this.collectCancelMessages(mResourceAction.getSetCancelMessage() + this.actionKeyMessage(gridRow))
       })
     },
     successNotification: function () {

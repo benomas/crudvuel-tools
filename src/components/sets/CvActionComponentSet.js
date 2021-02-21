@@ -162,16 +162,21 @@ export default {
       return get(rootLang,path)
     },
 
+    mResourceAction (action = null,resource = null) {
+      return this.mActionAccessing(action,resource)
+    },
+
+    //bad identifier name, to be deprecated
     mResorceAction (action = null,resource = null) {
       return this.mActionAccessing(action,resource)
     },
 
     mActionType (action = null,resource = null) {
-      return this.mResorceAction(action,resource).type || null
+      return this.mResourceAction(action,resource).type || null
     },
 
     mActionPath (action,row,resource = null) {
-      let fixedAction = this.mResorceAction(action,resource)
+      let fixedAction = this.mResourceAction(action,resource)
 
       if (!fixedAction)
         return ''
@@ -290,6 +295,13 @@ export default {
         return response.response.data.errors
 
       return null
+    },
+
+    mActionResourceName (actionName = '') {
+      if(!this.mActionAccessing(actionName))
+        return ''
+      
+      return this.mActionAccessing(actionName).getResourceActionName()
     }
   }
 }

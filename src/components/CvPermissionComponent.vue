@@ -11,37 +11,36 @@ export default {
 
       return null
     },
-
+//to be deprecated because has malformed name
     hasSpecialPermission (special) {
       return !this.mGetUnauthorizedInteractions() ||
         typeof this.mGetUnauthorizedInteractions()['special'] === 'undefined' ||
         typeof this.mGetUnauthorizedInteractions()['special'][special] === 'undefined'
     },
-
+//to be deprecated because has malformed name
     hasSectionPermission (section) {
       return !this.mGetUnauthorizedInteractions() ||
         typeof this.mGetUnauthorizedInteractions()['section'] === 'undefined' ||
         typeof this.mGetUnauthorizedInteractions()['section'][section + '-section'] === 'undefined'
     },
-
+//to be deprecated because has malformed name
     hasResourcePermission (resource) {
       return !this.mGetUnauthorizedInteractions() ||
         typeof this.mGetUnauthorizedInteractions()['resource'] === 'undefined' ||
         typeof this.mGetUnauthorizedInteractions()['resource'][kebabCase(resource)] === 'undefined'
     },
-
-    hasActionPermission (action) {
-      if (action === undefined)
-        action = this.cpStaGenAction || null
-
-      if (!action)
+//to be deprecated because has malformed name
+    hasActionPermission (action = null, resource = null) {
+      if(this.mActionAccessing == null)
         return true
 
+      action = this.mActionAccessing(action,resource)
+//to be deprecated because has malformed name
       return !this.mGetUnauthorizedInteractions() ||
         this.mGetUnauthorizedInteractions()['action'] === undefined ||
         (
-          this.mGetUnauthorizedInteractions()['action'][kebabCase(action.resource.name) + '.' + camelCase(action.name)]  === undefined && 
-          this.mGetUnauthorizedInteractions()['action'][kebabCase(action.resource.name) + '.' + kebabCase(action.name)]  === undefined
+          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined && 
+          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${kebabCase(action.getName())}`]  === undefined
         )
     },
 
@@ -50,8 +49,49 @@ export default {
       excludes = excludes || this.cpDinGenExcludeActions || []
 
       return excludes.indexOf(action,excludes) < 0 &&
-        this.mResorceAction(action,resource) &&
+        this.mResourceAction(action,resource) &&
         this.hasActionPermission(resource.actions[action])
+    },
+
+    mHasSpecialPermission (special) {
+      return !this.mGetUnauthorizedInteractions() ||
+        typeof this.mGetUnauthorizedInteractions()['special'] === 'undefined' ||
+        typeof this.mGetUnauthorizedInteractions()['special'][special] === 'undefined'
+    },
+
+    mHasSectionPermission (section) {
+      return !this.mGetUnauthorizedInteractions() ||
+        typeof this.mGetUnauthorizedInteractions()['section'] === 'undefined' ||
+        typeof this.mGetUnauthorizedInteractions()['section'][section + '-section'] === 'undefined'
+    },
+
+    mHasResourcePermission (resource) {
+      return !this.mGetUnauthorizedInteractions() ||
+        typeof this.mGetUnauthorizedInteractions()['resource'] === 'undefined' ||
+        typeof this.mGetUnauthorizedInteractions()['resource'][kebabCase(resource)] === 'undefined'
+    },
+
+    mHasActionPermission (action = null, resource = null) {
+      if(this.mActionAccessing == null)
+        return true
+
+      action = this.mActionAccessing(action,resource)
+
+      return !this.mGetUnauthorizedInteractions() ||
+        this.mGetUnauthorizedInteractions()['action'] === undefined ||
+        (
+          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined && 
+          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${kebabCase(action.getName())}`]  === undefined
+        )
+    },
+
+    mHasPermission (action,resource = null,excludes = null) {
+      resource = resource || this.cResource
+      excludes = excludes || this.cpDinGenExcludeActions || []
+
+      return excludes.indexOf(action,excludes) < 0 &&
+        this.mResourceAction(action,resource) &&
+        this.mHasActionPermission(resource.actions[action])
     }
   }
 }
