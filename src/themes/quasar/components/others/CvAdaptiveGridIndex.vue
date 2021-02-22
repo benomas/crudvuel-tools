@@ -113,7 +113,7 @@
 
               <td class="t-left t-middle" v-if="cpDinInsShowTableActions">
                 <q-btn
-                  v-if="!mExcludeAction('show') && !mHasActionPermission('edit')"
+                  v-if="!mExcludeAction('show') && (mExcludeAction('edit') || !mHasActionPermission('edit'))"
                   v-cv-can-access="'action:show'"
                   icon="icon-ver"
                   @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"
@@ -256,7 +256,7 @@
                     </q-card-section>
                     <q-card-actions :class="cpDinInsActionCardClass" >
                       <q-btn
-                        v-if="!mExcludeAction('show') && !mHasActionPermission('edit')"
+                        v-if="!mExcludeAction('show') && (mExcludeAction('edit') || !mHasActionPermission('edit'))"
                         v-cv-can-access="'action:show'"
                         icon="icon-ver"
                         @click="(()=>emDinGenLaunchActionEmitter({action:'show',row:gridRow}))"

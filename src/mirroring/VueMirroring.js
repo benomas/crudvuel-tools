@@ -44,6 +44,10 @@ export default class VueMirroring {
         continue
 
       let binded = currentComponent.mixins[currentComponent.mixins.length-1]
+
+      if(binded == null || binded.methods == null)
+        continue
+        
       if (binded.methods.mBinding != null)
         lastBindins = {...lastBindins,...binded.methods.mBinding()}
 
