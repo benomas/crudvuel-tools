@@ -16,7 +16,12 @@ let errorWrapper = function (el, binding, vnode) {
   el.classList.add('h-20px')
   el.classList.add('q-pb-lg')
 
-  let field   = binding.value.field
+  let field      = binding.value.field
+  let fixedClass = binding.value.class
+
+  if(fixedClass)
+    el.classList.add(fixedClass)
+
   let context = vnode.context
 
   if (context.cErrors == null) {
