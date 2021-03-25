@@ -7,6 +7,7 @@
       <cv-spinner v-if="!cdReady" :cv-target="cSelfRef">
       </cv-spinner>
     </transition>
+
     <div class="row justify-end q-px-sm" v-if="cpDinInsShowFilters">
       <div class="col-xs-12 col-sm-5 col-md-4">
         <div class="row">
@@ -47,15 +48,23 @@
         </div>
       </div>
     </div>
+
+    <div class="row w-100" v-if="cpDinInsShowFilters">
+      <slot name="cv-grid-predata-slot">
+      </slot>
+    </div>
+
     <transition name="component-fade" mode="out-in">
       <hr v-if="cpDinComfCvPaginateTotalPageElements && cpDinInsShowTopPagination">
     </transition>
+
     <transition name="component-fade" mode="out-in">
       <cv-paginate
         v-if="cpDinInsShowTopPagination"
         v-bind="mCustomBindins('cv-paginate-top')" v-on="mCustomOns('cv-paginate-top')">
       </cv-paginate>
     </transition>
+
     <transition name="component-fade" mode="out-in">
       <span
         v-if ='cdReady && !cpDinComfCvPaginateTotalPageElements'
@@ -63,16 +72,19 @@
         {{mComLang('no-rows','Sin resultados para mostrar')}}
       </span>
     </transition>
+
     <div class="cv-grid-data-container">
       <slot name="cv-grid-data">
       </slot>
     </div>
+
     <transition name="component-fade" mode="out-in">
       <cv-paginate
         v-if="cpDinInsShowBottomPagination"
         v-bind="mCustomBindins('cv-paginate-bottom')" v-on="mCustomOns('cv-paginate-bottom')">
       </cv-paginate>
     </transition>
+
     <transition name="component-fade" mode="out-in">
       <hr v-if="cpDinComfCvPaginateTotalPageElements && cpDinInsShowBottomPagination">
     </transition>

@@ -6,6 +6,11 @@
         v-on="mCustomOns('cv-grid')"
         cv-grid-tag="div"
         :cv-min-height="'300px'">
+        <div slot="cv-grid-predata-slot" class="w-100">
+          <slot name="predata-slot">
+          </slot>
+        </div>
+
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
           <thead class="gt-sm" v-show="cShowTableMode">
             <tr slot="cv-ths-slot" >

@@ -300,7 +300,7 @@ export default {
     mActionResourceName (actionName = '') {
       if(!this.mActionAccessing(actionName))
         return ''
-      
+
       return this.mActionAccessing(actionName).getResourceActionName()
     }
   }

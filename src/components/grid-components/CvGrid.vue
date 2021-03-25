@@ -45,12 +45,14 @@ export default {
     cShowSimpleFilter () {
       if (this.cpDinInsfGridFilterSelectorCurrentFilter == null)
         return true
+
       return this.cpDinInsfGridFilterSelectorCurrentFilter === 'cv-simple-paginator'
     },
 
     cShowCombinatoryFilters () {
       if (this.cpDinInsfGridFilterSelectorCurrentFilter == null)
         return false
+
       return this.cpDinInsfGridFilterSelectorCurrentFilter === 'cv-combinatory-paginator'
     }
   },
