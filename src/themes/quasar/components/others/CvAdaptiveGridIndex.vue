@@ -17,7 +17,7 @@
               <slot name="headers-slot" >
               </slot>
 
-              <th class="t-center t-middle mnw-220px" v-if="cpDinInsShowTableActions">
+              <th class="t-center t-middle mnw-260px" v-if="cpDinInsShowTableActions">
                 <span v-if="cpDinInsShowTopActionLang" class="q-mr-sm">{{ $tc('crudvuel.actions') }}</span>
 
                 <q-btn
@@ -43,6 +43,20 @@
                 >
                   <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
                     {{mResourceAction('exportings').label}}
+                  </q-tooltip>
+                </q-btn>
+
+                <q-btn
+                  v-if="!mExcludeAction('import')"
+                  v-cv-can-access="'action:import'"
+                  class="q-ma-xs bg-positive-l-90 txt-positive-l-45"
+                  icon="fas fa-file-import"
+                  @click="(()=>emDinGenLaunchActionEmitter({action:'import'}))"
+                  round
+                  size="sm"
+                >
+                  <q-tooltip content-class="bg-positive-l-90 txt-positive-l-45 f-rem-2">
+                    {{mResourceAction('import').label}}
                   </q-tooltip>
                 </q-btn>
 
@@ -345,7 +359,7 @@ export default {
     CvActionComponentSet,
     vueMirroring.fixProperties({
       '[D|M]pageAnimation'               : 'animated fadeIn',
-      '[P]dinGenExcludeActions'          : [],
+      '[P]dinGenExcludeActions'          : ['import'],
       '[P]dinInsShowTableMode'           : true,
       '[P]dinInsShowGridMode'            : true,
       '[P]dinInsShowTableActions'        : true,

@@ -16,7 +16,6 @@ export default {
   ],
 
   computed: {
-
     cFileHeaders: function () {
       let fileHeaders = {...this.cpDinGenExportHeaders()}
       delete fileHeaders['Content-Type']
@@ -58,6 +57,10 @@ export default {
       ] : []
     },
 
+    cImportFormater: function () {
+      return []
+    },
+
     cUploadReference: function () {
       return this.$refs.uploader
     },
@@ -90,7 +93,14 @@ export default {
 
     cCatFiles: function () {
       return this.catFiles
-    }
+    },
+
+    cImportServiceUrl: function () {
+      if(this.cResource == null)
+        return `${this.cStCvEnv.apiUrl()}/api`
+
+      return `${this.cStCvEnv.apiUrl()}/api/${this.cResource.getName()}/import`
+    },
   },
 
   methods: {
@@ -230,6 +240,17 @@ export default {
           value : 1
         }
       ] : []
-    }
+    },
+
+    mImportFail : function (info) {
+      let response = JSON.parse(info.xhr.response)
+      if (response.errors) this.errors = response.errors
+    },
+
+    mImportCompleted: function (info) {
+    },
+
+    mImportFinish: function () {
+    },
   }
 }
