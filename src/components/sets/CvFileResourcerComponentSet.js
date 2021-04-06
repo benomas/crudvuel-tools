@@ -7,6 +7,7 @@ export default {
     'cvResourcerKey',
     'cvEnableAutoUpload',
     'cvResourcerAction',
+    'cvZipFilterGroup',
     'cvFileCount'
   ],
 
@@ -69,6 +70,10 @@ export default {
 
     cResourcerAction () {
       return this.cvResourcerAction
+    },
+
+    cZipFilterGroup () {
+      return this.cvZipFilterGroup
     },
 
     cFileCount () {
