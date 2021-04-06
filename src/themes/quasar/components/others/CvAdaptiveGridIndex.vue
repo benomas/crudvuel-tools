@@ -47,7 +47,7 @@
                 </q-btn>
 
                 <q-btn
-                  v-if="!mExcludeAction('import')"
+                  v-if="cHasImportAction"
                   v-cv-can-access="'action:import'"
                   class="q-ma-xs bg-positive-l-90 txt-positive-l-45"
                   icon="fas fa-file-import"
@@ -359,7 +359,7 @@ export default {
     CvActionComponentSet,
     vueMirroring.fixProperties({
       '[D|M]pageAnimation'               : 'animated fadeIn',
-      '[P]dinGenExcludeActions'          : ['import'],
+      '[P]dinGenExcludeActions'          : [],
       '[P]dinInsShowTableMode'           : true,
       '[P]dinInsShowGridMode'            : true,
       '[P]dinInsShowTableActions'        : true,
@@ -408,6 +408,13 @@ export default {
       if (this.cpDinInsShowTableMode === false)
         return true
       return this.cpDinInsShowGridMode && this.cLtmd
+    },
+
+    cHasImportAction () {
+      if (this.cResource == null || this.cResource.actions == null || this.cResource.actions.import == null)
+        return false
+
+      return true
     }
   },
 
