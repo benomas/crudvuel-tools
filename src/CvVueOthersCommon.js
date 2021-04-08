@@ -49,22 +49,42 @@ export default function (store,staticMixin = {}) {
       fLaravelDateTimeFormat: function (value = null){
         if (value == null)
           return ''
-        
+
         return value.replace(/(.+)?[T|t](.+)?\..*/,`$1 $2`)
       },
 
       fLaravelDateFormat: function (value = null){
         if (value == null)
           return ''
-        
+
         return value.replace(/(.+)?[T|t](.+)?\..*/,`$1`)
       },
 
       fLaravelTimeFormat: function (value = null){
         if (value == null)
           return ''
-        
+
         return value.replace(/(.+)?[T|t](.+)?\..*/,`$2`)
+      },
+
+      fFormatMoney: function (v) {
+        let decimalCount = 0
+        let decimal      = '.'
+        let thousands    = ','
+        try {
+          decimalCount = Math.abs(decimalCount)
+          decimalCount = isNaN(decimalCount) ? 2 : decimalCount
+
+          const negativeSign = v < 0 ? '-' : ''
+
+          let i = parseInt(v = Math.abs(Number(v) || 0).toFixed(decimalCount)).toString()
+          let j = (i.length > 3) ? i.length % 3 : 0
+
+          return negativeSign + (j ? i.substr(0, j) + thousands : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) + (decimalCount ? decimal + Math.abs(v - i).toFixed(decimalCount).slice(2) : '')
+        } catch (e) {
+          console.log(e)
+        }
+        return v
       }
     },
 
