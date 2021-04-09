@@ -245,6 +245,7 @@ export default {
     mImportFail : function (info) {
       let response = JSON.parse(info.xhr.response)
       if (response.errors) this.errors = response.errors
+      console.log(this.errors)
     },
 
     mImportCompleted: function (info) {
