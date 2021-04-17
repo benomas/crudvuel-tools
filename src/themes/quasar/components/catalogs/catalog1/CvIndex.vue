@@ -119,9 +119,9 @@
 
             <template v-if="1" slot="flexi-grind-headers-slot">
               <div v-cv-page-opt="'id'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                {{ mfLang('id') }}
                 <cv-order-icons cv-sta-ins-row-field="id" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
-                {{ mfLang('id') }}
               </div>
 
               <div class="col-xs-12">
@@ -136,9 +136,9 @@
               </div>
 
               <div v-cv-page-opt="'cv_search'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                {{ mfLang('cv_search') }}
                 <cv-order-icons cv-sta-ins-row-field="cv_search" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
-                {{ mfLang('cv_search') }}
               </div>
 
               <div class="col-xs-12">
@@ -153,9 +153,9 @@
               </div>
 
               <div v-cv-page-opt="'name'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                {{ mfLang('name') }}
                 <cv-order-icons cv-sta-ins-row-field="name" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
-                {{ mfLang('name') }}
               </div>
 
               <div class="col-xs-12">
@@ -170,9 +170,9 @@
               </div>
 
               <div v-cv-page-opt="'description'" class="col-xs-12 cv-orderable cv-filterable cv-selectable">
+                {{ mfLang('description') }}
                 <cv-order-icons cv-sta-ins-row-field="description" v-bind="mCustomBindins('cv-order-icons')">
                 </cv-order-icons>
-                {{ mfLang('description') }}
               </div>
 
               <div class="col-xs-12">

@@ -1,11 +1,12 @@
 <template>
-  <span >
+  <span class="fs-2" style="z-index: 999; margin-left: 0px; margin-top: -6px; position: absolute;">
     <slot
       name="orderable-icon"
       v-if="cpDinGenOrderBy != cpStaInsRowField"
     >
-      <q-icon name="fas fa-arrows-alt-v" color="secondary"/>
+      <q-icon name="fas fa-arrows-alt-v" color="secondary" />
     </slot>
+
     <template v-if="1">
       <slot
         name="ascending-icon"
