@@ -1,10 +1,10 @@
 <template>
-  <span class="fs-2" style="z-index: 999; margin-left: 0px; margin-top: -6px; position: absolute;">
+  <span class="fs-2" style="">
     <slot
       name="orderable-icon"
       v-if="cpDinGenOrderBy != cpStaInsRowField"
     >
-      <q-icon name="fas fa-arrows-alt-v" color="secondary" />
+      <q-icon name="fas fa-arrows-alt-v" color="secondary" class="my-auto"/>
     </slot>
 
     <template v-if="1">
@@ -12,14 +12,14 @@
         name="ascending-icon"
         v-if="cpDinGenOrderBy === cpStaInsRowField && cpDinGenAscending"
       >
-        <q-icon name="fas fa-sort-amount-down-alt"  color="primary"/>
+        <q-icon name="fas fa-sort-amount-down-alt"  color="primary" class="my-auto"/>
       </slot>
 
       <slot
         name="descending-icon"
         v-if="cpDinGenOrderBy === cpStaInsRowField && !cpDinGenAscending"
       >
-        <q-icon name="fas fa-sort-amount-up"  color="positive"/>
+        <q-icon name="fas fa-sort-amount-up"  color="positive" class="my-auto"/>
       </slot>
     </template>
   </span>
