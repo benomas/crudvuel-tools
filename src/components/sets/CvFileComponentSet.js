@@ -1,3 +1,4 @@
+import FileSaver    from 'file-saver'
 import {camelCase}  from 'lodash'
 import VueMirroring from 'crudvuel-tools/src/mirroring/VueMirroring'
 
@@ -109,6 +110,24 @@ export default {
         window.open(file.absolute_path)
       else
         window.open(this.cRow.absolute_path)
+    },
+
+    mOpenStreamFile: function (response = null,customFileName = null) {
+      if (!response)
+        return
+
+      let suggestedFileName = ''
+      let fileName          = ''
+
+      if(response.headers['content-disposition'] != null)
+        suggestedFileName = response.headers['content-disposition'].match(/^.*?filename=(.+)$/)
+
+      if(suggestedFileName[1] != null)
+        fileName = suggestedFileName[1]
+      else
+        fileName = customFileName
+
+      FileSaver.saveAs(response.data, fileName)
     },
 
     uploadFileStart: function () {

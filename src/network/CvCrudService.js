@@ -156,7 +156,7 @@ export default class CvCrudService {
     })
   }
 
-  exportings  =  (params = null,url = null,qString = null, date = null) => {
+  exportings  =  (params = null,url = null,qString = null, date = null) => {console.log(params)
     if (date == null)
       return console.log('date quasar object required')
 
