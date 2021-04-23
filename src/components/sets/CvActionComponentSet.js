@@ -210,6 +210,9 @@ export default {
       if (gridRow == null || this.cKeyName == null || gridRow[this.cKeyName] == null)
         return ''
 
+      if(gridRow['cv_search'] != null)
+        return ` (${gridRow['cv_search']}) `
+
       return ` ${this.cKeyName} : ${gridRow[this.cKeyName]} `
     },
 
