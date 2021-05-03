@@ -17,8 +17,8 @@
               <slot name="headers-slot" >
               </slot>
 
-              <th class="t-center t-middle mnw-260px" v-if="cpDinInsShowTableActions">
-                <span v-if="cpDinInsShowTopActionLang" class="q-mr-sm">{{ $tc('crudvuel.actions') }}</span>
+              <th class="t-center t-middle mnw-170px" v-if="cpDinInsShowTableActions">
+                <div v-if="cpDinInsShowTopActionLang" class="q-mr-sm fs-8 q-my-xs">{{ $tc('crudvuel.actions') }}</div>
 
                 <q-btn
                   class="q-ma-xs bg-info-l-90 txt-info-l-66"
@@ -130,7 +130,7 @@
                 </div>
               </td>
 
-              <td class="t-left t-middle" v-if="cpDinInsShowTableActions">
+              <td class="t-center t-middle" v-if="cpDinInsShowTableActions">
                 <q-btn
                   v-if="!mExcludeAction('show') && (mExcludeAction('edit') || !mHasActionPermission('edit'))"
                   v-cv-can-access="'action:show'"
