@@ -1,5 +1,5 @@
 <template>
-  <span class="fs-2 t-top" style="margin-left:-10px;">
+  <span class="fs-2 t-top" style="margin-left:-4px;">
     <slot
       name="orderable-icon"
       v-if="cpDinGenOrderBy != cpStaInsRowField"

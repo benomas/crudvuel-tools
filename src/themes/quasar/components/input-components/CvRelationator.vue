@@ -1,5 +1,5 @@
 <template>
-  <div class="row cv-relator-container q-pa-xs bg-grey-l-90">
+  <div class="row cv-relator-container q-pa-xs bg-grey-l-90 rounded-borders ba-1px border-grey-l-75">
     <div :class="cpDinInsRelatedContainerClass">
       <hr class="lt-sm border-quaternary">
 
