@@ -39,7 +39,7 @@ export default {
       return !this.mGetUnauthorizedInteractions() ||
         this.mGetUnauthorizedInteractions()['action'] === undefined ||
         (
-          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined && 
+          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined &&
           this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${kebabCase(action.getName())}`]  === undefined
         )
     },
@@ -71,16 +71,24 @@ export default {
         typeof this.mGetUnauthorizedInteractions()['resource'][kebabCase(resource)] === 'undefined'
     },
 
-    mHasActionPermission (action = null, resource = null) {
-      if(this.mActionAccessing == null)
+    mHasActionPermission (action = null, resource = null,preventAccessWithoutResourceAccess = true) {
+      if(typeof action === 'string'){
+        if(this.mActionAccessing == null)
+          return true
+
+        action = this.mActionAccessing(action,resource)
+      }
+
+      if (action == null)
         return true
 
-      action = this.mActionAccessing(action,resource)
+      if (preventAccessWithoutResourceAccess && !this.mHasResourcePermission(action.resource.name))
+        return false
 
       return !this.mGetUnauthorizedInteractions() ||
         this.mGetUnauthorizedInteractions()['action'] === undefined ||
         (
-          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined && 
+          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined &&
           this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${kebabCase(action.getName())}`]  === undefined
         )
     },
