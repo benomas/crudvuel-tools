@@ -8,7 +8,7 @@
       maximized
       :position="'right'"
       >
-      <div v-if="cpDinGenDialogAction" class="h-100 bg-white" :style="{'min-width':cDialogMinWith,'margin-left':cDialogMargin}">{{cpDinGenKeyValue}}
+      <div v-if="cpDinGenDialogAction" class="h-100 bg-white" :style="{'min-width':cDialogMinWith,'margin-left':cDialogMargin}">
         <component
           v-bind:is="cpDinGenDialogAction.component"
           :cv-sta-gen-action="cpDinGenDialogAction"
