@@ -8,12 +8,13 @@
       maximized
       :position="'right'"
       >
-      <div v-if="cpDinGenDialogAction" class="h-100 bg-white" :style="{'min-width':cDialogMinWith,'margin-left':cDialogMargin}">
+      <div v-if="cpDinGenDialogAction" class="h-100 bg-white" :style="{'min-width':cDialogMinWith,'margin-left':cDialogMargin}">{{cpDinGenKeyValue}}
         <component
           v-bind:is="cpDinGenDialogAction.component"
           :cv-sta-gen-action="cpDinGenDialogAction"
           :cv-din-gen-action-mode="'dialog'"
           :cv-din-gen-key-value="cpDinGenKeyValue"
+          :cv-din-gen-action-params="cpDinGenDialogActionParams"
           @action-canceled="emDinGenActionCanceledEmitter"
           @action-completed="emDinGenActionCompletedEmitter"
         ></component>
@@ -39,6 +40,7 @@ export default {
       '[P|EM]dinGenShowActionDialog' : false,
       '[P]dinGenDialogAction'        : null,
       '[P]dinGenKeyValue'            : null,
+      '[P]dinGenDialogActionParams'  : null,
       '[P]dinGenDefaultMarginRatio'  : 0.15,
       '[P]dinGenDepthMarginRatioFix' : 0.05,
       '[EM]dinGenActionCanceled'     : null,
@@ -95,6 +97,7 @@ export default {
   },
 
   mounted () {
+    console.log(['dialog',this])
     //console.log(this.cDepthMarginRatio)
   }
 }

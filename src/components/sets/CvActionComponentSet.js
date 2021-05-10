@@ -6,10 +6,11 @@ let cvSynchronizer = new CvSynchronizer()
 export default {
   mixins: [
     new VueMirroring().fixProperties({
-      '[P]staGenAction'          : null,
-      '[P]dinGenExcludeActions'  : [],
-      '[P]dinGenDisableFields'   : null,
-      '[P]dinGenActionMode'      : 'route'
+      '[P]staGenAction'         : null,
+      '[P]dinGenActionParams'   : null,
+      '[P]dinGenExcludeActions' : [],
+      '[P]dinGenDisableFields'  : null,
+      '[P]dinGenActionMode'     : 'route'
     })
   ],
 

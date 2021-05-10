@@ -4,9 +4,10 @@ import VueMirroring  from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
     new VueMirroring('ComponentSet').fixProperties({
-      '[P]dinGenActionMode'  : 'dialog',
-      '[D|M]dialogAction'    : null,
-      '[D|M]dialogKeyAction' : null
+      '[P]dinGenActionMode'     : 'dialog',
+      '[D|M]dialogAction'       : null,
+      '[D|M]dialogKeyAction'    : null,
+      '[D|M]dialogActionParams' : {}
     })
   ],
 

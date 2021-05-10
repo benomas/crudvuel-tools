@@ -130,14 +130,14 @@ export default class CvResourceMap extends CvClass {
   getResourceName () {
     if(!this.getResource())
       return ''
-      
+
     return this.getResource().getName()
   }
 
   getResourceActionName(){
     if(!this.getResource())
       return this.getName()
-    
+
     return `${this.getResourceName()}.${this.getName()}`
   }
 }
