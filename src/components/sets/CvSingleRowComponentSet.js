@@ -20,8 +20,15 @@ export default {
         this.$route == null ||
         this.$route.params == null ||
         this.$route.params[this.cpDinGenKeyName] == null
-      )
+      ){
+        if(this.cdRow != null && this.cdRow[this.cpDinGenKeyName] != null)
+          return this.cdRow[this.cpDinGenKeyName]
+
+        if (this.cRow != null && this.cRow[this.cpDinGenKeyName] != null)
+          return this.cRow[this.cpDinGenKeyName]
+
         return null
+      }
 
       return this.$route.params[this.cpDinGenKeyName]
     },
@@ -57,7 +64,7 @@ export default {
       if (this.cdAction.name === 'create')
         return true
 
-      if ((this.cRow != null && this.cRow.id) || (this.cdRow != null && this.cdRow.id))
+      if ((this.cRow != null && this.cRow[this.cpDinGenKeyName]) || (this.cdRow != null && this.cdRow[this.cpDinGenKeyName]))
         return true
 
       return false
