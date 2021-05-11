@@ -97,7 +97,6 @@ export default {
   },
 
   mounted () {
-    console.log(['dialog',this])
     //console.log(this.cDepthMarginRatio)
   }
 }
