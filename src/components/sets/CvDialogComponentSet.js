@@ -62,6 +62,7 @@ export default {
 
         this.mSetDialogAction(this.cResource.actions[action])
           .mSetDialogKeyAction(row[this.cpDinGenKeyName])
+          .mSetDialogActionParams({row})
           .mSetShowActionDialog(true)
       }
     }

@@ -1,6 +1,7 @@
 <template>
   <div>
     <q-dialog
+      :ref="'action-dialog-ref'"
       :value="cpDinGenShowActionDialog"
       @input="(()=>{this.emDinGenShowActionDialogEmitter(false)})"
       @hide="(()=>{this.emDinGenActionCanceledEmitter()})"
@@ -15,7 +16,7 @@
           :cv-din-gen-action-mode="'dialog'"
           :cv-din-gen-key-value="cpDinGenKeyValue"
           :cv-din-gen-action-params="cpDinGenDialogActionParams"
-          @action-canceled="emDinGenActionCanceledEmitter"
+          @action-canceled="mHide"
           @action-completed="emDinGenActionCompletedEmitter"
         ></component>
       </div>
@@ -96,8 +97,10 @@ export default {
     }
   },
 
-  mounted () {
-    //console.log(this.cDepthMarginRatio)
+  methods: {
+    mHide(){
+      this.$refs['action-dialog-ref'].hide()
+    }
   }
 }
 </script>

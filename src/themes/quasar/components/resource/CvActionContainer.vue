@@ -23,7 +23,7 @@
     <div >
       <slot name="cv-buttons-slot"
       >
-        <span v-cv-empty-slot="'cvButtonsSlot'"></span>
+        <span v-cv-empty-slot="'cvButtonsSlot'"></span>asdasd
       </slot>
     </div>
   </div>
