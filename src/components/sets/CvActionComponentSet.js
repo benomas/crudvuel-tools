@@ -310,7 +310,7 @@ export default {
       return this.mActionAccessing(actionName).getResourceActionName()
     },
 
-    mActionGetRowServiceBuild () {
+    mActionGetRowServiceBuilder () {
       let endPoint = this.cpStaGenAction.getService || function () {
         new Promise((resolve, reject) => {
           console.log('No get service defined')
@@ -326,7 +326,7 @@ export default {
       return cvRowServiceCaller.setEndPoint(endPoint)
     },
 
-    mActionSetRowServiceBuild () {
+    mActionSetRowServiceBuilder () {
       let endPoint = this.cpStaGenAction.setService || function () {
         new Promise((resolve, reject) => {
           console.log('No get service defined')
@@ -345,7 +345,7 @@ export default {
       return cvRowServiceCaller.setEndPoint(endPoint)
     },
 
-    mActionGetRowsServiceBuild () {
+    mActionGetRowsServiceBuilder () {
       let endPoint = this.cpStaGenAction.getService || function () {
         new Promise((resolve, reject) => {
           console.log('No get service defined')
@@ -361,7 +361,7 @@ export default {
       return cvRowsServiceCaller.setEndPoint(endPoint)
     },
 
-    mActionSetRowsServiceBuild () {
+    mActionSetRowsServiceBuilder () {
       let endPoint = this.cpStaGenAction.getService || function () {
         new Promise((resolve, reject) => {
           console.log('No get service defined')
