@@ -17,7 +17,7 @@
           :cv-din-gen-key-value="cpDinGenKeyValue"
           :cv-din-gen-action-params="cpDinGenDialogActionParams"
           @action-canceled="mHide"
-          @action-completed="emDinGenActionCompletedEmitter"
+          @action-completed="mHide"
         ></component>
       </div>
     </q-dialog>

@@ -1,6 +1,8 @@
-import VueMirroring     from 'crudvuel-tools/src/mirroring/VueMirroring'
-import CvSynchronizer   from 'crudvuel-tools/src/CvSynchronizer'
-import {get}            from 'lodash'
+import VueMirroring           from 'crudvuel-tools/src/mirroring/VueMirroring'
+import CvSynchronizer         from 'crudvuel-tools/src/CvSynchronizer'
+import CvRowServiceCaller     from 'crudvuel-tools/src/network/CvRowServiceCaller'
+import CvRowsServiceCaller    from 'crudvuel-tools/src/network/CvRowsServiceCaller'
+import {get}                  from 'lodash'
 let cvSynchronizer = new CvSynchronizer()
 
 export default {
@@ -306,6 +308,77 @@ export default {
         return ''
 
       return this.mActionAccessing(actionName).getResourceActionName()
+    },
+
+    mActionGetRowServiceBuild () {
+      let endPoint = this.cpStaGenAction.getService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No get service defined')
+          reject(new Error('No get service defined'))
+        })
+      }
+
+      let cvRowServiceCaller =  new CvRowServiceCaller()
+
+      if (this.cdDinGenKeyValue != null)
+        cvRowServiceCaller.setId(this.cdDinGenKeyValue)
+
+      return cvRowServiceCaller.setEndPoint(endPoint)
+    },
+
+    mActionSetRowServiceBuild () {
+      let endPoint = this.cpStaGenAction.setService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No get service defined')
+          reject(new Error('No get service defined'))
+        })
+      }
+
+      let cvRowServiceCaller =  new CvRowServiceCaller()
+
+      if (this.cdDinGenKeyValue != null)
+        cvRowServiceCaller.setId(this.cdDinGenKeyValue)
+
+      if (this.cdRow != null)
+        cvRowServiceCaller.setParams(this.cdRow)
+
+      return cvRowServiceCaller.setEndPoint(endPoint)
+    },
+
+    mActionGetRowsServiceBuild () {
+      let endPoint = this.cpStaGenAction.getService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No get service defined')
+          reject(new Error('No get service defined'))
+        })
+      }
+
+      let cvRowsServiceCaller =  new CvRowsServiceCaller()
+
+      if (this.mPaginator != null)
+        cvRowsServiceCaller.setQString(this.mPaginator())
+
+      return cvRowsServiceCaller.setEndPoint(endPoint)
+    },
+
+    mActionSetRowsServiceBuild () {
+      let endPoint = this.cpStaGenAction.getService || function () {
+        new Promise((resolve, reject) => {
+          console.log('No get service defined')
+          reject(new Error('No get service defined'))
+        })
+      }
+
+      let cvRowsServiceCaller =  new CvRowsServiceCaller()
+
+      if (this.mPaginator != null)
+        cvRowsServiceCaller.setQString(this.mPaginator())
+
+      if (this.cdRows != null)
+        cvRowsServiceCaller.setParams(this.cdRows)
+
+      return cvRowsServiceCaller.setEndPoint(endPoint)
     }
+
   }
 }
