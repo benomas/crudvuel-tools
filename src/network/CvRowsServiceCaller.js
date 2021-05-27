@@ -8,7 +8,6 @@ export default class CvRowsServiceBuilder {
 
 // [Specific Logic]
   call() {
-    console.log({...this.getQString()})
     return this.getEndPoint()(
       this.getParams(),
       this.getUrl(),
