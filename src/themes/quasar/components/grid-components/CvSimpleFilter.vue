@@ -1,8 +1,8 @@
 <template>
   <div class="filters-container">
     <q-input
-      borderless
-      standout
+      :borderless="!cpDinInsMaterializeMode"
+      :standout="!cpDinInsMaterializeMode"
       dense
       autocomplete="off"
       ref="inputRef"
@@ -13,7 +13,7 @@
       :clear-icon="cpDinInsClearIcon"
       :color="cpDinInsColor"
       :bg-color="cpDinInsBgColor"
-      :outlined="!cpDinInsDisableFields"
+      :outlined="!cpDinInsMaterializeMode && !cpDinInsDisableFields"
       :clearable="!cpDinInsDisableFields"
       :readonly="cpDinInsDisableFields"
       :hide-underline="cpDinInsDisableFields"

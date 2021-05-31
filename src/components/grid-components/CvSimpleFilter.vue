@@ -36,6 +36,7 @@ export default {
       '[P]dinInsClearIcon'            : 'fas fa-times-circle',
       '[P]dinInsColor'                : 'primary',
       '[P]dinInsBgColor'              : 'white',
+      '[P]dinInsMaterializeMode'      : false,
       '[P]dinInsDisableFields'        : false,
       '[P|EM]dinInsSearch'            : '',
       '[P]dinInsShowIcon'             : true,
