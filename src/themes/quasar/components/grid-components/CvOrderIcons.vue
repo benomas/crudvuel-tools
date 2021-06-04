@@ -12,7 +12,7 @@
         name="ascending-icon"
         v-if="cpDinGenOrderBy === cpStaInsRowField && cpDinGenAscending"
       >
-        <q-icon name="fas fa-sort-amount-down-alt"  color="primary" class="my-auto"/>
+        <q-icon name="fas fa-sort-amount-down"  color="primary" class="my-auto"/>
       </slot>
 
       <slot
