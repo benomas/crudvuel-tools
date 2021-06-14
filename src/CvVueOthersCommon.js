@@ -260,7 +260,10 @@ export default function (store,staticMixin = {}) {
       },
 
       mGoHome () {
-        store.getters.cStCurrentCvRouter.routeRedirectToLoguedStart()
+        if(store.getters.cStCurrentCvRouter.routeRedirectToHome != null)
+          store.getters.cStCurrentCvRouter.routeRedirectToHome()
+        else
+          store.getters.cStCurrentCvRouter.routeRedirectToLoguedStart()
       },
 
       mRandomKey () {
