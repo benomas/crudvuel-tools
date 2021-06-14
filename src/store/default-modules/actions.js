@@ -2,7 +2,7 @@ import {trimStart} from 'lodash'
 
 export const mStLogin = (state,credentials) => {
   return new Promise((resolve, reject) => {
-    state.getters.cStCvGeneralServices.login(credentials.email,credentials.password).then(response => {
+    state.getters.cStCvGeneralServices.login(credentials).then(response => {
       state.dispatch('mStReloadUserData').then(response => {
         state.dispatch('mStForceSecureWebAppMode')
         resolve(response)
@@ -134,7 +134,7 @@ export const mStSwitchInternalExternalMode = (state) => {
 
 export const mStLoadCvGeneralServices = (state) => {
   return new Promise((resolve, reject) => {
-    import('src/services/general').then((cvGeneralServices) => {
+    import('src/services/General').then((cvGeneralServices) => {
       let CvGeneralServices = cvGeneralServices.default
       let generalServices = new CvGeneralServices(state)
       state.commit('setCvGeneralServices',generalServices)

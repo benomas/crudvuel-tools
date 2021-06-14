@@ -1,34 +1,36 @@
-export default function (store) {
-  store.dispatch('mStInyector',this)
-  this.resourceName   = 'general'
+export default class General {
+  constructor (store) {
+    store.dispatch('mStInyector',this)
+    this.resourceName   = 'general'
+  }
 
-  this.login = function (email,password) {
+  login (credentials) {
     return this.mGetStCvComunicator().axios.post('oauth/token',{
       'client_id'     : this.mGetStCvEnv().apiClient(),
       'client_secret' : this.mGetStCvEnv().apiSecret(),
       'grant_type'    : 'password',
-      'username'      : email,
-      'password'      : password
+      'username'      : credentials.email,
+      'password'      : credentials.password
     })
   }
 
-  this.logout = function () {
+  logout () {
     return this.mGetStCvComunicator().axios.get('api/logout')
   }
 
-  this.register = function (data = {}) {
+  register (data = {}) {
     return this.mGetStCvComunicator().axios.post('api/register',data)
   }
 
-  this.recovery = function (data = {}) {
+  recovery (data = {}) {
     return this.mGetStCvComunicator().axios.post('api/recovery',data)
   }
 
-  this.confirm = function (data = {}) {
+  confirm (data = {}) {
     return this.mGetStCvComunicator().axios.post('api/confirm',data)
   }
 
-  this.reloadUserData = function () {
+  reloadUserData () {
     return new Promise((resolve, reject) => {
       this.mGetStCvComunicator().resources.users.profile().then(response => {
         this.cStStore.commit('setCurrentUser',response.data.data)
@@ -45,4 +47,4 @@ export default function (store) {
       }).catch(response => reject(response))
     })
   }
-};
+}
