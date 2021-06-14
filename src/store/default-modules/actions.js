@@ -229,6 +229,7 @@ let actions = [
   'mStLoadUnauthorizedInteractions',
   'mStReloadUserData',
   'mStReloadMode',
+  'mStForceSecureWebAppMode',
   'mStSetSecureWebAppMode',
   'mStSetWebAppMode',
   'mStSetResources',

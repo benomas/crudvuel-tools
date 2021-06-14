@@ -18,6 +18,7 @@ export default class CvPrivateInternalRouter extends CvBaseRouter {
     if (this.startsWith(to.fullPath,this.pathToAuth()) && this.mGetStCvPassport().autenticated()) {
       if (!this.mGetStCurrentUser()) {
         if (await this.mStReloadUserData()) {
+          this.mStForceSecureWebAppMode()
           next(this.mGetStCurrentCvRouter().pathToLoguedStart())
 
           return this.STOPPED
@@ -27,6 +28,7 @@ export default class CvPrivateInternalRouter extends CvBaseRouter {
           return this.STOPPED
         }
       } else {
+        this.mStForceSecureWebAppMode()
         next(this.mGetStCurrentCvRouter().pathToLoguedStart())
         return this.STOPPED
       }
