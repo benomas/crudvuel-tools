@@ -12,7 +12,7 @@
         </div>
 
         <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
-          <thead class="gt-sm" v-show="cShowTableMode">
+          <thead v-show="cShowTableMode">
             <tr slot="cv-ths-slot" >
               <slot name="headers-slot" >
               </slot>
@@ -94,7 +94,7 @@
               <slot name="table-properties-slot" :slot-row="gridRow" >
               </slot>
 
-              <td  v-if="cpDinInsShowActiveTableActions && gridRow.active != null && cGtxs" class="t-center t-middle">
+              <td  v-if="cpDinInsShowActiveTableActions && gridRow.active != null" class="t-center t-middle">
                 <div
                   v-if="!mExcludeAction('deactivate') && gridRow.active"
                   @click="(()=>{
