@@ -55,20 +55,26 @@ const cvF = function (container = null, property = null) {
 const cvFixDotDepth = function (container = null, dotString = null, defValue) {
   if ( container == null || dotString == null)
     return null
+
   if (typeof dotString === 'object')
     return dotString
+
   let dotSegments = dotString.split('.')
   var fixedContainer = container
+
   for (let i = 0; i < dotSegments.length; i++){
     if(typeof fixedContainer[dotSegments[i]] === 'undefined')
       container.$set(fixedContainer,dotSegments[i],{})
+
     if (typeof defValue !== 'undefined' && i === dotSegments.length - 1)
       container.$set(fixedContainer,dotSegments[i],defValue)
 
     fixedContainer = fixedContainer[dotSegments[i]]
+
     if (typeof fixedContainer === 'undefined')
       return null
   }
+
   return fixedContainer
 }
 
