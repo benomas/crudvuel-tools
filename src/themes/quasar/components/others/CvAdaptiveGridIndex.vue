@@ -11,7 +11,7 @@
           </slot>
         </div>
 
-        <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" >
+        <table class="q-table bordered horizontal-separator striped-even loose w-100" slot="cv-grid-data" :class="cpDinInsTableClass">
           <thead v-show="cShowTableMode">
             <tr slot="cv-ths-slot" >
               <slot name="headers-slot" >
@@ -374,6 +374,7 @@ export default {
       '[P]dinInsActionCardTitleClass'    : 'bg-white bb-1px border-secondary-l-90',
       '[P]dinInsActionCardClass'         : 'row justify-start bg-secondary-l-96',
       '[P]dinInsActionCardContentClass'  : '',
+      '[P]dinInsTableClass'              : '',
       '[EM]dinGenLaunchAction'           : null
     }),
     vueMirroring.assimilate(
