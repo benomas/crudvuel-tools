@@ -31,6 +31,9 @@ export default {
           this.mSetRow({})
       }
 
+      if (this.cpDinGenActionParams != null && this.cpDinGenActionParams.mComponentInitialize != null)
+        this.cpDinGenActionParams.mComponentInitialize(this)
+
       return new Promise((resolve, reject) => {
         this.mSetReady()
         resolve()

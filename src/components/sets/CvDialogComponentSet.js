@@ -65,6 +65,54 @@ export default {
           .mSetDialogActionParams({row})
           .mSetShowActionDialog(true)
       }
+    },
+
+    mAdvancedLauchAction () {
+      const compReference = this
+      const builder = function () {
+        const selfRef     = this
+        this.action       = null
+        this.actionParams = null
+
+        this.build        = function (){
+          if (!selfRef.getAction())
+            return
+
+          if (compReference.cpDinGenActionMode === 'route')
+            compReference.$router.push(selfRef.getAction().getFixedPath(selfRef.getActionParams()))
+
+          if (compReference.cpDinGenActionMode === 'dialog') {
+            if (compReference.mSetShowActionDialog == null)
+              return
+
+            compReference.mSetDialogAction(selfRef.getAction())
+              .mSetDialogActionParams(selfRef.getActionParams())
+              .mSetShowActionDialog(true)
+          }
+        }
+
+        this.getAction    = function (){
+          return selfRef.action
+        }
+
+        this.getActionParams    = function (){
+          return selfRef.actionParams
+        }
+
+        this.setAction    = function (action){
+          selfRef.action = action
+
+          return this
+        }
+
+        this.setActionParams    = function (actionParams){
+          selfRef.actionParams = actionParams
+
+          return this
+        }
+      }
+
+      return new builder()
     }
   }
 }
