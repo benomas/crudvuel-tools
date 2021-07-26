@@ -1,7 +1,7 @@
 <script>
 import {kebabCase,camelCase} from 'lodash'
 export default {
-  methods:{
+  methods: {
     mGetUnauthorizedInteractions (special) {
       if (this.$store != null)
         return this.$store.getters.cStUnauthorizedInteractions
@@ -11,31 +11,31 @@ export default {
 
       return null
     },
-//to be deprecated because has malformed name
+    //to be deprecated because has malformed name
     hasSpecialPermission (special) {
       return !this.mGetUnauthorizedInteractions() ||
         typeof this.mGetUnauthorizedInteractions()['special'] === 'undefined' ||
         typeof this.mGetUnauthorizedInteractions()['special'][special] === 'undefined'
     },
-//to be deprecated because has malformed name
+    //to be deprecated because has malformed name
     hasSectionPermission (section) {
       return !this.mGetUnauthorizedInteractions() ||
         typeof this.mGetUnauthorizedInteractions()['section'] === 'undefined' ||
         typeof this.mGetUnauthorizedInteractions()['section'][section + '-section'] === 'undefined'
     },
-//to be deprecated because has malformed name
+    //to be deprecated because has malformed name
     hasResourcePermission (resource) {
       return !this.mGetUnauthorizedInteractions() ||
         typeof this.mGetUnauthorizedInteractions()['resource'] === 'undefined' ||
         typeof this.mGetUnauthorizedInteractions()['resource'][kebabCase(resource)] === 'undefined'
     },
-//to be deprecated because has malformed name
+    //to be deprecated because has malformed name
     hasActionPermission (action = null, resource = null) {
-      if(this.mActionAccessing == null)
+      if (this.mActionAccessing == null)
         return true
 
       action = this.mActionAccessing(action,resource)
-//to be deprecated because has malformed name
+      //to be deprecated because has malformed name
       return !this.mGetUnauthorizedInteractions() ||
         this.mGetUnauthorizedInteractions()['action'] === undefined ||
         (
@@ -72,24 +72,43 @@ export default {
     },
 
     mHasActionPermission (action = null, resource = null,preventAccessWithoutResourceAccess = true) {
-      if(typeof action === 'string'){
-        if(this.mActionAccessing == null)
+      let actionSegment   = null
+      let resourceSegment = null
+
+      let fixByAction = function () {
+        if (action.getName == null || action.getResourceName == null)
           return true
 
-        action = this.mActionAccessing(action,resource)
+        actionSegment   = camelCase(action.getName())
+        resourceSegment = kebabCase(action.getResourceName())
       }
 
-      if (action == null)
+      if (typeof action === 'object') {
+        fixByAction()
+      } else {
+        if (resource == null) {
+          if (this.mActionAccessing == null)
+            return true
+
+          action = this.mActionAccessing(action,resource)
+          fixByAction()
+        } else {
+          actionSegment   = camelCase(action)
+          resourceSegment = kebabCase(resource)
+        }
+      }
+
+      if (actionSegment == null || resourceSegment == null)
         return true
 
-      if (preventAccessWithoutResourceAccess && !this.mHasResourcePermission(action.resource.name))
+      if (preventAccessWithoutResourceAccess && !this.mHasResourcePermission(resourceSegment))
         return false
 
       return !this.mGetUnauthorizedInteractions() ||
         this.mGetUnauthorizedInteractions()['action'] === undefined ||
         (
-          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined &&
-          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${kebabCase(action.getName())}`]  === undefined
+          this.mGetUnauthorizedInteractions()['action'][`${resourceSegment}.${actionSegment}`]  === undefined &&
+          this.mGetUnauthorizedInteractions()['action'][`${resourceSegment}.${kebabCase(actionSegment)}`]  === undefined
         )
     },
 
