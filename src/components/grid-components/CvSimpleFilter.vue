@@ -53,11 +53,12 @@ export default {
       '[EM]dinInsMouseLeave'          : null,
       '[EM]dinInsCleared'             : null,
       '[D]lastEmission'               : null,
-      '[D]preventDebounce'            : false
+      '[D]preventDebounce'            : false,
+      '[P]dinInsHint'                 : ''
     })
   ],
 
-  methods:{
+  methods: {
     emDinInsSearchProccesor (emitted = null) {
       let fixedEmitted = emitted != null ? emitted : ''
       this.mSetLastEmission(fixedEmitted)
@@ -65,26 +66,26 @@ export default {
       if (fixedEmitted == null || fixedEmitted === '')
         this.mSetPreventDebounce(true)
 
-      return new Promise ((resolve, reject) => {
-        if (this.cdPreventDebounce){
+      return new Promise((resolve, reject) => {
+        if (this.cdPreventDebounce) {
           this.mSetPreventDebounce(false)
           resolve(fixedEmitted)
-        }else{
+        } else {
           (debounce(() => {
-              if (this.cdLastEmission === fixedEmitted){
-                return resolve(fixedEmitted)
-              }else{
-                reject(fixedEmitted)
-              }
-            },
-            this.cpDinInsKeyInterruptionLimit
+            if (this.cdLastEmission === fixedEmitted) {
+              return resolve(fixedEmitted)
+            } else {
+              reject(fixedEmitted)
+            }
+          },
+          this.cpDinInsKeyInterruptionLimit
           ))()
         }
       })
     },
 
     emDinInsFocusedProccesor (emitted = null) {
-      return new Promise ((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         resolve(emitted)
         this.emDinInsSearchEmitter(this.cpDinInsSearch)
       })
@@ -94,15 +95,14 @@ export default {
       if ([13,27,46].includes(keyup.keyCode))
         this.mSetPreventDebounce(true).emDinInsSearchEmitter(keyup.keyCode === 13 ? this.cdLastEmission : '')
 
-      return new Promise ((resolve, reject) => resolve())
+      return new Promise((resolve, reject) => resolve())
     }
   },
 
-  computed:{
+  computed: {
     cInputRef () {
       return this.$refs['inputRef']
     }
   }
 }
 </script>
-

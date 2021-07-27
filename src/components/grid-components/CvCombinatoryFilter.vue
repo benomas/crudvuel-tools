@@ -49,30 +49,31 @@ export default {
       '[EM]dinInsMouseLeave'          : null,
       '[EM]dinInsCleared'             : '',
       '[D]lastEmission'               : null,
-      '[D]preventDebounce'            : false
+      '[D]preventDebounce'            : false,
+      '[P]dinInsHint'                 : ''
     })
   ],
 
-  methods:{
-    emDinInsSearchProccesor (emitted = null){
+  methods: {
+    emDinInsSearchProccesor (emitted = null) {
       this.mSetLastEmission(emitted)
 
       if (emitted == null || emitted === '')
         this.mSetPreventDebounce(true)
 
-      return new Promise ((resolve, reject) => {
-        if (this.cdPreventDebounce){
+      return new Promise((resolve, reject) => {
+        if (this.cdPreventDebounce) {
           this.mSetPreventDebounce(false)
           resolve(emitted)
-        }else{
+        } else {
           (debounce(() => {
-              if (this.cdLastEmission === emitted){
-                return resolve(emitted)
-              }else{
-                reject(emitted)
-              }
-            },
-            this.cpDinInsKeyInterruptionLimit
+            if (this.cdLastEmission === emitted) {
+              return resolve(emitted)
+            } else {
+              reject(emitted)
+            }
+          },
+          this.cpDinInsKeyInterruptionLimit
           ))()
         }
       })
@@ -82,9 +83,8 @@ export default {
       if ([13,27,46].includes(keyup.keyCode))
         this.mSetPreventDebounce(true).emDinInsSearchEmitter(keyup.keyCode === 13 ? this.cdLastEmission : '')
 
-      return new Promise ((resolve, reject) => resolve())
+      return new Promise((resolve, reject) => resolve())
     }
   }
 }
 </script>
-
