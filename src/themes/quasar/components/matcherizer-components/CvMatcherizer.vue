@@ -184,7 +184,7 @@ export default {
 
     emStaGenActionCanceledProccesor (emitted) {
       return new Promise((resolve,reject) => {
-        this.mDelayer(200).then(()=>{
+        this.mDelayer(200).then(() => {
           if (this.mSetShowActionDialog != null)
             this.mSetShowActionDialog(false)
           resolve(emitted)
@@ -194,7 +194,7 @@ export default {
 
     emStaGenActionCompletedProccesor (emitted) {
       return new Promise((resolve,reject) => {
-        this.mDelayer(200).then(()=>{
+        this.mDelayer(200).then(() => {
           if (this.mSetShowActionDialog != null)
             this.mSetShowActionDialog(false)
           resolve(emitted)
@@ -214,7 +214,7 @@ export default {
       //fix matcherizer integration inside dialogs
       if (node.parentElement && node.offsetParent) {
         do {
-          if(node.scrollTop > 0)
+          if (node.scrollTop > 0)
             break
           //lastParentNode = node.parentElement
         } while (node = node.parentElement)
@@ -227,8 +227,7 @@ export default {
         this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
         let topMargin = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
         this.mSetListTop(`${topMargin}px`)
-      }
-      else
+      } else
         this.mSetListWidth('200px')
 
       this.mDirectionFix()
@@ -236,8 +235,8 @@ export default {
       return this
     },
 
-    mDirectionFix() {//TODO this method needs to be fixed
-      this.mDelayer(this.cpStaInsSyncTime).then(()=>{
+    mDirectionFix () { //TODO this method needs to be fixed
+      this.mDelayer(this.cpStaInsSyncTime).then(() => {
         let node = this.cFilterReferenceNode
 
         if (
@@ -247,10 +246,9 @@ export default {
           this.$refs.filterReference.offsetParent &&
           this.$refs.filterReference.offsetParent.classList &&
           this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner')
-        ){
+        ) {
           this.mSetScrollTopFix(node.scrollTop)
-        }
-        else
+        } else
           return this.mSetScrollTopFix(0)
 
         let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
@@ -260,7 +258,7 @@ export default {
 
         this.mSetListTop(`${topMargin}px`)
       })
-    },
+    }
   }
 }
 </script>

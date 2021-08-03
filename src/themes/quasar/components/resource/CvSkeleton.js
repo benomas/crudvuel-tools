@@ -110,7 +110,7 @@ export default {
     },
 
     cTabSize () {
-      if (!this.cTabCount || this.cTabCount === 0)
+      if (this.cTabCount == null || this.cTabCount === 0)
         return 100
 
       return 100 / this.cTabCount
