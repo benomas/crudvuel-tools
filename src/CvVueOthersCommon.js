@@ -1,7 +1,7 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth,
-        mIsArray,mLastArrayPosition,mSwitchArrayPosition,
-        mMoveItemUp,mMoveItemDown,cvCaseFixer,mCvDestructuring,
-        mCvConditionalDestructuring}                      from 'crudvuel-tools/src/cvHelper'
+  mIsArray,mLastArrayPosition,mSwitchArrayPosition,
+  mMoveItemUp,mMoveItemDown,cvCaseFixer,mCvDestructuring,
+  mCvConditionalDestructuring}                      from 'crudvuel-tools/src/cvHelper'
 import {split,camelCase,get,capitalize,upperFirst,round}  from 'lodash'
 import CvPermissionComponent                              from 'crudvuel/components/CvPermissionComponent'
 import cvCanAccess                                        from 'crudvuel/directives/cvCanAccess'
@@ -22,21 +22,21 @@ export default function (store,staticMixin = {}) {
         if (!value)
           return ''
 
-        return capitalize (value)
+        return capitalize(value)
       },
 
       fUcfirst: function (value = null) {
         if (!value)
           return ''
 
-        return upperFirst (value)
+        return upperFirst(value)
       },
 
       fRound: function (value = null,decimals = 2) {
         if (!value)
           return 0
 
-        return round (value,decimals)
+        return round(value,decimals)
       },
 
       fPercente: function (value = null) {
@@ -46,21 +46,21 @@ export default function (store,staticMixin = {}) {
         return ` ${value}%`
       },
 
-      fLaravelDateTimeFormat: function (value = null){
+      fLaravelDateTimeFormat: function (value = null) {
         if (value == null)
           return ''
 
         return value.replace(/(.+)?[T|t](.+)?\..*/,`$1 $2`)
       },
 
-      fLaravelDateFormat: function (value = null){
+      fLaravelDateFormat: function (value = null) {
         if (value == null)
           return ''
 
         return value.replace(/(.+)?[T|t](.+)?\..*/,`$1`)
       },
 
-      fLaravelTimeFormat: function (value = null){
+      fLaravelTimeFormat: function (value = null) {
         if (value == null)
           return ''
 
@@ -142,10 +142,10 @@ export default function (store,staticMixin = {}) {
           return null
 
         if (segments.length === 1) {
-          if(this.cResources[resourceName].actions.index == null)
+          if (this.cResources[resourceName].actions.index == null)
             return null
 
-          if(this.cResources[resourceName].actions.index == null)
+          if (this.cResources[resourceName].actions.index == null)
             return null
 
           if (!this.mHasSectionPermission(resourceName) || !this.mHasActionPermission(this.cResources[resourceName].actions.index))
@@ -157,10 +157,10 @@ export default function (store,staticMixin = {}) {
         let actionName = camelCase(segments[1])
 
         if (segments.length === 2) {
-          if(this.cResources[resourceName].actions == null)
+          if (this.cResources[resourceName].actions == null)
             return null
 
-          if(this.cResources[resourceName].actions[actionName] == null)
+          if (this.cResources[resourceName].actions[actionName] == null)
             return null
 
           if (!this.mHasActionPermission(this.cResources[resourceName].actions[actionName]))
@@ -176,14 +176,14 @@ export default function (store,staticMixin = {}) {
         if (arrayData == null || current == null)
           return false
 
-        return current === (arrayData.length -1)
+        return current === (arrayData.length - 1)
       },
 
       mIsBeforeLast (arrayData = null,current = null) {
         if (arrayData == null || current == null)
           return false
 
-        return current === (arrayData.length -2)
+        return current === (arrayData.length - 2)
       },
 
       mIsFirst (arrayData = null,current = null) {
@@ -223,7 +223,7 @@ export default function (store,staticMixin = {}) {
 
       mDelayer (delayFor = 1) {
         return new Promise((resolve, reject) => {
-          this.$nextTick().then(()=>this.$nextTick().then(()=>this.$nextTick().then(()=>{
+          this.$nextTick().then(() => this.$nextTick().then(() => this.$nextTick().then(() => {
             setTimeout(() => {
               resolve()
             }, delayFor)
@@ -237,11 +237,11 @@ export default function (store,staticMixin = {}) {
 
         let tempRef = target
 
-        for (let i = 0; i < segments.length -1 ; i++)
-          if((tempRef = tempRef[segments[i]]) == null)
+        for (let i = 0; i < segments.length - 1; i++)
+          if ((tempRef = tempRef[segments[i]]) == null)
             return target
 
-        tempRef[segments[segments.length -1]] = value
+        tempRef[segments[segments.length - 1]] = value
 
         return target
       },
@@ -252,15 +252,15 @@ export default function (store,staticMixin = {}) {
 
         let tempRef = target
 
-        for (let i = 0; i < segments.length ; i++)
-          if((tempRef = tempRef[segments[i]]) == null)
+        for (let i = 0; i < segments.length; i++)
+          if ((tempRef = tempRef[segments[i]]) == null)
             return target
 
         return tempRef
       },
 
       mGoHome () {
-        if(store.getters.cStCurrentCvRouter.routeRedirectToHome != null)
+        if (store.getters.cStCurrentCvRouter.routeRedirectToHome != null)
           store.getters.cStCurrentCvRouter.routeRedirectToHome()
         else
           store.getters.cStCurrentCvRouter.routeRedirectToLoguedStart()
@@ -270,7 +270,7 @@ export default function (store,staticMixin = {}) {
         return Math.random() * 100000000000000000
       },
 
-      mCaseFixer:cvCaseFixer,
+      mCaseFixer: cvCaseFixer,
 
       ...mapActions(Object.keys(store._actions)),
       mySubString,

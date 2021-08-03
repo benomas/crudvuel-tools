@@ -1,49 +1,51 @@
 import cvDinDep from './cvDinDep'
 export default class CvClass {
-
-  constructor(){
-    this.cvDinDep=cvDinDep;
+  constructor () {
+    this.cvDinDep = cvDinDep
   }
 
-	defError(message){
-		if (message !== undefined && message) {
-			console.log(`Config error, ${message}`)
-			return true
-		}
-	};
+  defError (message) {
+    if (message !== undefined && message) {
+      console.log(`Config error, ${message}`)
+      return true
+    }
+  };
 
-	setProperty (property,opts,defaultValue) {
-		if( property === undefined || this[property]  === undefined)
-			return this
+  setProperty (property,opts,defaultValue) {
+    if (property === undefined || this[property]  === undefined)
+      return this
 
-		if (opts !== undefined && opts[property ]!== undefined) {
-			this[property] = opts[property]
+    if (opts !== undefined && opts[property ] !== undefined) {
+      this[property] = opts[property]
       return this
     }
+
     if (defaultValue === undefined)
       this[property] = defaultValue
+
     return this
-	};
+  };
 
-	getProperty(property){
-		if(property === undefined || this[property] === undefined)
-			return null;
-		return this[property];
-	};
+  getProperty (property) {
+    if (property === undefined || this[property] === undefined)
+      return null
 
-	loadOptions(options){
-		let opts =  options
+    return this[property]
+  };
 
-		if(typeof options === 'function')
-			opts = options()
+  loadOptions (options) {
+    let opts =  options
 
-		if(typeof options === 'object' ) {
+    if (typeof options === 'function')
+      opts = options()
+
+    if (typeof options === 'object') {
       let optionsKeys = Object.keys(options)
 
-      for(let i=0;i<optionsKeys.length;i++)
+      for (let i = 0; i < optionsKeys.length; i++)
         this.setProperty(optionsKeys[i],options)
     }
 
     return this
-	}
+  }
 }

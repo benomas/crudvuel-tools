@@ -1,16 +1,16 @@
 import cvSerialize   from './cvSerialize'
-const CvParametrizer = function(paginate) {
+const CvParametrizer = function (paginate) {
   this.params = {
-    paginate     :{
-      selectQuery   : [],
-      page          : 1,
-      byColumn      : 0,
-      limit         : 10,
-      orderBy       : 'id',
-      ascending     : 1,
-      filterQuery   : {},
-      searchMode    : 'cv-simple-paginator',
-      searchObject  : '',
+    paginate: {
+      selectQuery  : [],
+      page         : 1,
+      byColumn     : 0,
+      limit        : 10,
+      orderBy      : 'id',
+      ascending    : 1,
+      filterQuery  : {},
+      searchMode   : 'cv-simple-paginator',
+      searchObject : ''
     }
   }
 
@@ -21,39 +21,39 @@ const CvParametrizer = function(paginate) {
   }
 
   this.getSelectQuery = function () {
-    return this.getParameter("selectQuery")
+    return this.getParameter('selectQuery')
   }
 
   this.getPage = function () {
-    return this.getParameter("page")
+    return this.getParameter('page')
   }
 
   this.getByColumn = function () {
-    return this.getParameter("byColumn")
+    return this.getParameter('byColumn')
   }
 
   this.getLimit = function () {
-    return this.getParameter("limit")
+    return this.getParameter('limit')
   }
 
   this.getOrderBy = function () {
-    return this.getParameter("orderBy")
+    return this.getParameter('orderBy')
   }
 
   this.getAscending = function () {
-    return this.getParameter("ascending")
+    return this.getParameter('ascending')
   }
 
   this.getFilterQuery = function () {
-    return this.getParameter("filterQuery")
+    return this.getParameter('filterQuery')
   }
 
   this.getSearchMode = function () {
-    return this.getParameter("searchMode")
+    return this.getParameter('searchMode')
   }
 
   this.getSearchObject = function () {
-    return this.getParameter("searchObject")
+    return this.getParameter('searchObject')
   }
 
   this.getPaginate = function () {
@@ -76,41 +76,41 @@ const CvParametrizer = function(paginate) {
 
   this.setParameter = function (parameter = null,value = null) {
     if (this.params.paginate[parameter] !== undefined)
-      this.params.paginate[parameter]=value
+      this.params.paginate[parameter] = value
     return this
   }
 
   this.setPage = function (value = null) {
-    return this.setParameter("page",value)
+    return this.setParameter('page',value)
   }
 
   this.setByColumn = function (value = null) {
-    return this.setParameter("byColumn",value)
+    return this.setParameter('byColumn',value)
   }
 
   this.setLimit = function (value = null) {
-    return this.setParameter("limit",value)
+    return this.setParameter('limit',value)
   }
 
   this.setOrderBy = function (value = null) {
-    return this.setParameter("orderBy",value)
+    return this.setParameter('orderBy',value)
   }
 
   this.setAscending = function (value = null) {
-    return this.setParameter("ascending",value)
+    return this.setParameter('ascending',value)
   }
 
   this.setFilterQuery = function (value = {}) {
-    return this.setParameter("filterQuery",value)
+    return this.setParameter('filterQuery',value)
   }
 
   this.setSelectQuery = function (value = []) {
-    return this.setParameter("selectQuery",value)
+    return this.setParameter('selectQuery',value)
   }
 
-  this.pushFilter=function(property,value = ''){
-    if( property !==undefined &&  value !==undefined)
-      this.params.paginate.filterQuery[property]=value
+  this.pushFilter = function (property,value = '') {
+    if (property !== undefined &&  value !== undefined)
+      this.params.paginate.filterQuery[property] = value
     return this
   }
 
@@ -120,23 +120,23 @@ const CvParametrizer = function(paginate) {
   }
 
   this.setSearchMode = function (value = null) {
-    return this.setParameter("searchMode",value)
+    return this.setParameter('searchMode',value)
   }
 
   this.setSearchObject = function (value = null) {
-    return this.setParameter("searchObject",value)
+    return this.setParameter('searchObject',value)
   }
 
   this.setPaginate = function (paginate) {
-    if( paginate !==undefined)
+    if (paginate !== undefined)
       this.params.paginate = paginate
     return this
   }
 
-  this.serialize=cvSerialize
+  this.serialize = cvSerialize
 
-  if( paginate !==undefined)
-    this.params.paginate=paginate
+  if (paginate !== undefined)
+    this.params.paginate = paginate
 }
 
 export default CvParametrizer

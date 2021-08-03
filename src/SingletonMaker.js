@@ -1,18 +1,21 @@
 export default class FactoryMaker {
   constructor (container = null) {
     this.container = container
-    if(!this.hasContainer())
+
+    if (!this.hasContainer())
       return this.build()
-    if(!this.hasVuex())
+
+    if (!this.hasVuex())
       return this.buildWithVuex()
+
     return this.buildVar()
   }
 
-  hasContainer (){
+  hasContainer () {
     return this.container != null
   }
 
-  hasVuex (){
+  hasVuex () {
     return this.container.state != null && this.container._mutators != null
   }
 

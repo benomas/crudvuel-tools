@@ -1,7 +1,7 @@
-import {camelCase,capitalize,kebabCase,
-  lowerCase,lowerFirst,snakeCase,split,
-  toLower,toUpper,trim,trimEnd,
-  trimStart,truncate,upperCase,upperFirst,startCase,replace} from 'lodash'
+import {camelCase,kebabCase,
+  lowerCase,snakeCase,split,
+  trim,
+  upperCase,upperFirst,startCase,replace} from 'lodash'
 
 var cvAuthHelper = (context) => {
   var parentContext = context
@@ -30,30 +30,30 @@ var cvAuthHelper = (context) => {
 }
 
 const mySubString = function (subject,patter) {
-  let regexString = "(.|\s)*" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + "(.|\s)*"
-  let patt = new RegExp(regexString,"i")
+  let regexString = '(.|\s)*' + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, '\\$&') + '(.|\s)*'
+  let patt = new RegExp(regexString,'i')
   return patt.test(subject)
 }
 
 const myReplace = function (subject,patter,replace) {
-  let regexString = "(" + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, "\\$&") + ")"
-  let patt = new RegExp(regexString,"ig")
+  let regexString = '(' + String(patter).replace(/[$%()*+.?\[\\\]{|}]/g, '\\$&') + ')'
+  let patt = new RegExp(regexString,'ig')
   let fixDataType = subject
 
-  if(typeof fixDataType === 'boolean' || typeof fixDataType === 'number')
-    fixDataType=fixDataType.toString()
+  if (typeof fixDataType === 'boolean' || typeof fixDataType === 'number')
+    fixDataType = fixDataType.toString()
 
   return fixDataType.replace(patt,replace)
 }
 
 const cvF = function (container = null, property = null) {
-  if ( container == null || property == null)
+  if (container == null || property == null)
     return null
   return container[property] == null ? null : container[property]
 }
 
 const cvFixDotDepth = function (container = null, dotString = null, defValue) {
-  if ( container == null || dotString == null)
+  if (container == null || dotString == null)
     return null
 
   if (typeof dotString === 'object')
@@ -62,8 +62,8 @@ const cvFixDotDepth = function (container = null, dotString = null, defValue) {
   let dotSegments = dotString.split('.')
   var fixedContainer = container
 
-  for (let i = 0; i < dotSegments.length; i++){
-    if(typeof fixedContainer[dotSegments[i]] === 'undefined')
+  for (let i = 0; i < dotSegments.length; i++) {
+    if (typeof fixedContainer[dotSegments[i]] === 'undefined')
       container.$set(fixedContainer,dotSegments[i],{})
 
     if (typeof defValue !== 'undefined' && i === dotSegments.length - 1)
@@ -81,18 +81,17 @@ const cvFixDotDepth = function (container = null, dotString = null, defValue) {
 const  cvBase64 = {
 
   // private property
-  _keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+  _keyStr: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=',
 
   // public method for encoding
-  encode : function (input) {
-    var output = ""
+  encode: function (input) {
+    var output = ''
     var chr1, chr2, chr3, enc1, enc2, enc3, enc4
     var i = 0
 
     input = cvBase64._utf8_encode(input)
 
     while (i < input.length) {
-
       chr1 = input.charCodeAt(i++)
       chr2 = input.charCodeAt(i++)
       chr3 = input.charCodeAt(i++)
@@ -111,23 +110,21 @@ const  cvBase64 = {
       output = output +
       this._keyStr.charAt(enc1) + this._keyStr.charAt(enc2) +
       this._keyStr.charAt(enc3) + this._keyStr.charAt(enc4)
-
     }
 
     return output
   },
 
   // public method for decoding
-  decode : function (input) {
-    var output = ""
+  decode: function (input) {
+    var output = ''
     var chr1, chr2, chr3
     var enc1, enc2, enc3, enc4
     var i = 0
 
-    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "")
+    input = input.replace(/[^A-Za-z0-9\+\/\=]/g, '')
 
     while (i < input.length) {
-
       enc1 = this._keyStr.indexOf(input.charAt(i++))
       enc2 = this._keyStr.indexOf(input.charAt(i++))
       enc3 = this._keyStr.indexOf(input.charAt(i++))
@@ -145,68 +142,58 @@ const  cvBase64 = {
       if (enc4 != 64) {
         output = output + String.fromCharCode(chr3)
       }
-
     }
 
     return cvBase64._utf8_decode(output)
-
   },
 
   // private method for UTF-8 encoding
-  _utf8_encode : function (string) {
-    string = string.replace(/\r\n/g,"\n")
-    var utftext = ""
+  _utf8_encode: function (string) {
+    string = string.replace(/\r\n/g,'\n')
+    var utftext = ''
 
     for (var n = 0; n < string.length; n++) {
-
       var c = string.charCodeAt(n)
 
       if (c < 128) {
         utftext += String.fromCharCode(c)
-      }
-      else if((c > 127) && (c < 2048)) {
+      } else if ((c > 127) && (c < 2048)) {
         utftext += String.fromCharCode((c >> 6) | 192)
         utftext += String.fromCharCode((c & 63) | 128)
-      }
-      else {
+      } else {
         utftext += String.fromCharCode((c >> 12) | 224)
         utftext += String.fromCharCode(((c >> 6) & 63) | 128)
         utftext += String.fromCharCode((c & 63) | 128)
       }
-
     }
 
     return utftext
   },
 
   // private method for UTF-8 decoding
-  _utf8_decode : function (utftext) {
-    var string = ""
+  _utf8_decode: function (utftext) {
+    var string = ''
     var i  = 0
     var c  = 0
     var c1 = 0
     var c2 = 0
 
-    while ( i < utftext.length ) {
-
+    while (i < utftext.length) {
       c = utftext.charCodeAt(i)
 
       if (c < 128) {
         string += String.fromCharCode(c)
         i++
-      }
-      else if((c > 191) && (c < 224)) {
-        c2 = utftext.charCodeAt(i+1)
+      } else if ((c > 191) && (c < 224)) {
+        c2 = utftext.charCodeAt(i + 1)
         string += String.fromCharCode(((c & 31) << 6) | (c2 & 63))
         i += 2
-      }
-      else {
-        c2 = utftext.charCodeAt(i+1)
-        c3 = utftext.charCodeAt(i+2)
+      } else {
+        c2 = utftext.charCodeAt(i + 1)
+        c3 = utftext.charCodeAt(i + 2)
         string += String.fromCharCode(((c & 15) << 12) | ((c2 & 63) << 6) | (c3 & 63))
         i += 3
       }
-
     }
 
     return string
@@ -264,11 +251,10 @@ const cvTitleCase = function (text = '') {
   return upperFirst(text)
 }
 
-const cvCaseFixer = function(path,text = '') {
-
-  for (const stringCase of split(path,'|')){
+const cvCaseFixer = function (path,text = '') {
+  for (const stringCase of split(path,'|')) {
     let newStringcase = cvCamelCase(`cv ${stringCase} Case`)
-    if(eval("typeof " + newStringcase) === 'function'){
+    if (eval('typeof ' + newStringcase) === 'function') {
       text = eval(newStringcase)(text)
     }
   }
@@ -276,7 +262,7 @@ const cvCaseFixer = function(path,text = '') {
   return text
 }
 
-const cvNumberToAbc = function (n=null) {
+const cvNumberToAbc = function (n = null) {
   if (n == null)
     return ''
 
@@ -285,27 +271,27 @@ const cvNumberToAbc = function (n=null) {
   let len = ordZ - ordA + 1
   let s = ''
 
-  while(n >= 0) {
-      s = String.fromCharCode(n % len + ordA) + s
-      n = Math.floor(n / len) - 1
+  while (n >= 0) {
+    s = String.fromCharCode(n % len + ordA) + s
+    n = Math.floor(n / len) - 1
   }
 
   return s
 }
 
-const cvRomanize = function(n=null) {
+const cvRomanize = function (n = null) {
   if (n == null)
     return ''
 
   if (isNaN(n))
-      return '';
+    return ''
 
-  let lookup = {M:1000,CM:900,D:500,CD:400,C:100,XC:90,L:50,XL:40,X:10,IX:9,V:5,IV:4,I:1}
+  let lookup = {M: 1000,CM: 900,D: 500,CD: 400,C: 100,XC: 90,L: 50,XL: 40,X: 10,IX: 9,V: 5,IV: 4,I: 1}
   let roman = ''
   let i
 
-  for ( i in lookup ) {
-    while ( n >= lookup[i] ) {
+  for (i in lookup) {
+    while (n >= lookup[i]) {
       roman += i
       n -= lookup[i]
     }
@@ -314,7 +300,7 @@ const cvRomanize = function(n=null) {
   return roman
 }
 
-const cvEnumerator = function(codeHook = null, position = null) {
+const cvEnumerator = function (codeHook = null, position = null) {
   if (codeHook == null && position == null)
     return ''
 
@@ -335,22 +321,22 @@ const cvEnumerator = function(codeHook = null, position = null) {
   return ''
 }
 
-const mIsArray = function(arrayData = null){
-  return Object.prototype.toString.call( arrayData ) === '[object Array]'
+const mIsArray = function (arrayData = null) {
+  return Object.prototype.toString.call(arrayData) === '[object Array]'
 }
 
 const mLastArrayPosition = function (arrayData = null) {
   if (!arrayData || !mIsArray(arrayData) || !arrayData.length)
     return null
 
-  return arrayData.length -1
+  return arrayData.length - 1
 }
 
-const mSwitchArrayPosition = function (arrayData = null,position1 = null, position2 = null){
-  if(position1 === null || position2 === null || arrayData === null || !mIsArray(arrayData))
+const mSwitchArrayPosition = function (arrayData = null,position1 = null, position2 = null) {
+  if (position1 === null || position2 === null || arrayData === null || !mIsArray(arrayData))
     return null
 
-  if(arrayData[position1] === null || arrayData[position2] === null || !arrayData.length)
+  if (arrayData[position1] === null || arrayData[position2] === null || !arrayData.length)
     return arrayData
 
   let tempPosition = arrayData[position1]
@@ -360,25 +346,25 @@ const mSwitchArrayPosition = function (arrayData = null,position1 = null, positi
   return arrayData
 }
 
-const mMoveItemUp = function (arrayData = null,position = null){
+const mMoveItemUp = function (arrayData = null,position = null) {
   if (position == null)
     return arrayData
 
-  return mSwitchArrayPosition(arrayData,position,position-1)
+  return mSwitchArrayPosition(arrayData,position,position - 1)
 }
 
-const mMoveItemDown = function (arrayData = null,position = null){
+const mMoveItemDown = function (arrayData = null,position = null) {
   if (position == null)
     return arrayData
 
-  return mSwitchArrayPosition(arrayData,position,position+1)
+  return mSwitchArrayPosition(arrayData,position,position + 1)
 }
 
-const mCvDestructuring = function (data1=null,data2=null){
+const mCvDestructuring = function (data1 = null,data2 = null) {
   return Array.isArray(data2) ? [...data1,...data2] : {...data1,...data2}
 }
 
-const mCvConditionalDestructuring = function (data1=null,data2=null){
+const mCvConditionalDestructuring = function (data1 = null,data2 = null) {
   return Array.isArray(data2) ? data2 : {...data1,...data2}
 }
 

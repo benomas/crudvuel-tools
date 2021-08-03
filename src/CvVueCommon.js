@@ -22,13 +22,13 @@ export default class CvVueCommon {
 
           let sections  = {}
 
-          for (const [resource, resourceDef] of Object.entries(this.cResources)){
+          for (const [resource, resourceDef] of Object.entries(this.cResources)) {
             if (resourceDef.resourceSections == null)
               continue
 
             for (const section of resourceDef.resourceSections) {
               if (sections[section] == null)
-                sections[section] = {'resources':{}}
+                sections[section] = {'resources': {}}
 
               sections[section]['resources'][resource] = true
             }
@@ -177,34 +177,34 @@ export default class CvVueCommon {
         },
 
         cLandscape () {
-          return this.cWindowsWidth>this.cWindowsHeight
+          return this.cWindowsWidth >  this.cWindowsHeight
         },
 
-        cPortrait(){
+        cPortrait () {
           return !this.cLandscape
         },
 
-        cMobile(){
+        cMobile () {
           return this.$q.platform.is.mobile
         },
 
-        cQuery (){
+        cQuery () {
           return this.$route.query
         },
-        
-        cLocationProtocol (){
+
+        cLocationProtocol () {
           return location == null || location.protocol == null ? 'https' : location.protocol
         },
 
-        cLocationPort (){
+        cLocationPort () {
           return location == null || location.port == null ? '' : location.port
         },
 
-        cDocumentDomain(){
-          return document == null || document.domain== null ? 'localhost' : document.domain
+        cDocumentDomain () {
+          return document == null || document.domain == null ? 'localhost' : document.domain
         },
 
-        cBaseUrl(){
+        cBaseUrl () {
           return `${this.cLocationProtocol}//${this.cDocumentDomain}:${this.cLocationPort}/`
         },
 
