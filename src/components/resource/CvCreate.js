@@ -92,6 +92,9 @@ export default {
         if (status === 'canceled')
           this.$emit('action-canceled', null)
       }
+    },
+
+    mCvFileChange(emitted) {
     }
   },
 
