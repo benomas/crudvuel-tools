@@ -243,10 +243,10 @@ export default {
         //fixing matcherizer on scroll
         console.log([
           'fixing matcherizer on scroll',
+          scrollTopFix,
           topMargin,
           this.$refs.filterReference.clientHeight,
           this.$refs.filterReference.offsetTop,
-          scrollTopFix
         ])
         this.mSetListTop(`${topMargin}px`)
       } else
@@ -283,7 +283,9 @@ export default {
     },
 
     mOnScroll () {
-      this.mFixListStyle()
+      //console.log(this.cShowList)
+      if(this.cShowList)
+        this.mFixListStyle()
     }
   }
 }
