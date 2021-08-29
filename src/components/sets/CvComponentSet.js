@@ -49,6 +49,15 @@ export default {
         return false
 
       return this.ready
+    },
+
+    cRootRef () {
+      let rootRef = this
+
+      while (rootRef.cpStaGenParentRef != null)
+        rootRef = rootRef.cpStaGenParentRef
+
+      return rootRef
     }
   },
 

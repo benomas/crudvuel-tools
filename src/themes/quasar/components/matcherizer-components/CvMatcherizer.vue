@@ -1,5 +1,7 @@
 <template>
   <div class="cv-matcherizer-container w-100">
+    <q-scroll-observer :scroll-target="cDialogEl" @scroll="mOnScroll" />
+
     <div
       class="list-items">
       <div
@@ -107,7 +109,7 @@ import CvSimpleFilter               from 'crudvuel-tools/src/themes/quasar/compo
 import CvActionDialog               from 'crudvuel-tools/src/themes/quasar/components/others/CvActionDialog'
 
 import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
-import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook,QBtn} from 'quasar'
+import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook,QBtn,QScrollObserver} from 'quasar'
 let vueMirroring = new VueMirroring('Matcherizer')
 
 export default {
@@ -130,7 +132,17 @@ export default {
     QSpinner,
     QSpinnerFacebook,
     QBtn,
-    CvActionDialog
+    CvActionDialog,
+    QScrollObserver
+  },
+
+  computed: {
+    cDialogEl () {
+      if (this.cRootRef.cvDinGenActionMode === 'dialog' && this.cRootRef.$el != null && this.cRootRef.$el.parentElement != null)
+        return this.cRootRef.$el.parentElement
+
+      return null
+    }
   },
 
   methods: {
@@ -220,12 +232,22 @@ export default {
         } while (node = node.parentElement)
       }
 
-      if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
+      if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner')){
         scrollTopFix = node.scrollTop
+      }
 
       if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null) {
         this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
         let topMargin = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
+
+        //fixing matcherizer on scroll
+        console.log([
+          'fixing matcherizer on scroll',
+          topMargin,
+          this.$refs.filterReference.clientHeight,
+          this.$refs.filterReference.offsetTop,
+          scrollTopFix
+        ])
         this.mSetListTop(`${topMargin}px`)
       } else
         this.mSetListWidth('200px')
@@ -258,6 +280,10 @@ export default {
 
         this.mSetListTop(`${topMargin}px`)
       })
+    },
+
+    mOnScroll () {
+      this.mFixListStyle()
     }
   }
 }

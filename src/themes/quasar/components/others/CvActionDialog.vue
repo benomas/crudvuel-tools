@@ -94,12 +94,16 @@ export default {
         0
 
       return (this.cWindowsWidth * this.cDepthMarginRatio) + 'px'
+    },
+
+    cDialogRef () {
+      return this.$refs['action-dialog-ref']
     }
   },
 
   methods: {
     mHide(){
-      this.$refs['action-dialog-ref'].hide()
+      this.cDialogRef.hide()
     }
   }
 }
