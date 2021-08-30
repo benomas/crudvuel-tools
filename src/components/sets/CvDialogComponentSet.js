@@ -72,6 +72,7 @@ export default {
       const builder = function () {
         const selfRef     = this
         this.action       = null
+        this.keyAction    = null
         this.actionParams = null
 
         this.build        = function (){
@@ -85,6 +86,9 @@ export default {
             if (compReference.mSetShowActionDialog == null)
               return
 
+            if(selfRef.getKeyAction() != null)
+              compReference.mSetKeyValue(selfRef.getKeyAction())
+
             compReference.mSetDialogAction(selfRef.getAction())
               .mSetDialogActionParams(selfRef.getActionParams())
               .mSetShowActionDialog(true)
@@ -95,12 +99,22 @@ export default {
           return selfRef.action
         }
 
+        this.getKeyAction    = function (){
+          return selfRef.keyAction
+        }
+
         this.getActionParams    = function (){
           return selfRef.actionParams
         }
 
         this.setAction    = function (action){
           selfRef.action = action
+
+          return this
+        }
+
+        this.setKeyAction   = function (keyAction){
+          selfRef.keyAction = keyAction
 
           return this
         }

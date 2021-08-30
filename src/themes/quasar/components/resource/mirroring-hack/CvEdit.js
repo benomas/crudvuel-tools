@@ -81,7 +81,6 @@ export default {
     },
 
     mCompleteAction (data = null) {
-      console.log(' bvcbvcbcbv')
       let successMessage = this.cpStaGenAction.getSetSuccessMessage()
 
       if (successMessage) {
