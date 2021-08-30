@@ -214,9 +214,9 @@ export default {
       let node = this.$refs.filterReference
 
       //fix matcherizer integration inside dialogs
-      if (node.parentElement && node.offsetParent) {
+      if (node != null && node.parentElement != null && node.offsetParent != null) {
         do {
-          if(node.scrollTop > 0)
+          if(node == null || node.scrollTop > 0 || node.parentElement == null)
             break
         } while (node = node.parentElement)
       }
@@ -447,8 +447,6 @@ export default {
 
       if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null) {
         this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
-        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
-        this.mSetListTop(`${topMargin}px`)
       }
       else
         this.mSetListWidth('200px')
@@ -459,23 +457,21 @@ export default {
     },
 
     mDirectionFix() {
-      this.mDelayer(this.cpStaInsSyncTime).then(()=>{
-        let node = this.cFilterReferenceNode
+      let node = this.cFilterReferenceNode
 
-        if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
-          this.mSetScrollTopFix(node.scrollTop)
-        else
-          this.mSetScrollTopFix(0)
+      if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
+        this.mSetScrollTopFix(node.scrollTop)
+      else
+        this.mSetScrollTopFix(0)
 
-        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
-        //console.log(topMargin)
-        if (topMargin + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight)
-          topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
-        else
-          topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
+      let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
+      //console.log(topMargin)
+      if (topMargin + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight)
+        topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
+      else
+        topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
 
-        this.mSetListTop(`${topMargin}px`)
-      })
+      this.mSetListTop(`${topMargin}px`)
     },
 
     mResetMe () {

@@ -142,7 +142,12 @@ export default {
         return this.cRootRef.$el.parentElement
 
       return null
-    }
+    },
+
+    cShowList () {
+      //return true
+      return this.cdSearchContinue
+    },
   },
 
   methods: {
@@ -220,70 +225,40 @@ export default {
     },
 
     mFixListStyle () {
-      let node                    = this.$refs.filterReference
-      let scrollTopFix            = 0
+      let node = this.$refs.filterReference
+      this.mSetScrollTopFix(0)
 
       //fix matcherizer integration inside dialogs
-      if (node.parentElement && node.offsetParent) {
+      if (node.parentElement != null && node.offsetParent != null) {
         do {
-          if (node.scrollTop > 0)
+          if (node.scrollTop != null && node.scrollTop > 0)
             break
-          //lastParentNode = node.parentElement
         } while (node = node.parentElement)
       }
 
-      if (node && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner')){
-        scrollTopFix = node.scrollTop
-      }
+      if (node && node.scrollTop != null && this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner'))
+        this.mSetScrollTopFix(node.scrollTop)
 
       if (this.$refs.filterReference != null && this.$refs.filterReference.offsetWidth != null) {
         this.mSetListWidth(`${this.$refs.filterReference.offsetWidth}px`)
-        let topMargin = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - scrollTopFix
-
-        //fixing matcherizer on scroll
-        console.log([
-          'fixing matcherizer on scroll',
-          scrollTopFix,
-          topMargin,
-          this.$refs.filterReference.clientHeight,
-          this.$refs.filterReference.offsetTop,
-        ])
-        this.mSetListTop(`${topMargin}px`)
       } else
         this.mSetListWidth('200px')
 
-      this.mDirectionFix()
-
-      return this
+      return this.mDirectionFix()
     },
 
-    mDirectionFix () { //TODO this method needs to be fixed
-      this.mDelayer(this.cpStaInsSyncTime).then(() => {
-        let node = this.cFilterReferenceNode
+    mDirectionFix () {
+      let node = this.$refs.filterReference
 
-        if (
-          node &&
-          this.$refs &&
-          this.$refs.filterReference &&
-          this.$refs.filterReference.offsetParent &&
-          this.$refs.filterReference.offsetParent.classList &&
-          this.$refs.filterReference.offsetParent.classList.contains('q-dialog__inner')
-        ) {
-          this.mSetScrollTopFix(node.scrollTop)
-        } else
-          return this.mSetScrollTopFix(0)
+      let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
 
-        let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
+      if (topMargin + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight)
+        topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
 
-        if (topMargin + this.$refs.listContainerReference.offsetHeight - this.cpStaInsBottomMarginTolerance > this.cWindowsHeight)
-          topMargin = topMargin - this.$refs.listContainerReference.offsetHeight - this.$refs.filterReference.clientHeight
-
-        this.mSetListTop(`${topMargin}px`)
-      })
+      return this.mSetListTop(`${topMargin}px`,'mDirectionFix')
     },
 
     mOnScroll () {
-      //console.log(this.cShowList)
       if(this.cShowList)
         this.mFixListStyle()
     }
