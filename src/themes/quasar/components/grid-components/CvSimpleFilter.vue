@@ -1,8 +1,6 @@
 <template>
   <div class="filters-container">
     <q-input
-      :borderless="!cpDinInsMaterializeMode"
-      :standout="!cpDinInsMaterializeMode"
       dense
       autocomplete="off"
       ref="inputRef"
@@ -13,11 +11,12 @@
       :clear-icon="cpDinInsClearIcon"
       :color="cpDinInsColor"
       :bg-color="cpDinInsBgColor"
-      :outlined="!cpDinInsMaterializeMode && !cpDinInsDisableFields"
       :clearable="!cpDinInsDisableFields"
+      :standout="!cpDinInsMaterializeMode"
       :readonly="cpDinInsDisableFields"
-      :hide-underline="cpDinInsDisableFields"
       :hide-bottom-space="true"
+      :hide-underline="cpDinInsDisableFields"
+      :outlined="!cpDinInsMaterializeMode && !cpDinInsDisableFields"
       :loading="cpDinInsKeyLoading"
       :value="cpDinInsSearch"
       @clear="emDinInsClearedEmitter"
@@ -55,4 +54,5 @@ export default {
     QInput
   }
 }
+/*:borderless="!cpDinInsMaterializeMode" removed from q-input*/
 </script>

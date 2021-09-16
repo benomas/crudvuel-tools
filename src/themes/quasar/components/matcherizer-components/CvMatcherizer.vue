@@ -248,6 +248,9 @@ export default {
     },
 
     mDirectionFix () {
+      if (this.$refs.filterReference == null)
+        return this
+
       let node = this.$refs.filterReference
 
       let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
