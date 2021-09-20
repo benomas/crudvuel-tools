@@ -223,15 +223,34 @@ export default {
       return {data:rows,count:rows.length}
     },
 
-    mErrorResponse (response) {
+    mPropertyErrorResponse (response,property=null) {
       if (
-        response != null && response.response != null  &&
-        response.response.data != null  &&
-        response.response.data.errors != null
+        response == null ||
+        response.response == null ||
+        response.response.data == null
       )
-        return response.response.data.errors
+        return null
 
-      return null
+      if (
+        property == null ||
+        response.response.data[property] == null
+      )
+        return null
+
+      return response.response.data[property]
+    },
+
+    mErrorResponse (response) {
+      let errors = this.mPropertyErrorResponse(response,'errors')
+
+      if(errors == null)
+        return {}
+
+      return errors
+    },
+
+    mMessageErrorResponse (response) {
+      return this.mPropertyErrorResponse(response,'message')
     }
   }
 }

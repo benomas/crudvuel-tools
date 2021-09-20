@@ -132,7 +132,7 @@
         @dragover="mOnDragOver"
         @drop="mOnDrop">
         <li
-          class="list-group-item cv-related-item-container q-px-xl"
+          class="list-group-item cv-related-item-container"
           :class="['cv-item-' + mRelatedRowKey(relatedKey -1),'drop-target-uid-' + _uid]"
           v-for="relatedKey in cRelatedRowsVisualLimit"
           :key="mDinamicIndex(relatedKey -1,mRelatedRow(relatedKey -1))"
@@ -141,11 +141,10 @@
           @dragstart="((e)=>mOnDragStart(e,mRelatedRow(relatedKey -1),'related',_uid))"
         >
           <div v-if="mRelatedRowKey(relatedKey -1)">
-            <q-badge  class="q-mr-md q-mt-sm text-subtitle2" color="info" floating>{{1 + mFindItemPosition(mRelatedRow(relatedKey -1),cdRelatedRows)}}</q-badge>
+            <q-badge class="q-mt-sm text-subtitle2" :class="{'f-left q-mr-md':cGtxs,'f-right q-mr-sm':cLtsm}" color="info" floating>{{1 + mFindItemPosition(mRelatedRow(relatedKey -1),cdRelatedRows)}}</q-badge>
 
-            <q-icon v-if="!cDisableFields" name="fas fa-minus-square" :class="{'f-left':cGtxs,'f-right':cLtsm}" @click="(()=>{
-                mRemoveRelated(mRelatedRow(relatedKey -1)).mUpdateAvailableSourceRows()
-              })"/>
+            <q-icon v-if="!cDisableFields" name="fas fa-minus-square" class="my-auto" :class="{'f-left':cGtxs,'f-right':cLtsm}"
+              @click="(()=>{mRemoveRelated(mRelatedRow(relatedKey -1)).mUpdateAvailableSourceRows()})"/>
 
             <slot name="cv-related-item" :slot-row="mRelatedRow(relatedKey -1)">
               <span>{{cpDinInsLabelCallBack(mRelatedRow(relatedKey -1))}}</span>

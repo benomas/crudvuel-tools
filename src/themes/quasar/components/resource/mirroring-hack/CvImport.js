@@ -91,7 +91,7 @@ export default {
           )
             errors = response.response.data.errors
 
-          this.mSetErrors(errors).mSetReady().mFailCompleteAction(response)
+          this.mSetErrors(this.mErrorResponse(response)).mSetReady().mFailCompleteAction(response)
           reject(response)
         })
       })

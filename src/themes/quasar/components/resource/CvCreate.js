@@ -49,14 +49,7 @@ export default {
           resolve(response)
           this.mSetReady().mCompleteAction(response)
         }).catch(response => {
-          let errors = {}
-          if (
-            response != null && response.response != null  &&
-            response.response.data != null  &&
-            response.response.data.errors != null
-          )
-            errors = response.response.data.errors
-          this.mSetErrors(errors).mSetReady().mFailCompleteAction(response)
+          this.mSetErrors(this.mErrorResponse(response)).mSetReady().mFailCompleteAction(response)
           reject(response)
         })
       })
