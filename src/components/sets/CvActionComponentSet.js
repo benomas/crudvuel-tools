@@ -339,8 +339,12 @@ export default {
 
       let cvRowServiceCaller =  new CvRowServiceCaller()
 
-      if (this.cdDinGenKeyValue != null)
+      if (this.cdDinGenKeyValue != null){
         cvRowServiceCaller.setId(this.cdDinGenKeyValue)
+      }else{
+        if (this.cdKeyValue != null)
+          cvRowServiceCaller.setId(this.cdKeyValue)
+      }
 
       return cvRowServiceCaller.setEndPoint(endPoint)
     },
