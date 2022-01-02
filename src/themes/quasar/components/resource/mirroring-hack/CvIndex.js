@@ -11,6 +11,7 @@ import CvPaginateComponentSet from 'src/customs/crudvuel/themes/quasar/component
 import CvDialogComponentSet   from 'src/customs/crudvuel/themes/quasar/components/sets/CvDialogComponentSet'
 import CvSimpleFieldFilter    from 'src/customs/crudvuel/themes/quasar/components/grid-components/CvSimpleFieldFilter'
 import CvActionDialog         from 'src/customs/crudvuel/themes/quasar/components/others/CvActionDialog'
+import CvActionButtons        from 'src/customs/crudvuel/themes/quasar/components/others/CvActionButtons'
 import cvPageOpt              from 'crudvuel-tools/src/directives/cvPageOpt'
 import {camelCase}            from 'lodash'
 import VueMirroring           from 'crudvuel-tools/src/mirroring/VueMirroring'
@@ -54,6 +55,7 @@ export default {
       {CvOrderIcons},
       {CvAdaptiveGridIndex},
       {CvActionContainer},
+      {CvActionButtons},
       {CvActionDialog,root: true}
     ),
     CvDialogComponentSet
@@ -80,7 +82,8 @@ export default {
     QAvatar,
     date,
     QExpansionItem,
-    QBadge
+    QBadge,
+    CvActionButtons
   },
 
   directives: {
@@ -120,6 +123,14 @@ export default {
 
     cpDinInsPagSpecialFilterQuery () {
       return {}
+    },
+
+    cDefaultButtonBindings () {
+      return {
+        'cv-din-gen-show-next-button':false,
+        'cv-din-gen-show-reset-button':false,
+        'cv-din-gen-show-clear-button':false
+      }
     }
   },
 
@@ -370,10 +381,10 @@ export default {
     },
 
     mLaunchCreateAction (emitted = null) {
-      if (this.cpDinGenActionMode === 'route')
+      if (this.cpDinGenChildActionMode === 'route')
         this.$router.push(this.mActionPath('create'))
 
-      if (this.cpDinGenActionMode === 'dialog') {
+      if (this.cpDinGenChildActionMode === 'dialog') {
         if (this.mSetShowActionDialog == null)
           return
 
@@ -487,7 +498,8 @@ export default {
   created () {
     this.mAddCustomBinding({
       'cv-din-gen-dialog-action' : 'cdDialogAction',
-      'cv-din-gen-key-value'     : 'cdDialogKeyAction'
+      'cv-din-gen-key-value'     : 'cdDialogKeyAction',
+      'cv-din-gen-action-mode'   : 'cpDinGenActionMode'
     })
   }
 }

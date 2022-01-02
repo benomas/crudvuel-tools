@@ -3,18 +3,18 @@
     <div v-if="cpDinGenActionMode==='route'">
       <q-page-sticky position="bottom-left" :offset="cGtmd?[35, 15]:cGtsm?[40, 20]:[0,0]">
         <q-btn
-          v-if="cpDinGenShowBackButton"
+          v-if="cShowBackButton"
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
           :icon="cpStaGenBackIcon"
           :color="cpStaGenBackIconColor"
           @click="emStaGenBackEmitter">
-          <q-tooltip  :disable="!cpDinGenShowBackButton && !cXs && !cSm">
+          <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cBackLabel}}
           </q-tooltip>
 
-          <span v-if="cGtsm && cpDinGenShowBackButton" class="q-px-sm">
+          <span v-if="cGtsm && cShowBackButton" class="q-px-sm">
             {{cBackLabel}}
           </span>
         </q-btn>
@@ -23,7 +23,7 @@
       <q-page-sticky position="bottom-right" :offset="cGtmd?[35, 15]:cGtsm?[40, 20]:[0,0]">
         <div class="float-right" >
           <q-btn
-            v-if="cpDinGenShowNextButton"
+            v-if="cShowNextButton"
             :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
@@ -31,17 +31,17 @@
             :color="cpStaGenNextIconColor"
             @click="emStaGenNextEmitter"
             :disabled="!cdReady">
-            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
               {{cNextLabel}}
             </q-tooltip>
 
-            <span v-if="cGtsm && cpDinGenShowNextButton" class="q-px-sm">
+            <span v-if="cGtsm && cShowNextButton" class="q-px-sm">
               {{cNextLabel}}
             </span>
           </q-btn>
         </div>
 
-        <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" >
+        <div v-if="cShowResetButton" class="float-right" >
           <q-btn
             :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
@@ -50,7 +50,7 @@
             color="warning"
             @click="emStaGenAutoResetEmitter"
             :disabled="!cdReady">
-            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cResetLabel}}
             </q-tooltip>
 
@@ -60,7 +60,7 @@
           </q-btn>
         </div>
 
-        <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" >
+        <div v-if="cShowClearButton" class="float-right" >
           <q-btn
           :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
@@ -69,7 +69,7 @@
             color="accent"
             @click="emStaGenAutoClearEmitter"
             :disabled="!cdReady">
-            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cClearLabel}}
             </q-tooltip>
 
@@ -79,7 +79,7 @@
           </q-btn>
         </div>
 
-        <div v-if="cAutoFillable" class="float-right" >
+        <div v-if="cShowAutoFillButton" class="float-right" >
           <q-btn
           :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
@@ -88,7 +88,7 @@
             color="info"
             @click="emStaGenAutoFillEmitter"
             :disabled="!cdReady">
-            <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+            <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cFillLabel}}
             </q-tooltip>
 
@@ -99,27 +99,28 @@
         </div>
       </q-page-sticky>
     </div>
+
     <div v-if="cpDinGenActionMode==='dialog'">
       <q-btn
-        v-if="cpDinGenShowBackButton"
+        v-if="cShowBackButton"
         :size="cBtnSize"
         :class="{'q-ma-md':cGtmd}"
         class="q-mx-sm q-my-sm"
         :icon="cpStaGenBackIcon"
         :color="cpStaGenBackIconColor"
         @click="emStaGenBackEmitter">
-        <q-tooltip  :disable="!cpDinGenShowBackButton && !cXs && !cSm">
+        <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
           {{cBackLabel}}
         </q-tooltip>
 
-        <span v-if="cGtsm && cpDinGenShowBackButton" class="q-px-sm">
+        <span v-if="cGtsm && cShowBackButton" class="q-px-sm">
           {{cBackLabel}}
         </span>
       </q-btn>
 
       <div class="float-right" >
         <q-btn
-          v-if="cpDinGenShowNextButton"
+          v-if="cShowNextButton"
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
@@ -127,17 +128,17 @@
           :color="cpStaGenNextIconColor"
           @click="emStaGenNextEmitter"
           :disabled="!cdReady">
-          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+          <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
             {{cNextLabel}}
           </q-tooltip>
 
-          <span v-if="cGtsm && cpDinGenShowNextButton" class="q-px-sm">
+          <span v-if="cGtsm && cShowNextButton" class="q-px-sm">
             {{cNextLabel}}
           </span>
         </q-btn>
       </div>
 
-      <div v-if="cpStaInsAutoFillable === true || ( cpStaInsAutoFillable == null && cClereable)" class="float-right" >
+      <div v-if="cShowResetButton" class="float-right" >
         <q-btn
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
@@ -146,7 +147,7 @@
           color="warning"
           @click="emStaGenAutoResetEmitter"
           :disabled="!cdReady">
-          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+          <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cResetLabel}}
           </q-tooltip>
 
@@ -156,7 +157,7 @@
         </q-btn>
       </div>
 
-      <div v-if="cpStaInsClereable === true || ( cpStaInsClereable == null && cClereable)" class="float-right" >
+      <div v-if="cShowClearButton" class="float-right" >
         <q-btn
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
@@ -165,7 +166,7 @@
           color="accent"
           @click="emStaGenAutoClearEmitter"
           :disabled="!cdReady">
-          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+          <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cClearLabel}}
           </q-tooltip>
 
@@ -175,7 +176,7 @@
         </q-btn>
       </div>
 
-      <div v-if="cAutoFillable" class="float-right" >
+      <div v-if="cShowAutoFillButton" class="float-right" >
         <q-btn
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
@@ -184,7 +185,7 @@
           color="info"
           @click="emStaGenAutoFillEmitter"
           :disabled="!cdReady">
-          <q-tooltip  :disable="!cpDinGenShowNextButton && !cXs && !cSm">
+          <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cFillLabel}}
           </q-tooltip>
 
@@ -213,23 +214,26 @@ export default {
     CvComponentSet,
     CvResourceComponentSet,
     vueMirroring.fixProperties({
-      '[P]dinGenShowBackButton' : true,
-      '[P]dinGenShowNextButton' : true,
-      '[P]dinGenAction'         : null,
-      '[P]staGenBackIcon'       : 'icon-retroceso',
-      '[P]staGenBackIconColor'  : 'negative',
-      '[P]staGenNextIcon'       : 'icon-check',
-      '[P]staGenNextIconColor'  : 'positive',
-      '[EM]staGenBack'          : null,
-      '[EM]staGenNext'          : null,
-      '[EM]staGenAutoFill'      : null,
-      '[EM]staGenAutoReset'     : null,
-      '[EM]staGenAutoClear'     : null,
-      '[P]staInsAutoFillable'   : null,
-      '[P]staInsClereable'      : null,
-      '[P]staInsAutoFillable'   : null,
-      '[D]btnSize'              : 'md',
-      '[P]dinGenActionMode'     : 'route'
+      '[P]dinGenShowBackButton'     : true,
+      '[P]dinGenShowNextButton'     : true,
+      '[P]dinGenShowResetButton'    : true,
+      '[P]dinGenShowClearButton'    : true,
+      '[P]dinGenShowAutoFillButton' : true,
+      '[P]dinGenAction'             : null,
+      '[P]staGenBackIcon'           : 'icon-retroceso',
+      '[P]staGenBackIconColor'      : 'negative',
+      '[P]staGenNextIcon'           : 'icon-check',
+      '[P]staGenNextIconColor'      : 'positive',
+      '[EM]staGenBack'              : null,
+      '[EM]staGenNext'              : null,
+      '[EM]staGenAutoFill'          : null,
+      '[EM]staGenAutoReset'         : null,
+      '[EM]staGenAutoClear'         : null,
+      '[P]staInsAutoFillable'       : null,
+      '[P]staInsClereable'          : null,
+      '[P]staInsAutoFillable'       : null,
+      '[D]btnSize'                  : 'md',
+      '[P]dinGenActionMode'         : 'route'
     })
   ],
 
@@ -260,6 +264,27 @@ export default {
         return false
 
       return this.cNextLabel != null && this.cNextLabel !== ''
+    },
+
+    cpDinGenShowResetButton () {
+      if (this.cvDinGenShowResetButton != null && this.cvDinGenShowResetButton === false)
+        return false
+
+      return true
+    },
+
+    cpDinGenShowClearButton () {
+      if (this.cvDinGenShowClearButton != null && this.cvDinGenShowClearButton === false)
+        return false
+
+      return true
+    },
+
+    cpDinGenShowAutoFillButton () {
+      if (this.cvDinGenShowAutoFillButton != null && this.cvDinGenShowAutoFillButton === false)
+        return false
+
+      return true
     },
 
     cBackLabel () {
@@ -311,6 +336,37 @@ export default {
         return trans
 
       return 'Limipiar'
+    },
+
+    cShowNextButton() {
+      return this.cpDinGenShowNextButton
+    },
+
+    cShowBackButton() {
+      return this.cpDinGenShowBackButton
+    },
+
+    cShowResetButton() {
+      if (!this.cpDinGenShowResetButton)
+        return false
+
+      return this.cpStaInsAutoFillable === true ||
+        (this.cpStaInsAutoFillable == null && this.cClereable)
+    },
+
+    cShowClearButton() {
+      if(!this.cpDinGenShowClearButton)
+        return false
+
+      return this.cpStaInsClereable === true ||
+        (this.cpStaInsClereable == null && this.cClereable)
+    },
+
+    cShowAutoFillButton() {
+      if(!this.cpDinGenShowAutoFillButton)
+        return false
+
+      return this.cAutoFillable
     }
   }
 }

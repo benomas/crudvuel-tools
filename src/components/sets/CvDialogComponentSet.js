@@ -4,10 +4,10 @@ import VueMirroring  from 'crudvuel-tools/src/mirroring/VueMirroring'
 export default {
   mixins: [
     new VueMirroring('ComponentSet').fixProperties({
-      '[P]dinGenActionMode'     : 'dialog',
-      '[D|M]dialogAction'       : null,
-      '[D|M]dialogKeyAction'    : null,
-      '[D|M]dialogActionParams' : {}
+      '[P]dinGenChildActionMode' : 'dialog',
+      '[D|M]dialogAction'        : null,
+      '[D|M]dialogKeyAction'     : null,
+      '[D|M]dialogActionParams'  : {}
     })
   ],
 
@@ -50,10 +50,10 @@ export default {
 
       let row = emitted.row != null ? emitted.row : null
 
-      if (this.cpDinGenActionMode === 'route')
+      if (this.cpDinGenChildActionMode === 'route')
         this.$router.push(this.mActionPath(action,row))
 
-      if (this.cpDinGenActionMode === 'dialog') {
+      if (this.cpDinGenChildActionMode === 'dialog') {
         if (this.cpDinGenKeyName == null || row[this.cpDinGenKeyName] == null)
           return
 
@@ -79,10 +79,10 @@ export default {
           if (!selfRef.getAction())
             return
 
-          if (compReference.cpDinGenActionMode === 'route')
+          if (compReference.cpDinGenChildActionMode === 'route')
             compReference.$router.push(selfRef.getAction().getFixedPath(selfRef.getActionParams()))
 
-          if (compReference.cpDinGenActionMode === 'dialog') {
+          if (compReference.cpDinGenChildActionMode === 'dialog') {
             if (compReference.mSetShowActionDialog == null)
               return
 
