@@ -51,21 +51,11 @@ export default {
   mounted: function () {
     if (!this.cAutoload)
       return false
+
     if (this.rowKeyValue)
       this.getService()
     else
       this.mSetReady()
-
-    if(this.cAutoFillable){
-      console.log(
-        '%c Autofill function is enabled'+
-        '%c every create component now autofill his fields with 1,' +
-        '%c this behaivor can be changed in .env file',
-        'font-weight: bold; background: ' + colors.getBrand('white') + '; color: ' + colors.getBrand('info'),
-        'background: ' + colors.getBrand('white') + '; color: ' + colors.getBrand('warning'),
-        'background: ' + colors.getBrand('white') + '; color: ' + colors.getBrand('negative')
-      );
-    }
   }
 }
 </script>

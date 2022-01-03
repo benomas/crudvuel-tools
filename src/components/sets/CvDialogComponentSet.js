@@ -11,6 +11,15 @@ export default {
     })
   ],
 
+  computed:{
+    cChildActionMode(){
+      if(!['dialog','route'].includes(this.cpDinGenChildActionMode))
+        return 'dialog'
+
+      return this.cpDinGenChildActionMode
+    }
+  },
+
   methods: {
     emStaGenActionCanceledProccesor (emitted) {
       return new Promise((resolve,reject) => {
@@ -50,10 +59,10 @@ export default {
 
       let row = emitted.row != null ? emitted.row : null
 
-      if (this.cpDinGenChildActionMode === 'route')
+      if (this.cChildActionMode === 'route')
         this.$router.push(this.mActionPath(action,row))
 
-      if (this.cpDinGenChildActionMode === 'dialog') {
+      if (this.cChildActionMode === 'dialog') {
         if (this.cpDinGenKeyName == null || row[this.cpDinGenKeyName] == null)
           return
 
@@ -79,10 +88,10 @@ export default {
           if (!selfRef.getAction())
             return
 
-          if (compReference.cpDinGenChildActionMode === 'route')
+          if (compReference.cChildActionMode === 'route')
             compReference.$router.push(selfRef.getAction().getFixedPath(selfRef.getActionParams()))
 
-          if (compReference.cpDinGenChildActionMode === 'dialog') {
+          if (compReference.cChildActionMode === 'dialog') {
             if (compReference.mSetShowActionDialog == null)
               return
 

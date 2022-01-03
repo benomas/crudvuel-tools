@@ -287,9 +287,6 @@ export default {
         this.cancelNotificationMessages = null
       }
     }
-  },
-  created: function () {
-    // console.log("Is mobile " + this.isMobile)
   }
 }
 </script>

@@ -240,13 +240,6 @@ export default {
   components : { QIcon,QSkeleton },
   directives : {
     cvPageOpt: cvPageOpt
-  },
-  computed: {
-  },
-  methods: {
-  },
-  mounted: function () {
-    //console.log(this)
   }
 }
 </script>

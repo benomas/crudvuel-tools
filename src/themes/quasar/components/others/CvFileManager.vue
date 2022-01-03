@@ -96,7 +96,7 @@ export default {
     },
     uploadFileFail: function (info) {
       let {file,xhr} = info
-      console.log(info)
+
       if (this.cvComunicator.proccessErrorStatus(xhr))
         return false
       this.ready  = true

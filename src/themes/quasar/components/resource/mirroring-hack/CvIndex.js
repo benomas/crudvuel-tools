@@ -492,6 +492,13 @@ export default {
           resolve(emitted)
         })
       })
+    },
+
+    emStaGenBackProccesor (emitted) {
+      return new Promise((resolve, reject) => {
+        resolve(emitted)
+        this.$emit('action-canceled', null)
+      })
     }
   },
 

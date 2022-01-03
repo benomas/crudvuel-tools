@@ -6,9 +6,6 @@ export default class CvPrivateInternalRouter extends CvBaseRouter {
   }
 
   pathToLoguedStart () {
-    console.log('vvvvv')
-    console.log(this.mGetStCurrentCvRouter())
-    console.log(this.mGetStWebAppMode())
     return '/admin'
   }
 
