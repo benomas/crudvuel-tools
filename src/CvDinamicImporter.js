@@ -32,7 +32,6 @@ export default class CvDinamicImporter {
             console.log(typeof path)
             console.log(path)
             //let temp = require(path)
-            //console.log(temp)
           }
           //const newModule = require(this.getContextFlow().path+relatedPath);
           //if(newModule){
