@@ -220,6 +220,12 @@ export default {
       '[P]dinGenShowClearButton'    : true,
       '[P]dinGenShowAutoFillButton' : true,
       '[P]dinGenAction'             : null,
+      '[P]dinGenBackLabel'          : null,
+      '[P]dinGenNextLabel'          : null,
+      '[P]dinGenBackIcon'           : 'icon-retroceso',
+      '[P]dinGenBackIconColor'      : 'negative',
+      '[P]dinGenNextIcon'           : 'icon-check',
+      '[P]dinGenNextIconColor'      : 'positive',
       '[P]staGenBackIcon'           : 'icon-retroceso',
       '[P]staGenBackIconColor'      : 'negative',
       '[P]staGenNextIcon'           : 'icon-check',
@@ -288,6 +294,9 @@ export default {
     },
 
     cBackLabel () {
+      if(this.cpDinGenBackLabel != null)
+        return this.cpDinGenBackLabel
+
       let trans = this.mComLang('backLabel')
 
       if (trans !== '')
@@ -300,6 +309,9 @@ export default {
     },
 
     cNextLabel () {
+      if(this.cpDinGenNextLabel != null)
+        return this.cpDinGenNextLabel
+
       let trans = this.mComLang('nextLabel')
 
       if (trans !== '')

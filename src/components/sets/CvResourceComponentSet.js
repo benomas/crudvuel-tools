@@ -195,6 +195,10 @@ export default {
     mrLang (source,resource = null) {
       let lResource = this.mResourceAccessing(resource)
 
+      if(this.$tc == null)
+        return null
+
+      console.log(this.$tc,lResource)
       return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
     },
 

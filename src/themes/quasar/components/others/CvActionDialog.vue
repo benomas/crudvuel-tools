@@ -44,6 +44,7 @@ export default {
       '[P]dinGenDialogActionParams'  : null,
       '[P]dinGenDefaultMarginRatio'  : 0.15,
       '[P]dinGenDepthMarginRatioFix' : 0.05,
+      '[P]dinGenParentDialogDepth'   : null,
       '[EM]dinGenActionCanceled'     : null,
       '[EM]dinGenActionCompleted'    : null,
       '[D|M]cancelInProgress'        : false
@@ -70,6 +71,9 @@ export default {
           parent.$vnode.componentOptions != null &&
           parent.$vnode.componentOptions.tag != null
         ){
+          if(parent.cDialogDepth != null)
+            return parent.cDialogDepth +1
+
           if(parent.$vnode.componentOptions.tag === 'cv-action-dialog')
             depth ++
         }
@@ -91,7 +95,7 @@ export default {
 
     cDialogMargin () {
       if (this.cLtsm)
-        0
+        return 0
 
       return (this.cWindowsWidth * this.cDepthMarginRatio) + 'px'
     },
