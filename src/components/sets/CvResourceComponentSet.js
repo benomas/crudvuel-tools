@@ -198,8 +198,12 @@ export default {
       if(this.$tc == null)
         return null
 
-      console.log(this.$tc,lResource)
-      return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
+      //TODO there is a bug that happends with hacked dialogs.
+      try{
+        return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
+      }catch(e){
+        return null
+      }
     },
 
     mfLang (field,resource = null) {
