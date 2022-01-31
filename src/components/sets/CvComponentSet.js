@@ -58,7 +58,29 @@ export default {
         rootRef = rootRef.cpStaGenParentRef
 
       return rootRef
-    }
+    },
+
+    cActionDepth () {
+      let parent =  null
+      let depth = 0
+      parent = this
+      do{
+        parent = parent.$parent
+        if (
+          parent.$vnode != null &&
+          parent.$vnode.componentOptions != null &&
+          parent.$vnode.componentOptions.tag != null
+        ){
+          if(parent.cActionDepth != null)
+            return parent.cActionDepth +1
+
+          if(parent.$vnode.componentOptions.tag === 'action-container')
+            depth ++
+        }
+      }while(parent.$parent != null)
+
+      return depth
+    },
   },
 
   methods: {
