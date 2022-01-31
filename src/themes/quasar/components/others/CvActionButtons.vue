@@ -222,6 +222,9 @@ export default {
       '[P]dinGenAction'             : null,
       '[P]dinGenBackLabel'          : null,
       '[P]dinGenNextLabel'          : null,
+      '[P]dinGenFillLabel'          : null,
+      '[P]dinGenResetLabel'          : null,
+      '[P]dinGenClearLabel'          : null,
       '[P]dinGenBackIcon'           : 'icon-retroceso',
       '[P]dinGenBackIconColor'      : 'negative',
       '[P]dinGenNextIcon'           : 'icon-check',
@@ -324,6 +327,9 @@ export default {
     },
 
     cFillLabel () {
+      if(this.cpDinGenFillLabel != null)
+        return this.cpDinGenFillLabel
+
       let trans = this.mComLang('fill')
 
       if (trans !== '')
@@ -333,6 +339,9 @@ export default {
     },
 
     cResetLabel () {
+      if(this.cpDinGenResetLabel != null)
+        return this.cpDinGenResetLabel
+
       let trans = this.mComLang('reset')
 
       if (trans !== '')
@@ -342,6 +351,9 @@ export default {
     },
 
     cClearLabel () {
+      if(this.cpDinGenClearLabel != null)
+        return this.cpDinGenClearLabel
+
       let trans = this.mComLang('clear')
 
       if (trans !== '')
