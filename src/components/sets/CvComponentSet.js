@@ -226,6 +226,29 @@ export default {
       return this
     },
 
+    mCvGeneralResponse (response) {
+      const nonstandardResponse = response =>
+        [{rows: response,row:response,count:null}]
+
+      if(response.data == null)
+        return nonstandardResponse(response)
+
+      let dataSource = null
+
+      if(response.data.data != null)
+        dataSource = response.data
+      else
+        dataSource = response
+
+      if(dataSource.count != null)
+        return {rows:dataSource.data,count:dataSource.count}
+
+      if(Array.isArray(dataSource.data))
+        return {rows:dataSource.data,count:dataSource.data.length}
+
+      return {row:dataSource.data}
+    },
+
     mySubString,
     myReplace,
     cvF,
