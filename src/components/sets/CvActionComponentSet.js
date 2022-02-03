@@ -237,6 +237,15 @@ export default {
       return this
     },
 
+    mFailCompleteActionThen (response) {
+      let errorMessage = this.cpStaGenAction.getSetErrorMessage() + ' ' + this.serverMessageTransform(response.response.data.message || '')
+
+      if (errorMessage)
+        this.mErrorNotification(errorMessage + this.actionKeyMessage(this.cdRow))
+
+      return response
+    },
+
     serverMessageTransform (message = ''){
       let serverLang = this.$tc('crudvuel.labels.serverLang')
 

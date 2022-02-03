@@ -228,7 +228,7 @@ export default {
 
     mCvGeneralResponse (response) {
       const nonstandardResponse = response =>
-        [{rows: response,row:response,count:null}]
+        [{rows: response,row:response,count:null,...response}]
 
       if(response.data == null)
         return nonstandardResponse(response)
@@ -240,13 +240,10 @@ export default {
       else
         dataSource = response
 
-      if(dataSource.count != null)
-        return {rows:dataSource.data,count:dataSource.count}
-
       if(Array.isArray(dataSource.data))
-        return {rows:dataSource.data,count:dataSource.data.length}
+        return {rows:dataSource.data,count:dataSource.data.length,...dataSource}
 
-      return {row:dataSource.data}
+      return {row:dataSource.data,...dataSource}
     },
 
     mySubString,
