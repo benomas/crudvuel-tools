@@ -228,8 +228,10 @@ export default {
       return this.mFinish('completed',data)
     },
 
-    mFailCompleteAction (response) {
-      let errorMessage = this.cpStaGenAction.getSetErrorMessage() + ' ' + this.serverMessageTransform(response.response.data.message || '')
+    mFailCompleteAction (response, customActionMessage = null) {
+      let errorMessage = customActionMessage != null ? customActionMessage:this.cpStaGenAction.getSetErrorMessage()
+
+      errorMessage = `${errorMessage} ${this.serverMessageTransform(this.mMessageErrorResponse(response) || '')}`
 
       if (errorMessage)
         this.mErrorNotification(errorMessage + this.actionKeyMessage(this.cdRow))
@@ -237,8 +239,10 @@ export default {
       return this
     },
 
-    mFailCompleteActionThen (response) {
-      let errorMessage = this.cpStaGenAction.getSetErrorMessage() + ' ' + this.serverMessageTransform(response.response.data.message || '')
+    mFailCompleteActionThen (response, customActionMessage = null) {
+      let errorMessage = customActionMessage != null ? customActionMessage:this.cpStaGenAction.getSetErrorMessage()
+
+      errorMessage = `${errorMessage} ${this.serverMessageTransform(this.mMessageErrorResponse(response) || '')}`
 
       if (errorMessage)
         this.mErrorNotification(errorMessage + this.actionKeyMessage(this.cdRow))
@@ -302,20 +306,27 @@ export default {
     },
 
     mPropertyErrorResponse (response,property=null) {
-      if (
-        response == null ||
-        response.response == null ||
-        response.response.data == null
-      )
+      if (response == null)
         return null
 
-      if (
-        property == null ||
-        response.response.data[property] == null
-      )
+      let data = null
+
+      if (response.response != null || response.response.data != nul)
+        data = response.response.data
+      else{
+        if(response.data == null)
+          return null
+
+        data = response.data
+      }
+
+      if (property == null)
+        return data
+
+      if(data[property] == null)
         return null
 
-      return response.response.data[property]
+      return data[property]
     },
 
     mErrorResponse (response) {

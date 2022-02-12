@@ -7,8 +7,8 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          :icon="cpStaGenBackIcon"
-          :color="cpStaGenBackIconColor"
+          :icon="cBackIcon"
+          :color="cBackIconColor"
           @click="emStaGenBackEmitter">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cBackLabel}}
@@ -27,8 +27,8 @@
             :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
-            :icon="cpStaGenNextIcon"
-            :color="cpStaGenNextIconColor"
+            :icon="cNextIcon"
+            :color="cNextIconColor"
             @click="emStaGenNextEmitter"
             :disabled="!cdReady">
             <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
@@ -106,8 +106,8 @@
         :size="cBtnSize"
         :class="{'q-ma-md':cGtmd}"
         class="q-mx-sm q-my-sm"
-        :icon="cpStaGenBackIcon"
-        :color="cpStaGenBackIconColor"
+        :icon="cBackIcon"
+        :color="cBackIconColor"
         @click="emStaGenBackEmitter">
         <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
           {{cBackLabel}}
@@ -124,8 +124,8 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          :icon="cpStaGenNextIcon"
-          :color="cpStaGenNextIconColor"
+          :icon="cNextIcon"
+          :color="cNextIconColor"
           @click="emStaGenNextEmitter"
           :disabled="!cdReady">
           <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
@@ -391,6 +391,46 @@ export default {
         return false
 
       return this.cAutoFillable
+    },
+
+    cBackIcon () {
+      if (this.cpDinGenBackIcon != null)
+        return this.cpDinGenBackIcon
+
+      if (this.cpStaGenBackIcon != null)
+        return this.cpStaGenBackIcon
+
+      return null
+    },
+
+    cBackIconColor () {
+      if (this.cpDinGenBackIconColor != null)
+        return this.cpDinGenBackIconColor
+
+      if (this.cpStaGenBackIconColor != null)
+        return this.cpStaGenBackIconColor
+
+      return null
+    },
+
+    cNextIcon () {
+      if (this.cpDinGenNextIcon != null)
+        return this.cpDinGenNextIcon
+
+      if (this.cpStaGenNextIcon != null)
+        return this.cpStaGenNextIcon
+
+      return null
+    },
+
+    cNextIconColor () {
+      if (this.cpDinGenNextIconColor != null)
+        return this.cpDinGenNextIconColor
+
+      if (this.cpStaGenNextIconColor != null)
+        return this.cpStaGenNextIconColor
+
+      return null
     }
   }
 }
