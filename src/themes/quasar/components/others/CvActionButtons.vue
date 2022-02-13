@@ -9,7 +9,8 @@
           class="q-mx-sm q-my-sm"
           :icon="cBackIcon"
           :color="cBackIconColor"
-          @click="emStaGenBackEmitter">
+          @click="emStaGenBackEmitter"
+          :disabled="cDisableBack">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cBackLabel}}
           </q-tooltip>
@@ -30,7 +31,7 @@
             :icon="cNextIcon"
             :color="cNextIconColor"
             @click="emStaGenNextEmitter"
-            :disabled="!cdReady">
+            :disabled="cDisableNext">
             <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
               {{cNextLabel}}
             </q-tooltip>
@@ -49,7 +50,7 @@
             icon="icon-info"
             color="warning"
             @click="emStaGenAutoResetEmitter"
-            :disabled="!cdReady">
+            :disabled="cDisableReset">
             <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cResetLabel}}
             </q-tooltip>
@@ -68,7 +69,7 @@
             icon="icon-borrar"
             color="accent"
             @click="emStaGenAutoClearEmitter"
-            :disabled="!cdReady">
+            :disabled="cDisableClear">
             <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cClearLabel}}
             </q-tooltip>
@@ -87,7 +88,7 @@
             icon="icon-rellenar"
             color="info"
             @click="emStaGenAutoFillEmitter"
-            :disabled="!cdReady">
+            :disabled="cDisableFill">
             <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cFillLabel}}
             </q-tooltip>
@@ -108,7 +109,8 @@
         class="q-mx-sm q-my-sm"
         :icon="cBackIcon"
         :color="cBackIconColor"
-        @click="emStaGenBackEmitter">
+        @click="emStaGenBackEmitter"
+        :disabled="cDisableBack">
         <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
           {{cBackLabel}}
         </q-tooltip>
@@ -127,7 +129,7 @@
           :icon="cNextIcon"
           :color="cNextIconColor"
           @click="emStaGenNextEmitter"
-          :disabled="!cdReady">
+          :disabled="cDisableNext">
           <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
             {{cNextLabel}}
           </q-tooltip>
@@ -146,7 +148,7 @@
           icon="icon-info"
           color="warning"
           @click="emStaGenAutoResetEmitter"
-          :disabled="!cdReady">
+          :disabled="cDisableReset">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cResetLabel}}
           </q-tooltip>
@@ -165,7 +167,7 @@
           icon="icon-borrar"
           color="accent"
           @click="emStaGenAutoClearEmitter"
-          :disabled="!cdReady">
+          :disabled="cDisableClear">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cClearLabel}}
           </q-tooltip>
@@ -184,7 +186,7 @@
           icon="icon-rellenar"
           color="info"
           @click="emStaGenAutoFillEmitter"
-          :disabled="!cdReady">
+          :disabled="cDisableFill">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cFillLabel}}
           </q-tooltip>
@@ -223,8 +225,8 @@ export default {
       '[P]dinGenBackLabel'          : null,
       '[P]dinGenNextLabel'          : null,
       '[P]dinGenFillLabel'          : null,
-      '[P]dinGenResetLabel'          : null,
-      '[P]dinGenClearLabel'          : null,
+      '[P]dinGenResetLabel'         : null,
+      '[P]dinGenClearLabel'         : null,
       '[P]dinGenBackIcon'           : 'icon-retroceso',
       '[P]dinGenBackIconColor'      : 'negative',
       '[P]dinGenNextIcon'           : 'icon-check',
@@ -233,6 +235,11 @@ export default {
       '[P]staGenBackIconColor'      : 'negative',
       '[P]staGenNextIcon'           : 'icon-check',
       '[P]staGenNextIconColor'      : 'positive',
+      '[P]dinGenDisableBack'        : false,
+      '[P]dinGenDisableNext'        : false,
+      '[P]dinGenDisableFill'        : false,
+      '[P]dinGenDisableReset'       : false,
+      '[P]dinGenDisableClear'       : false,
       '[EM]staGenBack'              : null,
       '[EM]staGenNext'              : null,
       '[EM]staGenAutoFill'          : null,
@@ -431,6 +438,41 @@ export default {
         return this.cpStaGenNextIconColor
 
       return null
+    },
+
+    cDisableBack () {
+      if(!this.cdReady)
+        return false
+
+      return this.cpDinGenDisableBack
+    },
+
+    cDisableNext () {
+      if(!this.cdReady)
+        return false
+
+      return this.cpDinGenDisableNext
+    },
+
+    cDisableFill () {
+      if(!this.cdReady)
+        return false
+
+      return this.cpDinGenDisableFill
+    },
+
+    cDisableReset () {
+      if(!this.cdReady)
+        return false
+
+      return this.cpDinGenDisableReset
+    },
+
+    cDisableClear () {
+      if(!this.cdReady)
+        return false
+
+      return this.cpDinGenDisableClear
     }
   }
 }
