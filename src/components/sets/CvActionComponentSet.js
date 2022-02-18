@@ -311,7 +311,7 @@ export default {
 
       let data = null
 
-      if (response.response != null || response.response.data != nul)
+      if (response.response != null && response.response.data != null)
         data = response.response.data
       else{
         if(response.data == null)

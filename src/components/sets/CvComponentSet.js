@@ -228,7 +228,7 @@ export default {
 
     mCvGeneralResponse (response) {
       const nonstandardResponse = response =>
-        [{rows: response,row:response,count:null,...response}]
+        ({rows: response,row:response,count:null,...response})
 
       if(response.data == null)
         return nonstandardResponse(response)
