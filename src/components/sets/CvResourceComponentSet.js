@@ -232,20 +232,27 @@ export default {
     },
 
     mPropertyErrorResponse (response,property=null) {
-      if (
-        response == null ||
-        response.response == null ||
-        response.response.data == null
-      )
+      if (response == null)
         return null
 
-      if (
-        property == null ||
-        response.response.data[property] == null
-      )
+      let data = null
+
+      if (response.response != null || response.response.data != nul)
+        data = response.response.data
+      else{
+        if(response.data == null)
+          return null
+
+        data = response.data
+      }
+
+      if (property == null)
+        return data
+
+      if(data[property] == null)
         return null
 
-      return response.response.data[property]
+      return data[property]
     },
 
     mErrorResponse (response) {
@@ -259,6 +266,65 @@ export default {
 
     mMessageErrorResponse (response) {
       return this.mPropertyErrorResponse(response,'message')
+    },
+
+    mCancelAction () {
+      let cancelMessage = this.cpStaGenAction.getSetCancelMessage()
+
+      if (cancelMessage)
+        this.mCancelNotification(cancelMessage + this.actionKeyMessage(this.cdRow))
+
+      this.mFinish('canceled')
+    },
+
+    actionKeyMessage (gridRow = null) {
+      if (gridRow == null || this.cKeyName == null || gridRow[this.cKeyName] == null)
+        return ''
+
+      if(gridRow['cv_search'] != null)
+        return ` (${gridRow['cv_search']}) `
+
+      return ` ${this.cKeyName} : ${gridRow[this.cKeyName]} `
+    },
+
+    mCompleteAction (data = null) {
+      let successMessage = this.cpStaGenAction.getSetSuccessMessage()
+
+      if (successMessage)
+        this.mSuccessNotification(successMessage + this.actionKeyMessage(this.cdRow))
+
+      return this.mFinish('completed',data)
+    },
+
+    mFailCompleteAction (response, customActionMessage = null) {
+      let errorMessage = customActionMessage != null ? customActionMessage:this.cpStaGenAction.getSetErrorMessage()
+
+      errorMessage = `${errorMessage} ${this.serverMessageTransform(this.mMessageErrorResponse(response) || '')}`
+
+      if (errorMessage)
+        this.mErrorNotification(errorMessage + this.actionKeyMessage(this.cdRow))
+
+      return this
+    },
+
+    mFailCompleteActionThen (response, customActionMessage = null) {
+      let errorMessage = customActionMessage != null ? customActionMessage:this.cpStaGenAction.getSetErrorMessage()
+
+      errorMessage = `${errorMessage} ${this.serverMessageTransform(this.mMessageErrorResponse(response) || '')}`
+
+      if (errorMessage)
+        this.mErrorNotification(errorMessage + this.actionKeyMessage(this.cdRow))
+
+      return response
+    },
+
+    serverMessageTransform (message = ''){
+      let serverLang = this.$tc('crudvuel.labels.serverLang')
+
+      if (!serverLang || serverLang === '')
+        serverLang = 'Server'
+
+      return message !== '' ? ` [${serverLang}] : ${message}` : message
     }
   }
 }
