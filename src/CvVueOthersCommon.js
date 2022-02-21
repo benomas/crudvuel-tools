@@ -278,7 +278,7 @@ export default function (store,staticMixin = {}) {
 
       mSetLastClickerComponent(lastClickerComponent = null){
         this.$set(this,'lastClickerComponent',lastClickerComponent)
-        console.log(lastClickerComponent)
+
         return this
       },
 
