@@ -9,7 +9,10 @@
           class="q-mx-sm q-my-sm"
           :icon="cBackIcon"
           :color="cBackIconColor"
-          @click="emStaGenBackEmitter"
+          @click="()=>{
+            this.mSetLastClickerComponent(`${this._uid}-back-button`)
+            this.emStaGenBackEmitter()
+          }"
           :disabled="cDisableBack">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cBackLabel}}
@@ -30,7 +33,10 @@
             class="q-mx-sm q-my-sm"
             :icon="cNextIcon"
             :color="cNextIconColor"
-            @click="emStaGenNextEmitter"
+            @click="()=>{
+              this.mSetLastClickerComponent(`${this._uid}-next-button`)
+              this.emStaGenNextEmitter()
+            }"
             :disabled="cDisableNext">
             <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
               {{cNextLabel}}
@@ -49,7 +55,10 @@
             class="q-mx-sm q-my-sm"
             icon="icon-info"
             color="warning"
-            @click="emStaGenAutoResetEmitter"
+            @click="()=>{
+              this.mSetLastClickerComponent(`${this._uid}-reset-button`)
+              this.emStaGenAutoResetEmitter()
+            }"
             :disabled="cDisableReset">
             <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cResetLabel}}
@@ -68,7 +77,10 @@
             class="q-mx-sm q-my-sm"
             icon="icon-borrar"
             color="accent"
-            @click="emStaGenAutoClearEmitter"
+            @click="()=>{
+              this.mSetLastClickerComponent(`${this._uid}-clear-button`)
+              this.emStaGenAutoClearEmitter()
+            }"
             :disabled="cDisableClear">
             <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cClearLabel}}
@@ -87,7 +99,10 @@
             class="q-mx-xs q-my-sm"
             icon="icon-rellenar"
             color="info"
-            @click="emStaGenAutoFillEmitter"
+            @click="()=>{
+              this.mSetLastClickerComponent(`${this._uid}-fill-button`)
+              this.emStaGenAutoFillEmitter()
+            }"
             :disabled="cDisableFill">
             <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
               {{cFillLabel}}
@@ -109,7 +124,11 @@
         class="q-mx-sm q-my-sm"
         :icon="cBackIcon"
         :color="cBackIconColor"
-        @click="emStaGenBackEmitter"
+        :loading="mLastClickerComponentLoading(`${this._uid}-back-button`)"
+        @click="()=>{
+          this.mSetLastClickerComponent(`${this._uid}-back-button`)
+          this.emStaGenBackEmitter()
+        }"
         :disabled="cDisableBack">
         <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
           {{cBackLabel}}
@@ -128,7 +147,11 @@
           class="q-mx-sm q-my-sm"
           :icon="cNextIcon"
           :color="cNextIconColor"
-          @click="emStaGenNextEmitter"
+          :loading="mLastClickerComponentLoading(`${this._uid}-next-button`)"
+          @click="()=>{
+            this.mSetLastClickerComponent(`${this._uid}-next-button`)
+            this.emStaGenNextEmitter()
+          }"
           :disabled="cDisableNext">
           <q-tooltip  :disable="!cShowNextButton && !cXs && !cSm">
             {{cNextLabel}}
@@ -147,7 +170,11 @@
           class="q-mx-sm q-my-sm"
           icon="icon-info"
           color="warning"
-          @click="emStaGenAutoResetEmitter"
+          :loading="mLastClickerComponentLoading(`${this._uid}-reset-button`)"
+          @click="()=>{
+            this.mSetLastClickerComponent(`${this._uid}-reset-button`)
+            this.emStaGenAutoResetEmitter()
+          }"
           :disabled="cDisableReset">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cResetLabel}}
@@ -166,7 +193,11 @@
           class="q-mx-sm q-my-sm"
           icon="icon-borrar"
           color="accent"
-          @click="emStaGenAutoClearEmitter"
+          :loading="mLastClickerComponentLoading(`${this._uid}-clear-button`)"
+          @click="()=>{
+            this.mSetLastClickerComponent(`${this._uid}-clear-button`)
+            this.emStaGenAutoClearEmitter()
+          }"
           :disabled="cDisableClear">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cClearLabel}}
@@ -185,7 +216,11 @@
           class="q-mx-xs q-my-sm"
           icon="icon-rellenar"
           color="info"
-          @click="emStaGenAutoFillEmitter"
+          :loading="mLastClickerComponentLoading(`${this._uid}-fill-button`)"
+          @click="()=>{
+            this.mSetLastClickerComponent(`${this._uid}-fill-button`)
+            this.emStaGenAutoFillEmitter()
+          }"
           :disabled="cDisableFill">
           <q-tooltip  :disable="!cShowBackButton && !cXs && !cSm">
             {{cFillLabel}}

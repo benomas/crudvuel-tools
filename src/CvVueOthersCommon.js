@@ -17,6 +17,12 @@ export default function (store,staticMixin = {}) {
       cvCantAccess
     ],
 
+    data () {
+      return {
+        lastClickerComponent:null
+      }
+    },
+
     filters: {
       fCapitalize: function (value = null) {
         if (!value)
@@ -268,6 +274,28 @@ export default function (store,staticMixin = {}) {
 
       mRandomKey () {
         return Math.random() * 100000000000000000
+      },
+
+      mSetLastClickerComponent(lastClickerComponent = null){
+        this.$set(this,'lastClickerComponent',lastClickerComponent)
+        console.log(lastClickerComponent)
+        return this
+      },
+
+      mLastClickerComponentLoading (clickerComponent = null) {
+        if(clickerComponent == null)
+          return false
+
+        if(this.cdReady == null)
+          return false
+
+        if(this.cdReady === true)
+          return false
+
+        if (this.cLastClickerComponent === clickerComponent)
+          return true
+
+        return false
       },
 
       mCaseFixer: cvCaseFixer,

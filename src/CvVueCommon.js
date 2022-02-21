@@ -208,6 +208,13 @@ export default class CvVueCommon {
           return `${this.cLocationProtocol}//${this.cDocumentDomain}:${this.cLocationPort}/`
         },
 
+        cLastClickerComponent () {
+          if(this.lastClickerComponent == null)
+            return null
+
+          return this.lastClickerComponent
+        },
+
         ...mapGetters(Object.keys(store.getters))
       }
     }
