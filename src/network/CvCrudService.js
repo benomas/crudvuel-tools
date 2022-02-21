@@ -126,12 +126,12 @@ export default class CvCrudService {
 
   //spected params: id,params,url,qString
   activate (...params) {
-    return this.mGetStCvComunicator().axios.put(...this.fixRowUrl(`/${params[0]}/activate`,...params))
+    return this.mGetStCvComunicator().axios.patch(...this.fixRowUrl(`/${params[0]}/activate`,...params))
   }
 
   //spected params: id,params,url,qString
   deactivate (...params) {
-    return this.mGetStCvComunicator().axios.put(...this.fixRowUrl(`/${params[0]}/deactivate`,...params))
+    return this.mGetStCvComunicator().axios.patch(...this.fixRowUrl(`/${params[0]}/deactivate`,...params))
   }
 
   exporting (id, params = null,url = null,qString = null, date = null) {
