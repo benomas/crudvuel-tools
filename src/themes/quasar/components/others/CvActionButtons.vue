@@ -9,6 +9,7 @@
           class="q-mx-sm q-my-sm"
           :icon="cBackIcon"
           :color="cBackIconColor"
+          :loading="mLastClickerComponentLoading(`${_uid}-back-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-back-button`)
             this.emStaGenBackEmitter()
@@ -33,6 +34,7 @@
             class="q-mx-sm q-my-sm"
             :icon="cNextIcon"
             :color="cNextIconColor"
+            :loading="mLastClickerComponentLoading(`${_uid}-next-button`)"
             @click="()=>{
               this.mSetLastClickerComponent(`${this._uid}-next-button`)
               this.emStaGenNextEmitter()
@@ -55,6 +57,7 @@
             class="q-mx-sm q-my-sm"
             :icon="cResetIcon"
             :color="cResetIconColor"
+            :loading="mLastClickerComponentLoading(`${_uid}-reset-button`)"
             @click="()=>{
               this.mSetLastClickerComponent(`${this._uid}-reset-button`)
               this.emStaGenAutoResetEmitter()
@@ -77,6 +80,7 @@
             class="q-mx-sm q-my-sm"
             :icon="cClearIcon"
             :color="cClearIconColor"
+            :loading="mLastClickerComponentLoading(`${_uid}-clear-button`)"
             @click="()=>{
               this.mSetLastClickerComponent(`${this._uid}-clear-button`)
               this.emStaGenAutoClearEmitter()
@@ -99,6 +103,7 @@
             class="q-mx-xs q-my-sm"
             :icon="cFillIcon"
             :color="cFillIconColor"
+            :loading="mLastClickerComponentLoading(`${_uid}-fill-button`)"
             @click="()=>{
               this.mSetLastClickerComponent(`${this._uid}-fill-button`)
               this.emStaGenAutoFillEmitter()
@@ -124,7 +129,7 @@
         class="q-mx-sm q-my-sm"
         :icon="cBackIcon"
         :color="cBackIconColor"
-        :loading="mLastClickerComponentLoading(`${this._uid}-back-button`)"
+        :loading="mLastClickerComponentLoading(`${_uid}-back-button`)"
         @click="()=>{
           this.mSetLastClickerComponent(`${this._uid}-back-button`)
           this.emStaGenBackEmitter()
@@ -147,7 +152,7 @@
           class="q-mx-sm q-my-sm"
           :icon="cNextIcon"
           :color="cNextIconColor"
-          :loading="mLastClickerComponentLoading(`${this._uid}-next-button`)"
+          :loading="mLastClickerComponentLoading(`${_uid}-next-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-next-button`)
             this.emStaGenNextEmitter()
@@ -170,7 +175,7 @@
           class="q-mx-sm q-my-sm"
           :icon="cResetIcon"
           :color="cResetIconColor"
-          :loading="mLastClickerComponentLoading(`${this._uid}-reset-button`)"
+          :loading="mLastClickerComponentLoading(`${_uid}-reset-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-reset-button`)
             this.emStaGenAutoResetEmitter()
@@ -193,7 +198,7 @@
           class="q-mx-sm q-my-sm"
           :icon="cClearIcon"
           :color="cClearIconColor"
-          :loading="mLastClickerComponentLoading(`${this._uid}-clear-button`)"
+          :loading="mLastClickerComponentLoading(`${_uid}-clear-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-clear-button`)
             this.emStaGenAutoClearEmitter()
@@ -216,7 +221,7 @@
           class="q-mx-xs q-my-sm"
           :icon="cFillIcon"
           :color="cFillIconColor"
-          :loading="mLastClickerComponentLoading(`${this._uid}-fill-button`)"
+          :loading="mLastClickerComponentLoading(`${_uid}-fill-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-fill-button`)
             this.emStaGenAutoFillEmitter()
