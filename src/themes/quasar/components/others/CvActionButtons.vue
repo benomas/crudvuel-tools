@@ -53,8 +53,8 @@
             :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
-            icon="icon-info"
-            color="warning"
+            :icon="cResetIcon"
+            :color="cResetIconColor"
             @click="()=>{
               this.mSetLastClickerComponent(`${this._uid}-reset-button`)
               this.emStaGenAutoResetEmitter()
@@ -75,8 +75,8 @@
           :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-sm q-my-sm"
-            icon="icon-borrar"
-            color="accent"
+            :icon="cClearIcon"
+            :color="cClearIconColor"
             @click="()=>{
               this.mSetLastClickerComponent(`${this._uid}-clear-button`)
               this.emStaGenAutoClearEmitter()
@@ -97,8 +97,8 @@
           :size="cBtnSize"
             :class="{'q-ma-md':cGtmd}"
             class="q-mx-xs q-my-sm"
-            icon="icon-rellenar"
-            color="info"
+            :icon="cFillIcon"
+            :color="cFillIconColor"
             @click="()=>{
               this.mSetLastClickerComponent(`${this._uid}-fill-button`)
               this.emStaGenAutoFillEmitter()
@@ -168,8 +168,8 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          icon="icon-info"
-          color="warning"
+          :icon="cResetIcon"
+          :color="cResetIconColor"
           :loading="mLastClickerComponentLoading(`${this._uid}-reset-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-reset-button`)
@@ -191,8 +191,8 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-sm q-my-sm"
-          icon="icon-borrar"
-          color="accent"
+          :icon="cClearIcon"
+          :color="cClearIconColor"
           :loading="mLastClickerComponentLoading(`${this._uid}-clear-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-clear-button`)
@@ -214,8 +214,8 @@
           :size="cBtnSize"
           :class="{'q-ma-md':cGtmd}"
           class="q-mx-xs q-my-sm"
-          icon="icon-rellenar"
-          color="info"
+          :icon="cFillIcon"
+          :color="cFillIconColor"
           :loading="mLastClickerComponentLoading(`${this._uid}-fill-button`)"
           @click="()=>{
             this.mSetLastClickerComponent(`${this._uid}-fill-button`)
@@ -263,18 +263,24 @@ export default {
       '[P]dinGenResetLabel'         : null,
       '[P]dinGenClearLabel'         : null,
       '[P]dinGenBackIcon'           : 'icon-retroceso',
-      '[P]dinGenBackIconColor'      : 'negative',
       '[P]dinGenNextIcon'           : 'icon-check',
+      '[P]dinGenFillIcon'           : 'icon-info',
+      '[P]dinGenResetIcon'          : 'icon-borrar',
+      '[P]dinGenClearIcon'          : 'icon-rellenar',
+      '[P]dinGenBackIconColor'      : 'negative',
       '[P]dinGenNextIconColor'      : 'positive',
-      '[P]staGenBackIcon'           : 'icon-retroceso',
-      '[P]staGenBackIconColor'      : 'negative',
-      '[P]staGenNextIcon'           : 'icon-check',
-      '[P]staGenNextIconColor'      : 'positive',
+      '[P]dinGenFillIconColor'      : 'warning',
+      '[P]dinGenResetIconColor'     : 'accent',
+      '[P]dinGenClearIconColor'     : 'info',
       '[P]dinGenDisableBack'        : false,
       '[P]dinGenDisableNext'        : false,
       '[P]dinGenDisableFill'        : false,
       '[P]dinGenDisableReset'       : false,
       '[P]dinGenDisableClear'       : false,
+      '[P]staGenBackIcon'           : 'icon-retroceso',
+      '[P]staGenBackIconColor'      : 'negative',
+      '[P]staGenNextIcon'           : 'icon-check',
+      '[P]staGenNextIconColor'      : 'positive',
       '[EM]staGenBack'              : null,
       '[EM]staGenNext'              : null,
       '[EM]staGenAutoFill'          : null,
@@ -445,16 +451,6 @@ export default {
       return null
     },
 
-    cBackIconColor () {
-      if (this.cpDinGenBackIconColor != null)
-        return this.cpDinGenBackIconColor
-
-      if (this.cpStaGenBackIconColor != null)
-        return this.cpStaGenBackIconColor
-
-      return null
-    },
-
     cNextIcon () {
       if (this.cpDinGenNextIcon != null)
         return this.cpDinGenNextIcon
@@ -465,11 +461,81 @@ export default {
       return null
     },
 
+    cFillIcon () {
+      if (this.cpDinGenFillIcon != null)
+        return this.cpDinGenFillIcon
+
+      if (this.cpStaGenFillIcon != null)
+        return this.cpStaGenFillIcon
+
+      return null
+    },
+
+    cResetIcon () {
+      if (this.cpDinGenResetIcon != null)
+        return this.cpDinGenResetIcon
+
+      if (this.cpStaGenResetIcon != null)
+        return this.cpStaGenResetIcon
+
+      return null
+    },
+
+    cClearIcon () {
+      if (this.cpDinGenClearIcon != null)
+        return this.cpDinGenClearIcon
+
+      if (this.cpStaGenClearIcon != null)
+        return this.cpStaGenClearIcon
+
+      return null
+    },
+
+    cBackIconColor () {
+      if (this.cpDinGenBackIconColor != null)
+        return this.cpDinGenBackIconColor
+
+      if (this.cpStaGenBackIconColor != null)
+        return this.cpStaGenBackIconColor
+
+      return null
+    },
+
     cNextIconColor () {
       if (this.cpDinGenNextIconColor != null)
         return this.cpDinGenNextIconColor
 
       if (this.cpStaGenNextIconColor != null)
+        return this.cpStaGenNextIconColor
+
+      return null
+    },
+
+    cFillIconColor () {
+      if (this.cpDinGenFillIconColor != null)
+        return this.cpDinGenFillIconColor
+
+      if (this.cpStaGenFillIconColor != null)
+        return this.cpStaGenNextIconColor
+
+      return null
+    },
+
+    cResetIconColor () {
+      if (this.cpDinGenResetIconColor != null)
+        return this.cpDinGenResetIconColor
+
+      if (this.cpStaGenResetIconColor != null)
+        return this.cpStaGenNextIconColor
+
+      return null
+    },
+
+    cClearIconColor () {
+      if (this.cpDinGenClearIconColor != null)
+        return this.cpDinGenClearIconColor
+
+      if (this.cpStaGenClearIconColor != null)
         return this.cpStaGenNextIconColor
 
       return null
