@@ -3,9 +3,9 @@ import {mySubString,myReplace,cvF,cvFixDotDepth,
   mMoveItemUp,mMoveItemDown,cvCaseFixer,mCvDestructuring,
   mCvConditionalDestructuring}                      from 'crudvuel-tools/src/cvHelper'
 import {split,camelCase,get,capitalize,upperFirst,round}  from 'lodash'
-import CvPermissionComponent                              from 'crudvuel/components/CvPermissionComponent'
-import cvCanAccess                                        from 'crudvuel/directives/cvCanAccess'
-import cvCantAccess                                       from 'crudvuel/directives/cvCantAccess'
+import CvPermissionComponent                              from 'crudvuel-tools/src/components/CvPermissionComponent'
+import cvCanAccess                                        from 'crudvuel-tools/src/directives/cvCanAccess'
+import cvCantAccess                                       from 'crudvuel-tools/src/directives/cvCantAccess'
 import { mapActions }                                     from 'vuex'
 
 export default function (store,staticMixin = {}) {

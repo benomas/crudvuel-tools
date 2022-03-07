@@ -10,7 +10,7 @@ import CvComponentSet             from 'crudvuel-tools/src/components/sets/CvCom
 import CvResourceComponentSet     from 'crudvuel-tools/src/components/sets/CvResourceComponentSet'
 import CvSimpleFilter             from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import {mySubString,myLightSubString}  from 'crudvuel-tools/src/cvHelper'
-import VueMirroring               from 'crudvuel/mirroring/VueMirroring'
+import VueMirroring               from 'crudvuel-tools/src/mirroring/VueMirroring'
 import {concat,indexOf,parseInt,without,round}  from 'lodash'
 let vueMirroring = new VueMirroring('Relationator')
 

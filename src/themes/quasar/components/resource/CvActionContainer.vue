@@ -35,7 +35,7 @@ import CvComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/components/se
 import CvSpinner            from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSpinner'
 import cvEmptySlot          from 'crudvuel-tools/src/directives/cvEmptySlot'
 import CvSeparator          from 'crudvuel-tools/src/themes/quasar/components/others/CvSeparator'
-import VueMirroring         from 'crudvuel/mirroring/VueMirroring'
+import VueMirroring         from 'crudvuel-tools/src/mirroring/VueMirroring'
 
 export default {
   mixins: [

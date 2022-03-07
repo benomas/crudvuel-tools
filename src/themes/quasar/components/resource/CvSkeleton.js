@@ -3,7 +3,7 @@ import CvSingleRowComponentSet                        from 'crudvuel-tools/src/t
 import CvResourceComponentSet                         from 'crudvuel-tools/src/themes/quasar/components/sets/CvResourceComponentSet'
 import CvNotifyComponentSet                           from 'crudvuel-tools/src/themes/quasar/components/sets/CvNotifyComponentSet'
 import CvNotifyComponentExtraSet                      from 'crudvuel-tools/src/themes/quasar/components/sets/CvNotifyComponentExtraSet'
-import cvError                                        from 'crudvuel/directives/cvError'
+import cvError                                        from 'crudvuel-tools/src/directives/cvError'
 import {camelCase,snakeCase,isFinite,toNumber,split}  from 'lodash'
 
 import {

@@ -1,6 +1,6 @@
 import CvNotify               from 'src/customs/crudvuel/themes/quasar/components/others/CvNotify'
 import {cvAuthHelper}         from 'src/customs/crudvuel/cvHelper'
-import CvPermissionComponent  from 'crudvuel/components/CvPermissionComponent'
+import CvPermissionComponent  from 'crudvuel-tools/src/components/CvPermissionComponent'
 import {startsWith}           from 'lodash'
 
 export default class CvBaseRouter {

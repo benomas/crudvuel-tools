@@ -8,7 +8,7 @@
 <script>
 import CvSimpleFilter from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import CvComponentSet from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import VueMirroring   from 'crudvuel/mirroring/VueMirroring'
+import VueMirroring   from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('SimpleFieldFilter').enableRoot()
 
 export default {

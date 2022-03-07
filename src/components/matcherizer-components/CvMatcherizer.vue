@@ -12,7 +12,7 @@ import CvDialogComponentSet   from 'crudvuel-tools/src/themes/quasar/components/
 import CvPaginateComponentSet from 'crudvuel-tools/src/components/sets/CvPaginateComponentSet'
 import CvSimpleFilter         from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
 import CvPermission           from 'crudvuel-tools/src//components/CvPermissionComponent'
-import VueMirroring           from 'crudvuel/mirroring/VueMirroring'
+import VueMirroring           from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Matcherizer')
 
 export default {

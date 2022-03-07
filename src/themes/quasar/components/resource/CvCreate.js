@@ -6,7 +6,7 @@ import CvNotifyComponentExtraSet    from 'crudvuel-tools/src/themes/quasar/compo
 import CvCreateComponentExtraSet    from 'crudvuel-tools/src/themes/quasar/components/sets/CvCreateComponentExtraSet'
 import CvComponentExtraSet          from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
 import CvActionButtons              from 'crudvuel-tools/src/themes/quasar/components/others/CvActionButtons'
-import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
+import VueMirroring                 from 'crudvuel-tools/src/mirroring/VueMirroring'
 import {
   QBtn,
   QExpansionItem

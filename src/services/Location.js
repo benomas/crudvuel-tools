@@ -1,4 +1,4 @@
-import CustomCvCrudService from 'crudvuel/network/CvCrudService'
+import CustomCvCrudService from 'crudvuel-tools/srcnetwork/CvCrudService'
 /*
   here you can customize how this object will work with your current project
 */

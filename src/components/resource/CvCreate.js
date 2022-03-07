@@ -4,7 +4,7 @@ import CvSingleRowComponentSet  from 'crudvuel-tools/src/components/sets/CvSingl
 import CvNotifyComponentSet     from 'crudvuel-tools/src/components/sets/CvNotifyComponentSet'
 import CvCreateComponentSet     from 'crudvuel-tools/src/components/sets/CvCreateComponentSet'
 import CvComponentSet           from 'crudvuel-tools/src/components/sets/CvComponentSet'
-import VueMirroring             from 'crudvuel/mirroring/VueMirroring'
+import VueMirroring             from 'crudvuel-tools/src/mirroring/VueMirroring'
 let vueMirroring = new VueMirroring('Create').enableRoot()
 export default {
   mixins: [
