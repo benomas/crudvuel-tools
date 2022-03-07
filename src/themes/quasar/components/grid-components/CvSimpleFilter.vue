@@ -47,7 +47,7 @@ export default {
     CvComponentExtraSet
   ],
 
-  components : {
+  components: {
     QBtn,
     QField,
     QIcon,

@@ -9,7 +9,7 @@
       :value="cpDinInsSearch"
       ref="inputRef"
       :title="cpDinInsHint"
-      :disabled="cpDinInsDisableFields"
+      :disable="cpDinInsDisableFields"
       :clearable="!cpDinInsDisableFields"
       @input="emDinInsSearchEmitter"
       @keyup.13="(()=>mSetPreventDebounce(true).emDinInsSearchEmitter(cpDinInsSearch))"

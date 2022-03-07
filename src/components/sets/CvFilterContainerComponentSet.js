@@ -42,8 +42,23 @@ export default {
         return {}
 
       return Object.keys(cSource).reduce((ff, field) => {
-        if (this.cdRow != null && this.cdRow[field] != null)
+        if (this.cdRow != null && this.cdRow[field] != null) {
+          if (typeof cSource[field] === 'object') {
+            if (cSource[field]['index'] != null) {
+              if (typeof cSource[field]['cbValue'] === 'function') {
+                ff[cSource[field]['index']] = cSource[field]['cbValue'](this.cdRow[field])
+
+                return ff
+              }
+
+              ff[cSource[field]['index']] = this.cdRow[field]
+
+              return ff
+            }
+          }
+
           ff[cSource[field]] = this.cdRow[field]
+        }
 
         return ff
       },{})

@@ -111,7 +111,7 @@ import CvPaginateComponentExtraSet  from 'crudvuel-tools/src/themes/quasar/compo
 import CvSimpleFilter               from 'crudvuel-tools/src/themes/quasar/components/grid-components/CvSimpleFilter'
 import CvActionDialog               from 'crudvuel-tools/src/themes/quasar/components/others/CvActionDialog'
 
-import VueMirroring                 from 'crudvuel/mirroring/VueMirroring'
+import VueMirroring                 from 'crudvuel-tools/src/mirroring/VueMirroring'
 import {QIcon,QSlideTransition,QSpinner,QSpinnerFacebook,QBtn,QScrollObserver} from 'quasar'
 let vueMirroring = new VueMirroring('Matcherizer')
 
