@@ -1,5 +1,5 @@
 <template>
-  <div class="cv-create">
+  <div class="cv-create" :class="cClassFix">
     <cv-action-container
       v-if="cpStaGenAction"
       v-bind="mCustomBindins('cv-action-container')"
