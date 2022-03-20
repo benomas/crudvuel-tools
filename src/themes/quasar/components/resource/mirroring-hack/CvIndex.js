@@ -131,6 +131,26 @@ export default {
         'cv-din-gen-show-reset-button':false,
         'cv-din-gen-show-clear-button':false
       }
+    },
+
+    cClassFix (){
+      if(this.cpDinGenActionMode == null)
+        return {
+          'q-pa-sm':this.cGtxs,
+          'q-pa-xs':this.cLtsm
+        }
+
+      if(this.cpDinGenActionMode === 'route')
+        return {
+          'q-pa-sm':this.cGtxs,
+          'q-pa-xs':this.cLtsm
+        }
+
+      if(this.cpDinGenActionMode === 'dialog')
+        return {
+          'q-pa-sm':this.cGtxs,
+          'q-pa-xs':this.cLtsm
+        }
     }
   },
 

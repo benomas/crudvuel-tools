@@ -32,6 +32,19 @@ export default {
     CvSkeletonLoading
   },
 
+  computed: {
+    cClassFix () {
+      if(this.cpDinGenActionMode == null)
+        return {}
+
+      if(this.cpDinGenActionMode === 'route')
+        return {}
+
+      if(this.cpDinGenActionMode === 'dialog')
+        return {'q-pa-sm':this.cGtxs,'':this.cLtsm}
+    }
+  },
+
   methods: {
     emStaGenAutoFillProccesor (emitted = null) {
       return new Promise((resolve,reject) => {
