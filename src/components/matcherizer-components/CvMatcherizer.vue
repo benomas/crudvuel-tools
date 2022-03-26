@@ -41,6 +41,9 @@ export default {
       '[D|M]listWidth'                   : '200px',
       '[D|M]listTop'                     : '200px',
       '[D|M]lastSearch'                  : null,
+      '[D|M]previusSelect'               : null,
+      '[D|M]previusItem'                 : null,
+      '[D|M]syncronizingSearch'          : false,
       '[D|M]scrollTopFix'                : 0,
       '[EM]dinGenReset'                  : null,
       '[P|EM]dinInsLoading'              : false,
@@ -127,6 +130,7 @@ export default {
       for (let i = 0; i < this.cpDinInsListOfItemsLimit; i++) {
         if (i >= this.cdSourceRows.length)
           return limitedSourceRows
+
         limitedSourceRows.push(this.cdSourceRows[i])
       }
 
@@ -264,6 +268,8 @@ export default {
       else
         this.mSetMatcherizerSimpleFilterIcon(this.cpStaInsResource != null ? this.cpStaInsResource.icon : null)
 
+      this.mSetPreviusSelect(this.cdMatcherizerSimpleFilterSearch)
+
       return new Promise((resolve, reject) => {
         this.mDelayer().then(() => {
           this.mSetReady()
@@ -275,21 +281,24 @@ export default {
 
     mRefreshSource () {
       if (this.cRequireNewRemoteSearch){
-        return this.cpDinInsSourceService(...this.cpDinInsSourceServiceParams,this.mPaginator())
-          .then(response => {
-            this.emDinInsDataLoadedEmitter(response)
-            this.emDinInsLoadingEmitter(false)
-            this.mDelayer().then(()=>{
-              this.mDirectionFix()
+        this.emDinInsLoadingEmitter(true)
+        this.mDelayer().then(()=>{
+          return this.cpDinInsSourceService(...this.cpDinInsSourceServiceParams,this.mPaginator())
+            .then(response => {
+              this.emDinInsDataLoadedEmitter(response)
+              this.emDinInsLoadingEmitter(false)
+              this.mDelayer().then(()=>{
+                this.mDirectionFix()
+              })
             })
-          })
-          .catch(response => {
-            this.emDinInsDataLoadedFailEmitter(response)
-            this.emDinInsLoadingEmitter(false)
-            this.mDelayer().then(()=>{
-              this.mDirectionFix()
+            .catch(response => {
+              this.emDinInsDataLoadedFailEmitter(response)
+              this.emDinInsLoadingEmitter(false)
+              this.mDelayer().then(()=>{
+                this.mDirectionFix()
+              })
             })
-          })
+        })
       }else{
         this.mDelayer().then(()=>{
           this.mDirectionFix()
@@ -352,7 +361,9 @@ export default {
 
     mSelect (rowKey,row) {
       this.mSetMatcherizerSimpleFilterSearch(this.mLabelCallBack(this.cSourceRows,row))
+      this.mSetPreviusSelect(this.cdMatcherizerSimpleFilterSearch)
       this.emStaInsCurrentItemEmitter(row)
+      //this.mSetPreviusSelect(this.mLabelCallBack(this.cSourceRows,row))
 
       this.mDelayer().then(() => {
         this.emSearchContinueEmitter(false)
@@ -376,7 +387,7 @@ export default {
     // event navigation control
     emStaInsfMatcherizerSimpleFilterFocusedProccesor (emitted = null) {
       return new Promise((resolve, reject) => {
-        this.mSetSearchFocus(true).mFixListStyle().emDinInsLoadingEmitter(true)
+        this.mSetSearchFocus(true).mFixListStyle()
         this.emSearchContinueEmitter(true)
         resolve(emitted)
       })

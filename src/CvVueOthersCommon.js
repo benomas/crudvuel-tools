@@ -19,7 +19,7 @@ export default function (store,staticMixin = {}) {
 
     data () {
       return {
-        lastClickerComponent:null
+        lastClickerComponent: null
       }
     },
 

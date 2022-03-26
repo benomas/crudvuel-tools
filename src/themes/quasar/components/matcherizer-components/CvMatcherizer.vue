@@ -156,8 +156,13 @@ export default {
   methods: {
     emStaInsfMatcherizerSimpleFilterSearchProccesor (emitted = null) {
       return new Promise((resolve, reject) => {
-        if ((emitted == null || emitted === '') && this.cdStaInsfMatcherizerSimpleFilterSearch != null && this.cdStaInsfMatcherizerSimpleFilterSearch !== '')
+        if (
+          (emitted == null || emitted === '') &&
+          this.cdStaInsfMatcherizerSimpleFilterSearch != null &&
+          this.cdStaInsfMatcherizerSimpleFilterSearch !== ''
+        )
           this.emDinGenResetEmitter()
+
         this.mSetMatcherizerSimpleFilterSearch(emitted).mSetPagSearchObject(emitted).mRefreshSource()
         resolve(emitted)
       })
@@ -207,6 +212,7 @@ export default {
         this.mDelayer(200).then(() => {
           if (this.mSetShowActionDialog != null)
             this.mSetShowActionDialog(false)
+
           resolve(emitted)
         })
       })
@@ -253,8 +259,6 @@ export default {
     mDirectionFix () {
       if (this.$refs.filterReference == null)
         return this
-
-      let node = this.$refs.filterReference
 
       let topMargin  = this.$refs.filterReference.clientHeight + this.$refs.filterReference.offsetTop - this.cdScrollTopFix
 
