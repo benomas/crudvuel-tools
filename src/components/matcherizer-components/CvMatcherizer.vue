@@ -42,7 +42,6 @@ export default {
       '[D|M]listTop'                     : '200px',
       '[D|M]lastSearch'                  : null,
       '[D|M]previusSelect'               : null,
-      '[D|M]previusItem'                 : null,
       '[D|M]syncronizingSearch'          : false,
       '[D|M]scrollTopFix'                : 0,
       '[EM]dinGenReset'                  : null,
