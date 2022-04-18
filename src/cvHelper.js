@@ -372,8 +372,29 @@ const myLightSubString = function (text = '',search = '') {
   return cvLowerCase(text).includes(cvLowerCase(trim(search)))
 }
 
+
+const cvGeneralResponse = function (response) {
+  const nonstandardResponse = response =>
+    ({rows: response,row:response,count:null,...response})
+
+  if(response.data == null)
+    return nonstandardResponse(response)
+
+  let dataSource = null
+
+  if(response.data.data != null)
+    dataSource = response.data
+  else
+    dataSource = response
+
+  if(Array.isArray(dataSource.data))
+    return {rows:dataSource.data,count:dataSource.data.length,...dataSource}
+
+  return {row:dataSource.data,...dataSource}
+}
+
 export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64,
   cvCamelCase,cvSlugCase,cvKebabCase,cvSnakeCase,cvStudlyCase,cvSingularCase,
   cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,
   cvNumberToAbc,cvRomanize,cvEnumerator,mIsArray,mLastArrayPosition,mSwitchArrayPosition,
-  mMoveItemUp,mMoveItemDown,mCvDestructuring,mCvConditionalDestructuring,myLightSubString}
+  mMoveItemUp,mMoveItemDown,mCvDestructuring,mCvConditionalDestructuring,myLightSubString,cvGeneralResponse}

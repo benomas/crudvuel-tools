@@ -222,6 +222,30 @@ export const mStSetCvResourceFillerStorage = (state, cvResourceFillerStorage) =>
   state.commit('setCvResourceFillerStorage',cvResourceFillerStorage)
 }
 
+export const mStStarLoadingPublicAsyncRoutes = (state) => {
+  state.commit('setCvLoadingPublicAsyncRoutes',1)
+}
+
+export const mStCompleteLoadingPublicAsyncRoutes = (state) => {
+  state.commit('setCvLoadingPublicAsyncRoutes',0)
+}
+
+export const mStStarLoadingExternalAsyncRoutes = (state) => {
+  state.commit('setCvLoadingExternalAsyncRoutes',1)
+}
+
+export const mStCompleteLoadingExternalAsyncRoutes = (state) => {
+  state.commit('setCvLoadingExternalAsyncRoutes',0)
+}
+
+export const mStStarLoadingInternalAsyncRoutes = (state) => {
+  state.commit('setCvLoadingInternalAsyncRoutes',1)
+}
+
+export const mStCompleteLoadingInternalAsyncRoutes = (state) => {
+  state.commit('setCvLoadingInternalAsyncRoutes',0)
+}
+
 let actions = [
   'mStLogin',
   'mStLogout',
@@ -246,7 +270,13 @@ let actions = [
   'mStStarSynchronizing',
   'mStCompleteSynchronizing',
   'mStSetCvResourceFiller',
-  'mStSetCvResourceFillerStorage'
+  'mStSetCvResourceFillerStorage',
+  'mStStarLoadingPublicAsyncRoutes',
+  'mStCompleteLoadingPublicAsyncRoutes',
+  'mStStarLoadingExternalAsyncRoutes',
+  'mStCompleteLoadingExternalAsyncRoutes',
+  'mStStarLoadingInternalAsyncRoutes',
+  'mStCompleteLoadingInternalAsyncRoutes'
 ]
 
 export const mStInyector = (state,object) => {

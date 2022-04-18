@@ -81,3 +81,15 @@ export const setCvResourceFiller = (state,cvResourceFiller = null) => {
 export const setCvResourceFillerStorage = (state,cvResourceFillerStorage = null) => {
   state.cvResourceFillerStorage = cvResourceFillerStorage
 }
+
+export const setCvLoadingPublicAsyncRoutes = (state,cvLoadingPublicAsyncRoutes = null) => {
+  state.cvLoadingPublicAsyncRoutes = cvLoadingPublicAsyncRoutes
+}
+
+export const setCvLoadingExternalAsyncRoutes = (state,cvLoadingExternalAsyncRoutes = null) => {
+  state.cvLoadingExternalAsyncRoutes = cvLoadingExternalAsyncRoutes
+}
+
+export const setCvLoadingInternalAsyncRoutes = (state,cvLoadingInternalAsyncRoutes = null) => {
+  state.cvLoadingInternalAsyncRoutes = cvLoadingInternalAsyncRoutes
+}

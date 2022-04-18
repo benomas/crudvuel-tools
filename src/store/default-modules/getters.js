@@ -1,20 +1,23 @@
 import {get} from 'lodash'
-export const cStResources                 = state => state.resources
-export const cStCurrentUser               = state => state.currentUser
-export const cStUnauthorizedInteractions  = state => state.unauthorizedInteractions
-export const cStWindowSize                = state => state.windowSize
-export const cStWebAppMode                = state => state.webAppMode
-export const cStCvEnv                     = state => state.cvEnv
-export const cStCvComunicator             = state => state.cvComunicator
-export const cStCvPassport                = state => state.cvPassport
-export const cStCvGeneralServices         = state => state.cvGeneralServices
-export const cStCvServices                = state => state.cvServices
-export const cStCvRouterCore              = state => state.cvRouterCore
-export const cStCvRedirectCache           = state => state.cvRedirectCache
-export const cStCvSynchronizing           = state => state.cvSynchronizing
-export const cStCvI18n                   = state => state.cvI18n
-export const cStCvResourceFiller          = state => state.cvResourceFiller
-export const cStCvResourceFillerStorage   = state => state.cvResourceFillerStorage
+export const cStResources                    = state => state.resources
+export const cStCurrentUser                  = state => state.currentUser
+export const cStUnauthorizedInteractions     = state => state.unauthorizedInteractions
+export const cStWindowSize                   = state => state.windowSize
+export const cStWebAppMode                   = state => state.webAppMode
+export const cStCvEnv                        = state => state.cvEnv
+export const cStCvComunicator                = state => state.cvComunicator
+export const cStCvPassport                   = state => state.cvPassport
+export const cStCvGeneralServices            = state => state.cvGeneralServices
+export const cStCvServices                   = state => state.cvServices
+export const cStCvRouterCore                 = state => state.cvRouterCore
+export const cStCvRedirectCache              = state => state.cvRedirectCache
+export const cStCvSynchronizing              = state => state.cvSynchronizing
+export const cStCvI18n                       = state => state.cvI18n
+export const cStCvResourceFiller             = state => state.cvResourceFiller
+export const cStCvResourceFillerStorage      = state => state.cvResourceFillerStorage
+export const cStCvLoadingPublicAsyncRoutes   = state => state.cvLoadingPublicAsyncRoutes
+export const cStCvLoadingExternalAsyncRoutes = state => state.cvLoadingExternalAsyncRoutes
+export const cStCvLoadingInternalAsyncRoutes = state => state.cvLoadingInternalAsyncRoutes
 
 export const cStWebAppInternalModeSupport = (state,getters) => {
   if (!getters.cStCurrentUser)

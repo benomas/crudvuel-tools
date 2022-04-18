@@ -1,4 +1,4 @@
-import {mySubString,myReplace,cvF,cvFixDotDepth}  from 'crudvuel-tools/src/cvHelper'
+import {mySubString,myReplace,cvF,cvFixDotDepth,cvGeneralResponse}  from 'crudvuel-tools/src/cvHelper'
 import VueMirroring                               from 'crudvuel-tools/src/mirroring/VueMirroring'
 import {get}                                      from 'lodash'
 export default {
@@ -227,23 +227,7 @@ export default {
     },
 
     mCvGeneralResponse (response) {
-      const nonstandardResponse = response =>
-        ({rows: response,row:response,count:null,...response})
-
-      if(response.data == null)
-        return nonstandardResponse(response)
-
-      let dataSource = null
-
-      if(response.data.data != null)
-        dataSource = response.data
-      else
-        dataSource = response
-
-      if(Array.isArray(dataSource.data))
-        return {rows:dataSource.data,count:dataSource.data.length,...dataSource}
-
-      return {row:dataSource.data,...dataSource}
+      return cvGeneralResponse(response)
     },
 
     mySubString,
