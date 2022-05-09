@@ -38,10 +38,14 @@ export default {
     mComponentInitialize () {
       this.mSetDisableActionReady(true).mSetUnReady()
 
+      if (this.cpDinGenActionParams != null && this.cpDinGenActionParams.mComponentInitialize != null)
+        this.cpDinGenActionParams.mComponentInitialize(this)
+
       return new Promise((resolve, reject) => {
-        this.mActionGetRowServiceBuilder().call().then(response => {
-          this.mSetRow(this.mShowResponse(response))
-          this.mSetDisableActionReady(false)
+        this.mActionGetRowServiceBuilder().call()
+        .then(this.mShowResponse)
+        .then(response => {
+          this.mSetRow(response).mSetDisableActionReady(false)
           resolve(response)
           this.mSetReady()
         }).catch(response => {

@@ -92,6 +92,9 @@ export const mStReloadMode = (state) => {
 }
 
 export const mStSetSecureWebAppMode = (state, mode) => {
+  if (!state.getters.cStCurrentUser)
+    return state.commit('setWebAppMode','public')
+
   if (mode === 'public')
     return state.commit('setWebAppMode','public')
 
