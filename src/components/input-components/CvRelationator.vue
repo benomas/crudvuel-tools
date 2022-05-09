@@ -27,6 +27,7 @@ export default {
       '[D]relatedRowsVisualLimit'       : 10,
       '[D]availableSourceRows'          : [],
       '[D]originalRelatedRows'          : [],
+      '[D]afterComponentInitialize'     : null,
       '[P]dinInsRelatedKeyValue'        : null,
       '[P|EM]dinInsRelatedDetachAttach' : {},
       //'[P|EM]dinInsRelatedDetach'       : {},
@@ -300,6 +301,9 @@ export default {
             reject(response)
             this.mSetReady()
           })
+      }).then(()=>{
+        if (typeof this.afterComponentInitialize === 'function')
+          this.afterComponentInitialize()
       })
     },
 
@@ -554,6 +558,15 @@ export default {
       this.emDinInsRelatedDetachAttachEmitter({
         detach:[...this.cdOriginalRelatedRows.filter(item=>this.cpDinInsDetachRowComparatorCallBack(item))],
         attach:[...this.cdRelatedRows.filter(item=>this.cpDinInsAttachRowComparatorCallBack(item))]
+      })
+
+      return this
+    },
+
+    mForceAttach(){
+      this.emDinInsRelatedDetachAttachEmitter({
+        detach:[...this.cdOriginalRelatedRows.filter(item=>this.cpDinInsDetachRowComparatorCallBack(item))],
+        attach:[...this.cdRelatedRows.filter(item=>true)]
       })
 
       return this

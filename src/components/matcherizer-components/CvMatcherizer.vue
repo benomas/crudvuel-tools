@@ -487,6 +487,35 @@ export default {
     mResetMe () {
       this.emStaInsfMatcherizerSimpleFilterSearchEmitter('')
       this.emDinGenResetEmitter()
+    },
+
+    mForcedRefreshSource () {
+      this.emDinInsLoadingEmitter(true)
+      return this.mDelayer().then(()=>{
+        return this.cpDinInsSourceService(...this.cpDinInsSourceServiceParams,this.mPaginator())
+          .then(response => {
+            this.emDinInsDataLoadedEmitter(response)
+            this.emDinInsLoadingEmitter(false)
+          })
+          .catch(response => {
+            this.emDinInsDataLoadedFailEmitter(response)
+            this.emDinInsLoadingEmitter(false)
+          })
+      })
+    },
+
+    mAutoSelect () {
+      this.mForcedRefreshSource().then(()=>{
+        this.mDelayer(100).then(()=>{
+          if (this.cSourceRows == null || this.cSourceRows.length === 0)
+            return
+
+          let currentRow = this.cSourceRows[0]
+
+          this.mSelect(0,currentRow)
+        })
+      })
+
     }
   }
 }
