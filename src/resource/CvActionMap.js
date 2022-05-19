@@ -24,6 +24,7 @@ export default class CvResourceMap extends CvClass {
     this.disableFields     = null,
     this.nextLabel         = null,
     this.backLabel         = null,
+    this.confirmLabel      = null,
     this.isParentRoute     = null,
     this.position          = null,
     this.context           = 'action',

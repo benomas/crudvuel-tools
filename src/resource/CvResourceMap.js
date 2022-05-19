@@ -22,6 +22,7 @@ export default class CvResourceMap extends CvClass {
     this.children          = null
     this.nextLabel         = null
     this.backLabel         = null
+    this.confirmLabel      = null
     this.keyName           = null
     this.pluralName        = null
     this.singularName      = null
@@ -59,6 +60,9 @@ export default class CvResourceMap extends CvClass {
 
     if (actionOptions && actionOptions.backLabel === undefined)
       actionOptions.backLabel = this.backLabel
+
+    if (actionOptions && actionOptions.confirmLabel === undefined)
+      actionOptions.confirmLabel = this.confirmLabel
 
     if (actionOptions && actionOptions.disableFields === undefined)
       actionOptions.disableFields = false
