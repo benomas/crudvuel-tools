@@ -103,6 +103,14 @@ export default {
     }
   },
 
+  computed:{
+    cFinalKeyValue() {
+      let keyValue = this.cdKeyValue || this.cdDinGenKeyValue || null
+
+      return keyValue
+    }
+  },
+
   created () {
     this.mAddCustomBinding({
       'cv-din-gen-action'      : 'cdAction',
