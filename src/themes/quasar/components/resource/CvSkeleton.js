@@ -348,6 +348,10 @@ export default {
 
         if (config.forcedPreselect != null)
           extraBindins['cv-sta-insf-matcherizer-simple-filter-search'] = config.forcedPreselect
+
+        if (config.fullCollection == null){
+          extraBindins['cv-sta-ins-pag-collections-excludes'] = ['cv_has_files','cv_has_code_hook']
+        }
       }
 
       extraBindins['ref'] = this.mInputReffer(field)
