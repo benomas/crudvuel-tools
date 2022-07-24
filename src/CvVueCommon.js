@@ -137,29 +137,31 @@ export default class CvVueCommon {
           return store.getters.cStCvEnv.environmentProperty('ENV_MODE','production') || null
         },
 
-        cAutoFillableEnabled: function () {
-          return store.getters.cStCvEnv.environmentProperty('AUTOFILL_ENABLED',false) || null
-        },
-
-        cAutoFillable: function () {
+        cShowDevButtons: function () {
           if (this.cEnv == null)
             return false
 
-          if (this.cAutoFillableEnabled == null || this.cAutoFillableEnabled !== true)
+          let devButtonsEnabled = store.getters.cStCvEnv.environmentProperty('DEV_BUTTONS_ENABLED',false)
+
+          if (devButtonsEnabled !== true)
             return false
 
-          if (
-            this.cResource == null ||
-            this.cResource.lang == null ||
-            this.cResource.lang.fields ==  null ||
-            !this.cpStaGenAction ||
-            !this.cpStaGenAction.name ||
-            this.cpStaGenAction.name !== 'create'
-
-          )
+          if (this.cClereable !== true)
             return false
 
           return true
+        },
+
+        cAutoFillable: function () {
+          return this.cShowDevButtons
+        },
+
+        cAutoReseable: function () {
+          return this.cShowDevButtons
+        },
+
+        cAutoClearable: function () {
+          return this.cShowDevButtons
         },
 
         cClereable: function () {

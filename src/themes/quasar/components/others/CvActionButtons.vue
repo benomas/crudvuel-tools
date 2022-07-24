@@ -258,9 +258,9 @@ export default {
     vueMirroring.fixProperties({
       '[P]dinGenShowBackButton'     : true,
       '[P]dinGenShowNextButton'     : true,
-      '[P]dinGenShowResetButton'    : true,
-      '[P]dinGenShowClearButton'    : true,
-      '[P]dinGenShowAutoFillButton' : true,
+      '[P]dinGenShowResetButton'    : false,
+      '[P]dinGenShowClearButton'    : false,
+      '[P]dinGenShowAutoFillButton' : false,
       '[P]dinGenAction'             : null,
       '[P]dinGenBackLabel'          : null,
       '[P]dinGenNextLabel'          : null,
@@ -291,9 +291,6 @@ export default {
       '[EM]staGenAutoFill'          : null,
       '[EM]staGenAutoReset'         : null,
       '[EM]staGenAutoClear'         : null,
-      '[P]staInsAutoFillable'       : null,
-      '[P]staInsClereable'          : null,
-      '[P]staInsAutoFillable'       : null,
       '[D]btnSize'                  : 'md',
       '[P]dinGenActionMode'         : 'route'
     })
@@ -326,27 +323,6 @@ export default {
         return false
 
       return this.cNextLabel != null && this.cNextLabel !== ''
-    },
-
-    cpDinGenShowResetButton () {
-      if (this.cvDinGenShowResetButton != null && this.cvDinGenShowResetButton === false)
-        return false
-
-      return true
-    },
-
-    cpDinGenShowClearButton () {
-      if (this.cvDinGenShowClearButton != null && this.cvDinGenShowClearButton === false)
-        return false
-
-      return true
-    },
-
-    cpDinGenShowAutoFillButton () {
-      if (this.cvDinGenShowAutoFillButton != null && this.cvDinGenShowAutoFillButton === false)
-        return false
-
-      return true
     },
 
     cBackLabel () {
@@ -424,24 +400,22 @@ export default {
     },
 
     cShowResetButton() {
-      if (!this.cpDinGenShowResetButton)
-        return false
+      if (this.cpDinGenShowResetButton === true)
+        return true
 
-      return this.cpStaInsAutoFillable === true ||
-        (this.cpStaInsAutoFillable == null && this.cClereable)
+      return this.cAutoReseable
     },
 
     cShowClearButton() {
-      if(!this.cpDinGenShowClearButton)
-        return false
+      if (this.cpDinGenShowClearButton === true)
+        return true
 
-      return this.cpStaInsClereable === true ||
-        (this.cpStaInsClereable == null && this.cClereable)
+      return this.cAutoClearable
     },
 
     cShowAutoFillButton() {
-      if(!this.cpDinGenShowAutoFillButton)
-        return false
+      if (this.cpDinGenShowAutoFillButton === true)
+        return true
 
       return this.cAutoFillable
     },
@@ -579,6 +553,17 @@ export default {
         return false
 
       return this.cpDinGenDisableClear
+    }
+  },
+
+  methods:{
+    mComponentInitialize () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick(() => {
+          this.mSetReady()
+          resolve()
+        })
+      })
     }
   }
 }
