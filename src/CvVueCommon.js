@@ -217,6 +217,26 @@ export default class CvVueCommon {
           return this.lastClickerComponent
         },
 
+        cUserProfileImg () {
+          let defaultImg = 'statics/profile.png'
+
+          if (this.$store == null || this.$store.state == null || this.$store.state.currentUser == null)
+            return defaultImg
+
+          if (this.$store.state.currentUser.related_files == null)
+            return defaultImg
+
+          for (const file of this.$store.state.currentUser.related_files) {
+            if (file.cat_file == null)
+              continue
+
+            if (file.cat_file.slug === 'profile-img')
+              return file.absolute_path
+          }
+
+          return defaultImg
+        },
+
         ...mapGetters(Object.keys(store.getters))
       }
     }
