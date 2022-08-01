@@ -109,6 +109,10 @@ export default class CvCrudService {
     return this.mGetStCvComunicator().axios.get(`${this.getRelBaseUrl()}/related-to/${relatedResource}/${relatedKey}${this.fixQueryString(qString)}`)
   }
 
+  indexOwnedBy (relatedResource, relatedKey,qString) {
+    return this.mGetStCvComunicator().axios.get(`${this.getRelBaseUrl()}/owned-by/${relatedResource}/${relatedKey}${this.fixQueryString(qString)}`)
+  }
+
   //spected params: params,url,qString
   store (...params) {
     return this.mGetStCvComunicator().axios.post(...this.fixRowsUrl(null,...params))

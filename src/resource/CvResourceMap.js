@@ -155,6 +155,11 @@ export default class CvResourceMap extends CvClass {
   }
 
   loadService (actionService = null) {
+    if (actionService === 'ownerOf'){
+      console.log(this.crudServices)
+      console.log(this.name)
+    }
+
     if (!actionService || this.crudServices == null || this.crudServices[actionService] == null)
       return null
 

@@ -415,9 +415,18 @@ export default {
       const found = [...fields.matchAll(/(.+)?-to-(.+)$/gi)]
 
       if (!found || found[0] == null || found[0][1] == null || found[0][2] == null)
-        return null
+        return this.mRelatedOwnedBy(fields)
 
       return {from: found[0][1],to: found[0][2]}
+    },
+
+    mRelatedOwnedBy (fields = '') {
+      const found = [...fields.matchAll(/(.+)?-owned-by-(.+)$/gi)]
+
+      if (!found || found[0] == null || found[0][1] == null || found[0][2] == null)
+        return null
+
+      return {from: found[0][2],to: fields}
     },
 
     mRelationatorBinding (field = null,componentTag = null,localBindins = {}) {
@@ -431,11 +440,15 @@ export default {
 
       componentTag  = componentTag || 'cv-relationator'
       let extraBindins = {}
+
       let customBindins = this.mCustomBindins(componentTag)
+
       extraBindins['cv-din-gen-disable-fields'] = this.cDisableFields
+
       extraBindins['cv-din-ins-source-resource'] = (() => {
         if (customBindins['cv-din-ins-source-resource'] != null)
           return this.mResourceAccessing(customBindins['cv-din-ins-source-resource'])
+
         return this.mResourceAccessing(camelCase(resources.to))
       })()
 

@@ -52,6 +52,14 @@ export default {
           if (!relatedIndexService)
             return null
 
+          if (this.cpDinInsRelatedKeyValue == null) {
+            return new Promise((resolve, reject) => {
+              resolve({
+                data: { message: 'Acción completada' }
+              })
+            })
+          }
+
           return relatedIndexService(this.cpDinInsRelatedResource.pluralName,this.cpDinInsRelatedKeyValue,paginate)
         }
         return null
@@ -281,6 +289,7 @@ export default {
         this.cpDinInsSourceService(this.cpDinInsSourcePaginate)
           .then(response1 => {
             this.mSetSourceRows(this.mIndexResponse(response1).rows.sort(this.cpDinInsSourceSortCallBack))
+            //console.log(this.cpDinInsRelatedService)
             this.cpDinInsRelatedService(this.cpDinInsRelatedPaginate)
               .then(response2 => {
                 let temp = []
@@ -570,6 +579,14 @@ export default {
       })
 
       return this
+    },
+
+    mFakeSuccessResponse () {
+      return new Promise((resolve) => {
+        resolve({
+          data: { message: 'Acción completada' }
+        })
+      })
     }
   }
 }
