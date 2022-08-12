@@ -91,7 +91,17 @@ export default function (store,staticMixin = {}) {
           console.log(e)
         }
         return v
-      }
+      },
+
+      fTextTemplateFixer: function (value = null,tag = null,replace = '') {
+        if (value == null)
+          return ''
+
+        if (tag === null)
+          return value
+
+        return value.replace(tag,replace)
+      },
     },
 
     methods: {
