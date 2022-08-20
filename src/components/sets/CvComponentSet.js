@@ -145,7 +145,6 @@ export default {
     mFailInitializeNotification () {
       return new Promise((resolve, reject) => {
         this.$nextTick(() => {
-          console.log(this)
           console.log('action fail')
           resolve()
         })
