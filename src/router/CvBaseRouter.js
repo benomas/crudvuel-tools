@@ -252,4 +252,25 @@ export default class CvBaseRouter {
   beforeEach (to, from, next) {
     next()
   }
+
+  mResources () {
+    const app = this.getCvApp()
+
+    if(app != null || app.cResources != null)
+      return app.cResources
+
+    return null
+  }
+
+  mResourceByStrings(resourceSegment = null) {
+    const resources = this.mResources()
+
+    if (
+      resources != null &&
+      resources[resourceSegment] != null
+    )
+      return resources[resourceSegment]
+
+    return null
+  }
 }

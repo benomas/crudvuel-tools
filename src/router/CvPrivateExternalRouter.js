@@ -26,6 +26,12 @@ export default class CvPrivateExternalRouter extends CvPrivateRouter {
       return this.STOPPED
     }
 
+    if (!this.mHasActionPermission(this.mFixActionObject(to.name))){
+      next(this.mGetStCurrentCvRouter().pathToLoguedStart())
+
+      return this.STOPPED
+    }
+
     next()
 
     return this.CONTINUE

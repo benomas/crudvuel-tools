@@ -100,35 +100,55 @@ export default {
     },
 
     mActionAccessing (action = null,resource = null) {
-      if (!action) {
+      let fixedResource = null
+
+      if (action == null) {
         if (typeof this.cpStaGenAction !== 'undefined')
           return this.cpStaGenAction
+
         return null
       }
 
       if (typeof action === 'string') {
-        if (!resource)
-          resource = this.cResource
+        let actionSegments = action.split('.')
 
-        if (!resource || this.mResourceAccessing(resource).actions == null)
+        if(actionSegments.length === 2){
+          fixedResource = actionSegments[0]
+          action        = actionSegments[1]
+        }
+
+        fixedResource = fixedResource != null ?
+          this.mResourceAccessing(fixedResource):
+          this.mResourceAccessing(resource)
+
+        if (
+          fixedResource == null ||
+          fixedResource.actions == null ||
+          fixedResource.actions[action] == null
+        )
           return null
 
-        if (typeof this.mResourceAccessing(resource).actions[action] !== 'undefined')
-          return this.mResourceAccessing(resource).actions[action]
-
-        return null
+        return fixedResource.actions[action]
       }
 
       return action
     },
 
     mResourceAccessing (resource = null) {
-      if (!resource)
-        return this.cResource
+      if (resource == null){
+        if (this.cResource != null)
+          return this.cResource
+
+        if (this.cpStaInsResource != null)
+          return this.cpStaInsResource
+
+        return null
+      }
 
       if (typeof resource === 'string') {
         if (this.cResources != null && this.cResources[resource] != null)
           return this.cResources[resource]
+
         return null
       }
 

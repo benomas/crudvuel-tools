@@ -11,46 +11,92 @@ export default {
 
       return null
     },
-    //to be deprecated because has malformed name
-    hasSpecialPermission (special) {
-      return !this.mGetUnauthorizedInteractions() ||
-        typeof this.mGetUnauthorizedInteractions()['special'] === 'undefined' ||
-        typeof this.mGetUnauthorizedInteractions()['special'][special] === 'undefined'
-    },
-    //to be deprecated because has malformed name
-    hasSectionPermission (section) {
-      return !this.mGetUnauthorizedInteractions() ||
-        typeof this.mGetUnauthorizedInteractions()['section'] === 'undefined' ||
-        typeof this.mGetUnauthorizedInteractions()['section'][section + '-section'] === 'undefined'
-    },
-    //to be deprecated because has malformed name
-    hasResourcePermission (resource) {
-      return !this.mGetUnauthorizedInteractions() ||
-        typeof this.mGetUnauthorizedInteractions()['resource'] === 'undefined' ||
-        typeof this.mGetUnauthorizedInteractions()['resource'][kebabCase(resource)] === 'undefined'
-    },
-    //to be deprecated because has malformed name
-    hasActionPermission (action = null, resource = null) {
-      if (this.mActionAccessing == null)
-        return true
 
-      action = this.mActionAccessing(action,resource)
-      //to be deprecated because has malformed name
-      return !this.mGetUnauthorizedInteractions() ||
-        this.mGetUnauthorizedInteractions()['action'] === undefined ||
-        (
-          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${camelCase(action.getName())}`]  === undefined &&
-          this.mGetUnauthorizedInteractions()['action'][`${kebabCase(action.getResourceName())}.${kebabCase(action.getName())}`]  === undefined
-        )
+    mResourceByStrings(resourceSegment = null) {
+      if (
+        this.cResources != null &&
+        this.cResources[resourceSegment] != null
+      )
+        return this.cResources[resourceSegment]
+
+      return null
     },
 
-    hasPermission (action,resource = null,excludes = null) {
-      resource = resource || this.cResource
-      excludes = excludes || this.cpDinGenExcludeActions || []
+    mActionResourceByStrings(actionSegment = null,resourceSegment = null) {
+      const resourceByStrings = this.mResourceByStrings(resourceSegment)
 
-      return excludes.indexOf(action,excludes) < 0 &&
-        this.mResourceAction(action,resource) &&
-        this.hasActionPermission(resource.actions[action])
+      if (resourceByStrings == null)
+        return null
+
+      if (resourceByStrings['actions'][actionSegment] != null)
+        return resourceByStrings['actions'][actionSegment]
+
+      return null
+    },
+
+    mFixResourceObject (resource = null,action) {
+      if (resource != null && typeof resource === 'object')
+        return resource
+
+      if (resource == null){
+        if (this.cResource != null)
+          return this.cResource
+
+        if (this.cpStaInsResource != null)
+          return this.cpStaInsResource
+
+        return null
+      }
+
+      if (typeof resource === 'string') {
+        return this.mResourceByStrings(resource)
+      }
+
+      return null
+    },
+
+    mFixActionObject (action = null,resource = null) {
+      if (action != null && typeof action === 'object')
+        return action
+
+      if (action == null) {
+        if (this.action  !== undefined )
+          return this.action
+
+        if (this.cAction  !== undefined )
+          return this.cAction
+
+        if (this.cpStaGenAction !== undefined)
+          return this.cpStaGenAction
+
+        return null
+      }
+
+      if (typeof action === 'string') {
+        let fixedResource = null
+
+        let actionSegments = action.split('.')
+
+        if(actionSegments.length > 2)
+          return true
+
+        if(actionSegments.length === 2)
+          return this.mActionResourceByStrings(actionSegments[1],actionSegments[0])
+
+        fixedResource = this.mFixResourceObject(resource,action)
+
+        if (
+          fixedResource == null ||
+          fixedResource.actions == null ||
+          fixedResource.actions[action] == null
+        ){
+          return null
+        }
+
+        return fixedResource.actions[action]
+      }
+
+      return action
     },
 
     mHasSpecialPermission (special) {
@@ -72,31 +118,29 @@ export default {
     },
 
     mHasActionPermission (action = null, resource = null,preventAccessWithoutResourceAccess = true) {
-      let actionSegment   = null
-      let resourceSegment = null
+      if(typeof action === 'string' && typeof resource === 'string'){
+        if (preventAccessWithoutResourceAccess && !this.mHasResourcePermission(resource))
+          return false
 
-      let fixByAction = function () {
-        if (action.getName == null || action.getResourceName == null)
-          return true
-
-        actionSegment   = camelCase(action.getName())
-        resourceSegment = kebabCase(action.getResourceName())
+        return !this.mGetUnauthorizedInteractions() ||
+          this.mGetUnauthorizedInteractions()['action'] === undefined ||
+          (
+            this.mGetUnauthorizedInteractions()['action'][`${resource}.${action}`]  === undefined &&
+            this.mGetUnauthorizedInteractions()['action'][`${resource}.${kebabCase(action)}`]  === undefined
+          )
       }
 
-      if (typeof action === 'object') {
-        fixByAction()
-      } else {
-        if (resource == null) {
-          if (this.mActionAccessing == null)
-            return true
+      const fixedActionObject = this.mFixActionObject(action,resource)
 
-          action = this.mActionAccessing(action,resource)
-          fixByAction()
-        } else {
-          actionSegment   = camelCase(action)
-          resourceSegment = kebabCase(resource)
-        }
-      }
+      if (
+        fixedActionObject == null ||
+        fixedActionObject.getName == null ||
+        fixedActionObject.getResourceName == null
+      )
+        return true
+
+      const actionSegment   = camelCase(fixedActionObject.getName())
+      const resourceSegment = kebabCase(fixedActionObject.getResourceName())
 
       if (actionSegment == null || resourceSegment == null)
         return true
