@@ -24,28 +24,25 @@ export default class CvPrivateInternalRouter extends CvPrivateRouter {
       return this.STOPPED
     }
 
-    if (!this.mHasActionPermission(this.mFixActionObject(to.name))){
-      next(this.mGetStCurrentCvRouter().pathToLoguedStart())
-
-      return this.STOPPED
-    }
-
     next()
 
     return this.CONTINUE
   }
 
   getRoutes () {
+    const beforeEnter = {beforeEnter: async (to, from, next) => this.guard(to, from, next)}
+
     return  [
       {
         path        : this.basePath(),
         component   : () => import('layouts/private-internal-navigation'),
-        beforeEnter : async (to, from, next) => this.guard(to, from, next),
+        ...beforeEnter,
         children    : [
           {
             path      : '',
             name      : 'internal-dashboard',
-            component : () => import('components/internal-dashboard')
+            component : () => import('components/internal-dashboard'),
+            ...beforeEnter
           }
           ,...this.mGetStResources().users.getRoutes()
           ,...this.mGetStResources().roles.getRoutes()

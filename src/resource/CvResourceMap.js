@@ -31,6 +31,7 @@ export default class CvResourceMap extends CvClass {
     this.filler            = null
     this.resourceSections  = null
     this.context           = 'resource',
+    this.guard             = {},
     this.loadOptions(options)
   }
 
@@ -104,7 +105,17 @@ export default class CvResourceMap extends CvClass {
   }
 
   getRoutes (...excludes) {
-    return excludes.length ? this.routes.filter(route => excludes.find(e => e !== route.name )) : this.routes
+    let routes = []
+
+    if (excludes.length) {
+      routes = this.routes.filter(route => excludes.find(e => e !== route.name ))
+    }else{
+      routes = this.routes
+    }
+
+    return routes.map(nRoute => {
+      return {...nRoute,...this.getGuard()}
+    })
   }
 
   getRoute (routeName = null, newName = null) {
@@ -171,5 +182,15 @@ export default class CvResourceMap extends CvClass {
       return null
 
     return (...params) => service[actionService](...params)
+  }
+
+  getGuard () {
+    return this.guard
+  }
+
+  setGuard (guard) {
+    this.guard = guard
+
+    return this
   }
 }

@@ -26,12 +26,6 @@ export default class CvPrivateExternalRouter extends CvPrivateRouter {
       return this.STOPPED
     }
 
-    if (!this.mHasActionPermission(this.mFixActionObject(to.name))){
-      next(this.mGetStCurrentCvRouter().pathToLoguedStart())
-
-      return this.STOPPED
-    }
-
     next()
 
     return this.CONTINUE
@@ -41,13 +35,15 @@ export default class CvPrivateExternalRouter extends CvPrivateRouter {
     let routeNameFix = (route) => {
       return {...route,...{name: `external-${route.name}`}}
     }*/
+    const beforeEnter = {beforeEnter: async (to, from, next) => this.guard(to, from, next)}
+
     return  [
       {
         path        : this.basePath(),
         component   : () => import('layouts/private-external-navigation'),
-        beforeEnter : async (to, from, next) => this.guard(to, from, next),
+        ...beforeEnter,
         children    : [
-          {...this.mGetStResources().users.getRoute('users.profile','external-users.profile')}
+          {...this.mGetStResources().users.setGuard(beforeEnter).getRoute('users.profile','external-users.profile')}
         ]
       }
     ]

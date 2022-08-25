@@ -36,26 +36,31 @@ export default class CvPrivateInternalRouter extends CvBaseRouter {
   }
 
   getRoutes () {
+    const beforeEnter = {beforeEnter: async (to, from, next) => this.guard(to, from, next)}
+
     return  [
       {
         path        : this.pathToAuth(),
         component   : () => import('layouts/public-navigation-auth'),
-        beforeEnter : async (to, from, next) => this.guard(to, from, next),
+        ...beforeEnter,
         children    : [
           {
             path      : 'session-start',
             name      : 'session-start',
-            component : () => import('components/cv-login')
+            component : () => import('components/cv-login'),
+            ...beforeEnter
           },
           {
             path      : 'register',
             name      : 'register',
-            component : () => import('components/cv-register')
+            component : () => import('components/cv-register'),
+            ...beforeEnter
           },
           {
             path      : 'recover',
             name      : 'recover',
-            component : () => import('components/cv-recover')
+            component : () => import('components/cv-recover'),
+            ...beforeEnter
           }
         ]
       },
