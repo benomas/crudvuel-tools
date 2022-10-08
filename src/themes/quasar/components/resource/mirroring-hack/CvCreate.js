@@ -42,6 +42,10 @@ export default {
 
       if(this.cpDinGenActionMode === 'dialog')
         return {'q-pa-sm':this.cGtxs,'':this.cLtsm}
+    },
+
+    cFinalKeyValue() {
+      return null
     }
   },
 
