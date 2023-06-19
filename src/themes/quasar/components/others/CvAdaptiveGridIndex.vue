@@ -449,7 +449,7 @@ export default {
 
     mComponentInitialize () {
       return new Promise((resolve, reject) => {
-        this.emDinInsfAdaptiveGridIndexGridFilterSelectorCurrentFilterEmitter('cv-combinatory-paginator')
+        this.emDinInsfAdaptiveGridIndexGridFilterSelectorCurrentFilterEmitter('cv-simple-paginator')
         this.$nextTick(() => {
           this.mSetReady()
           resolve()
