@@ -58,7 +58,7 @@
               :max="cTotalPaginable"
               min="1"
               @keyup.13="mJump()"
-              class="w-50px q-mx-sm"
+              class="w-100px q-mx-sm"
             />
           </span>
         </div>
