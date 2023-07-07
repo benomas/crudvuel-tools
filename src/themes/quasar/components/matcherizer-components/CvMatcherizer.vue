@@ -20,6 +20,7 @@
           ref="simpleFilteRef"
           :cv-din-ins-icon-class="'q-mb-xs q-mr-sm'"
           :cv-din-ins-disable-fields="cpDinGenDisableFields"
+          :cv-react-to-focus="true"
         >
         </cv-simple-filter>
       </div>

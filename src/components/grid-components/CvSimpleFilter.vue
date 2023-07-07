@@ -58,6 +58,10 @@ export default {
     })
   ],
 
+  props:[
+    'cvReactToFocus'
+  ],
+
   methods: {
     emDinInsSearchProccesor (emitted = null) {
       let fixedEmitted = emitted != null ? emitted : ''
@@ -87,7 +91,9 @@ export default {
     emDinInsFocusedProccesor (emitted = null) {
       return new Promise((resolve, reject) => {
         resolve(emitted)
-        this.emDinInsSearchEmitter(this.cpDinInsSearch)
+
+        if (this.cReactToFocus)
+          this.emDinInsSearchEmitter(this.cpDinInsSearch)
       })
     },
 
@@ -102,6 +108,13 @@ export default {
   computed: {
     cInputRef () {
       return this.$refs['inputRef']
+    },
+
+    cReactToFocus () {
+      if (this.cvReactToFocus == null)
+        return false
+
+      return this.cvReactToFocus
     }
   }
 }
