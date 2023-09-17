@@ -32,6 +32,7 @@ export default class CvResourceMap extends CvClass {
     this.resourceSections  = null
     this.context           = 'resource',
     this.guard             = {},
+    this.store             = null,
     this.loadOptions(options)
   }
 

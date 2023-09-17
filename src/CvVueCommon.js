@@ -1,4 +1,5 @@
 import { mapGetters } from 'vuex'
+import {cStLocale, cStValidLocales} from 'app/crudvuel/src/store/default-modules/getters'
 
 export default class CvVueCommon {
   vueCommonMaker (app,store) {
@@ -237,8 +238,22 @@ export default class CvVueCommon {
           return defaultImg
         },
 
+        cValidLocales () {
+          return store.getters.cStValidLocales()
+        },
+
+        cValidLocalesOptions () {
+          return this.cValidLocales.map(localOption => (
+            {value:localOption, label: localOption}
+          ))
+        },
+
+        cLocale() {
+          return store.getters.cStLocale()
+        },
+
         ...mapGetters(Object.keys(store.getters))
-      }
+      },
     }
   }
 }

@@ -1,4 +1,5 @@
 import {get} from 'lodash'
+import messages from 'src/i18n'
 export const cStResources                    = state => state.resources
 export const cStCurrentUser                  = state => state.currentUser
 export const cStUnauthorizedInteractions     = state => state.unauthorizedInteractions
@@ -80,12 +81,41 @@ export const cStBasePath = (state,getters) => {
 
   return getters.cStCurrentCvRouter.basePath()
 }
-
-export const cStDepthLang = (state,getters) => (path) => {
+export const cStValidLocales = (state,getters) => (path) => {
   if (!getters.cStCvI18n)
     return ''
 
-  let rootLang = getters.cStCvI18n.messages[getters.cStCvI18n.locale]
+  let messages = getters.cStCvI18n._getMessages()
 
-  return get(rootLang,path)
+
+  if ( messages != null ) {
+    return Object.keys(messages).map(locale => {
+      return locale
+    })
+  }
+
+  return []
+}
+export const cStLocale = (state,getters) => (path) => {
+  if (!getters.cStCvI18n)
+    return ''
+
+  let messages = getters.cStCvI18n._getMessages()
+
+  if (messages[getters.cStCvI18n.locale] != null)
+      return messages[getters.cStCvI18n.locale]
+
+  return {}
+}
+
+export const cStDepthLang = (state,getters) => (path) => {
+  if (!getters.cStLocale)
+    return ''
+
+  let rootLang = getters.cStLocale
+
+  if (rootLang != null)
+    return get(rootLang,path)
+
+  return ''
 }
