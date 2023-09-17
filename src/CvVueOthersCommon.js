@@ -211,7 +211,7 @@ export default function (store,staticMixin = {}) {
 
       mrLang (source,resource = null) {
         let lResource = this.mResourceAccessing(resource)
-
+        console.log('fixxing translator')
         return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
       },
 
