@@ -163,7 +163,8 @@ export default {
     uploadFileFail: function (info) {
       let {file,xhr} = info
 
-      if (this.cvComunicator.proccessErrorStatus(xhr))
+      console.log(this.cStCvComunicator)
+      if (this.cStCvComunicator.proccessErrorStatus(xhr))
         return false
 
       this.mSetReady()
