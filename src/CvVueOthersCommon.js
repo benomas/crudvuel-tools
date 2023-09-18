@@ -211,7 +211,6 @@ export default function (store,staticMixin = {}) {
 
       mrLang (source,resource = null) {
         let lResource = this.mResourceAccessing(resource)
-        console.log('fixxing translator')
         return lResource ? this.$tc('crudvuel.resources.' + lResource.name + '.' + source) : null
       },
 
@@ -306,6 +305,10 @@ export default function (store,staticMixin = {}) {
           return true
 
         return false
+      },
+
+      mLocaleResource (resource) {
+        return this.$tc(`crudvuel.resources.${resource.pluralName}.rowsLabel`)
       },
 
       mCaseFixer: cvCaseFixer,

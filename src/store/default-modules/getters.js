@@ -81,6 +81,9 @@ export const cStBasePath = (state,getters) => {
 
   return getters.cStCurrentCvRouter.basePath()
 }
+export const cStStrLocale = (state,getters) => (path) => {
+  return getters.cStCvI18n.locale
+}
 export const cStValidLocales = (state,getters) => (path) => {
   if (!getters.cStCvI18n)
     return ''

@@ -1,5 +1,6 @@
 import CvCrudService from 'crudvuel-tools/src/network/CvCrudService'
 import cvSerialize   from 'crudvuel-tools/src/cvSerialize'
+import {cStLocale, cStStrLocale} from 'app/crudvuel/src/store/default-modules/getters'
 
 export default class CvComunicator {
   constructor (store) {
@@ -23,6 +24,18 @@ export default class CvComunicator {
     this.axios.interceptors.request.use(config => {
       if(this.mGetStCvPassport().autenticated())
         config.headers = this.mGetStCvPassport().injectHeaders(config.headers)
+      let langQString = `lang=${store.getters.cStStrLocale()}`
+
+      if (store.getters.cStCvEnv.apiUrl() === config.baseURL) {
+        if (config.url.search("\\?") < 0) {
+          langQString = `?${langQString}`
+        }else{
+          langQString = `&${langQString}`
+        }
+
+        config.url = `${config.url}${langQString}`
+      }
+
       return config
     },error => {
       return Promise.reject(error)
