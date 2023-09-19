@@ -1,5 +1,5 @@
 import { mapGetters } from 'vuex'
-import {cStLocale, cStStrLocale, cStValidLocales} from 'app/crudvuel/src/store/default-modules/getters'
+import {cStLocale, cStStrLocale, cStValidLocales} from 'crudvuel-tools/src/store/default-modules/getters'
 
 export default class CvVueCommon {
   vueCommonMaker (app,store) {

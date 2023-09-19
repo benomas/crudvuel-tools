@@ -166,7 +166,7 @@ export default {
       console.log(this.cStCvComunicator)
       if (this.cStCvComunicator.proccessErrorStatus(xhr))
         return false
-
+W
       this.mSetReady()
       this.errorCount++
 
