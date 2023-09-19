@@ -1,7 +1,4 @@
-import CvCrudService from 'crudvuel-tools/src/network/CvCrudService'
 import cvSerialize   from 'crudvuel-tools/src/cvSerialize'
-import {cStLocale, cStStrLocale} from 'crudvuel-tools/src/store/default-modules/getters'
-
 export default class CvComunicator {
   constructor (store) {
     store.dispatch('mStInyector',this)
