@@ -3,6 +3,7 @@ import CvClass from 'crudvuel-tools/src/CvClass'
 export default class CvResourceMap extends CvClass {
   constructor (options) {
     super()
+    this.dinamics          = {}
     this.name              = null,
     this.label             = null,
     this.buttonLabel       = null,
@@ -27,8 +28,19 @@ export default class CvResourceMap extends CvClass {
     this.confirmLabel      = null,
     this.isParentRoute     = null,
     this.position          = null,
-    this.context           = 'action',
+    this.context           = 'action'
     this.loadOptions(options)
+      .autoGetters([
+        'label',
+        'nextLabel',
+        'backLabel',
+        'confirmLabel',
+        'getSuccessMessage',
+        'getErrorMessage',
+        'setSuccessMessage',
+        'setErrorMessage',
+        'setCancelMessage',
+      ])
   }
 
   validAction () {

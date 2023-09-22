@@ -161,7 +161,7 @@ export default {
       if (trans !== '')
         return trans
 
-      return '*Mas resultados disponibles mediante busqueda'
+      return '*More results available through search'
     },
 
     cNoDataLabel () {
@@ -170,7 +170,7 @@ export default {
       if (trans !== '')
         return trans
 
-      return '*Sin resultados disponibles'
+      return '*No results available'
     },
 
     cLoadingLabel () {
@@ -179,7 +179,7 @@ export default {
       if (trans !== '')
         return trans
 
-      return 'Cargando'
+      return 'Loading'
     },
 
     cShowList () {
@@ -257,6 +257,7 @@ export default {
     },
 
     mComponentInitialize () {
+      console.log(this.cpStaInsResource)
       if (this.cvStaInsfMatcherizerSimpleFilterLabel != null && this.cvStaInsfMatcherizerSimpleFilterLabel !== undefined)
         this.mSetMatcherizerSimpleFilterLabel(this.cvStaInsfMatcherizerSimpleFilterLabel)
       else

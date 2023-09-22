@@ -1,9 +1,10 @@
-import CvClass      from 'crudvuel-tools/src/CvClass'
-import CvActionMap  from 'crudvuel-tools/src/resource/CvActionMap'
+import CvClass from 'crudvuel-tools/src/CvClass'
+import CvActionMap from 'crudvuel-tools/src/resource/CvActionMap'
 
 export default class CvResourceMap extends CvClass {
   constructor (options) {
     super(options)
+    this.dinamics          = {}
     this.name              = null
     this.rowsLabel         = null
     this.rowLabel          = null
@@ -30,10 +31,22 @@ export default class CvResourceMap extends CvClass {
     this.parentRouteAction = null
     this.filler            = null
     this.resourceSections  = null
-    this.context           = 'resource',
-    this.guard             = {},
-    this.store             = null,
+    this.context           = 'resource'
+    this.guard             = {}
+    this.store             = null
     this.loadOptions(options)
+      .autoGetters([
+        'rowsLabel',
+        'rowLabel',
+        'nextLabel',
+        'backLabel',
+        'confirmLabel',
+        'getSuccessMessage',
+        'getErrorMessage',
+        'setSuccessMessage',
+        'setErrorMessage',
+        'setCancelMessage'
+      ])
   }
 
   addChild (childResource) {
@@ -42,7 +55,7 @@ export default class CvResourceMap extends CvClass {
 
     this.children.push(childResource)
 
-    if (this.defError(!this.parentRouteAction ? "resource needs to have a parentRouteAction where the children route will be append" : null))
+    if (this.defError(!this.parentRouteAction ? 'resource needs to have a parentRouteAction where the children route will be append' : null))
       return this
 
     this.routes[this.parentRouteAction.position].children = childResource.getRoutes()
@@ -70,7 +83,7 @@ export default class CvResourceMap extends CvClass {
       actionOptions.disableFields = false
 
     if (actionOptions && actionOptions.type === undefined)
-      actionOptions.type = "row"
+      actionOptions.type = 'row'
 
     if (actionOptions && actionOptions.urlParams === undefined)
       actionOptions.urlParams = []
@@ -80,7 +93,7 @@ export default class CvResourceMap extends CvClass {
 
     let newAction = new CvActionMap(actionOptions)
 
-    if (newAction.validAction() != null ) {
+    if (newAction.validAction() != null) {
       newAction.setRoute()
 
       if (newAction.getRoute()) {
@@ -99,7 +112,7 @@ export default class CvResourceMap extends CvClass {
   }
 
   setActions (actionsOptions) {
-    for (let i=0 ; i < actionsOptions.length; i++)
+    for (let i = 0; i < actionsOptions.length; i++)
       this.addAction(actionsOptions[i])
 
     return this
@@ -109,24 +122,24 @@ export default class CvResourceMap extends CvClass {
     let routes = []
 
     if (excludes.length) {
-      routes = this.routes.filter(route => excludes.find(e => e !== route.name ))
-    }else{
+      routes = this.routes.filter(route => excludes.find(e => e !== route.name))
+    } else {
       routes = this.routes
     }
 
     return routes.map(nRoute => {
-      return {...nRoute,...this.getGuard()}
+      return {...nRoute, ...this.getGuard()}
     })
   }
 
   getRoute (routeName = null, newName = null) {
     let selectedRoute = this.routes.filter(route => routeName === route.name)
 
-    if (selectedRoute && selectedRoute[0] != null){
+    if (selectedRoute && selectedRoute[0] != null) {
       let derivedRoute = selectedRoute[0]
 
       if (newName)
-        derivedRoute = {...selectedRoute[0],...{name:newName}}
+        derivedRoute = {...selectedRoute[0], ...{name : newName}}
 
       return derivedRoute
     }
@@ -154,7 +167,7 @@ export default class CvResourceMap extends CvClass {
     return this.setCancelMessage
   }
 
-  getAction (action=null) {
+  getAction (action = null) {
     return action && this.actions[action] != null ? this.actions[action] : action
   }
 
@@ -167,7 +180,7 @@ export default class CvResourceMap extends CvClass {
   }
 
   loadService (actionService = null) {
-    if (actionService === 'ownerOf'){
+    if (actionService === 'ownerOf') {
       console.log(this.crudServices)
       console.log(this.name)
     }
@@ -178,7 +191,7 @@ export default class CvResourceMap extends CvClass {
     return (...params) => this.crudServices[actionService](...params)
   }
 
-  loadGlobalService (actionService,service) {
+  loadGlobalService (actionService, service) {
     if (!actionService || service == null || service[actionService] == null)
       return null
 

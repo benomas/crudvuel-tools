@@ -48,4 +48,49 @@ export default class CvClass {
 
     return this
   }
+
+  autoGetters (props) {
+    props.forEach(prop => {
+      Object.defineProperty(this, prop, {
+        get() {
+          if (this.dinamics[prop] === undefined)
+            return ''
+
+          if (typeof this.dinamics[prop] === 'function')
+            return this.dinamics[prop]()
+
+          return this.dinamics[prop]
+        },
+        set(value) {
+          if (this.dinamics === undefined)
+            this.dinamics = {}
+
+          this.dinamics[prop] = value
+
+          return this
+        },
+        enumerable: true,
+        configurable: true
+      });
+    })
+  }
 }
+/*
+*
+
+  get rowLabel () {
+    if (this.dinamics['rowLabel'] === undefined)
+      return ''
+
+    if (typeof this.dinamics['rowLabel'] === 'function')
+      return this.dinamics['rowLabel']()
+
+    return this.dinamics['rowLabel']
+  }
+
+  set rowLabel (rowLabel) {
+    this.dinamics['rowLabel'] = rowLabel
+
+    return this
+  }
+* */

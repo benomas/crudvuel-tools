@@ -337,7 +337,7 @@ export default {
       if (this.cpDinGenAction.backLabel !== undefined)
         return this.cpDinGenAction.backLabel
 
-      return 'Cancelar'
+      return 'Cancel'
     },
 
     cNextLabel () {
@@ -352,7 +352,7 @@ export default {
       if (this.cpDinGenAction.nextLabel !== undefined)
         return this.cpDinGenAction.nextLabel
 
-      return 'Guardar'
+      return 'Save'
     },
 
     cFillLabel () {
@@ -364,7 +364,7 @@ export default {
       if (trans !== '')
         return trans
 
-      return 'Auto llenar'
+      return 'Auto fill'
     },
 
     cResetLabel () {
@@ -376,7 +376,7 @@ export default {
       if (trans !== '')
         return trans
 
-      return 'Reiniciar'
+      return 'Reset'
     },
 
     cClearLabel () {
@@ -388,7 +388,7 @@ export default {
       if (trans !== '')
         return trans
 
-      return 'Limipiar'
+      return 'Clear'
     },
 
     cShowNextButton() {
