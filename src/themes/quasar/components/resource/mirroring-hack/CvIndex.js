@@ -151,6 +151,13 @@ export default {
           'q-pa-sm':this.cGtxs,
           'q-pa-xs':this.cLtsm
         }
+    },
+
+    cpDinComComponentLang () {
+      if (this.cvDinComComponentLang != null)
+        return this.cvDinComComponentLang
+
+      return this.mDepthLang('crudvuel.cvIndex')
     }
   },
 
@@ -309,6 +316,28 @@ export default {
       this.mSetIndexAdaptiveGridIndexGridSimpleFilterSearch('')
       this.mSetIndexAdaptiveGridIndexGridCombinatoryFilterSearch('')
       this.mSetIndexAdaptiveGridIndexGridFilterSelectorCurrentFilter('cv-simple-paginator')
+
+      if (this.cvStaInsfIndexAdaptiveGridIndexGridSimpleFilterLabel != null)
+        this.mSetIndexAdaptiveGridIndexGridSimpleFilterLabel(this.cvStaInsfIndexAdaptiveGridIndexGridSimpleFilterLabel)
+      else{
+        if (this.cpDinComComponentLang != null && this.cpDinComComponentLang !=='' && this.cpDinComComponentLang.simpleFilterLabel != null){
+          this.mSetIndexAdaptiveGridIndexGridSimpleFilterLabel(
+            this.cpDinComComponentLang != null && this.cpDinComComponentLang !=='' && this.cpDinComComponentLang.simpleFilterLabel != null ?
+              this.cpDinComComponentLang.simpleFilterLabel:null
+          )
+        }
+      }
+
+      if (this.cvStaInsfIndexAdaptiveGridIndexGridCombinatoryFilterLabel != null)
+        this.mSetIndexAdaptiveGridIndexGridCombinatoryFilterLabel(this.cvStaInsfIndexAdaptiveGridIndexGridCombinatoryFilterLabel)
+      else{
+        if (this.cpDinComComponentLang != null && this.cpDinComComponentLang !=='' && this.cpDinComComponentLang.combinayoryFilterLabel != null){
+          this.mSetIndexAdaptiveGridIndexGridCombinatoryFilterLabel(
+            this.cpDinComComponentLang != null && this.cpDinComComponentLang !=='' && this.cpDinComComponentLang.combinayoryFilterLabel != null ?
+              this.cpDinComComponentLang.combinayoryFilterLabel:null
+          )
+        }
+      }
 
       return new Promise((resolve, reject) => {
         this.mSync().then(resolve).catch(reject)

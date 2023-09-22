@@ -29,7 +29,7 @@ export default {
     CvComponentSet,
     new VueMirroring('CombinatoryFilter').fixProperties({
       '[P]dinInsActiveFilter'         : null,
-      '[P]dinInsLabel'                : 'Busqueda dinamica',
+      '[P]dinInsLabel'                : 'Elastic search',
       '[P]dinInsLabelColor'           : '',
       '[P]dinInsClearIcon'            : null,
       '[P]dinInsColor'                : 'primary',

@@ -28,26 +28,25 @@
       @mouseleave="emDinInsMouseLeaveEmitter"
     >
       <template v-slot:prepend v-if="cpDinInsShowIcon">
-        <div :class="cpDinInsIconClass" >
-          <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor" />
+        <div :class="cpDinInsIconClass">
+          <q-icon :name="cpDinInsIcon" :color="cpDinInsIconColor"/>
         </div>
       </template>
     </q-input>
   </div>
 </template>
 <script>
-import CvComponentExtraSet        from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
-import CvSimpleFilter             from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
-import VueMirroring               from 'crudvuel-tools/src/mirroring/VueMirroring'
-import {QIcon,QField,QInput,QBtn} from 'quasar'
+import CvComponentExtraSet from 'crudvuel-tools/src/themes/quasar/components/sets/CvComponentExtraSet'
+import CvSimpleFilter from 'crudvuel-tools/src/components/grid-components/CvSimpleFilter'
+import {QIcon, QField, QInput, QBtn} from 'quasar'
 
 export default {
-  mixins: [
+  mixins : [
     CvSimpleFilter,
     CvComponentExtraSet
   ],
 
-  components: {
+  components : {
     QBtn,
     QField,
     QIcon,

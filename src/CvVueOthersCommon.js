@@ -221,7 +221,19 @@ export default function (store,staticMixin = {}) {
       mDepthLang (path = '') {
         let rootLang = this.cI18n.messages[this.cI18n.locale]
 
-        return get(rootLang,path)
+        let lang = get(rootLang,path)
+
+        if (lang != null && lang !== '')
+          return lang
+
+        rootLang = this.cI18n.messages[this.cI18n.fallbackLocale]
+
+        lang = get(rootLang,path)
+
+        if (lang != null && lang !== '')
+          return lang
+
+        return path
       },
 
       mRedirect (newRoute = null) {

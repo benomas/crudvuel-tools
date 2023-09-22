@@ -31,7 +31,7 @@ export default {
     CvComponentSet,
     new VueMirroring('SimpleFilter').fixProperties({
       '[P]dinInsActiveFilter'         : null,
-      '[P]dinInsLabel'                : 'Busqueda simple',
+      '[P]dinInsLabel'                : 'Simple search',
       '[P]dinInsLabelColor'           : '',
       '[P]dinInsClearIcon'            : 'fas fa-times-circle',
       '[P]dinInsColor'                : 'primary',
