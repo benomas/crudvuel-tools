@@ -257,7 +257,6 @@ export default {
     },
 
     mComponentInitialize () {
-      console.log(this.cpStaInsResource)
       if (this.cvStaInsfMatcherizerSimpleFilterLabel != null && this.cvStaInsfMatcherizerSimpleFilterLabel !== undefined)
         this.mSetMatcherizerSimpleFilterLabel(this.cvStaInsfMatcherizerSimpleFilterLabel)
       else

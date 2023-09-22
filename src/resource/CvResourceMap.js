@@ -45,7 +45,8 @@ export default class CvResourceMap extends CvClass {
         'getErrorMessage',
         'setSuccessMessage',
         'setErrorMessage',
-        'setCancelMessage'
+        'setCancelMessage',
+        'lang'
       ])
   }
 
