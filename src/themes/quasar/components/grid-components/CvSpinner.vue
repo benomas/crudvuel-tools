@@ -47,6 +47,17 @@ export default {
     cFgColor: function () {
       return colors.getBrand('black')
     }
+  },
+
+  methods:{
+    mComponentInitialize () {
+      return new Promise((resolve, reject) => {
+        this.$nextTick(() => {
+          this.mSetReady()
+          resolve()
+        })
+      })
+    }
   }
 }
 </script>

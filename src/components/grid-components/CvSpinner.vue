@@ -48,7 +48,7 @@ export default {
 
   computed:{
     cLoadingLabel () {
-      let trans = this.mComLang('loading')
+      let trans = this.mComLang('loadingLabel')
       if (trans !== '')
         return trans
       return 'Cargando'
