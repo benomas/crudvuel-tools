@@ -12,7 +12,7 @@ export default class ExtendedCvCrudService extends CustomCvCrudService {
 
   updateProfile (id,params,url,queryString) {
     return this.mGetStCvComunicator().axios.put(
-      (url || this.getRelBaseUrl() + '/' + id + '/profile') + (queryString ? '?' + queryString : ''),
+      (url || this.getRelBaseUrl() + '/profile') + (queryString ? '?' + queryString : ''),
       params || {}
     )
   }
