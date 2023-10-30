@@ -4,31 +4,32 @@ export default class CvResourceMap extends CvClass {
   constructor (options) {
     super()
     this.dinamics          = {}
-    this.name              = null,
-    this.label             = null,
-    this.buttonLabel       = null,
-    this.icon              = null,
-    this.getService        = null,
-    this.setService        = null,
-    this.resource          = null,
-    this.path              = null,
-    this.urlParams         = null,
-    this.component         = null,
-    this.props             = {},
-    this.type              = null,
-    this.getSuccessMessage = null,
-    this.getErrorMessage   = null,
-    this.setSuccessMessage = null,
-    this.setErrorMessage   = null,
-    this.setCancelMessage  = null,
-    this.actionRoute       = null,
-    this.disableFields     = null,
-    this.nextLabel         = null,
-    this.backLabel         = null,
-    this.confirmLabel      = null,
-    this.isParentRoute     = null,
-    this.position          = null,
+    this.name              = null
+    this.label             = null
+    this.buttonLabel       = null
+    this.icon              = null
+    this.getService        = null
+    this.setService        = null
+    this.resource          = null
+    this.path              = null
+    this.urlParams         = null
+    this.component         = null
+    this.props             = {}
+    this.type              = null
+    this.getSuccessMessage = null
+    this.getErrorMessage   = null
+    this.setSuccessMessage = null
+    this.setErrorMessage   = null
+    this.setCancelMessage  = null
+    this.actionRoute       = null
+    this.disableFields     = null
+    this.nextLabel         = null
+    this.backLabel         = null
+    this.confirmLabel      = null
+    this.isParentRoute     = null
+    this.position          = null
     this.context           = 'action'
+    this.strictResourceActionPermission = true
     this.loadOptions(options)
       .autoGetters([
         'label',
@@ -152,5 +153,9 @@ export default class CvResourceMap extends CvClass {
       return this.getName()
 
     return `${this.getResourceName()}.${this.getName()}`
+  }
+
+  getStrictResourceActionPermission() {
+    return this.strictResourceActionPermission
   }
 }
