@@ -118,8 +118,14 @@ export default {
     },
 
     mHasActionPermission (action = null, resource = null,preventAccessWithoutResourceAccess = true) {
+      const fixedActionObject = this.mFixActionObject(action,resource)
+
       if(typeof action === 'string' && typeof resource === 'string'){
-        if (preventAccessWithoutResourceAccess && !this.mHasResourcePermission(resource))
+        if (
+          fixedActionObject.getStrictResourceActionPermission() &&
+          preventAccessWithoutResourceAccess &&
+          !this.mHasResourcePermission(resource)
+        )
           return false
 
         return !this.mGetUnauthorizedInteractions() ||
@@ -129,8 +135,6 @@ export default {
             this.mGetUnauthorizedInteractions()['action'][`${resource}.${kebabCase(action)}`]  === undefined
           )
       }
-
-      const fixedActionObject = this.mFixActionObject(action,resource)
 
       if (
         fixedActionObject == null ||
@@ -145,7 +149,11 @@ export default {
       if (actionSegment == null || resourceSegment == null)
         return true
 
-      if (preventAccessWithoutResourceAccess && !this.mHasResourcePermission(resourceSegment))
+      if (
+        fixedActionObject.getStrictResourceActionPermission() &&
+        preventAccessWithoutResourceAccess &&
+        !this.mHasResourcePermission(resourceSegment)
+      )
         return false
 
       return !this.mGetUnauthorizedInteractions() ||

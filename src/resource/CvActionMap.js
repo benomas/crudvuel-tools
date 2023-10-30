@@ -28,6 +28,7 @@ export default class CvResourceMap extends CvClass {
     this.isParentRoute     = null,
     this.position          = null,
     this.context           = 'action',
+    this.strictResourceActionPermission = true,
     this.loadOptions(options)
   }
 
@@ -141,4 +142,9 @@ export default class CvResourceMap extends CvClass {
 
     return `${this.getResourceName()}.${this.getName()}`
   }
+
+  getStrictResourceActionPermission() {
+    return this.strictResourceActionPermission
+  }
+
 }
