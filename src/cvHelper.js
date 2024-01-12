@@ -1,7 +1,7 @@
 import {camelCase,kebabCase,
   lowerCase,snakeCase,split,
-  trim,
-  upperCase,upperFirst,startCase,replace} from 'lodash'
+  trim, upperCase,upperFirst,
+  startCase,replace,toNumber} from 'lodash'
 
 var cvAuthHelper = (context) => {
   var parentContext = context
@@ -393,8 +393,19 @@ const cvGeneralResponse = function (response) {
   return {row:dataSource.data,...dataSource}
 }
 
+
+const timestampDaysDifference = function (days = 1, cTimestamp = null) {
+  if (cTimestamp == null)
+     cTimestamp = Date.now()
+
+  if (days == null)
+      return cTimestamp
+
+  return cTimestamp + 24 * 60 * 60 * 1000 * toNumber(days)
+}
+
 export {cvAuthHelper,mySubString,myReplace,cvF,cvFixDotDepth,cvBase64,
   cvCamelCase,cvSlugCase,cvKebabCase,cvSnakeCase,cvStudlyCase,cvSingularCase,
   cvPluralCase,cvLowerCase,cvUpperCase,cvUcfirstCase,cvTitleCase,cvCaseFixer,
   cvNumberToAbc,cvRomanize,cvEnumerator,mIsArray,mLastArrayPosition,mSwitchArrayPosition,
-  mMoveItemUp,mMoveItemDown,mCvDestructuring,mCvConditionalDestructuring,myLightSubString,cvGeneralResponse}
+  mMoveItemUp,mCvDestructuring,mCvConditionalDestructuring,myLightSubString,cvGeneralResponse,timestampDaysDifference,mMoveItemDown}
