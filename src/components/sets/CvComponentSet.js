@@ -166,7 +166,10 @@ export default {
     },
 
     transformResponse (response) {
-      return response.data.data || response.data
+      if (response.data.data !== undefined)
+        return response.data.data
+
+      return response.data
     },
 
     mFinish (status = null,data = null) {

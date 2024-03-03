@@ -1,7 +1,7 @@
 import {mySubString,myReplace,cvF,cvFixDotDepth,
   mIsArray,mLastArrayPosition,mSwitchArrayPosition,
   mMoveItemUp,mMoveItemDown,cvCaseFixer,mCvDestructuring,
-  mCvConditionalDestructuring}                      from 'crudvuel-tools/src/cvHelper'
+  mCvConditionalDestructuring,timestampDaysDifference}    from 'crudvuel-tools/src/cvHelper'
 import {split,camelCase,get,capitalize,upperFirst,round}  from 'lodash'
 import CvPermissionComponent                              from 'crudvuel-tools/src/components/CvPermissionComponent'
 import cvCanAccess                                        from 'crudvuel-tools/src/directives/cvCanAccess'
@@ -143,7 +143,10 @@ export default function (store,staticMixin = {}) {
       },
 
       transformResponse (response) {
-        return response.data.data || response.data
+        if (response.data.data !== undefined)
+          return response.data.data
+
+        return response.data
       },
 
       mAbsoluteNav (resourcePath = '') {
@@ -320,7 +323,8 @@ export default function (store,staticMixin = {}) {
       mMoveItemUp,
       mMoveItemDown,
       mCvDestructuring,
-      mCvConditionalDestructuring
+      mCvConditionalDestructuring,
+      timestampDaysDifference
     },
 
     directives: {

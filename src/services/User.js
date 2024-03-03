@@ -17,7 +17,9 @@ export default class ExtendedCvCrudService extends CustomCvCrudService {
     )
   }
 
-  dashboardInfo () {
-    return this.mGetStCvComunicator().axios.get(`api/dashboard-info`)
+  dashboardInfo (card = null) {
+    return card !==  null ?
+      this.mGetStCvComunicator().axios.get(`api/dashboard-info${card}`) :
+      this.mGetStCvComunicator().axios.get(`api/dashboard-info`)
   }
 }

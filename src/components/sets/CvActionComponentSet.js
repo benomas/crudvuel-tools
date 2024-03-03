@@ -315,7 +315,10 @@ export default {
     },
 
     mShowResponse (response) {
-      return response.data.data || response.data
+      if (response.data.data !== undefined)
+        return response.data.data
+
+      return response.data
     },
 
     mSolveAsIndexResponse(rows=[]) {
