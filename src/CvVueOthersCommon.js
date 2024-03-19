@@ -311,6 +311,36 @@ export default function (store,staticMixin = {}) {
         return false
       },
 
+      mGetWeekNumber(date) {
+        const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+        const millisecondsInDay = 86400000; // 24 * 60 * 60 * 1000
+        const daysElapsed = Math.floor((date - firstDayOfYear) / millisecondsInDay);
+        return Math.ceil((daysElapsed + firstDayOfYear.getDay() + 1) / 7);
+      },
+
+      mGenerateWeekNumbers(year, month) {
+        const results = new Set();
+
+        // Iterate over all days of the month
+        for (let day = 1; day <= 31; day++) {
+          const date = new Date(year, month, day);
+
+          // If we're out of bounds for the month, exit the loop
+          if (date.getMonth() !== month) {
+            break;
+          }
+
+          const weekNumber = this.mGetWeekNumber(date);
+
+          // Only add if it's the correct year and month and not a future week
+          if (date.getFullYear() === year && date.getMonth() === month && date <= new Date()) {
+            results.add(weekNumber);
+          }
+        }
+
+        return Array.from(results);
+      },
+
       mCaseFixer: cvCaseFixer,
 
       ...mapActions(Object.keys(store._actions)),
