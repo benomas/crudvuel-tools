@@ -312,17 +312,48 @@ export default function (store,staticMixin = {}) {
       },
 
       mGetWeekNumber(date) {
+        const year = date.getFullYear();
+        const month = date.getMonth();
+        const firstDayOfMonth = new Date(year, month, 1);
+        const lastDayOfMonth = new Date(year, month + 1, 0);
+
+        // Encontrar el primer lunes del mes
+        let firstMonday = new Date(firstDayOfMonth);
+        while (firstMonday.getDay() !== 1) {
+          firstMonday.setDate(firstMonday.getDate() + 1);
+        }
+
+        // Encontrar el último domingo del mes
+        let lastSunday = new Date(lastDayOfMonth);
+        while (lastSunday.getDay() !== 0) {
+          lastSunday.setDate(lastSunday.getDate() - 1);
+        }
+
+        // Calcular el número de semana
+        let weekNumber = 1;
+        let currentDay = new Date(firstMonday);
+        while (currentDay <= lastSunday) {
+          if (date >= currentDay && date <= new Date(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate() + 6)) {
+            return weekNumber;
+          }
+          currentDay.setDate(currentDay.getDate() + 7);
+          weekNumber++;
+        }
+
+        return weekNumber;
+        /*
         const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
         const millisecondsInDay = 86400000; // 24 * 60 * 60 * 1000
         const daysElapsed = Math.floor((date - firstDayOfYear) / millisecondsInDay);
-        return Math.ceil((daysElapsed + firstDayOfYear.getDay() + 1) / 7);
+        return Math.ceil((daysElapsed + firstDayOfYear.getDay() + 1) / 7);*/
       },
 
       mGenerateWeekNumbers(year, month) {
         const results = new Set();
-
+        const daysInMonth = new Date(year, month+1, 0).getDate();
+        console.log(daysInMonth)
         // Iterate over all days of the month
-        for (let day = 1; day <= 31; day++) {
+        for (let day = 1; day <= daysInMonth; day++) {
           const date = new Date(year, month, day);
 
           // If we're out of bounds for the month, exit the loop

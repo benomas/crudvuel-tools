@@ -66,6 +66,9 @@ export default class CvComunicator {
   }
 */
   proccessErrorStatus (response) {
+    if (response == null || response.status)
+      return false
+
     switch(response.status){
       case 401:
       case 403:

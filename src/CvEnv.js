@@ -25,7 +25,7 @@ export default class CvEnv {
   }
 
   ajaxTimeout () {
-    return this.environmentProperty('AJAX_TIMEUOT','60000')
+    return this.environmentProperty('AJAX_TIMEOUT','60000')
   }
 
   ajaxMaxContentLenght () {
