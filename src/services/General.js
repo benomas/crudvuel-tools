@@ -14,6 +14,17 @@ export default class General {
     })
   }
 
+  refreshToken (credentials,refresh_token) {
+    return this.mGetStCvComunicator().axios.post('oauth/token',{
+      'client_id'     : this.mGetStCvEnv().apiClient(),
+      'client_secret' : this.mGetStCvEnv().apiSecret(),
+      'grant_type'    : 'refresh_token',
+      'username'      : credentials.email,
+      'password'      : credentials.password,
+      refresh_token
+    })
+  }
+
   logout () {
     return this.mGetStCvComunicator().axios.get('api/logout')
   }

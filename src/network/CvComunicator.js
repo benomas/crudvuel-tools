@@ -66,7 +66,7 @@ export default class CvComunicator {
   }
 */
   proccessErrorStatus (response) {
-    if (response == null || response.status)
+    if (response == null || response.status == null)
       return false
 
     switch(response.status){
@@ -87,7 +87,6 @@ export default class CvComunicator {
   }
 
   error403 () {
-    console.log('unauthorized')
     this.mGetStCurrentCvRouter().getVueRouter().push('/')
 
     return this
