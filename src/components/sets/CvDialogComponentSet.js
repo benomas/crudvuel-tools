@@ -11,9 +11,9 @@ export default {
     })
   ],
 
-  computed:{
-    cChildActionMode(){
-      if(!['dialog','route'].includes(this.cpDinGenChildActionMode))
+  computed: {
+    cChildActionMode () {
+      if (!['dialog','route'].includes(this.cpDinGenChildActionMode))
         return 'dialog'
 
       return this.cpDinGenChildActionMode
@@ -42,11 +42,11 @@ export default {
     },
 
     mInvokeActionDialog (key = null,action = null) {
-      if (this.mSetShowActionDialog != null){
-        if(key)
+      if (this.mSetShowActionDialog != null) {
+        if (key)
           this.mSetDialogKeyAction(key)
 
-        if(action)
+        if (action)
           this.mSetDialogAction(action)
 
         this.mSetShowActionDialog(true)
@@ -84,7 +84,7 @@ export default {
         this.keyAction    = null
         this.actionParams = null
 
-        this.build        = function (){
+        this.build        = function () {
           if (!selfRef.getAction())
             return
 
@@ -95,7 +95,7 @@ export default {
             if (compReference.mSetShowActionDialog == null)
               return
 
-            if(selfRef.getKeyAction() != null)
+            if (selfRef.getKeyAction() != null)
               compReference.mSetKeyValue(selfRef.getKeyAction())
 
             compReference.mSetDialogAction(selfRef.getAction())
@@ -104,31 +104,31 @@ export default {
           }
         }
 
-        this.getAction    = function (){
+        this.getAction    = function () {
           return selfRef.action
         }
 
-        this.getKeyAction    = function (){
+        this.getKeyAction    = function () {
           return selfRef.keyAction
         }
 
-        this.getActionParams    = function (){
+        this.getActionParams    = function () {
           return selfRef.actionParams
         }
 
-        this.setAction    = function (action){
+        this.setAction    = function (action) {
           selfRef.action = action
 
           return this
         }
 
-        this.setKeyAction   = function (keyAction){
+        this.setKeyAction   = function (keyAction) {
           selfRef.keyAction = keyAction
 
           return this
         }
 
-        this.setActionParams    = function (actionParams){
+        this.setActionParams    = function (actionParams) {
           selfRef.actionParams = actionParams
 
           return this
@@ -136,6 +136,27 @@ export default {
       }
 
       return new builder()
+    },
+
+    mDialogAction (resourceAction = '') {
+      const [resource, action] = resourceAction.split('.')
+
+      if (this.cStResources?.[resource]?.actions?.[action] == null)
+        return null
+
+      return this.cStResources[resource].actions[action]
+    },
+
+    mValidDialogAction (resourceAction = '') {
+      const action = this.mDialogAction(resourceAction)
+
+      return action !== null &&  this.mHasActionPermission(action)
+    },
+
+    mCallDynamicDialogShow (resourceAction = '',id = null) {
+      this.mAdvancedLauchAction()
+        .setKeyAction(id)
+        .setAction(this.mDialogAction(resourceAction)).build()
     }
   }
 }

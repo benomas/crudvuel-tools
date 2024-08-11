@@ -34,6 +34,8 @@ export default class CvResourceMap extends CvClass {
     this.context           = 'resource'
     this.guard             = {}
     this.store             = null
+    this.buttonClass       = null
+
     this.loadOptions(options)
       .autoGetters([
         'rowsLabel',
@@ -140,7 +142,7 @@ export default class CvResourceMap extends CvClass {
       let derivedRoute = selectedRoute[0]
 
       if (newName)
-        derivedRoute = {...selectedRoute[0], ...{name : newName}}
+        derivedRoute = {...selectedRoute[0], ...{name: newName}}
 
       return derivedRoute
     }

@@ -101,7 +101,7 @@ export default function (store,staticMixin = {}) {
           return value
 
         return value.replace(tag,replace)
-      },
+      }
     },
 
     methods: {
@@ -297,20 +297,20 @@ export default function (store,staticMixin = {}) {
         return Math.random() * 100000000000000000
       },
 
-      mSetLastClickerComponent(lastClickerComponent = null){
+      mSetLastClickerComponent (lastClickerComponent = null) {
         this.$set(this,'lastClickerComponent',lastClickerComponent)
 
         return this
       },
 
       mLastClickerComponentLoading (clickerComponent = null) {
-        if(clickerComponent == null)
+        if (clickerComponent == null)
           return false
 
-        if(this.cdReady == null)
+        if (this.cdReady == null)
           return false
 
-        if(this.cdReady === true)
+        if (this.cdReady === true)
           return false
 
         if (this.cLastClickerComponent === clickerComponent)
@@ -321,6 +321,30 @@ export default function (store,staticMixin = {}) {
 
       mLocaleResource (resource) {
         return this.$tc(`crudvuel.resources.${resource.pluralName}.rowsLabel`)
+      },
+
+      mResourceLabel (resource = '') {
+        if (this.cStResources?.[resource]?.rowLabel == null)
+          return 'related resource'
+
+        return this.cStResources?.[resource]?.rowLabel
+      },
+
+      mResourceIcon (resource = '') {
+        if (this.cStResources?.[resource]?.icon == null)
+          return 'fas fa-list'
+
+        return this.cStResources?.[resource]?.icon
+      },
+
+      mResourceButtonClass (resource = '') {
+        let buttonClass = 'q-mx-sm q-my-sm'
+
+        if (this.cGtmd) {
+          buttonClass = `${buttonClass} q-ma-md`
+        }
+
+        return `${buttonClass} ${this.cStResources?.[resource]?.buttonClass || ' bg-info-l-90 txt-info-l-45'}`
       },
 
       mCaseFixer: cvCaseFixer,
