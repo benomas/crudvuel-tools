@@ -47,4 +47,21 @@ export default class General {
       }).catch(response => reject(response))
     })
   }
+
+  exchangeToken (code) {
+    console.log({
+      'client_id'     : this.mGetStCvEnv().apiAuthorizationCodeClient(),
+      'client_secret' : this.mGetStCvEnv().apiAuthorizationCodeSecret(),
+      'grant_type'    : 'authorization_code',
+      'redirect_uri'  : `${window.location.origin}${this.mGetStCurrentCvRouter().pathToHome()}`,
+      code
+    })
+    return this.mGetStCvComunicator().axios.post('api/exchange-token',{
+      'client_id'     : this.mGetStCvEnv().apiAuthorizationCodeClient(),
+      'client_secret' : this.mGetStCvEnv().apiAuthorizationCodeSecret(),
+      'grant_type'    : 'authorization_code',
+      'redirect_uri'  : `${window.location.origin}${this.mGetStCurrentCvRouter().pathToHome()}`,
+      code
+    })
+  }
 }

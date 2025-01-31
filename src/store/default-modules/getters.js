@@ -90,8 +90,7 @@ export const cStValidLocales = (state,getters) => (path) => {
 
   let messages = getters.cStCvI18n._getMessages()
 
-
-  if ( messages != null ) {
+  if (messages != null) {
     return Object.keys(messages).map(locale => {
       return locale
     })
@@ -106,7 +105,7 @@ export const cStLocale = (state,getters) => (path) => {
   let messages = getters.cStCvI18n._getMessages()
 
   if (messages[getters.cStCvI18n.locale] != null)
-      return messages[getters.cStCvI18n.locale]
+    return messages[getters.cStCvI18n.locale]
 
   return {}
 }

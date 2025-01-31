@@ -11,6 +11,17 @@ export const mStLogin = (state,credentials) => {
   })
 }
 
+export const mStExchangeToken = (state,code) => {
+  return new Promise((resolve, reject) => {
+    state.getters.cStCvGeneralServices.exchangeToken(code).then(response => {
+      state.dispatch('mStReloadUserData').then(response => {
+        state.dispatch('mStForceSecureWebAppMode')
+        resolve(response)
+      }).catch(response => false)
+    }).catch(reject)
+  })
+}
+
 export const mStDestroyAutentication = (state) => {
   return new Promise((resolve, reject) => {
     state.getters.cStCvPassport.destroyAutentication()
