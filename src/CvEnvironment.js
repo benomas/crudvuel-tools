@@ -20,6 +20,10 @@ export default function () {
     return this.environmentProperty('API_URL','/')
   }
 
+  this.apiSocialLoginUrl = () => {
+    return this.environmentProperty('API_SOCIAL_LOGIN_URL','/')
+  }
+
   this.isPassportEnabled = () => {
     return this.environmentProperty('PASSPORT',false)
   }

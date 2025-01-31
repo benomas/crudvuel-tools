@@ -12,6 +12,10 @@ export default class CvEnv {
     return this.environmentProperty('API_URL','/')
   }
 
+  apiSocialLoginUrl () {
+    return this.environmentProperty('API_SOCIAL_LOGIN_URL','/')
+  }
+
   isPassportEnabled () {
     return this.environmentProperty('PASSPORT',false)
   }
@@ -22,6 +26,14 @@ export default class CvEnv {
 
   apiSecret () {
     return this.environmentProperty('API_SECRET','devdevdevdevdevdevdevdevdevdevdevdevdevd')
+  }
+
+  apiAuthorizationCodeClient () {
+    return this.environmentProperty('API_AUTHORIZATION_CODE_CLIENT',5)
+  }
+
+  apiAuthorizationCodeSecret () {
+    return this.environmentProperty('API_AUTHORIZATION_CODE_SECRET','devdevdevdevdevdevdevdevdevdevdevdevdevd')
   }
 
   ajaxTimeout () {
